@@ -9,6 +9,7 @@ const STYLE = {
     width: 100%;
     justify-content: space-around;
     gap: 24px;
+    max-width: 768px;
   `,
   Tab: styled.img`
     width: 28px;
