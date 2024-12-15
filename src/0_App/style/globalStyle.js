@@ -3,7 +3,8 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyles = createGlobalStyle` 
   ///////////////////////////////////////////////////////////////// custom style of project
   *{
-    color: ${({ theme }) => theme.color}
+    color: ${({ theme }) => theme.color};
+    box-sizing: border-box;
   }
   ///////////////////////////////////////////////////////////////// custom style of project
   ///////////////////////////////////////////////////////////////// reset
@@ -32,8 +33,15 @@ const GlobalStyles = createGlobalStyle`
   footer, header, hgroup, menu, nav, section {
   	display: block;
   }
+  html{
+    height: 100%;
+  }
   body {
   	line-height: 1;
+    height: 100%;
+  }
+  #root{
+    height: 100%;
   }
   ol, ul {
   	list-style: none;

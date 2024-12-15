@@ -5,9 +5,10 @@ import Login from "./Login";
 import Search from "./Search";
 import Setting from "./Setting";
 import Tracking from "./Tracking";
+import STYLE from "./style";
 const Page = () => {
   return (
-    <div>
+    <STYLE.Main>
       <Routes>
         <Route path="/" element={<Navigate to={"/sns/:category/:userIdx"} />} />
         <Route path="/login" element={<Login />} />
@@ -18,7 +19,7 @@ const Page = () => {
         <Route path="/tracking" element={<Tracking />} />
         {/* <Route path="*" element={} /> 에러 페이지 추가 예정 */}
       </Routes>
-    </div>
+    </STYLE.Main>
   );
 };
 
