@@ -1,8 +1,9 @@
+import STYLE from "./style";
 const Sns = () => {
   return (
-    <div>
-      Sns
-    </div>
+    <STYLE.Main>
+      <div>sns</div>
+    </STYLE.Main>
   );
 }
 
