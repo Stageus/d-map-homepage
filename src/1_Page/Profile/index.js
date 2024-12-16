@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import STYLE from "./style";
 import Tracking from "./ui/TrackingImageList";
 import { savedPosts, sharedPosts } from "./ui/TrackingImageList/api/data";
@@ -7,13 +7,13 @@ import Header from "./ui/Header";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("공유");
+  const [tabIndex, setTabIndex] = useState(0); // 애니메이션을 위한 인덱스
 
   const [author, setAuthor] = useState(true);
 
-  // const userIdx = getCookie("user");
-
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+    setTabIndex(tab === "공유" ? 0 : 1); // "공유"는 0, "저장"은 1
   };
 
   const renderPosts = (trackingList) => {
@@ -31,26 +31,32 @@ const Profile = () => {
             ? sharedPosts.message?.length
             : savedPosts.message?.length
         }
+        author={author}
         type={activeTab}
         name={"김재걸"}
       />
       <STYLE.TabMenu>
-        <STYLE.Tab
-          active={activeTab === "공유"}
-          onClick={() => handleTabClick("공유")}>
-          공유
-        </STYLE.Tab>
-        <STYLE.Tab
-          active={activeTab === "저장"}
-          onClick={() => handleTabClick("저장")}>
-          저장
-        </STYLE.Tab>
+        {author && (
+          <>
+            <STYLE.Tab
+              active={activeTab === "공유"}
+              onClick={() => handleTabClick("공유")}>
+              공유
+            </STYLE.Tab>
+            <STYLE.Tab
+              active={activeTab === "저장"}
+              onClick={() => handleTabClick("저장")}>
+              저장
+            </STYLE.Tab>
+          </>
+        )}
       </STYLE.TabMenu>
-      <STYLE.PostGrid>
-        {activeTab === "공유"
-          ? renderPosts(sharedPosts)
-          : renderPosts(savedPosts)}
-      </STYLE.PostGrid>
+      <STYLE.SliderWrapper tabIndex={tabIndex}>
+        <STYLE.Slider tabIndex={tabIndex}>
+          <STYLE.PostGrid>{renderPosts(sharedPosts)}</STYLE.PostGrid>
+          <STYLE.PostGrid>{renderPosts(savedPosts)}</STYLE.PostGrid>
+        </STYLE.Slider>
+      </STYLE.SliderWrapper>
     </STYLE.Main>
   );
 };
