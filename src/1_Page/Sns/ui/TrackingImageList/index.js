@@ -83,7 +83,10 @@ const TrackingList = () => {
       {trackingList.message.map((elem) => {
         return (
           <STYLE.TrackingContainer>
-            <h3>홍길동</h3>
+            <STYLE.PostInfo>
+              <STYLE.PosterName>홍길동</STYLE.PosterName>
+              <STYLE.PostUpdated>1달전</STYLE.PostUpdated>
+            </STYLE.PostInfo>
             <Tracking data={elem} />
             <STYLE.InfoContainer>
               <p>좋아요: {123}</p>

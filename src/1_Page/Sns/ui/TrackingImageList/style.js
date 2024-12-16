@@ -28,6 +28,18 @@ const STYLE = {
   Icon: styled.img`
     width: 24px;
   `,
+  PostInfo: styled.h3`
+    padding: 0 8px;
+    display: flex;
+    gap: 4px;
+    align-items: end;
+  `,
+  PosterName: styled.p``,
+  PostUpdated: styled.p`
+    font-size: small;
+    font-weight: 400;
+    color: gray;
+  `,
 };
 
 export default STYLE;
