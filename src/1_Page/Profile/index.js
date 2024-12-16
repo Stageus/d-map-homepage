@@ -1,37 +1,39 @@
 import React, { useState } from "react";
 import STYLE from "./style";
-import ProfileImage from "./ui/ProfileImage";
 import Tracking from "./ui/TrackingImageList";
 import { savedPosts, sharedPosts } from "./ui/TrackingImageList/api/data";
+import { getCookie } from "../../4_Shared/Cookie";
+import Header from "./ui/Header";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("공유");
+
+  const [author, setAuthor] = useState(true);
+
+  // const userIdx = getCookie("user");
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
   const renderPosts = (trackingList) => {
-    if (trackingList.length === 0) {
+    if (trackingList.message.length === 0) {
       return <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>;
     }
-    return trackingList.message.map((elem) => (
-      <Tracking data={elem} alt="post" />
-    ));
+    return trackingList.message.map((elem) => <Tracking data={elem} />);
   };
 
   return (
     <STYLE.Main>
-      <STYLE.ProfileContainer>
-        <ProfileImage />
-        <STYLE.UserInfo>
-          <STYLE.UserName>김재걸</STYLE.UserName>
-          <STYLE.Nickname>닉네임 수정</STYLE.Nickname>
-          <STYLE.PostCount>
-            공유 게시물 : {sharedPosts.message.length}개
-          </STYLE.PostCount>
-        </STYLE.UserInfo>
-      </STYLE.ProfileContainer>
+      <Header
+        length={
+          activeTab === "공유"
+            ? sharedPosts.message?.length
+            : savedPosts.message?.length
+        }
+        type={activeTab}
+        name={"김재걸"}
+      />
       <STYLE.TabMenu>
         <STYLE.Tab
           active={activeTab === "공유"}
