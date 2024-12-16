@@ -1,6 +1,5 @@
 import React from "react";
 import { GoogleMap, LoadScript, Polyline } from "@react-google-maps/api";
-import STYLE from "./style";
 const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 const Tracking = (props) => {

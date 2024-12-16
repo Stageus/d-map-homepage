@@ -1,5 +1,5 @@
 import React from "react";
-import Tracking from "../../../../2_Widget/Tracking";
+import Tracking from "../../../../2_Widget/TrackingImage";
 import STYLE from "./style";
 import icon from "./assets/gear-solid.svg"
 
