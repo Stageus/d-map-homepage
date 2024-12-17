@@ -19,6 +19,14 @@ const STYLE = {
     font-weight: ${({ active }) => (active ? "bold" : "normal")};
     border-bottom: ${({ active }) => (active ? "2px solid black" : "none")};
   `,
+  TabNone: styled.div`
+    width: 100%;
+    text-align: center;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+  `,
   SliderWrapper: styled.div`
     overflow: hidden; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
     width: 100%;

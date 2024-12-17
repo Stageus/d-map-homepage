@@ -47,7 +47,7 @@ const Profile = () => {
           setCheckSetMode={setCheckSetMode}
         />
         <STYLE.TabMenu>
-          {author && (
+          {author ? (
             <>
               <STYLE.Tab
                 active={activeTab === "공유"}
@@ -60,6 +60,8 @@ const Profile = () => {
                 저장
               </STYLE.Tab>
             </>
+          ) : (
+            <STYLE.TabNone>게시물</STYLE.TabNone>
           )}
         </STYLE.TabMenu>
         <STYLE.SliderWrapper tabIndex={tabIndex}>

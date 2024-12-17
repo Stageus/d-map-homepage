@@ -14,7 +14,7 @@ const BottomSheet = ({ children, onClose }) => {
   } = useBottomSheet(onClose);
 
   return (
-    <STYLE.Overlay>
+    <STYLE.Overlay onClick={handleClose}>
       <STYLE.Sheet
         className={isVisible ? "open" : "close"}
         style={{
