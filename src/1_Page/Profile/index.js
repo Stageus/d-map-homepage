@@ -8,6 +8,7 @@ import Header from "./ui/Header";
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("공유");
   const [tabIndex, setTabIndex] = useState(0); // 애니메이션을 위한 인덱스
+  const [settingMode, setSettingMode] = useState(false);
 
   const [author, setAuthor] = useState(true);
 
@@ -34,6 +35,7 @@ const Profile = () => {
         author={author}
         type={activeTab}
         name={"김재걸"}
+        setSettingMode={setSettingMode}
       />
       <STYLE.TabMenu>
         {author && (

@@ -3,13 +3,21 @@ import ProfileImage from "../ProfileImage";
 
 const Header = (props) => {
   const { length, name, type, author } = props;
+  const { setSettingMode } = props;
   return (
     <STYLE.ProfileContainer>
       <ProfileImage />
       <STYLE.UserInfo>
         <STYLE.ProfileBox>
           <STYLE.UserName>{name}</STYLE.UserName>
-          {author && <STYLE.ProfileButton>•••</STYLE.ProfileButton>}
+          {author && (
+            <STYLE.ProfileButton
+              onClick={() => {
+                setSettingMode(true);
+              }}>
+              •••
+            </STYLE.ProfileButton>
+          )}
         </STYLE.ProfileBox>
         {author && <STYLE.Nickname>닉네임 수정</STYLE.Nickname>}
         <STYLE.PostCount>
