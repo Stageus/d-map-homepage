@@ -3,7 +3,7 @@ import ProfileImage from "../ProfileImage";
 
 const Header = (props) => {
   const { length, name, type, author } = props;
-  const { setSettingMode } = props;
+  const { setCheckSetMode } = props;
   return (
     <STYLE.ProfileContainer>
       <ProfileImage />
@@ -13,7 +13,7 @@ const Header = (props) => {
           {author && (
             <STYLE.ProfileButton
               onClick={() => {
-                setSettingMode(true);
+                setCheckSetMode(true);
               }}>
               •••
             </STYLE.ProfileButton>
