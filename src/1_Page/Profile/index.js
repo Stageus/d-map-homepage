@@ -5,7 +5,6 @@ import { savedPosts, sharedPosts } from "./ui/TrackingImageList/api/data";
 import { getCookie } from "../../4_Shared/Cookie";
 import Header from "./ui/Header";
 import OneBtnModal from "../../2_Widget/OneBtnModal";
-import BottomSheet from "../../2_Widget/BottomSheet";
 import BottomSheetShare from "./ui/BottomSheetShare";
 
 const Profile = () => {

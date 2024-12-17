@@ -30,12 +30,10 @@ const STYLE = {
       height: 100vh; /* 화면 전체 높이 */
       background-color: #ffffff;
     }
-
     &.open {
       transition: transform 0.3s ease-out;
       transform: translateY(0);
     }
-
     &.close {
       transition: transform 0.2s ease-out;
       transform: translateY(100%);
