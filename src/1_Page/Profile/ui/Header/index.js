@@ -7,7 +7,10 @@ const Header = (props) => {
     <STYLE.ProfileContainer>
       <ProfileImage />
       <STYLE.UserInfo>
-        <STYLE.UserName>{name}</STYLE.UserName>
+        <STYLE.ProfileBox>
+          <STYLE.UserName>{name}</STYLE.UserName>
+          {author && <STYLE.ProfileButton>•••</STYLE.ProfileButton>}
+        </STYLE.ProfileBox>
         {author && <STYLE.Nickname>닉네임 수정</STYLE.Nickname>}
         <STYLE.PostCount>
           {type} 게시물 : {length}개

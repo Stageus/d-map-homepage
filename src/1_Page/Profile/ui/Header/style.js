@@ -7,7 +7,19 @@ const STYLE = {
     margin-bottom: 16px;
   `,
   UserInfo: styled.div`
+    width: 100%;
     margin-left: 12px;
+  `,
+  ProfileBox: styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  `,
+  ProfileButton: styled.button`
+    background-color: white;
+    outline: none;
+    border: none;
+    cursor: pointer;
   `,
   UserName: styled.h1`
     font-size: 1.2rem;
