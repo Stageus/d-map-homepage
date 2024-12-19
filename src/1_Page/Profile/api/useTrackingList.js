@@ -54,7 +54,6 @@ const useTrackData = () => {
       setLoading(true);
       const trackData = await getTrackData(userIdx);
       const { share, save } = parseShare(trackData);
-      console.log(share, save);
       setTrackShareData(share);
       setTrackSaveData(save);
       setLoading(false);

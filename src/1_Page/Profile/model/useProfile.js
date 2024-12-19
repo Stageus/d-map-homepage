@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import useTrackData from "../api/useTrackingList";
 
 const useProfile = () => {
@@ -10,10 +10,6 @@ const useProfile = () => {
     useTrackData();
 
   const [author, setAuthor] = useState(true);
-
-  useEffect(() => {
-    fetchData("idx");
-  }, [fetchData]);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -52,6 +48,7 @@ const useProfile = () => {
     handleModalMode,
     handleCloseMode,
     setIsModalOpen,
+    fetchData,
   };
 };
 

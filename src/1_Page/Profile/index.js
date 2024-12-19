@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import STYLE from "./style";
 import Tracking from "./ui/TrackingImageList";
 import Header from "./ui/Header";
@@ -24,12 +24,18 @@ const Profile = () => {
     handleModalClose,
     handleModalMode,
     handleCloseMode,
+    fetchData,
   } = useProfile();
+
+  useEffect(() => {
+    fetchData("idx");
+  }, []);
 
   const renderPosts = (trackingList) => {
     if (trackingList?.length === 0) {
       return <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>;
     }
+    console.log(trackingList);
     return trackingList?.map((elem) => (
       <Tracking data={elem} checkSetMode={checkSetMode} />
     ));
