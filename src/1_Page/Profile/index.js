@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import STYLE from "./style";
 import Tracking from "./ui/TrackingImageList";
 import Header from "./ui/Header";
@@ -32,6 +32,8 @@ const Profile = () => {
     handleModifyOpen,
   } = useProfile();
 
+  const [pinchedData, setPinchedData] = useState(null);
+
   useEffect(() => {
     fetchData("idx");
   }, []);
@@ -50,6 +52,7 @@ const Profile = () => {
         checkSetMode={checkSetMode}
         author={author}
         handleModifyOpen={handleModifyOpen}
+        setPinchedData={setPinchedData}
       />
     ));
   };
@@ -118,7 +121,9 @@ const Profile = () => {
             }}
           />
         ))}
-      {modifyModal && <ModifyModal onClose={handleModifyClose} />}
+      {modifyModal && (
+        <ModifyModal onClose={handleModifyClose} data={pinchedData} />
+      )}
     </>
   );
 };

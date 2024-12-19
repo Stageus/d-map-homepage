@@ -5,7 +5,7 @@ import STYLE from "./style";
 const BottomSheetShare = (props) => {
   const { onShare, onDelete, onClose } = props;
   return (
-    <BottomSheet onClose={onClose}>
+    <BottomSheet onClose={onClose} snap={[0.8, 0.3]}>
       {({ handleClose }) => (
         <div>
           <STYLE.BottomSheetButton onClick={onShare}>
