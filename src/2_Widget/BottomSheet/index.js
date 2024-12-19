@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import STYLE from "./style";
 import useBottomSheet from "./model/useBottomSheet";
 
-const BottomSheet = ({ children, onClose }) => {
+const BottomSheet = ({ children, onClose, snap }) => {
   const {
     isVisible,
     translateY,
@@ -14,7 +14,7 @@ const BottomSheet = ({ children, onClose }) => {
     handleMouseMove,
     handleMouseUp,
     handleClose,
-  } = useBottomSheet(onClose);
+  } = useBottomSheet(onClose, snap);
 
   return (
     <STYLE.Overlay

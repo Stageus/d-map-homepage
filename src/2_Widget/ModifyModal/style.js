@@ -5,7 +5,9 @@ const STYLE = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1rem;
+  `,
+  MapContainer: styled.div`
+    width: 80%;
   `,
   SliderContainer: styled.div`
     display: flex;

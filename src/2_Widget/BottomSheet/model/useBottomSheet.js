@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-const useBottomSheet = (onClose) => {
+const useBottomSheet = (onClose, snap) => {
   const [isVisible, setIsVisible] = useState(false); // 열림 상태
   const [translateY, setTranslateY] = useState(0); // 바텀시트 위치
   const startY = useRef(0); // 시작 Y좌표
@@ -8,7 +8,10 @@ const useBottomSheet = (onClose) => {
   const isDragging = useRef(false); // 드래그 상태
 
   const screenHeight = window.innerHeight; // 화면 높이
-  const snapPoints = [-screenHeight * 0.8, -screenHeight * 0.4, 0]; // 스냅 포인트 (비율 기반)
+  const snapPoints = [0]; // 스냅 포인트 (비율 기반)
+  snap.forEach((item) => {
+    snapPoints.push(-screenHeight * item);
+  });
 
   useEffect(() => {
     setIsVisible(true); // Open 애니메이션 실행
