@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 const useBottomSheet = (onClose) => {
   const [isVisible, setIsVisible] = useState(false); // 열림 상태
   const [translateY, setTranslateY] = useState(0); // 바텀시트 위치
-  const startY = useRef(0); // 터치 시작 Y좌표
+  const startY = useRef(0); // 시작 Y좌표
   const currentY = useRef(0); // 현재 Y좌표
   const isDragging = useRef(false); // 드래그 상태
 
@@ -13,6 +13,10 @@ const useBottomSheet = (onClose) => {
   useEffect(() => {
     setIsVisible(true); // Open 애니메이션 실행
   }, []);
+
+  useEffect(() => {
+    console.log(translateY);
+  }, [translateY]);
 
   const handleTouchStart = (e) => {
     if (!isVisible) return;
@@ -30,7 +34,29 @@ const useBottomSheet = (onClose) => {
   const handleTouchEnd = () => {
     if (!isVisible) return;
     isDragging.current = false;
+    finalizePosition();
+  };
 
+  const handleMouseDown = (e) => {
+    if (!isVisible) return;
+    isDragging.current = true;
+    startY.current = e.clientY;
+    currentY.current = translateY;
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging.current || !isVisible) return;
+    const deltaY = e.clientY - startY.current;
+    setTranslateY(currentY.current + deltaY);
+  };
+
+  const handleMouseUp = (e) => {
+    if (!isVisible) return;
+    isDragging.current = false;
+    finalizePosition();
+  };
+
+  const finalizePosition = () => {
     if (translateY > 20) {
       handleClose();
       return;
@@ -41,7 +67,6 @@ const useBottomSheet = (onClose) => {
         ? curr
         : prev;
     });
-
     setTranslateY(closestSnapPoint);
   };
 
@@ -60,6 +85,9 @@ const useBottomSheet = (onClose) => {
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseUp,
     handleClose,
   };
 };

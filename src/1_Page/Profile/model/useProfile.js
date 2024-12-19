@@ -9,6 +9,8 @@ const useProfile = () => {
   const { trackShareData, trackSaveData, trackLoading, trackError, fetchData } =
     useTrackData();
 
+  const [modifyModal, setModifyModal] = useState(false);
+
   const [author, setAuthor] = useState(true);
 
   const handleTabClick = (tab) => {
@@ -24,12 +26,23 @@ const useProfile = () => {
     setIsModalOpen(false);
   };
 
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
   const handleModalMode = (type) => {
     setCheckSetMode(type);
   };
 
   const handleCloseMode = () => {
     setCheckSetMode(false);
+  };
+
+  const handleModifyClose = () => {
+    setModifyModal(false);
+  };
+  const handleModifyOpen = () => {
+    setModifyModal(true);
   };
 
   return {
@@ -45,10 +58,14 @@ const useProfile = () => {
     handleTabClick,
     handleGetLength,
     handleModalClose,
+    handleModalOpen,
     handleModalMode,
     handleCloseMode,
     setIsModalOpen,
     fetchData,
+    modifyModal,
+    handleModifyClose,
+    handleModifyOpen,
   };
 };
 

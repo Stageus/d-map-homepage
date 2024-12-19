@@ -13,6 +13,12 @@ const STYLE = {
     justify-content: center;
     z-index: 1000;
   `,
+  EventPropagation: styled.div`
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  `,
 
   Sheet: styled.div`
     background: #ffffff;

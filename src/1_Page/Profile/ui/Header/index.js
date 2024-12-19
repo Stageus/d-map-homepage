@@ -11,10 +11,7 @@ const Header = (props) => {
         <STYLE.ProfileBox>
           <STYLE.UserName>{name}</STYLE.UserName>
           {author && (
-            <STYLE.ProfileButton
-              onClick={() => {
-                setIsModalOpen(true);
-              }}>
+            <STYLE.ProfileButton onClick={setIsModalOpen}>
               •••
             </STYLE.ProfileButton>
           )}

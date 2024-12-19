@@ -7,6 +7,7 @@ import BottomSheetShare from "./ui/BottomSheetShare";
 import SettingHeader from "./ui/SettingHeader";
 import Loading from "../../2_Widget/Loading";
 import useProfile from "./model/useProfile";
+import ModifyModal from "../../2_Widget/ModifyModal";
 
 const Profile = () => {
   const {
@@ -22,22 +23,34 @@ const Profile = () => {
     handleTabClick,
     handleGetLength,
     handleModalClose,
+    handleModalOpen,
     handleModalMode,
     handleCloseMode,
     fetchData,
+    modifyModal,
+    handleModifyClose,
+    handleModifyOpen,
   } = useProfile();
 
   useEffect(() => {
     fetchData("idx");
   }, []);
 
+  useEffect(() => {
+    console.log(modifyModal);
+  }, [modifyModal]);
+
   const renderPosts = (trackingList) => {
     if (trackingList?.length === 0) {
       return <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>;
     }
-    console.log(trackingList);
     return trackingList?.map((elem) => (
-      <Tracking data={elem} checkSetMode={checkSetMode} />
+      <Tracking
+        data={elem}
+        checkSetMode={checkSetMode}
+        author={author}
+        handleModifyOpen={handleModifyOpen}
+      />
     ));
   };
 
@@ -53,7 +66,7 @@ const Profile = () => {
             author={author}
             type={activeTab}
             name={"김재걸"}
-            setIsModalOpen={handleModalClose}
+            setIsModalOpen={handleModalOpen}
           />
         ) : (
           <SettingHeader
@@ -61,7 +74,6 @@ const Profile = () => {
             handleCloseMode={handleCloseMode}
           />
         )}
-
         <STYLE.TabMenu>
           {author ? (
             <>
@@ -106,6 +118,7 @@ const Profile = () => {
             }}
           />
         ))}
+      {modifyModal && <ModifyModal onClose={handleModifyClose} />}
     </>
   );
 };
