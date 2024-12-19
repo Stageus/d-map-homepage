@@ -2,7 +2,6 @@ import React from "react";
 import Tracking from "../../../../2_Widget/TrackingImage";
 import STYLE from "./style";
 import usePinchEvent from "../../../../4_Shared/usePinchEvent";
-import ModifyModal from "../../../../2_Widget/ModifyModal";
 
 const Track = (props) => {
   const { data, checkSetMode, author } = props;

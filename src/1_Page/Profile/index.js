@@ -38,10 +38,6 @@ const Profile = () => {
     fetchData("idx");
   }, []);
 
-  useEffect(() => {
-    console.log(modifyModal);
-  }, [modifyModal]);
-
   const renderPosts = (trackingList) => {
     if (trackingList?.length === 0) {
       return <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>;
@@ -121,7 +117,7 @@ const Profile = () => {
             }}
           />
         ))}
-      {modifyModal && (
+      {modifyModal && pinchedData && (
         <ModifyModal onClose={handleModifyClose} data={pinchedData} />
       )}
     </>
