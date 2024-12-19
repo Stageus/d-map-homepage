@@ -5,6 +5,7 @@ const STYLE = {
     display: flex;
     align-items: center;
     margin-bottom: 16px;
+    margin-top: 16px;
   `,
   UserInfo: styled.div`
     width: 100%;

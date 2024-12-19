@@ -1,5 +1,3 @@
-export const savedPosts = { message: [] };
-
 export const sharedPosts = {
   message: [
     {

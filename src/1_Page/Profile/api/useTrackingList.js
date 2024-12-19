@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
-const getUserData = async (userIdx) => {
+import { sharedPosts } from "./data";
+
+const getTrackData = async (userIdx) => {
+  return sharedPosts;
   try {
     const response = await fetch(`https://주소/user/${userIdx}`, {
       method: "GET",
@@ -34,31 +37,34 @@ const getUserData = async (userIdx) => {
     throw error; // 에러 재발생
   }
 };
+const parseShare = (data) => {
+  const share = data?.message.filter((item) => item.sharing === 0);
+  const save = data?.message.filter((item) => item.sharing === 1);
+  return { share, save };
+};
 
-const useBusData = (initialUserIdx = null) => {
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+const useTrackData = () => {
+  const [trackShareData, setTrackShareData] = useState(null);
+  const [trackSaveData, setTrackSaveData] = useState(null);
+  const [trackLoading, setLoading] = useState(null);
+  const [trackError, setError] = useState(null);
 
   const fetchData = async (userIdx) => {
     try {
       setLoading(true);
-      const user = await getUserData(userIdx);
-      setUserData(user);
+      const trackData = await getTrackData(userIdx);
+      const { share, save } = parseShare(trackData);
+      console.log(share, save);
+      setTrackShareData(share);
+      setTrackSaveData(save);
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      setError(err.message || "An error occurred");
+      setError(err.message);
     }
   };
 
-  useEffect(() => {
-    if (initialUserIdx) {
-      fetchData(initialUserIdx);
-    }
-  }, [initialUserIdx]);
-
-  return { userData, loading, error };
+  return { trackShareData, trackSaveData, trackLoading, trackError, fetchData };
 };
 
-export default useBusData;
+export default useTrackData;

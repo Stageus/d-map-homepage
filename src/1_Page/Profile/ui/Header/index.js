@@ -3,7 +3,7 @@ import ProfileImage from "../ProfileImage";
 
 const Header = (props) => {
   const { length, name, type, author } = props;
-  const { setCheckSetMode } = props;
+  const { setIsModalOpen } = props;
   return (
     <STYLE.ProfileContainer>
       <ProfileImage />
@@ -13,7 +13,7 @@ const Header = (props) => {
           {author && (
             <STYLE.ProfileButton
               onClick={() => {
-                setCheckSetMode(true);
+                setIsModalOpen(true);
               }}>
               •••
             </STYLE.ProfileButton>

@@ -3,9 +3,11 @@ import Tracking from "../../../../2_Widget/TrackingImage";
 import STYLE from "./style";
 
 const Track = (props) => {
+  const { data, checkSetMode } = props;
   return (
     <STYLE.TrackingContainer>
-      <Tracking data={props.data} height={"100%"} />
+      {checkSetMode && <STYLE.TrackingCheckbox />}
+      <Tracking data={data} height={"100%"} />
     </STYLE.TrackingContainer>
   );
 };

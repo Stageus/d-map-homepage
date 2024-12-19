@@ -2,7 +2,8 @@ import React from "react";
 import BottomSheet from "../../../../2_Widget/BottomSheet";
 import STYLE from "./style";
 
-const BottomSheetShare = ({ onShare, onDelete, onClose }) => {
+const BottomSheetShare = (props) => {
+  const { onShare, onDelete, onClose } = props;
   return (
     <BottomSheet onClose={onClose}>
       {({ handleClose }) => (
