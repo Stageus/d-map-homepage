@@ -27,6 +27,7 @@ const STYLE = {
     margin: 0;
   `,
   Nickname: styled.p`
+    display: inline-block;
     color: gray;
     margin: 6px 0;
     font-size: 0.9rem;
