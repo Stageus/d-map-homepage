@@ -28,7 +28,6 @@ const BottomSheet = ({ children, onClose, snap }) => {
         <STYLE.Sheet
           className={isVisible ? "open" : "close"}
           style={{
-            transform: `translateY(${isVisible ? translateY : "300"}px)`,
             transition: !isDragging.current
               ? "transform 0.3s ease-out"
               : "none",

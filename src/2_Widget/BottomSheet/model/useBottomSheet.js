@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-const useBottomSheet = (onClose, snap) => {
+const useBottomSheet = (onClose, snap = []) => {
   const [isVisible, setIsVisible] = useState(false); // 열림 상태
   const [translateY, setTranslateY] = useState(0); // 바텀시트 위치
   const startY = useRef(0); // 시작 Y좌표
@@ -16,10 +16,6 @@ const useBottomSheet = (onClose, snap) => {
   useEffect(() => {
     setIsVisible(true); // Open 애니메이션 실행
   }, []);
-
-  useEffect(() => {
-    console.log(translateY);
-  }, [translateY]);
 
   const handleTouchStart = (e) => {
     if (!isVisible) return;
@@ -75,7 +71,6 @@ const useBottomSheet = (onClose, snap) => {
 
   const handleClose = () => {
     setIsVisible(false);
-    setTranslateY(300);
     setTimeout(() => {
       if (onClose) onClose();
     }, 300);
