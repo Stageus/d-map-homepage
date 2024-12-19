@@ -6,7 +6,7 @@ import OneBtnModal from "../../2_Widget/OneBtnModal";
 import BottomSheetShare from "./ui/BottomSheetShare";
 import SettingHeader from "./ui/SettingHeader";
 import Loading from "../../2_Widget/Loading";
-import useProfileLogic from "./useProfileLogic";
+import useProfile from "./model/useProfile";
 
 const Profile = () => {
   const {
@@ -24,7 +24,7 @@ const Profile = () => {
     handleModalClose,
     handleModalMode,
     handleCloseMode,
-  } = useProfileLogic();
+  } = useProfile();
 
   const renderPosts = (trackingList) => {
     if (trackingList?.length === 0) {
@@ -61,4 +61,47 @@ const Profile = () => {
             <>
               <STYLE.Tab
                 active={activeTab === "공유"}
-                onClick={() =>
+                onClick={() => handleTabClick("공유")}>
+                공유
+              </STYLE.Tab>
+              <STYLE.Tab
+                active={activeTab === "저장"}
+                onClick={() => handleTabClick("저장")}>
+                저장
+              </STYLE.Tab>
+            </>
+          ) : (
+            <STYLE.TabNone>게시물</STYLE.TabNone>
+          )}
+        </STYLE.TabMenu>
+        <STYLE.SliderWrapper tabIndex={tabIndex}>
+          <STYLE.Slider tabIndex={tabIndex}>
+            <STYLE.PostGrid>{renderPosts(trackShareData)}</STYLE.PostGrid>
+            <STYLE.PostGrid>{renderPosts(trackSaveData)}</STYLE.PostGrid>
+          </STYLE.Slider>
+        </STYLE.SliderWrapper>
+      </STYLE.Main>
+      {isModal &&
+        (handleGetLength(activeTab) === 0 ? (
+          <OneBtnModal
+            message="편집할 그림이 없습니다"
+            onClose={handleModalClose}
+          />
+        ) : (
+          <BottomSheetShare
+            onClose={handleModalClose}
+            onDelete={() => {
+              handleModalMode("삭제");
+              handleModalClose();
+            }}
+            onShare={() => {
+              handleModalMode("공유");
+              handleModalClose();
+            }}
+          />
+        ))}
+    </>
+  );
+};
+
+export default Profile;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useTrackData from "./api/useTrackingList";
+import useTrackData from "../api/useTrackingList";
 
 const useProfile = () => {
   const [activeTab, setActiveTab] = useState("공유");
