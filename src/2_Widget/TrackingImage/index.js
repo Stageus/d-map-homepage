@@ -4,12 +4,13 @@ const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 const Tracking = (props) => {
   const { data, height = "400px" } = props;
+  const { lineWidth = 2, lineColor = "#FF0000" } = props;
   const { zoom, center, line } = data;
 
   const polylineOptions = {
-    strokeColor: "#FF0000", // 빨간색 선
+    strokeColor: lineColor, // 빨간색 선
     strokeOpacity: 0.8,
-    strokeWeight: 2,
+    strokeWeight: lineWidth,
   };
 
   return (

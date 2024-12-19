@@ -12,7 +12,7 @@ const ModifyModal = ({ onSave, onShare, data, onClose }) => {
       {({ handleClose }) => (
         <STYLE.Container>
           <STYLE.MapContainer>
-            <Tracking data={data} />
+            <Tracking data={data} lineWidth={lineWidth} lineColor={lineColor} />
           </STYLE.MapContainer>
           <STYLE.SliderContainer>
             <label htmlFor="lineWidth">선 굵기</label>

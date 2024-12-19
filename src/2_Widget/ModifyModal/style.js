@@ -8,6 +8,7 @@ const STYLE = {
   `,
   MapContainer: styled.div`
     width: 80%;
+    margin-bottom: 20px;
   `,
   SliderContainer: styled.div`
     display: flex;
