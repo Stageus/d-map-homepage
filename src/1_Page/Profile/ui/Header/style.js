@@ -28,7 +28,7 @@ const STYLE = {
   `,
   Nickname: styled.p`
     color: gray;
-    margin: 4px 0;
+    margin: 6px 0;
     font-size: 0.9rem;
   `,
   PostCount: styled.p`

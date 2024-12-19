@@ -4,6 +4,7 @@ import ProfileImage from "../ProfileImage";
 const Header = (props) => {
   const { length, name, type, author } = props;
   const { setIsModalOpen } = props;
+  const { handleNameModalOpen } = props;
   return (
     <STYLE.ProfileContainer>
       <ProfileImage />
@@ -16,7 +17,11 @@ const Header = (props) => {
             </STYLE.ProfileButton>
           )}
         </STYLE.ProfileBox>
-        {author && <STYLE.Nickname>닉네임 수정</STYLE.Nickname>}
+        {author && (
+          <STYLE.Nickname onClick={handleNameModalOpen}>
+            닉네임 수정
+          </STYLE.Nickname>
+        )}
         <STYLE.PostCount>
           {type} 게시물 : {length}개
         </STYLE.PostCount>

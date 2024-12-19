@@ -9,7 +9,16 @@ const useProfile = () => {
   const { trackShareData, trackSaveData, trackLoading, trackError, fetchData } =
     useTrackData();
 
-  const [modifyModal, setModifyModal] = useState(false);
+  const [modifyMapModal, setModifyModal] = useState(false);
+  const [modifyNameModal, setModifyNameModal] = useState(false);
+
+  const handleNameModalClose = () => {
+    setModifyNameModal(false);
+  };
+
+  const handleNameModalOpen = () => {
+    setModifyNameModal(true);
+  };
 
   const [author, setAuthor] = useState(true);
 
@@ -38,10 +47,10 @@ const useProfile = () => {
     setCheckSetMode(false);
   };
 
-  const handleModifyClose = () => {
+  const handleModifyMapClose = () => {
     setModifyModal(false);
   };
-  const handleModifyOpen = () => {
+  const handleModifyMapOpen = () => {
     setModifyModal(true);
   };
 
@@ -63,9 +72,12 @@ const useProfile = () => {
     handleCloseMode,
     setIsModalOpen,
     fetchData,
-    modifyModal,
-    handleModifyClose,
-    handleModifyOpen,
+    modifyMapModal,
+    handleModifyMapClose,
+    handleModifyMapOpen,
+    modifyNameModal,
+    handleNameModalClose,
+    handleNameModalOpen,
   };
 };
 

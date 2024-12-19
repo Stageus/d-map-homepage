@@ -7,7 +7,8 @@ import BottomSheetShare from "./ui/BottomSheetShare";
 import SettingHeader from "./ui/SettingHeader";
 import Loading from "../../2_Widget/Loading";
 import useProfile from "./model/useProfile";
-import ModifyModal from "../../2_Widget/ModifyModal";
+import ModifyMapModal from "../../2_Widget/ModifyMapModal";
+import ModifyNameModal from "./ui/ModifyNameModal";
 
 const Profile = () => {
   const {
@@ -27,12 +28,17 @@ const Profile = () => {
     handleModalMode,
     handleCloseMode,
     fetchData,
-    modifyModal,
-    handleModifyClose,
-    handleModifyOpen,
+    modifyMapModal,
+    handleModifyMapClose,
+    handleModifyMapOpen,
+    modifyNameModal,
+    handleNameModalClose,
+    handleNameModalOpen,
   } = useProfile();
 
   const [pinchedData, setPinchedData] = useState(null);
+
+  const name = "김재걸";
 
   useEffect(() => {
     fetchData("idx");
@@ -47,7 +53,7 @@ const Profile = () => {
         data={elem}
         checkSetMode={checkSetMode}
         author={author}
-        handleModifyOpen={handleModifyOpen}
+        handleModifyMapOpen={handleModifyMapOpen}
         setPinchedData={setPinchedData}
       />
     ));
@@ -64,8 +70,9 @@ const Profile = () => {
             length={handleGetLength(activeTab)}
             author={author}
             type={activeTab}
-            name={"김재걸"}
+            name={name}
             setIsModalOpen={handleModalOpen}
+            handleNameModalOpen={handleNameModalOpen}
           />
         ) : (
           <SettingHeader
@@ -117,8 +124,11 @@ const Profile = () => {
             }}
           />
         ))}
-      {modifyModal && pinchedData && (
-        <ModifyModal onClose={handleModifyClose} data={pinchedData} />
+      {modifyMapModal && pinchedData && (
+        <ModifyMapModal onClose={handleModifyMapClose} data={pinchedData} />
+      )}
+      {modifyNameModal && (
+        <ModifyNameModal onClose={handleNameModalClose} name={name} />
       )}
     </>
   );

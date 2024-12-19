@@ -5,10 +5,11 @@ import usePinchEvent from "../../../../4_Shared/usePinchEvent";
 
 const Track = (props) => {
   const { data, checkSetMode, author } = props;
-  const { handleModifyOpen, setPinchedData } = props;
+  const { handleModifyMapOpen, setPinchedData } = props;
+
   const pinchEvents = usePinchEvent(
     () => {
-      handleModifyOpen();
+      handleModifyMapOpen();
       setPinchedData(data);
     }, // 꾸욱 누르기 시작 시 모달 열기
     null, // 꾸욱 누르기를 끝낼 때 동작 (필요 시 추가)
