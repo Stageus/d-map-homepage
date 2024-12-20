@@ -44,10 +44,6 @@ const Profile = () => {
 
   const name = "김재걸";
 
-  useEffect(() => {
-    console.log(author);
-  }, [author]);
-
   //
   useEffect(() => {
     fetchTrackData("idx");
