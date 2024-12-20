@@ -2,6 +2,7 @@ import React from "react";
 import { GoogleMap, LoadScript, Polyline } from "@react-google-maps/api";
 const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
+
 const TrackingImage = (props) => {
   const { data } = props;
   const {
@@ -34,8 +35,7 @@ const TrackingImage = (props) => {
             heading: heading, // 지도 회전 각도 설정 (0 ~ 360)
             mapId: "90f87356969d889c",
             disableDefaultUI: true, // UI 요소 비활성화
-          }}
-        >
+          }}>
           {/* 선 그리기 */}
           {line.map((elem) => {
             return <Polyline path={elem} options={polylineOptions} />;
