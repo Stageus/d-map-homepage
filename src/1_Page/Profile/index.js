@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import STYLE from "./style";
-import Tracking from "./ui/TrackingImageList";
+import Tracking from "./ui/TrackContainer";
 import Header from "./ui/Header";
 import HeaderSetting from "./ui/HeaderSetting";
 import Loading from "../../2_Widget/Loading";
 import ModalModifyMode from "./ui/ModalModifyMode";
-import ModalModifyMap from "../../2_Widget/ModalModifyMap";
+import ModalModifyMap from "../../2_Widget/ModalModifyTrackingImage";
 import ModalModifyName from "./ui/ModalModifyName";
 import useTrackData from "./api/useTrackingList";
 import useTabs from "./model/useTabs";
