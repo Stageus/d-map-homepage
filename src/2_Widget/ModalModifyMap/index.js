@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import STYLE from "./style";
-import Tracking from "../TrackingImage";
+import TrackingImage from "../TrackingImage";
 import BottomSheet from "../BottomSheet";
 
-const ModifyMapModal = ({ onSave, onShare, data, onClose }) => {
-  const [lineWidth, setLineWidth] = useState(2);
+const ModalModifyMap = ({ onSave, onShare, data, onClose }) => {
+  const [lineWeight, setLineWeighth] = useState(2);
   const [lineColor, setLineColor] = useState("#FF0000");
 
   return (
@@ -12,7 +12,7 @@ const ModifyMapModal = ({ onSave, onShare, data, onClose }) => {
       {({ handleClose }) => (
         <STYLE.Container>
           <STYLE.MapContainer>
-            <Tracking data={data} lineWidth={lineWidth} lineColor={lineColor} />
+            <TrackingImage data={{ ...data, lineWeight, lineColor }} />
           </STYLE.MapContainer>
           <STYLE.SliderContainer>
             <label htmlFor="lineWidth">선 굵기</label>
@@ -21,8 +21,8 @@ const ModifyMapModal = ({ onSave, onShare, data, onClose }) => {
               type="range"
               min="1"
               max="10"
-              value={lineWidth}
-              onChange={(e) => setLineWidth(Number(e.target.value))}
+              value={lineWeight}
+              onChange={(e) => setLineWeighth(Number(e.target.value))}
             />
           </STYLE.SliderContainer>
           <STYLE.SliderContainer>
@@ -57,4 +57,4 @@ const ModifyMapModal = ({ onSave, onShare, data, onClose }) => {
   );
 };
 
-export default ModifyMapModal;
+export default ModalModifyMap;

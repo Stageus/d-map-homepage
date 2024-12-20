@@ -49,7 +49,7 @@ const useTrackData = () => {
   const [trackLoading, setLoading] = useState(null);
   const [trackError, setError] = useState(null);
 
-  const fetchData = async (userIdx) => {
+  const fetchTrackData = async (userIdx) => {
     try {
       setLoading(true);
       const trackData = await getTrackData(userIdx);
@@ -63,7 +63,13 @@ const useTrackData = () => {
     }
   };
 
-  return { trackShareData, trackSaveData, trackLoading, trackError, fetchData };
+  return {
+    trackShareData,
+    trackSaveData,
+    trackLoading,
+    trackError,
+    fetchTrackData,
+  };
 };
 
 export default useTrackData;

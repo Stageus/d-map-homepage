@@ -26,7 +26,7 @@ const BottomSheet = ({ children, onClose, snap }) => {
           e.stopPropagation();
         }}>
         <STYLE.Sheet
-          className={isVisible ? "open" : "close"}
+          className={isVisible && "open"}
           style={{
             transform: `translateY(${isVisible ? translateY : "600"}px)`,
             transition: !isDragging.current

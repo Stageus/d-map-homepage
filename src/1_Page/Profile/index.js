@@ -2,48 +2,54 @@ import React, { useEffect, useState } from "react";
 import STYLE from "./style";
 import Tracking from "./ui/TrackingImageList";
 import Header from "./ui/Header";
-import OneBtnModal from "../../2_Widget/OneBtnModal";
-import BottomSheetShare from "./ui/BottomSheetShare";
-import SettingHeader from "./ui/SettingHeader";
+import HeaderSetting from "./ui/HeaderSetting";
 import Loading from "../../2_Widget/Loading";
-import useProfile from "./model/useProfile";
-import ModifyMapModal from "../../2_Widget/ModifyMapModal";
-import ModifyNameModal from "./ui/ModifyNameModal";
+import ModalModifyMode from "./ui/ModalModifyMode";
+import ModalModifyMap from "../../2_Widget/ModalModifyMap";
+import ModalModifyName from "./ui/ModalModifyName";
+import useTrackData from "./api/useTrackingList";
+import useTabs from "./model/useTabs";
+import useAuthor from "./model/useAuthor";
+import useModals from "./model/useModals";
+import useSettingMode from "./model/useSettingMode";
 
 const Profile = () => {
+  const [pinchedData, setPinchedData] = useState(null);
+
   const {
-    activeTab,
-    tabIndex,
-    checkSetMode,
-    isModal,
-    author,
     trackShareData,
     trackSaveData,
     trackLoading,
     trackError,
-    handleTabClick,
-    handleGetLength,
-    handleModalClose,
-    handleModalOpen,
-    handleModalMode,
-    handleCloseMode,
-    fetchData,
+    fetchTrackData,
+  } = useTrackData();
+
+  const { activeTab, tabIndex, handleTabClick, handleGetLength } = useTabs();
+
+  const { author, handleAuthorTrue, handleAuthorFalse } = useAuthor();
+
+  const {
+    isModifyClick,
     modifyMapModal,
+    modifyNameModal,
+    handleModalModifyTrue,
+    handleModifyClickFalse,
     handleModifyMapClose,
     handleModifyMapOpen,
-    modifyNameModal,
-    handleNameModalClose,
-    handleNameModalOpen,
-  } = useProfile();
+    handleModifyNameModalClose,
+    handleModifyNameModalOpen,
+  } = useModals();
 
-  const [pinchedData, setPinchedData] = useState(null);
+  const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode();
 
   const name = "김재걸";
 
+  //
   useEffect(() => {
-    fetchData("idx");
+    fetchTrackData("idx");
   }, []);
 
+  // 트래킹 리스트 렌더링
   const renderPosts = (trackingList) => {
     if (trackingList?.length === 0) {
       return <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>;
@@ -51,7 +57,7 @@ const Profile = () => {
     return trackingList?.map((elem) => (
       <Tracking
         data={elem}
-        checkSetMode={checkSetMode}
+        checkSetMode={modifyMode}
         author={author}
         handleModifyMapOpen={handleModifyMapOpen}
         setPinchedData={setPinchedData}
@@ -59,24 +65,25 @@ const Profile = () => {
     ));
   };
 
+  // 로딩 애러 처리
   if (trackLoading) return <Loading />;
   if (trackError) return <Loading />;
 
   return (
     <>
       <STYLE.Main>
-        {!checkSetMode ? (
+        {!modifyMode ? (
           <Header
-            length={handleGetLength(activeTab)}
+            length={handleGetLength(activeTab, trackShareData, trackSaveData)}
             author={author}
             type={activeTab}
             name={name}
-            setIsModalOpen={handleModalOpen}
-            handleNameModalOpen={handleNameModalOpen}
+            handleModalModifyTrue={handleModalModifyTrue}
+            handleNameModalOpen={handleModifyNameModalOpen}
           />
         ) : (
-          <SettingHeader
-            checkSetMode={checkSetMode}
+          <HeaderSetting
+            modifyMode={modifyMode}
             handleCloseMode={handleCloseMode}
           />
         )}
@@ -105,30 +112,19 @@ const Profile = () => {
           </STYLE.Slider>
         </STYLE.SliderWrapper>
       </STYLE.Main>
-      {isModal &&
-        (handleGetLength(activeTab) === 0 ? (
-          <OneBtnModal
-            message="편집할 그림이 없습니다"
-            onClose={handleModalClose}
-          />
-        ) : (
-          <BottomSheetShare
-            onClose={handleModalClose}
-            onDelete={() => {
-              handleModalMode("삭제");
-              handleModalClose();
-            }}
-            onShare={() => {
-              handleModalMode("공유");
-              handleModalClose();
-            }}
-          />
-        ))}
+      {isModifyClick && (
+        <ModalModifyMode
+          activeTab={activeTab}
+          handleModifyClickFalse={handleModifyClickFalse}
+          handleSetMode={handleSetMode}
+          handleGetLength={handleGetLength}
+        />
+      )}
       {modifyMapModal && pinchedData && (
-        <ModifyMapModal onClose={handleModifyMapClose} data={pinchedData} />
+        <ModalModifyMap onClose={handleModifyMapClose} data={pinchedData} />
       )}
       {modifyNameModal && (
-        <ModifyNameModal onClose={handleNameModalClose} name={name} />
+        <ModalModifyName onClose={handleModifyNameModalClose} name={name} />
       )}
     </>
   );

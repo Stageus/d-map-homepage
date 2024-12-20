@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import STYLE from "./style";
 import BottomSheet from "../../../../2_Widget/BottomSheet";
 
-const ModifyNameModal = (props) => {
+const ModalModifyName = (props) => {
   const { name } = props;
   const { onClose } = props;
   const [type, setType] = useState("현재");
@@ -33,4 +33,4 @@ const ModifyNameModal = (props) => {
   );
 };
 
-export default ModifyNameModal;
+export default ModalModifyName;
