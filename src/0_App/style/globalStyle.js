@@ -39,6 +39,7 @@ const GlobalStyles = createGlobalStyle`
   body {
   	line-height: 1;
     height: 100%;
+    overscroll-behavior: none;
   }
   #root{
     height: 100%;
