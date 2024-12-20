@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import STYLE from "./style";
-import Tracking from "./ui/TrackContainer";
+import TrackingContiner from "./ui/TrackContainer";
 import Header from "./ui/Header";
 import HeaderSetting from "./ui/HeaderSetting";
 import Loading from "../../2_Widget/Loading";
@@ -55,7 +55,7 @@ const Profile = () => {
       return <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>;
     }
     return trackingList?.map((elem) => (
-      <Tracking
+      <TrackingContiner
         data={elem}
         checkSetMode={modifyMode}
         author={author}

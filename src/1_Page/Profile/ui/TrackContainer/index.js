@@ -19,7 +19,7 @@ const TrackContainer = (props) => {
   return (
     <STYLE.TrackingContainer {...(author && longPressEvents)}>
       {checkSetMode && <STYLE.TrackingCheckbox />}
-      <Tracking data={data} height={"100%"} />
+      <Tracking data={{ ...data, height: "100%" }} />
     </STYLE.TrackingContainer>
   );
 };
