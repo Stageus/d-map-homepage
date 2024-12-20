@@ -3,7 +3,7 @@ import STYLE from "./style";
 import TrackingImage from "../TrackingImage";
 import BottomSheet from "../BottomSheet";
 
-const ModalModifyMap = ({ onSave, onShare, data, onClose }) => {
+const ModalModifyTrackingImage = ({ onSave, onShare, data, onClose }) => {
   const [lineWeight, setLineWeighth] = useState(2);
   const [lineColor, setLineColor] = useState("#FF0000");
 
@@ -57,4 +57,4 @@ const ModalModifyMap = ({ onSave, onShare, data, onClose }) => {
   );
 };
 
-export default ModalModifyMap;
+export default ModalModifyTrackingImage;

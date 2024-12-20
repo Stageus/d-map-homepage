@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-const usePinchEvent = (onPinchStart, onPinchEnd, delay = 1000) => {
+const useLongPressEvent = (onPinchStart, onPinchEnd, delay = 1000) => {
   const [isPinching, setIsPinching] = useState(false);
   const timerRef = useRef(null);
 
@@ -32,4 +32,4 @@ const usePinchEvent = (onPinchStart, onPinchEnd, delay = 1000) => {
   };
 };
 
-export default usePinchEvent;
+export default useLongPressEvent;
