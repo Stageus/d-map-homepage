@@ -1,7 +1,7 @@
 import React from "react";
 import STYLE from "./style";
 
-const SettingHeader = (props) => {
+const HeaderSetting = (props) => {
   const { checkSetMode, handleCloseMode } = props;
   return (
     <STYLE.Container>
@@ -14,4 +14,4 @@ const SettingHeader = (props) => {
   );
 };
 
-export default SettingHeader;
+export default HeaderSetting;

@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import STYLE from "./style";
 import Tracking from "./ui/TrackingImageList";
 import Header from "./ui/Header";
-import OneBtnModal from "../../2_Widget/OneBtnModal";
+import OneBtnModal from "../../2_Widget/ModalOneBtn";
 import BottomSheetShare from "./ui/BottomSheetShare";
-import SettingHeader from "./ui/SettingHeader";
+import HeaderSetting from "./ui/HeaderSetting";
 import Loading from "../../2_Widget/Loading";
 import useProfile from "./model/useProfile";
-import ModifyMapModal from "../../2_Widget/ModifyMapModal";
-import ModifyNameModal from "./ui/ModifyNameModal";
+import ModalModifyMap from "../../2_Widget/ModalModifyMap";
+import ModalModifyName from "./ui/ModalModifyName";
 
 const Profile = () => {
   const {
@@ -75,7 +75,7 @@ const Profile = () => {
             handleNameModalOpen={handleNameModalOpen}
           />
         ) : (
-          <SettingHeader
+          <HeaderSetting
             checkSetMode={checkSetMode}
             handleCloseMode={handleCloseMode}
           />
@@ -125,10 +125,10 @@ const Profile = () => {
           />
         ))}
       {modifyMapModal && pinchedData && (
-        <ModifyMapModal onClose={handleModifyMapClose} data={pinchedData} />
+        <ModalModifyMap onClose={handleModifyMapClose} data={pinchedData} />
       )}
       {modifyNameModal && (
-        <ModifyNameModal onClose={handleNameModalClose} name={name} />
+        <ModalModifyName onClose={handleNameModalClose} name={name} />
       )}
     </>
   );

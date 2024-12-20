@@ -1,7 +1,7 @@
 import React from "react";
 import STYLE from "./style";
 
-const TwoBtnModal = ({ message, onConfirm, onCancel }) => {
+const ModalTwoBtn = ({ message, onConfirm, onCancel }) => {
   return (
     <STYLE.ModalOverlay>
       <STYLE.ModalContent>
@@ -19,4 +19,4 @@ const TwoBtnModal = ({ message, onConfirm, onCancel }) => {
   );
 };
 
-export default TwoBtnModal;
+export default ModalTwoBtn;

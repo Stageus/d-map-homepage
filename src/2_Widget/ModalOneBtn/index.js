@@ -1,7 +1,8 @@
 import React from "react";
 import STYLE from "./style";
 
-const OneBtnModal = ({ message, onClose }) => {
+const ModalOneBtn = (props) => {
+  const { message, onClose } = props;
   return (
     <STYLE.ModalOverlay>
       <STYLE.ModalContent>
@@ -12,4 +13,4 @@ const OneBtnModal = ({ message, onClose }) => {
   );
 };
 
-export default OneBtnModal;
+export default ModalOneBtn;
