@@ -40,10 +40,6 @@ const STYLE = {
       transition: transform 0.3s ease-out;
       transform: translateY(0);
     }
-    &.close {
-      transition: transform 0.2s ease-out;
-      transform: translateY(100%);
-    }
   `,
 
   Handle: styled.div`
