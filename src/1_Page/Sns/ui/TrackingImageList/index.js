@@ -1,5 +1,5 @@
 import React from "react";
-import TrackingImage from "../../../../2_Widget/TrackingImage";
+import Tracking from "../../../../2_Widget/TrackingImage";
 import STYLE from "./style";
 import icon from "./assets/gear-solid.svg"
 
@@ -87,7 +87,7 @@ const TrackingList = () => {
               <STYLE.PosterName>홍길동</STYLE.PosterName>
               <STYLE.PostUpdated>1달전</STYLE.PostUpdated>
             </STYLE.PostInfo>
-            <TrackingImage data={elem} />
+            <Tracking data={elem} />
             <STYLE.InfoContainer>
               <p>좋아요: {123}</p>
               <STYLE.IconContainer>

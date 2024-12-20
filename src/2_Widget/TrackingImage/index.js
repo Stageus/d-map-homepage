@@ -2,22 +2,14 @@ import React from "react";
 import { GoogleMap, LoadScript, Polyline } from "@react-google-maps/api";
 const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
-const TrackingImage = (props) => {
+const Tracking = (props) => {
   const { data } = props;
-  const {
-    zoom = 15,
-    center = { lat: 37.57, lng: 126.97 },
-    heading = 0,
-    line = [],
-    lineColor = "#FF0000",
-    lineWeight = 2,
-    height = "400px",
-  } = data;
+  const { zoom, center, line } = data;
 
   const polylineOptions = {
-    strokeColor: lineColor, // 빨간색 선
+    strokeColor: "#FF0000", // 빨간색 선
     strokeOpacity: 0.8,
-    strokeWeight: lineWeight,
+    strokeWeight: 2,
   };
 
   return (
@@ -26,15 +18,15 @@ const TrackingImage = (props) => {
         <GoogleMap
           mapContainerStyle={{
             width: "100%",
-            height: height,
+            height: "400px",
           }}
+          center={center}
+          zoom={zoom}
           options={{
-            zoom: zoom,
-            center: center,
-            heading: heading, // 지도 회전 각도 설정 (0 ~ 360)
-            mapId: "90f87356969d889c",
+            heading: 150, // 지도 회전 각도 설정 (0 ~ 360)
             disableDefaultUI: true, // UI 요소 비활성화
-          }}>
+          }}
+        >
           {/* 선 그리기 */}
           {line.map((elem) => {
             return <Polyline path={elem} options={polylineOptions} />;
@@ -45,4 +37,4 @@ const TrackingImage = (props) => {
   );
 };
 
-export default TrackingImage;
+export default Tracking;
