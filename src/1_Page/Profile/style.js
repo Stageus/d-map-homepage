@@ -51,6 +51,18 @@ const STYLE = {
     margin-top: 20px;
     font-size: 0.9rem;
   `,
+  Overlay: styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 1000;
+  `,
 };
 
 export default STYLE;

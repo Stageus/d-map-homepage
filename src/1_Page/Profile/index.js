@@ -18,6 +18,8 @@ import useSettingMode from "./model/useSettingMode";
 const Profile = () => {
   const [pinchedData, setPinchedData] = useState(null);
 
+  const [overay, setOveray] = useState(false);
+
   const { trackShareData, trackSaveData, trackLoading, trackError } =
     useTrackData("idx");
 
@@ -105,13 +107,17 @@ const Profile = () => {
           </STYLE.Slider>
         </STYLE.SliderWrapper>
       </STYLE.Main>
+
       {isModifyClick && (
-        <ModalModifyMode
-          activeTab={activeTab}
-          handleModifyClickFalse={handleModifyClickFalse}
-          handleSetMode={handleSetMode}
-          sumDataLength={sumDataLength}
-        />
+        <>
+          <STYLE.Overlay />
+          <ModalModifyMode
+            activeTab={activeTab}
+            handleModifyClickFalse={handleModifyClickFalse}
+            handleSetMode={handleSetMode}
+            sumDataLength={sumDataLength}
+          />
+        </>
       )}
       {modifyMapModal && pinchedData && (
         <Modal onClose={handleModifyMapClose} trackData={pinchedData} />

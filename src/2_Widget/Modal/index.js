@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { GoogleMap, Polyline } from "@react-google-maps/api";
 import STYLE from "./style";
 import useModal from "./model/useModal";
+import { useRef, useEffect } from "react";
 
 const Modal = (props) => {
   const { children, onClose, snap } = props;
@@ -19,6 +20,28 @@ const Modal = (props) => {
     handleClose,
     elementRef,
   } = useModal(onClose, snap);
+
+  // 초기 map 상태 저장
+  const [initialMapState, setInitialMapState] = useState(false);
+  const mapRef = useRef(null);
+
+  const handleOnLoad = (map) => {
+    mapRef.current = map;
+    if (initialMapState) {
+      map.setZoom(initialMapState.zoom);
+      map.setCenter(initialMapState.center);
+    }
+  };
+
+  useEffect(() => {
+    if (trackData && !initialMapState) {
+      setInitialMapState({
+        zoom: trackData.zoom || 15,
+        center: trackData.center || { lat: 37.57, lng: 126.97 },
+        heading: trackData.heading || 0,
+      });
+    }
+  }, [trackData, initialMapState]);
 
   return (
     <STYLE.Sheet
@@ -43,10 +66,8 @@ const Modal = (props) => {
                 width: "100%",
                 height: "400px",
               }}
+              onLoad={handleOnLoad}
               options={{
-                zoom: trackData.zoom || 15,
-                center: trackData.center || { lat: 37.57, lng: 126.97 },
-                heading: trackData.heading || 0,
                 mapId: "90f87356969d889c",
                 disableDefaultUI: true,
               }}>
