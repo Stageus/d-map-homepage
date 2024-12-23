@@ -21,17 +21,7 @@ const Modal = (props) => {
     elementRef,
   } = useModal(onClose, snap);
 
-  // 초기 map 상태 저장
   const [initialMapState, setInitialMapState] = useState(false);
-  const mapRef = useRef(null);
-
-  const handleOnLoad = (map) => {
-    mapRef.current = map;
-    if (initialMapState) {
-      map.setZoom(initialMapState.zoom);
-      map.setCenter(initialMapState.center);
-    }
-  };
 
   useEffect(() => {
     if (trackData && !initialMapState) {
@@ -66,8 +56,8 @@ const Modal = (props) => {
                 width: "100%",
                 height: "400px",
               }}
-              onLoad={handleOnLoad}
               options={{
+                ...initialMapState,
                 mapId: "90f87356969d889c",
                 disableDefaultUI: true,
               }}>
