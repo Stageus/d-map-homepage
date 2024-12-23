@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { GoogleMap, Polyline } from "@react-google-maps/api";
 import STYLE from "./style";
 import useModal from "./model/useModal";
-import { useRef, useEffect } from "react";
 
 const Modal = (props) => {
   const { children, onClose, snap } = props;

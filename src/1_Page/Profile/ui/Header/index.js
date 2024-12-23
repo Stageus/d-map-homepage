@@ -7,6 +7,7 @@ const Header = (props) => {
   const { handleNameModalOpen } = props;
   const { modifyMode, handleCloseMode } = props;
   const { profileImage } = props;
+  const { handleSetConfirmModalOpen } = props;
 
   return (
     <>
@@ -38,7 +39,13 @@ const Header = (props) => {
         <STYLE.Container>
           <STYLE.Title>{modifyMode} 설정</STYLE.Title>
           <STYLE.ButtonWrapper>
-            <STYLE.Button $primary>완료</STYLE.Button>
+            <STYLE.Button
+              $primary
+              onClick={() => {
+                handleSetConfirmModalOpen();
+              }}>
+              완료
+            </STYLE.Button>
             <STYLE.Button onClick={handleCloseMode}>취소</STYLE.Button>
           </STYLE.ButtonWrapper>
         </STYLE.Container>

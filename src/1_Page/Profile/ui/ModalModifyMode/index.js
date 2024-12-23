@@ -2,11 +2,11 @@ import React from "react";
 import Modal from "../../../../2_Widget/Modal";
 import STYLE from "./style";
 import ModalConfirm from "../../../../2_Widget/ModalConfirm";
+import useConfirmModal from "../../model/useConfirmModal";
 
 const ModalModifyMode = (props) => {
-  const { activeTab, handleModifyClickFalse, handleSetMode, sumDataLength } =
-    props;
-  const { overay, handleOverayTrue } = props;
+  const { handleModifyClickFalse, handleSetMode, sumDataLength } = props;
+
   const handleShare = () => {
     handleSetMode("공유");
     handleModifyClickFalse();
@@ -28,28 +28,26 @@ const ModalModifyMode = (props) => {
   }
 
   return (
-    <Modal
-      onClose={handleModifyClickFalse}
-      snap={[0.8, 0.3]}
-      overay={overay}
-      handleOverayTrue={handleOverayTrue}>
-      {({ handleClose }) => (
-        <div>
-          <STYLE.BottomSheetButton onClick={handleShare}>
-            공유
-          </STYLE.BottomSheetButton>
-          <STYLE.BottomSheetButton onClick={handleDelete}>
-            삭제
-          </STYLE.BottomSheetButton>
-          <STYLE.BottomSheetButton
-            onClick={handleClose}
-            bgColor="#007AFF"
-            color="#ffffff">
-            뒤로가기
-          </STYLE.BottomSheetButton>
-        </div>
-      )}
-    </Modal>
+    <>
+      <Modal onClose={handleModifyClickFalse} snap={[0.8, 0.3]}>
+        {({ handleClose }) => (
+          <div>
+            <STYLE.BottomSheetButton onClick={handleShare}>
+              공유
+            </STYLE.BottomSheetButton>
+            <STYLE.BottomSheetButton onClick={handleDelete}>
+              삭제
+            </STYLE.BottomSheetButton>
+            <STYLE.BottomSheetButton
+              onClick={handleClose}
+              bgColor="#007AFF"
+              color="#ffffff">
+              뒤로가기
+            </STYLE.BottomSheetButton>
+          </div>
+        )}
+      </Modal>
+    </>
   );
 };
 

@@ -12,8 +12,9 @@ import useAuthor from "./model/useAuthor";
 import useModifyClick from "./model/useModifyClick";
 import useModifyTrackingModal from "./model/useModifyTracking";
 import useModifyNameModal from "./model/useModifyNameModal";
-
 import useSettingMode from "./model/useSettingMode";
+import useConfirmModal from "./model/useConfirmModal";
+import ModalConfirm from "../../2_Widget/ModalConfirm";
 
 const Profile = () => {
   const [pinchedData, setPinchedData] = useState(null);
@@ -63,6 +64,17 @@ const Profile = () => {
     ));
   };
 
+  const {
+    confirmModal,
+    handleSetConfirmModalOpen,
+    handleSetConfirmModalClose,
+  } = useConfirmModal();
+
+  const getModalText = (modifyMode) => {
+    if (modifyMode === "삭제") return `저장 목록에서 삭제하시겠습니까?`;
+    return `저장하시겠습니까?`;
+  };
+
   // 로딩 애러 처리
   if (trackLoading) return <Loading />;
   if (trackError) return <Loading />;
@@ -77,6 +89,7 @@ const Profile = () => {
           author={author}
           type={activeTab}
           name={name}
+          handleSetConfirmModalOpen={handleSetConfirmModalOpen}
           handleModalModifyTrue={handleModalModifyTrue}
           handleNameModalOpen={handleModifyNameModalOpen}
         />
@@ -108,18 +121,23 @@ const Profile = () => {
       {isModifyClick && (
         <>
           <ModalModifyMode
-            activeTab={activeTab}
             handleModifyClickFalse={handleModifyClickFalse}
             handleSetMode={handleSetMode}
             sumDataLength={sumDataLength}
           />
         </>
       )}
-      {modifyMapModal && pinchedData && (
-        <Modal onClose={handleModifyMapClose} trackData={pinchedData} />
+      {confirmModal && (
+        <ModalConfirm
+          message={getModalText(modifyMode)}
+          onCancel={handleSetConfirmModalClose}
+        />
       )}
       {modifyNameModal && (
         <ModalModifyName onClose={handleModifyNameModalClose} name={name} />
+      )}
+      {modifyMapModal && pinchedData && (
+        <Modal onClose={handleModifyMapClose} trackData={pinchedData} />
       )}
     </>
   );
