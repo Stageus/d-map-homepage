@@ -63,7 +63,10 @@ const Modal = (props) => {
               ))}
             </GoogleMap>
           </STYLE.MapContainer>
-          <STYLE.SliderContainer>
+          <STYLE.SliderContainer
+            onTouchStart={(e) => {
+              e.stopPropagation();
+            }}>
             <label htmlFor="lineWidth">선 굵기</label>
             <STYLE.SliderModify
               id="lineWidth"
