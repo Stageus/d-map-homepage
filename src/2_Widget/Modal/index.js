@@ -34,7 +34,10 @@ const Modal = (props) => {
       <STYLE.Handle />
       {trackData && (
         <STYLE.Container>
-          <STYLE.MapContainer>
+          <STYLE.MapContainer
+            onTouchStart={(e) => {
+              e.stopPropagation();
+            }}>
             <GoogleMap
               mapContainerStyle={{
                 width: "100%",
