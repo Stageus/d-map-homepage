@@ -6,6 +6,7 @@ import ModalConfirm from "../../../../2_Widget/ModalConfirm";
 const ModalModifyMode = (props) => {
   const { activeTab, handleModifyClickFalse, handleSetMode, sumDataLength } =
     props;
+  const { overay, handleOverayTrue } = props;
   const handleShare = () => {
     handleSetMode("공유");
     handleModifyClickFalse();
@@ -27,7 +28,11 @@ const ModalModifyMode = (props) => {
   }
 
   return (
-    <Modal onClose={handleModifyClickFalse} snap={[0.8, 0.3]}>
+    <Modal
+      onClose={handleModifyClickFalse}
+      snap={[0.8, 0.3]}
+      overay={overay}
+      handleOverayTrue={handleOverayTrue}>
       {({ handleClose }) => (
         <div>
           <STYLE.BottomSheetButton onClick={handleShare}>

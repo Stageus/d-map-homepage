@@ -1,6 +1,18 @@
 import styled from "styled-components";
 
 const STYLE = {
+  Overlay: styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 1000;
+  `,
   Sheet: styled.div`
     position: fixed;
     bottom: 0;
