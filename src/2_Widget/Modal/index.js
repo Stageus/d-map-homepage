@@ -102,7 +102,7 @@ const Modal = (props) => {
           </STYLE.ButtonContainer>
         </STYLE.Container>
       )}
-      {children && children(handleClose)}
+      {children && children({ handleClose })}
     </STYLE.Sheet>
   );
 };
