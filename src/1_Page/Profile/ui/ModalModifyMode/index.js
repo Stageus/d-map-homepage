@@ -1,10 +1,10 @@
 import React from "react";
 import Modal from "../../../../2_Widget/Modal";
 import STYLE from "./style";
-import ModalOneBtn from "../../../../2_Widget/ModalOneBtn";
+import ModalConfirm from "../../../../2_Widget/ModalConfirm";
 
 const ModalModifyMode = (props) => {
-  const { activeTab, handleModifyClickFalse, handleSetMode, handleGetLength } =
+  const { activeTab, handleModifyClickFalse, handleSetMode, sumDataLength } =
     props;
   const handleShare = () => {
     handleSetMode("공유");
@@ -16,9 +16,10 @@ const ModalModifyMode = (props) => {
     handleModifyClickFalse();
   };
 
-  if (handleGetLength(activeTab) === 0) {
+  if (sumDataLength === 0) {
     return (
-      <ModalOneBtn
+      <ModalConfirm
+        type="one"
         message="편집할 그림이 없습니다"
         onClose={handleModifyClickFalse}
       />

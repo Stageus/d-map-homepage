@@ -21,14 +21,20 @@ const Profile = () => {
   const { trackShareData, trackSaveData, trackLoading, trackError } =
     useTrackData("idx");
 
-  const { activeTab, tabIndex, handleTabClick, handleGetLength } = useTabs();
+  const { activeTab, tabIndex, handleTabClick } = useTabs();
+
+  const handleGetLength = (tab) => {
+    if (!trackShareData || !trackSaveData) return "로딩중";
+    return tab === "공유" ? trackShareData?.length : trackSaveData?.length;
+  };
+
+  const sumDataLength = trackShareData.length + trackSaveData.length;
 
   const { author, handleAuthorTrue, handleAuthorFalse } = useAuthor();
 
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode();
 
   const name = "김재걸";
-
   const { isModifyClick, handleModifyClickFalse, handleModalModifyTrue } =
     useModifyClick();
 
@@ -104,7 +110,7 @@ const Profile = () => {
           activeTab={activeTab}
           handleModifyClickFalse={handleModifyClickFalse}
           handleSetMode={handleSetMode}
-          handleGetLength={handleGetLength}
+          sumDataLength={sumDataLength}
         />
       )}
       {modifyMapModal && pinchedData && (
