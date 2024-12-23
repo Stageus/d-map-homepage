@@ -17,10 +17,16 @@ const Modal = (props) => {
     handleTouchMove,
     handleTouchEnd,
     handleClose,
+    elementRef,
   } = useModal(onClose, snap);
+
+  useEffect(() => {
+    console.log(translateY);
+  }, [translateY]);
 
   return (
     <STYLE.Sheet
+      ref={elementRef}
       className={isVisible && "open"}
       style={{
         transform: `translateY(${isVisible ? translateY : "600"}px)`,
