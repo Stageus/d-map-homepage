@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-const useModal = (onClose, snap = [], modalOpen) => {
+const useBottomSheet = (onClose, snap = [0.3]) => {
   const [isVisible, setIsVisible] = useState(false); // 열림 상태
   const [translateY, setTranslateY] = useState(0); // 바텀시트 위치
   const startY = useRef(0); // 시작 Y좌표
@@ -16,10 +16,6 @@ const useModal = (onClose, snap = [], modalOpen) => {
   useEffect(() => {
     setIsVisible(true); // Open 애니메이션 실행
   }, []);
-
-  useEffect(() => {
-    if (!modalOpen) setIsVisible(false);
-  }, [modalOpen]);
 
   const handleTouchStart = (e) => {
     if (!isVisible) return;
@@ -61,8 +57,7 @@ const useModal = (onClose, snap = [], modalOpen) => {
 
   const finalizePosition = () => {
     if (translateY > 20) {
-      setIsVisible(false);
-      onClose();
+      handleClose();
       return;
     }
 
@@ -72,6 +67,13 @@ const useModal = (onClose, snap = [], modalOpen) => {
         : prev;
     });
     setTranslateY(closestSnapPoint);
+  };
+
+  const handleClose = () => {
+    setIsVisible(false);
+    setTimeout(() => {
+      if (onClose) onClose();
+    }, 300);
   };
 
   return {
@@ -84,7 +86,8 @@ const useModal = (onClose, snap = [], modalOpen) => {
     handleMouseDown,
     handleMouseMove,
     handleMouseUp,
+    handleClose,
   };
 };
 
-export default useModal;
+export default useBottomSheet;

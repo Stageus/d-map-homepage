@@ -16,13 +16,8 @@ import useSettingMode from "./model/useSettingMode";
 const Profile = () => {
   const [pinchedData, setPinchedData] = useState(null);
 
-  const {
-    trackShareData,
-    trackSaveData,
-    trackLoading,
-    trackError,
-    fetchTrackData,
-  } = useTrackData();
+  const { trackShareData, trackSaveData, trackLoading, trackError } =
+    useTrackData("idx");
 
   const { activeTab, tabIndex, handleTabClick, handleGetLength } = useTabs();
 
@@ -43,11 +38,6 @@ const Profile = () => {
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode();
 
   const name = "김재걸";
-
-  //
-  useEffect(() => {
-    fetchTrackData("idx");
-  }, []);
 
   // 트래킹 리스트 렌더링
   const renderPosts = (trackingList) => {
@@ -121,7 +111,7 @@ const Profile = () => {
         />
       )}
       {modifyMapModal && pinchedData && (
-        <Modal onClose={handleModifyMapClose} data={pinchedData} />
+        <Modal onClose={handleModifyMapClose} trackData={pinchedData} />
       )}
       {modifyNameModal && (
         <ModalModifyName onClose={handleModifyNameModalClose} name={name} />

@@ -11,6 +11,7 @@ const TrackContainer = (props) => {
     () => {
       handleModifyMapOpen();
       setPinchedData(data);
+      console.log("꾸욱");
     }, // 꾸욱 누르기 시작 시 모달 열기
     null, // 꾸욱 누르기를 끝낼 때 동작 (필요 시 추가)
     1000 // 1초 꾸욱 누르기 감지

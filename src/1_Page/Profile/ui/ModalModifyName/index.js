@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import STYLE from "./style";
-import BottomSheet from "../../../../2_Widget/BottomSheet";
+import Modal from "../../../../2_Widget/Modal";
 
 const ModalModifyName = (props) => {
   const { name } = props;
   const { onClose } = props;
   const [type, setType] = useState("현재");
+
   const handleType = () => {
     setType("추천된");
   };
+
   return (
-    <BottomSheet onClose={onClose} snap={[0.2]}>
+    <Modal onClose={onClose} snap={[0.2]}>
       {({ handleClose }) => (
         <STYLE.Container>
           <STYLE.Header>닉네임 변경</STYLE.Header>
@@ -29,7 +31,7 @@ const ModalModifyName = (props) => {
           </STYLE.SubmitButton>
         </STYLE.Container>
       )}
-    </BottomSheet>
+    </Modal>
   );
 };
 

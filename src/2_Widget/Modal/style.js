@@ -1,32 +1,15 @@
 import styled from "styled-components";
 
 const STYLE = {
-  Overlay: styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    z-index: 1000;
-  `,
-  EventPropagation: styled.div`
-    width: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-  `,
-
   Sheet: styled.div`
+    position: fixed;
+    bottom: 0;
+    left: 0;
     background: #ffffff;
     width: 100%;
     border-radius: 20px 20px 0 0;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-    position: relative;
-
+    z-index: 1000;
     &::after {
       content: "";
       position: absolute;
@@ -54,6 +37,7 @@ const STYLE = {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 20px;
   `,
   MapContainer: styled.div`
     width: 80%;

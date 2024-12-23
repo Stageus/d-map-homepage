@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GoogleMap, LoadScript, Polyline } from "@react-google-maps/api";
 import STYLE from "./style";
 import useModal from "./model/useModal";
 
-const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
-
 const Modal = (props) => {
-  const { children, onClose, snap, modalOpen } = props;
-  const { data } = props;
+  const { children, onClose, snap } = props;
+  const { trackData } = props;
   const [lineWeight, setLineWeight] = useState(2);
   const [lineColor, setLineColor] = useState("#FF0000");
 
@@ -18,10 +16,8 @@ const Modal = (props) => {
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
-    handleMouseDown,
-    handleMouseMove,
-    handleMouseUp,
-  } = useModal(onClose, snap, modalOpen);
+    handleClose,
+  } = useModal(onClose, snap);
 
   return (
     <STYLE.Sheet
@@ -32,38 +28,35 @@ const Modal = (props) => {
       }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      onMouseDown={handleMouseDown}>
+      onTouchEnd={handleTouchEnd}>
       <STYLE.Handle />
-      {data ? (
+      {trackData && (
         <STYLE.Container>
           <STYLE.MapContainer>
-            <LoadScript googleMapsApiKey={API_KEY}>
-              <GoogleMap
-                mapContainerStyle={{
-                  width: "100%",
-                  height: data.height || "400px",
-                }}
-                options={{
-                  zoom: data.zoom || 15,
-                  center: data.center || { lat: 37.57, lng: 126.97 },
-                  heading: data.heading || 0,
-                  mapId: "90f87356969d889c",
-                  disableDefaultUI: true,
-                }}>
-                {data.line?.map((elem, idx) => (
-                  <Polyline
-                    key={idx}
-                    path={elem}
-                    options={{
-                      strokeColor: lineColor,
-                      strokeOpacity: 0.8,
-                      strokeWeight: lineWeight,
-                    }}
-                  />
-                ))}
-              </GoogleMap>
-            </LoadScript>
+            <GoogleMap
+              mapContainerStyle={{
+                width: "100%",
+                height: "400px",
+              }}
+              options={{
+                zoom: trackData.zoom || 15,
+                center: trackData.center || { lat: 37.57, lng: 126.97 },
+                heading: trackData.heading || 0,
+                mapId: "90f87356969d889c",
+                disableDefaultUI: true,
+              }}>
+              {trackData.line?.map((elem, idx) => (
+                <Polyline
+                  key={idx}
+                  path={elem}
+                  options={{
+                    strokeColor: lineColor,
+                    strokeOpacity: 0.8,
+                    strokeWeight: lineWeight,
+                  }}
+                />
+              ))}
+            </GoogleMap>
           </STYLE.MapContainer>
           <STYLE.SliderContainer>
             <label htmlFor="lineWidth">선 굵기</label>
@@ -88,21 +81,20 @@ const Modal = (props) => {
           <STYLE.ButtonContainer>
             <STYLE.Button
               onClick={() => {
-                onClose();
+                handleClose();
               }}>
               저장하기
             </STYLE.Button>
             <STYLE.Button
               onClick={() => {
-                onClose();
+                handleClose();
               }}>
               공유하기
             </STYLE.Button>
           </STYLE.ButtonContainer>
         </STYLE.Container>
-      ) : (
-        children
       )}
+      {children && children(handleClose)}
     </STYLE.Sheet>
   );
 };
