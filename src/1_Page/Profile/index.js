@@ -5,7 +5,7 @@ import Header from "./ui/Header";
 import HeaderSetting from "./ui/HeaderSetting";
 import Loading from "../../2_Widget/Loading";
 import ModalModifyMode from "./ui/ModalModifyMode";
-import ModalModifyMap from "../../2_Widget/ModalModifyTrackingImage";
+import Modal from "../../2_Widget/Modal";
 import ModalModifyName from "./ui/ModalModifyName";
 import useTrackData from "./api/useTrackingList";
 import useTabs from "./model/useTabs";
@@ -121,7 +121,7 @@ const Profile = () => {
         />
       )}
       {modifyMapModal && pinchedData && (
-        <ModalModifyMap onClose={handleModifyMapClose} data={pinchedData} />
+        <Modal onClose={handleModifyMapClose} data={pinchedData} />
       )}
       {modifyNameModal && (
         <ModalModifyName onClose={handleModifyNameModalClose} name={name} />

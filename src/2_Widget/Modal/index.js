@@ -1,12 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import { GoogleMap, LoadScript, Polyline } from "@react-google-maps/api";
 import STYLE from "./style";
 import useModal from "./model/useModal";
-import TrackingImage from "../../../../2_Widget/TrackingImage";
+
+const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 const Modal = (props) => {
   const { children, onClose, snap, modalOpen } = props;
-  const { data, lineWeight, setLineWeight, lineColor, setLineColor } =
-    props.traking;
+  const { data } = props;
+  const [lineWeight, setLineWeight] = useState(2);
+  const [lineColor, setLineColor] = useState("#FF0000");
 
   const {
     isVisible,
@@ -35,7 +38,32 @@ const Modal = (props) => {
       {data ? (
         <STYLE.Container>
           <STYLE.MapContainer>
-            <TrackingImage data={data} />
+            <LoadScript googleMapsApiKey={API_KEY}>
+              <GoogleMap
+                mapContainerStyle={{
+                  width: "100%",
+                  height: data.height || "400px",
+                }}
+                options={{
+                  zoom: data.zoom || 15,
+                  center: data.center || { lat: 37.57, lng: 126.97 },
+                  heading: data.heading || 0,
+                  mapId: "90f87356969d889c",
+                  disableDefaultUI: true,
+                }}>
+                {data.line?.map((elem, idx) => (
+                  <Polyline
+                    key={idx}
+                    path={elem}
+                    options={{
+                      strokeColor: lineColor,
+                      strokeOpacity: 0.8,
+                      strokeWeight: lineWeight,
+                    }}
+                  />
+                ))}
+              </GoogleMap>
+            </LoadScript>
           </STYLE.MapContainer>
           <STYLE.SliderContainer>
             <label htmlFor="lineWidth">선 굵기</label>
@@ -60,14 +88,12 @@ const Modal = (props) => {
           <STYLE.ButtonContainer>
             <STYLE.Button
               onClick={() => {
-                // 저장 로직
                 onClose();
               }}>
               저장하기
             </STYLE.Button>
             <STYLE.Button
               onClick={() => {
-                // 공유 로직
                 onClose();
               }}>
               공유하기
