@@ -17,16 +17,17 @@ const TrackContainer = (props) => {
     1000 // 1초 꾸욱 누르기 감지
   );
 
+  // Tracking 컴포넌트를 useMemo로 메모이제이션
+  const memoizedTracking = useMemo(() => {
+    return <Tracking data={{ ...data, height: "100%" }} />;
+  }, [data]);
+
   return (
     <STYLE.TrackingContainer {...(author && longPressEvents)}>
       {checkSetMode && <STYLE.TrackingCheckbox />}
-      <Tracking data={{ ...data, height: "100%" }} />
+      {memoizedTracking} {/* 메모이제이션된 Tracking */}
     </STYLE.TrackingContainer>
   );
 };
 
-// React.memo를 사용해 최적화
-export default React.memo(TrackContainer, (prevProps, nextProps) => {
-  // data, checkSetMode, author 변경 여부를 비교
-  return prevProps.data === nextProps.data;
-});
+export default TrackContainer;

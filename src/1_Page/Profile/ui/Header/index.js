@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import STYLE from "./style.js";
 
 const Header = (props) => {
@@ -7,10 +7,6 @@ const Header = (props) => {
   const { handleNameModalOpen } = props;
   const { modifyMode, handleCloseMode } = props;
   const { profileImage } = props;
-
-  useEffect(() => {
-    console.log(modifyMode);
-  }, [modifyMode]);
 
   return (
     <>
