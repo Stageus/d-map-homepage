@@ -12,6 +12,7 @@ const TrackingImage = (props) => {
     lineColor = "#FF0000",
     lineWeight = 2,
     height = "400px",
+    draggable = true,
   } = data;
 
   const polylineOptions = {
@@ -34,6 +35,7 @@ const TrackingImage = (props) => {
             heading: heading, // 지도 회전 각도 설정 (0 ~ 360)
             mapId: "90f87356969d889c",
             disableDefaultUI: true, // UI 요소 비활성화
+            draggable, // 드래그 활성화/비활성화
           }}>
           {/* 선 그리기 */}
           {line.map((elem) => {
