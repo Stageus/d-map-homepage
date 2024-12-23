@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import STYLE from "./style";
 import TrackingContiner from "./ui/TrackContainer";
 import Header from "./ui/Header";
-import HeaderSetting from "./ui/HeaderSetting";
 import Loading from "../../2_Widget/Loading";
 import ModalModifyMode from "./ui/ModalModifyMode";
 import Modal from "../../2_Widget/Modal";
@@ -10,7 +9,10 @@ import ModalModifyName from "./ui/ModalModifyName";
 import useTrackData from "./api/useTrackingList";
 import useTabs from "./model/useTabs";
 import useAuthor from "./model/useAuthor";
-import useModals from "./model/useModals";
+import useModifyClick from "./model/useModifyClick";
+import useModifyTrackingModal from "./model/useModifyTracking";
+import useModifyNameModal from "./model/useModifyNameModal";
+
 import useSettingMode from "./model/useSettingMode";
 
 const Profile = () => {
@@ -23,21 +25,21 @@ const Profile = () => {
 
   const { author, handleAuthorTrue, handleAuthorFalse } = useAuthor();
 
-  const {
-    isModifyClick,
-    modifyMapModal,
-    modifyNameModal,
-    handleModalModifyTrue,
-    handleModifyClickFalse,
-    handleModifyMapClose,
-    handleModifyMapOpen,
-    handleModifyNameModalClose,
-    handleModifyNameModalOpen,
-  } = useModals();
-
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode();
 
   const name = "김재걸";
+
+  const { isModifyClick, handleModifyClickFalse, handleModalModifyTrue } =
+    useModifyClick();
+
+  const { modifyMapModal, handleModifyMapClose, handleModifyMapOpen } =
+    useModifyTrackingModal();
+
+  const {
+    modifyNameModal,
+    handleModifyNameModalClose,
+    handleModifyNameModalOpen,
+  } = useModifyNameModal();
 
   // 트래킹 리스트 렌더링
   const renderPosts = (trackingList) => {
@@ -62,21 +64,16 @@ const Profile = () => {
   return (
     <>
       <STYLE.Main>
-        {!modifyMode ? (
-          <Header
-            length={handleGetLength(activeTab, trackShareData, trackSaveData)}
-            author={author}
-            type={activeTab}
-            name={name}
-            handleModalModifyTrue={handleModalModifyTrue}
-            handleNameModalOpen={handleModifyNameModalOpen}
-          />
-        ) : (
-          <HeaderSetting
-            modifyMode={modifyMode}
-            handleCloseMode={handleCloseMode}
-          />
-        )}
+        <Header
+          modifyMode={modifyMode}
+          handleCloseMode={handleCloseMode}
+          length={handleGetLength(activeTab, trackShareData, trackSaveData)}
+          author={author}
+          type={activeTab}
+          name={name}
+          handleModalModifyTrue={handleModalModifyTrue}
+          handleNameModalOpen={handleModifyNameModalOpen}
+        />
         <STYLE.TabMenu>
           {author ? (
             <>

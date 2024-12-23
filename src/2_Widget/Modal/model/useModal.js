@@ -34,25 +34,6 @@ const useModal = (onClose, snap = [0.3]) => {
     finalizePosition();
   };
 
-  const handleMouseDown = (e) => {
-    if (!isVisible) return;
-    isDragging.current = true;
-    startY.current = e.clientY;
-    currentY.current = translateY;
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging.current || !isVisible) return;
-    const deltaY = e.clientY - startY.current;
-    setTranslateY(currentY.current + deltaY);
-  };
-
-  const handleMouseUp = (e) => {
-    if (!isVisible) return;
-    isDragging.current = false;
-    finalizePosition();
-  };
-
   const finalizePosition = () => {
     if (translateY > 20) {
       handleClose();
@@ -81,9 +62,6 @@ const useModal = (onClose, snap = [0.3]) => {
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
-    handleMouseDown,
-    handleMouseMove,
-    handleMouseUp,
     handleClose,
     elementRef,
   };

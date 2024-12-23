@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { GoogleMap, LoadScript, Polyline } from "@react-google-maps/api";
+import React, { useState } from "react";
+import { GoogleMap, Polyline } from "@react-google-maps/api";
 import STYLE from "./style";
 import useModal from "./model/useModal";
 
@@ -19,10 +19,6 @@ const Modal = (props) => {
     handleClose,
     elementRef,
   } = useModal(onClose, snap);
-
-  useEffect(() => {
-    console.log(translateY);
-  }, [translateY]);
 
   return (
     <STYLE.Sheet

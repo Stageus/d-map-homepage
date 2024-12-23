@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Tracking from "../../../../2_Widget/TrackingImage";
 import STYLE from "./style";
 import useLongPressEvent from "../../../../4_Shared/useLongPressEvent";
@@ -25,4 +25,8 @@ const TrackContainer = (props) => {
   );
 };
 
-export default TrackContainer;
+// React.memo를 사용해 최적화
+export default React.memo(TrackContainer, (prevProps, nextProps) => {
+  // data, checkSetMode, author 변경 여부를 비교
+  return prevProps.data === nextProps.data;
+});
