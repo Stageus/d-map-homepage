@@ -1,5 +1,5 @@
 import React from "react";
-import BottomSheet from "../../../../2_Widget/BottomSheet";
+import Modal from "../../../../2_Widget/Modal";
 import STYLE from "./style";
 import ModalOneBtn from "../../../../2_Widget/ModalOneBtn";
 
@@ -26,7 +26,7 @@ const ModalModifyMode = (props) => {
   }
 
   return (
-    <BottomSheet onClose={handleModifyClickFalse} snap={[0.8, 0.3]}>
+    <Modal onClose={handleModifyClickFalse} snap={[0.8, 0.3]}>
       {({ handleClose }) => (
         <div>
           <STYLE.BottomSheetButton onClick={handleShare}>
@@ -43,7 +43,7 @@ const ModalModifyMode = (props) => {
           </STYLE.BottomSheetButton>
         </div>
       )}
-    </BottomSheet>
+    </Modal>
   );
 };
 
