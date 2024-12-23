@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import setSnapPoints from "./setSnapPoints";
 
 const useModal = (onClose, snap = [0.3]) => {
   const [isVisible, setIsVisible] = useState(false); // 열림 상태
@@ -6,30 +7,9 @@ const useModal = (onClose, snap = [0.3]) => {
   const startY = useRef(0); // 시작 Y좌표
   const currentY = useRef(0); // 현재 Y좌표
   const isDragging = useRef(false); // 드래그 상태
+  const elementRef = useRef(null);
 
-  const screenHeight = window.innerHeight; // 화면 높이
-  const snapPoints = [0]; // 스냅 포인트 (비율 기반)
-  snap.forEach((item) => {
-    snapPoints.push(-screenHeight * item);
-  });
-  const elementRef = useRef(null); // 현재 컴포넌트 참조
-
-  // 요소 높이를 기반으로 스냅 포인트 설정
-  if (elementRef.current) {
-    const elementHeight = elementRef.current.offsetHeight;
-
-    // 최대 translateY 계산
-    const maxTranslateY = -(screenHeight - elementHeight);
-    snap.forEach((item) => {
-      snapPoints.push(-screenHeight * item);
-    });
-
-    if (!snapPoints.includes(maxTranslateY)) {
-      snapPoints.push(maxTranslateY);
-    }
-
-    snapPoints.sort((a, b) => a - b);
-  }
+  const snapPoints = setSnapPoints(elementRef, snap);
 
   useEffect(() => {
     setIsVisible(true); // Open 애니메이션 실행
