@@ -1,5 +1,6 @@
 import React from "react";
 import STYLE from "./style.js";
+import { useState, useEffect } from "react";
 
 const Header = (props) => {
   const { length, name, type, author } = props;
@@ -8,6 +9,7 @@ const Header = (props) => {
   const { modifyMode, handleCloseMode } = props;
   const { profileImage } = props;
   const { handleSetConfirmModalOpen } = props;
+  const { handleCancel } = props;
 
   return (
     <>
@@ -46,7 +48,13 @@ const Header = (props) => {
               }}>
               완료
             </STYLE.Button>
-            <STYLE.Button onClick={handleCloseMode}>취소</STYLE.Button>
+            <STYLE.Button
+              onClick={() => {
+                handleCloseMode();
+                handleCancel();
+              }}>
+              취소
+            </STYLE.Button>
           </STYLE.ButtonWrapper>
         </STYLE.Container>
       )}

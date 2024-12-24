@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Tracking from "../../../../2_Widget/TrackingImage";
 import STYLE from "./style";
 import useLongPressEvent from "../../../../4_Shared/useLongPressEvent";
@@ -20,10 +20,6 @@ const TrackContainer = (props) => {
       setShareData((prev) => [...prev, data]);
     }
   };
-  useEffect(() => {
-    console.log(shareData);
-    console.log(saveData);
-  }, [shareData, saveData]);
 
   const longPressEvents = useLongPressEvent(
     () => {
@@ -34,13 +30,13 @@ const TrackContainer = (props) => {
     1000
   );
 
-  if (data?.length === 0) {
-    return <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>;
-  }
   return (
-    <STYLE.TrackingContainer {...(author && longPressEvents)}>
-      {checkSetMode && <STYLE.TrackingCheckbox onClick={handleAnotherType} />}
-      <Tracking data={{ ...data, height: "100%" }} />
+    <STYLE.TrackingContainer {...(author && !checkSetMode && longPressEvents)}>
+      {checkSetMode === "공유" && (
+        <STYLE.TrackingClickBox onClick={handleAnotherType} />
+      )}
+      {checkSetMode === "삭제" && <STYLE.TrackingCheckbox />}
+      <Tracking dragable={false} data={{ ...data, height: "100%" }} />
     </STYLE.TrackingContainer>
   );
 };

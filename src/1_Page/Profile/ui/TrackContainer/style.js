@@ -10,7 +10,20 @@ const STYLE = {
     align-items: center;
     aspect-ratio: 1;
   `,
-  TrackingCheckbox: styled.div`
+  TrackingClickBox: styled.div`
+    z-index: 10000;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    position: absolute;
+    top: 8px; /* 상단 여백 */
+    right: 8px; /* 우측 여백 */
+    transition: all 0.2s ease;
+  `,
+  TrackingCheckbox: styled.input.attrs({ type: "checkbox" })`
     z-index: 10000;
     appearance: none;
     width: 20px;

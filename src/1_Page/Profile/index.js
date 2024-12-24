@@ -64,6 +64,21 @@ const Profile = () => {
     handleSetConfirmModalClose,
   } = useConfirmModal();
 
+  // 초기 상태 저장
+  const [initialShareData, setInitialShareData] = useState([]);
+  const [initialSaveData, setInitialSaveData] = useState([]);
+
+  useEffect(() => {
+    if (!modifyMode) return;
+    setInitialShareData(shareData);
+    setInitialSaveData(saveData);
+  }, [modifyMode, trackShareData, trackSaveData]);
+
+  const handleCancel = () => {
+    setShareData(initialShareData);
+    setSaveData(initialSaveData);
+  };
+
   // 로딩 애러 처리
   if (trackLoading) return <Loading />;
   if (trackError) return <Loading />;
@@ -78,6 +93,7 @@ const Profile = () => {
           author={author}
           type={activeTab}
           name={name}
+          handleCancel={handleCancel}
           handleSetConfirmModalOpen={handleSetConfirmModalOpen}
           handleModalModifyTrue={handleModalModifyTrue}
           handleNameModalOpen={handleModifyNameModalOpen}
@@ -103,34 +119,42 @@ const Profile = () => {
         <STYLE.SliderWrapper tabIndex={tabIndex}>
           <STYLE.Slider tabIndex={tabIndex}>
             <STYLE.PostGrid>
-              {shareData?.map((data) => (
-                <TrackingContiner
-                  data={data}
-                  checkSetMode={modifyMode}
-                  author={author}
-                  handleModifyMapOpen={handleModifyMapOpen}
-                  setPinchedData={setPinchedData}
-                  shareData={shareData}
-                  saveData={saveData}
-                  setSaveData={setSaveData}
-                  setShareData={setShareData}
-                />
-              ))}
+              {shareData?.length === 0 ? (
+                <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
+              ) : (
+                shareData?.map((data) => (
+                  <TrackingContiner
+                    data={data}
+                    checkSetMode={modifyMode}
+                    author={author}
+                    handleModifyMapOpen={handleModifyMapOpen}
+                    setPinchedData={setPinchedData}
+                    shareData={shareData}
+                    saveData={saveData}
+                    setSaveData={setSaveData}
+                    setShareData={setShareData}
+                  />
+                ))
+              )}
             </STYLE.PostGrid>
             <STYLE.PostGrid>
-              {saveData?.map((data) => (
-                <TrackingContiner
-                  data={data}
-                  checkSetMode={modifyMode}
-                  author={author}
-                  handleModifyMapOpen={handleModifyMapOpen}
-                  setPinchedData={setPinchedData}
-                  shareData={shareData}
-                  saveData={saveData}
-                  setSaveData={setSaveData}
-                  setShareData={setShareData}
-                />
-              ))}
+              {saveData?.length === 0 ? (
+                <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
+              ) : (
+                saveData?.map((data) => (
+                  <TrackingContiner
+                    data={data}
+                    checkSetMode={modifyMode}
+                    author={author}
+                    handleModifyMapOpen={handleModifyMapOpen}
+                    setPinchedData={setPinchedData}
+                    shareData={shareData}
+                    saveData={saveData}
+                    setSaveData={setSaveData}
+                    setShareData={setShareData}
+                  />
+                ))
+              )}
             </STYLE.PostGrid>
           </STYLE.Slider>
         </STYLE.SliderWrapper>
@@ -148,8 +172,8 @@ const Profile = () => {
         <ModalConfirm
           message={
             modifyMode === "삭제"
-              ? "저장하시겠습니까?"
-              : "저장 목록에서 삭제하시겠습니까?"
+              ? "저장 목록에서 삭제하시겠습니까?"
+              : "저장하시겠습니까?"
           }
           onCancel={handleSetConfirmModalClose}
         />

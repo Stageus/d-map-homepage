@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import setSnapPoints from "./setSnapPoints";
 
-const useModal = (onClose, snap = [0.3]) => {
+const useModal = (onClose, snap = [0]) => {
   const [isVisible, setIsVisible] = useState(false); // 열림 상태
   const [translateY, setTranslateY] = useState(0); // 바텀시트 위치
   const startY = useRef(0); // 시작 Y좌표
