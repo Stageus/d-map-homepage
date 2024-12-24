@@ -2,7 +2,6 @@ import React from "react";
 import Modal from "../../../../2_Widget/Modal";
 import STYLE from "./style";
 import ModalConfirm from "../../../../2_Widget/ModalConfirm";
-import useConfirmModal from "../../model/useConfirmModal";
 
 const ModalModifyMode = (props) => {
   const { handleModifyClickFalse, handleSetMode, sumDataLength } = props;

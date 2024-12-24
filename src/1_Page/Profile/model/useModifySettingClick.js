@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useModifyClick = () => {
+const useModifySettingClick = () => {
   const [isModifyClick, setIsmodifyClick] = useState(false);
 
   const handleModifyClickFalse = () => setIsmodifyClick(false);
@@ -13,4 +13,4 @@ const useModifyClick = () => {
   };
 };
 
-export default useModifyClick;
+export default useModifySettingClick;
