@@ -24,18 +24,12 @@ const useData = (trackShareData, trackSaveData, modifyMode) => {
     setSaveData(initialSaveData);
   };
 
-  const getLength = (tab) => {
-    if (!shareData || !saveData) return "로딩중";
-    return tab === "공유" ? shareData.length : saveData.length;
-  };
-
   return {
     shareData,
     saveData,
     setShareData,
     setSaveData,
     handleCancel,
-    getLength,
   };
 };
 

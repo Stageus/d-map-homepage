@@ -7,7 +7,6 @@ const STYLE = {
     align-items: center;
     gap: 16px;
     padding: 20px;
-    background-color: #f8f8f8;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   `,
@@ -16,7 +15,7 @@ const STYLE = {
     font-weight: bold;
     color: #000;
   `,
-  ProfileImage: styled.div`
+  ProfileImage: styled.img`
     width: 100px;
     height: 100px;
     border-radius: 50%;

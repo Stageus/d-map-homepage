@@ -56,14 +56,8 @@ const Profile = () => {
     handleSetConfirmModalClose,
   } = useConfirmModal();
 
-  const {
-    shareData,
-    saveData,
-    setShareData,
-    setSaveData,
-    handleCancel,
-    getLength,
-  } = useData(trackShareData, trackSaveData, modifyMode);
+  const { shareData, saveData, setShareData, setSaveData, handleCancel } =
+    useData(trackShareData, trackSaveData, modifyMode);
 
   // 로딩 애러 처리
   if (trackLoading) return <Loading />;
@@ -170,6 +164,7 @@ const Profile = () => {
         />
       )}
       {modifyImageModal && <ModifyImageModal onClose={handleImageModalClose} />}
+
       {modifyNameModal && (
         <ModalModifyName onClose={handleModifyNameModalClose} name={name} />
       )}
