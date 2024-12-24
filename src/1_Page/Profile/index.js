@@ -175,6 +175,10 @@ const Profile = () => {
               ? "저장 목록에서 삭제하시겠습니까?"
               : "저장하시겠습니까?"
           }
+          onConfirm={() => {
+            handleCloseMode();
+            handleSetConfirmModalClose();
+          }}
           onCancel={handleSetConfirmModalClose}
         />
       )}
