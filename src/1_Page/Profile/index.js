@@ -22,7 +22,7 @@ import ModalConfirm from "../../2_Widget/ModalConfirm";
 
 const Profile = () => {
   const [pinchedData, setPinchedData] = useState(null);
-  const [shareData, setSharekData] = useState(null);
+  const [shareData, setShareData] = useState(null);
   const [saveData, setSaveData] = useState(null);
 
   const { trackShareData, trackSaveData, trackLoading, trackError } =
@@ -30,7 +30,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (!trackShareData && !trackSaveData) return;
-    setSharekData(trackShareData);
+    setShareData(trackShareData);
     setSaveData(trackSaveData);
   }, [trackShareData, trackSaveData]);
 
@@ -103,9 +103,8 @@ const Profile = () => {
         <STYLE.SliderWrapper tabIndex={tabIndex}>
           <STYLE.Slider tabIndex={tabIndex}>
             <STYLE.PostGrid>
-              {shareData.map((data) => (
+              {shareData?.map((data) => (
                 <TrackingContiner
-                  key={data.id} // 고유한 key 값 필요
                   data={data}
                   checkSetMode={modifyMode}
                   author={author}
@@ -114,14 +113,13 @@ const Profile = () => {
                   shareData={shareData}
                   saveData={saveData}
                   setSaveData={setSaveData}
-                  setSharekData={setSharekData}
+                  setShareData={setShareData}
                 />
               ))}
             </STYLE.PostGrid>
             <STYLE.PostGrid>
-              {saveData.map((data) => (
+              {saveData?.map((data) => (
                 <TrackingContiner
-                  key={data.id} // 고유한 key 값 필요
                   data={data}
                   checkSetMode={modifyMode}
                   author={author}
@@ -130,7 +128,7 @@ const Profile = () => {
                   shareData={shareData}
                   saveData={saveData}
                   setSaveData={setSaveData}
-                  setSharekData={setSharekData}
+                  setShareData={setShareData}
                 />
               ))}
             </STYLE.PostGrid>

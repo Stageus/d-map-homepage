@@ -10,7 +10,7 @@ const STYLE = {
     align-items: center;
     aspect-ratio: 1;
   `,
-  TrackingCheckbox: styled.input.attrs({ type: "checkbox" })`
+  TrackingCheckbox: styled.div`
     z-index: 10000;
     appearance: none;
     width: 20px;

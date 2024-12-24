@@ -6,7 +6,7 @@ import useLongPressEvent from "../../../../4_Shared/useLongPressEvent";
 const TrackContainer = (props) => {
   const { data, checkSetMode, author, handleModifyMapOpen, setPinchedData } =
     props;
-  const { shareData, saveData } = -props;
+  const { shareData, saveData } = props;
   const { setSaveData, setShareData } = props;
 
   const handleAnotherType = () => {
@@ -21,14 +21,14 @@ const TrackContainer = (props) => {
     }
   };
   useEffect(() => {
-    console.log(shareData, saveData);
+    console.log(shareData);
+    console.log(saveData);
   }, [shareData, saveData]);
 
   const longPressEvents = useLongPressEvent(
     () => {
       handleModifyMapOpen();
       setPinchedData(data);
-      console.log("꾸욱");
     },
     null,
     1000
@@ -39,7 +39,7 @@ const TrackContainer = (props) => {
   }
   return (
     <STYLE.TrackingContainer {...(author && longPressEvents)}>
-      {checkSetMode && <STYLE.TrackingCheckbox onChange={handleAnotherType} />}
+      {checkSetMode && <STYLE.TrackingCheckbox onClick={handleAnotherType} />}
       <Tracking data={{ ...data, height: "100%" }} />
     </STYLE.TrackingContainer>
   );
