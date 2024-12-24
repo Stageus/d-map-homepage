@@ -5,6 +5,7 @@ import Header from "./ui/Header";
 import ModalModifyMode from "./ui/ModalModifyMode";
 import TrackingContiner from "./ui/TrackContainer";
 import ModalModifyName from "./ui/ModalModifyName";
+import ModifyImageModal from "./ui/ModalModifyImage";
 
 import useTrackData from "./api/useTrackingList";
 
@@ -15,37 +16,28 @@ import useModifyTrackingModal from "./model/useModifyTrackingModal";
 import useModifyNameModal from "./model/useModifyNameModal";
 import useSettingMode from "./model/useSettingMode";
 import useConfirmModal from "./model/useConfirmModal";
+import useData from "./model/useData";
+import useModifyImageModal from "./model/useModifyImageModal";
 
 import Loading from "../../2_Widget/Loading";
 import Modal from "../../2_Widget/Modal";
 import ModalConfirm from "../../2_Widget/ModalConfirm";
 
 const Profile = () => {
-  const [pinchedData, setPinchedData] = useState(null);
-  const [shareData, setShareData] = useState(null);
-  const [saveData, setSaveData] = useState(null);
+  const name = "김재걸";
 
+  const [pinchedData, setPinchedData] = useState(null);
   const { trackShareData, trackSaveData, trackLoading, trackError } =
     useTrackData("idx");
 
-  useEffect(() => {
-    if (!trackShareData && !trackSaveData) return;
-    setShareData(trackShareData);
-    setSaveData(trackSaveData);
-  }, [trackShareData, trackSaveData]);
-
+  const { modifyImageModal, handleImageModalClose, handleImageModalOpen } =
+    useModifyImageModal();
   const { activeTab, tabIndex, handleTabClick } = useTabs();
-
-  const handleGetLength = (tab, shareData, saveData) => {
-    if (!shareData || !saveData) return "로딩중";
-    return tab === "공유" ? shareData?.length : saveData?.length;
-  };
 
   const { author, handleAuthorTrue, handleAuthorFalse } = useAuthor();
 
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode();
 
-  const name = "김재걸";
   const { isModifyClick, handleModifyClickFalse, handleModalModifyTrue } =
     useModifySettingClick();
 
@@ -64,20 +56,14 @@ const Profile = () => {
     handleSetConfirmModalClose,
   } = useConfirmModal();
 
-  // 초기 상태 저장
-  const [initialShareData, setInitialShareData] = useState([]);
-  const [initialSaveData, setInitialSaveData] = useState([]);
-
-  useEffect(() => {
-    if (!modifyMode) return;
-    setInitialShareData(shareData);
-    setInitialSaveData(saveData);
-  }, [modifyMode, trackShareData, trackSaveData]);
-
-  const handleCancel = () => {
-    setShareData(initialShareData);
-    setSaveData(initialSaveData);
-  };
+  const {
+    shareData,
+    saveData,
+    setShareData,
+    setSaveData,
+    handleCancel,
+    getLength,
+  } = useData(trackShareData, trackSaveData, modifyMode);
 
   // 로딩 애러 처리
   if (trackLoading) return <Loading />;
@@ -88,8 +74,9 @@ const Profile = () => {
       <STYLE.Main>
         <Header
           modifyMode={modifyMode}
+          handleImageModalOpen={handleImageModalOpen}
           handleCloseMode={handleCloseMode}
-          length={handleGetLength(activeTab, shareData, saveData)}
+          length={activeTab === "공유" ? shareData?.length : saveData?.length}
           author={author}
           type={activeTab}
           name={name}
@@ -182,6 +169,7 @@ const Profile = () => {
           onCancel={handleSetConfirmModalClose}
         />
       )}
+      {modifyImageModal && <ModifyImageModal onClose={handleImageModalClose} />}
       {modifyNameModal && (
         <ModalModifyName onClose={handleModifyNameModalClose} name={name} />
       )}

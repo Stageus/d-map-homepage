@@ -10,12 +10,13 @@ const Header = (props) => {
   const { profileImage } = props;
   const { handleSetConfirmModalOpen } = props;
   const { handleCancel } = props;
+  const { handleImageModalOpen } = props;
 
   return (
     <>
       {!modifyMode ? (
         <STYLE.ProfileContainer>
-          <STYLE.ProfileWrapper>
+          <STYLE.ProfileWrapper onClick={handleImageModalOpen}>
             <STYLE.ProfileImg src={profileImage} alt="Profile" />
           </STYLE.ProfileWrapper>
           <STYLE.UserInfo>
