@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Tracking from "../../../../2_Widget/TrackingImage";
 import STYLE from "./style";
 import useLongPressEvent from "../../../../4_Shared/useLongPressEvent";
+import Modal from "../../../../2_Widget/Modal";
+import useModifyTrackingModal from "./model/useModifyTrackingModal";
 
 const TrackContainer = (props) => {
-  const { data, checkSetMode, author, handleModifyMapOpen, setPinchedData } =
-    props;
+  const { data, checkSetMode, author } = props;
   const { shareData, saveData } = props;
   const { setSaveData, setShareData } = props;
+  const {
+    modifyTrackingModal,
+    handleModifyTrackingClose,
+    handleModifyTrackingOpen,
+  } = useModifyTrackingModal();
+
+  const [pinchedData, setPinchedData] = useState(null);
 
   const handleAnotherType = () => {
     if (shareData?.includes(data)) {
@@ -23,7 +31,7 @@ const TrackContainer = (props) => {
 
   const longPressEvents = useLongPressEvent(
     () => {
-      handleModifyMapOpen();
+      handleModifyTrackingOpen();
       setPinchedData(data);
     },
     null,
@@ -31,13 +39,19 @@ const TrackContainer = (props) => {
   );
 
   return (
-    <STYLE.TrackingContainer {...(author && !checkSetMode && longPressEvents)}>
-      {checkSetMode === "공유" && (
-        <STYLE.TrackingClickBox onClick={handleAnotherType} />
+    <>
+      <STYLE.TrackingContainer
+        {...(author && !checkSetMode && longPressEvents)}>
+        {checkSetMode === "공유" && (
+          <STYLE.TrackingClickBox onClick={handleAnotherType} />
+        )}
+        {checkSetMode === "삭제" && <STYLE.TrackingCheckbox />}
+        <Tracking dragable={false} data={{ ...data, height: "100%" }} />
+      </STYLE.TrackingContainer>
+      {modifyTrackingModal && pinchedData && (
+        <Modal onClose={handleModifyTrackingClose} trackData={pinchedData} />
       )}
-      {checkSetMode === "삭제" && <STYLE.TrackingCheckbox />}
-      <Tracking dragable={false} data={{ ...data, height: "100%" }} />
-    </STYLE.TrackingContainer>
+    </>
   );
 };
 

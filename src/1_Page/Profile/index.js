@@ -20,13 +20,11 @@ import useData from "./model/useData";
 import useModifyImageModal from "./model/useModifyImageModal";
 
 import Loading from "../../2_Widget/Loading";
-import Modal from "../../2_Widget/Modal";
+
 import ConfirmModal from "../../2_Widget/ConfirmModal";
 
 const Profile = () => {
   const name = "김재걸";
-
-  const [pinchedData, setPinchedData] = useState(null);
   const { trackShareData, trackSaveData, trackLoading, trackError } =
     useTrackData("idx");
 
@@ -41,8 +39,11 @@ const Profile = () => {
   const { isModifyClick, handleModifyClickFalse, handleModalModifyTrue } =
     useModifySettingClick();
 
-  const { modifyMapModal, handleModifyMapClose, handleModifyMapOpen } =
-    useModifyTrackingModal();
+  const {
+    modifyTrackingModal,
+    handleModifyTrackingClose,
+    handleModifyTrackingOpen,
+  } = useModifyTrackingModal();
 
   const {
     modifyNameModal,
@@ -108,8 +109,6 @@ const Profile = () => {
                     data={data}
                     checkSetMode={modifyMode}
                     author={author}
-                    handleModifyMapOpen={handleModifyMapOpen}
-                    setPinchedData={setPinchedData}
                     shareData={shareData}
                     saveData={saveData}
                     setSaveData={setSaveData}
@@ -127,8 +126,6 @@ const Profile = () => {
                     data={data}
                     checkSetMode={modifyMode}
                     author={author}
-                    handleModifyMapOpen={handleModifyMapOpen}
-                    setPinchedData={setPinchedData}
                     shareData={shareData}
                     saveData={saveData}
                     setSaveData={setSaveData}
@@ -167,9 +164,6 @@ const Profile = () => {
 
       {modifyNameModal && (
         <ModifyNameModal onClose={handleModifyNameModalClose} name={name} />
-      )}
-      {modifyMapModal && pinchedData && (
-        <Modal onClose={handleModifyMapClose} trackData={pinchedData} />
       )}
     </>
   );
