@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import STYLE from "./style";
 import Modal from "../../../../2_Widget/Modal";
 import ModalConfirm from "../../../../2_Widget/ModalConfirm";
 import useConfirmModal from "../../model/useConfirmModal";
+import useFileReader from "./model/useFileReader";
 
-const ModalModifyName = (props) => {
-  const { name } = props;
+const ModifyImageModal = (props) => {
   const { onClose } = props;
-  const [type, setType] = useState("현재");
 
   const {
     confirmModal,
@@ -15,45 +14,51 @@ const ModalModifyName = (props) => {
     handleSetConfirmModalClose,
   } = useConfirmModal();
 
-  const handleType = () => {
-    setType("추천된");
-  };
-
   const closeRef = useRef(null);
 
   const handleConfirmModalOpen = (handleClose) => {
     handleSetConfirmModalOpen();
     closeRef.current = handleClose;
   };
+
   const handleConfirmModalDone = () => {
     handleSetConfirmModalClose();
     closeRef.current();
   };
+  const {
+    fileInputRef,
+    imagePreview,
+    handleProfileImageClick,
+    handleFileChange,
+  } = useFileReader();
 
   return (
     <>
       <Modal onClose={onClose} snap={[0.2]}>
         {({ handleClose }) => (
           <STYLE.Container>
-            <STYLE.Header>닉네임 변경</STYLE.Header>
-            <STYLE.InputContainer>
-              <STYLE.Label>닉네임</STYLE.Label>
-              <STYLE.InputWrapper>
-                <STYLE.CurrentNickname placeholder={name} />
-                <STYLE.SuggestedNickname onClick={handleType}>
-                  딴거할래요
-                </STYLE.SuggestedNickname>
-              </STYLE.InputWrapper>
-              <STYLE.SuggestionText>
-                → {type} 닉네임이에요!
-              </STYLE.SuggestionText>
-            </STYLE.InputContainer>
-            <STYLE.SubmitButton
+            <STYLE.Title>프로필 변경</STYLE.Title>
+            <STYLE.ProfileImage
+              src={imagePreview}
+              alt="프로필 이미지"
+              onClick={handleProfileImageClick}
+            />
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
+            <STYLE.PhotoButton onClick={handleProfileImageClick}>
+              사진선택
+            </STYLE.PhotoButton>
+            <STYLE.EditButton
               onClick={() => {
                 handleConfirmModalOpen(handleClose);
               }}>
               수정하기
-            </STYLE.SubmitButton>
+            </STYLE.EditButton>
           </STYLE.Container>
         )}
       </Modal>
@@ -61,11 +66,13 @@ const ModalModifyName = (props) => {
         <ModalConfirm
           type={"one"}
           message={"변경되었습니다"}
-          onClose={handleConfirmModalDone}
+          onClose={() => {
+            handleConfirmModalDone();
+          }}
         />
       )}
     </>
   );
 };
 
-export default ModalModifyName;
+export default ModifyImageModal;

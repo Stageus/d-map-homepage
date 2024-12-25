@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import STYLE from "./style";
 
 import Header from "./ui/Header";
-import ModalModifyMode from "./ui/ModalModifyMode";
 import TrackingContiner from "./ui/TrackContainer";
-import ModalModifyName from "./ui/ModalModifyName";
-import ModifyImageModal from "./ui/ModalModifyImage";
+import ModifyNameModal from "./ui/ModifyNameModal";
+import ModifyModeModal from "./ui/ModifyModeModal";
+import ModifyImageModal from "./ui/ModifyImageModal";
 
 import useTrackData from "./api/useTrackingList";
 
@@ -142,7 +142,7 @@ const Profile = () => {
       </STYLE.Main>
       {isModifyClick && (
         <>
-          <ModalModifyMode
+          <ModifyModeModal
             handleModifyClickFalse={handleModifyClickFalse}
             handleSetMode={handleSetMode}
             sumDataLength={shareData?.length + saveData?.length}
@@ -166,7 +166,7 @@ const Profile = () => {
       {modifyImageModal && <ModifyImageModal onClose={handleImageModalClose} />}
 
       {modifyNameModal && (
-        <ModalModifyName onClose={handleModifyNameModalClose} name={name} />
+        <ModifyNameModal onClose={handleModifyNameModalClose} name={name} />
       )}
       {modifyMapModal && pinchedData && (
         <Modal onClose={handleModifyMapClose} trackData={pinchedData} />
