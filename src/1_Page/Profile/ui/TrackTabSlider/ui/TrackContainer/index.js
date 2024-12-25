@@ -6,12 +6,13 @@ import useLongPressEvent from "../../../../../../4_Shared/useLongPressEvent";
 
 const TrackContainer = (props) => {
   const { track, modifyMode } = props;
-  const { handleAnotherType, setPinchedData, handleModifyTrackingOpen } = props;
+  const { handleAnotherType, setLongPressData, handleModifyTrackingOpen } =
+    props;
 
   const longPressEvents = useLongPressEvent(
     () => {
       handleModifyTrackingOpen();
-      setPinchedData(track);
+      setLongPressData(track);
     },
     null,
     1000

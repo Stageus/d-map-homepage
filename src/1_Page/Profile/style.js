@@ -27,10 +27,6 @@ const STYLE = {
     font-weight: bold;
     border-bottom: 2px solid black;
   `,
-  SliderWrapper: styled.div`
-    overflow: hidden; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
-    width: 100%;
-  `,
 };
 
 export default STYLE;

@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
 const STYLE = {
+  SliderWrapper: styled.div`
+    overflow: hidden; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
+    width: 100%;
+  `,
   Slider: styled.div`
     display: flex;
     width: 200%; /* 두 개의 탭을 모두 포함할 넓이 */

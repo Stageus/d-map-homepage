@@ -72,7 +72,6 @@ const Tracking = () => {
   // map 이 처음 load되었을 때 실행됨
   const handleMapLoad = (map) => {
     mapRef.current = map;
-    console.log(mapRef.current);
   };
 
   // 지도가 움직이지 않을 때 상태 trackingData를 갱신
@@ -104,8 +103,7 @@ const Tracking = () => {
             zoom: trackingDataRef.current.zoom,
             center: trackingDataRef.current.center,
             mapId: "90f87356969d889c",
-          }}
-        >
+          }}>
           {/* 선 그리기 */}
           {line.map((elem) => {
             return <Polyline path={elem} options={polylineOptions} />;
@@ -141,11 +139,14 @@ const Tracking = () => {
       </STYLE.TrackingControlBtnContainer>
 
       {/* 트래킹 정지 버튼 클릭시 나타나는, tracking image 편집 모달 */}
-      <STYLE.Filter isModifying={isModifying} onClick={()=>{
-            if(isModifying){
-              setIsModifying(false);
-            }
-          }}/>
+      <STYLE.Filter
+        isModifying={isModifying}
+        onClick={() => {
+          if (isModifying) {
+            setIsModifying(false);
+          }
+        }}
+      />
       <STYLE.TrackingSaveModal isModifying={isModifying}>
         <TrackingImage data={{ ...trackingDataRef.current, line }} />
       </STYLE.TrackingSaveModal>

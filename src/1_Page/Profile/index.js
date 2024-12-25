@@ -9,7 +9,6 @@ import useAuthor from "./model/useAuthor";
 import useSettingMode from "./model/useSettingMode";
 import useData from "./model/useData";
 import useTrackData from "./api/useTrackingList";
-import { useEffect } from "react";
 
 const Profile = () => {
   const name = "김재걸";
@@ -19,13 +18,6 @@ const Profile = () => {
 
   const { activeTab, tabIndex, handleTabClick } = useTabs();
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
-
-  useEffect(() => {
-    console.log(activeTab);
-  }, [activeTab]);
-  useEffect(() => {
-    console.log(tabIndex);
-  }, [tabIndex]);
 
   const { data, handleAnotherType, handleCancel } = useData(track, modifyMode); // API로 호출된 데이터 관리 훅
 
@@ -61,14 +53,12 @@ const Profile = () => {
             <STYLE.TabNone>게시물</STYLE.TabNone>
           )}
         </STYLE.TabMenu>
-        <STYLE.SliderWrapper>
-          <TrackTabSlider
-            modifyMode={modifyMode}
-            handleAnotherType={handleAnotherType}
-            data={data}
-            tabIndex={tabIndex}
-          />
-        </STYLE.SliderWrapper>
+        <TrackTabSlider
+          modifyMode={modifyMode}
+          handleAnotherType={handleAnotherType}
+          data={data}
+          tabIndex={tabIndex}
+        />
       </STYLE.Main>
     </>
   );
