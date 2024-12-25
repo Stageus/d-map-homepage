@@ -6,7 +6,7 @@ import Modal from "../../../../2_Widget/Modal";
 import useModifyTrackingModal from "./model/useModifyTrackingModal";
 
 const TrackContainer = (props) => {
-  const { data, checkSetMode, author } = props;
+  const { data, modifyMode, author } = props;
   const { shareData, saveData } = props;
   const { setSaveData, setShareData } = props;
   const {
@@ -40,12 +40,11 @@ const TrackContainer = (props) => {
 
   return (
     <>
-      <STYLE.TrackingContainer
-        {...(author && !checkSetMode && longPressEvents)}>
-        {checkSetMode === "공유" && (
+      <STYLE.TrackingContainer {...(author && !modifyMode && longPressEvents)}>
+        {modifyMode === "공유" && (
           <STYLE.TrackingClickBox onClick={handleAnotherType} />
         )}
-        {checkSetMode === "삭제" && <STYLE.TrackingCheckbox />}
+        {modifyMode === "삭제" && <STYLE.TrackingCheckbox />}
         <Tracking dragable={false} data={{ ...data, height: "100%" }} />
       </STYLE.TrackingContainer>
       {modifyTrackingModal && pinchedData && (

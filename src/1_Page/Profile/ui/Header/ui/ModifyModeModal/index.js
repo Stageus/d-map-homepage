@@ -4,16 +4,16 @@ import STYLE from "./style";
 import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 
 const ModifyModeModal = (props) => {
-  const { handleModifyClickFalse, handleSetMode, sumDataLength } = props;
+  const { handleModifyModeClose, handleSetMode, sumDataLength } = props;
 
   const handleShare = () => {
     handleSetMode("공유");
-    handleModifyClickFalse();
+    handleModifyModeClose();
   };
 
   const handleDelete = () => {
     handleSetMode("삭제");
-    handleModifyClickFalse();
+    handleModifyModeClose();
   };
 
   if (sumDataLength === 0) {
@@ -21,14 +21,14 @@ const ModifyModeModal = (props) => {
       <ConfirmModal
         type="one"
         message="편집할 그림이 없습니다"
-        onClose={handleModifyClickFalse}
+        onClose={handleModifyModeClose}
       />
     );
   }
 
   return (
     <>
-      <Modal onClose={handleModifyClickFalse} snap={[0.8, 0.3]}>
+      <Modal onClose={handleModifyModeClose} snap={[0.8, 0.3]}>
         {({ handleClose }) => (
           <div>
             <STYLE.BottomSheetButton onClick={handleShare}>

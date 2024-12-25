@@ -1,13 +1,18 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import STYLE from "./style";
-import Modal from "../../../../2_Widget/Modal";
-import ConfirmModal from "../../../../2_Widget/ConfirmModal";
-import useConfirmModal from "../../model/useConfirmModal";
+import Modal from "../../../../../../2_Widget/Modal";
+import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
+import useConfirmModal from "../../../../model/useConfirmModal";
+import data from "./data";
 
 const ModifyNameModal = (props) => {
   const { name } = props;
   const { onClose } = props;
   const [type, setType] = useState("현재");
+  const nicknameRef = useRef(null);
+
+  const randNickName = data?.message.nickname;
+  const [randState, setRandState] = useState(0);
 
   const {
     confirmModal,
@@ -16,7 +21,9 @@ const ModifyNameModal = (props) => {
   } = useConfirmModal();
 
   const handleType = () => {
+    nicknameRef.current.value = randNickName[randState];
     setType("추천된");
+    setRandState((prev) => prev + 1);
   };
 
   const closeRef = useRef(null);
@@ -39,7 +46,7 @@ const ModifyNameModal = (props) => {
             <STYLE.InputContainer>
               <STYLE.Label>닉네임</STYLE.Label>
               <STYLE.InputWrapper>
-                <STYLE.CurrentNickname placeholder={name} />
+                <STYLE.CurrentNickname placeholder={name} ref={nicknameRef} />
                 <STYLE.SuggestedNickname onClick={handleType}>
                   딴거할래요
                 </STYLE.SuggestedNickname>

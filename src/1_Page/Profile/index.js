@@ -2,12 +2,10 @@ import STYLE from "./style";
 
 import Header from "./ui/Header";
 import TrackingContiner from "./ui/TrackContainer";
-import ModifyModeModal from "./ui/Header/ui/ModifyModeModal";
 import useTrackData from "./api/useTrackingList";
 
 import useTabs from "./model/useTabs";
 import useAuthor from "./model/useAuthor";
-import useModifySettingClick from "./ui/Header/model/useModifyMode";
 import useSettingMode from "./model/useSettingMode";
 import useData from "./model/useData";
 
@@ -20,9 +18,7 @@ const Profile = () => {
 
   const { activeTab, tabIndex, handleTabClick } = useTabs();
   const { author, handleAuthorTrue, handleAuthorFalse } = useAuthor();
-
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
-
   const { shareData, saveData, setShareData, setSaveData, handleCancel } =
     useData(trackShareData, trackSaveData, modifyMode);
 
@@ -70,7 +66,7 @@ const Profile = () => {
                 shareData?.map((data) => (
                   <TrackingContiner
                     data={data}
-                    checkSetMode={modifyMode}
+                    modifyMode={modifyMode}
                     author={author}
                     shareData={shareData}
                     saveData={saveData}
@@ -87,7 +83,7 @@ const Profile = () => {
                 saveData?.map((data) => (
                   <TrackingContiner
                     data={data}
-                    checkSetMode={modifyMode}
+                    modifyMode={modifyMode}
                     author={author}
                     shareData={shareData}
                     saveData={saveData}

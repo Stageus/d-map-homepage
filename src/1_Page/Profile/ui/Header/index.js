@@ -82,12 +82,11 @@ const Header = (props) => {
           </STYLE.ButtonWrapper>
         </STYLE.Container>
       )}
-      {modifyImageModal && <ModifyImageModal onClose={handleImageModalClose} />}
 
+      {modifyImageModal && <ModifyImageModal onClose={handleImageModalClose} />}
       {modifyNameModal && (
         <ModifyNameModal onClose={handleModifyNameModalClose} name={name} />
       )}
-
       {modifyModeModal && (
         <>
           <ModifyModeModal
