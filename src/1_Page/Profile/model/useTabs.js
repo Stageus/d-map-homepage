@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useTabs = (initialTab = "공유", trackShareData, trackSaveData) => {
+const useTabs = (initialTab = "공유") => {
   const [activeTab, setActiveTab] = useState(initialTab);
   const [tabIndex, setTabIndex] = useState(initialTab === "공유" ? 0 : 1);
 

@@ -37,50 +37,33 @@ const getTrackData = async (userIdx) => {
   }
 };
 
-// 데이터 파싱 함수
-const parseShare = (data) => {
-  if (!data?.message) return { share: [], save: [] };
-
-  const share = data.message.filter((item) => item.sharing === 0);
-  const save = data.message.filter((item) => item.sharing === 1);
-  return { share, save };
-};
-
 // 커스텀 훅
 const useTrackData = (userIdx) => {
-  const [trackShareData, setTrackShareData] = useState([]);
-  const [trackSaveData, setTrackSaveData] = useState([]);
+  const [track, setTrack] = useState([]);
   const [trackLoading, setLoading] = useState(false);
   const [trackError, setError] = useState(null);
 
   const fetchTrackData = async () => {
     setLoading(true);
     setError(null);
-
     try {
       const trackData = await getTrackData(userIdx);
-      const { share, save } = parseShare(trackData);
-      setTrackShareData(share);
-      setTrackSaveData(save);
+      setTrack(trackData);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     if (userIdx) {
       fetchTrackData();
     }
   }, [userIdx]);
-
   return {
-    trackShareData,
-    trackSaveData,
+    track,
     trackLoading,
     trackError,
-    refetch: fetchTrackData,
   };
 };
 

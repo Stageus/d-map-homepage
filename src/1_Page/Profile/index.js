@@ -2,26 +2,24 @@ import STYLE from "./style";
 
 import Header from "./ui/Header";
 import TrackingContiner from "./ui/TrackContainer";
-import useTrackData from "./api/useTrackingList";
+import Loading from "../../2_Widget/Loading";
 
 import useTabs from "./model/useTabs";
 import useAuthor from "./model/useAuthor";
 import useSettingMode from "./model/useSettingMode";
 import useData from "./model/useData";
-
-import Loading from "../../2_Widget/Loading";
-import { useEffect } from "react";
+import useTrackData from "./api/useTrackingList";
 
 const Profile = () => {
   const name = "김재걸";
-  const { trackShareData, trackSaveData, trackLoading, trackError } =
-    useTrackData("idx");
+  const { track, trackLoading, trackError } = useTrackData("idx"); // 데이터 호출
+
+  const { author, handleAuthorTrue, handleAuthorFalse } = useAuthor();
 
   const { activeTab, tabIndex, handleTabClick } = useTabs();
-  const { author, handleAuthorTrue, handleAuthorFalse } = useAuthor();
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
-  const { shareData, saveData, setShareData, setSaveData, handleCancel } =
-    useData(trackShareData, trackSaveData, modifyMode);
+
+  const { data, handleAnotherType, handleCancel } = useData(track, modifyMode); // API로 호출된 데이터 관리 훅
 
   // 로딩 애러 처리
   if (trackLoading) return <Loading />;
@@ -32,7 +30,7 @@ const Profile = () => {
       <STYLE.Main>
         <Header
           setMode={{ modifyMode, handleSetMode, handleCloseMode }}
-          data={{ shareData, saveData }}
+          data={data}
           activeTab={activeTab}
           handleCancel={handleCancel}
           user={{ author, name }}
@@ -58,29 +56,29 @@ const Profile = () => {
         <STYLE.SliderWrapper tabIndex={tabIndex}>
           <STYLE.Slider tabIndex={tabIndex}>
             <STYLE.PostGrid>
-              {shareData?.length === 0 ? (
+              {data.shareData?.length === 0 ? (
                 <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
               ) : (
-                shareData?.map((data) => (
+                data.shareData?.map((track) => (
                   <TrackingContiner
-                    data={data}
+                    track={track}
                     modifyMode={modifyMode}
                     author={author}
-                    totalData={(shareData, saveData, setSaveData, setSaveData)}
+                    handleAnotherType={handleAnotherType}
                   />
                 ))
               )}
             </STYLE.PostGrid>
             <STYLE.PostGrid>
-              {saveData?.length === 0 ? (
+              {data.saveData?.length === 0 ? (
                 <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
               ) : (
-                saveData?.map((data) => (
+                data.saveData?.map((track) => (
                   <TrackingContiner
-                    data={data}
+                    track={track}
                     modifyMode={modifyMode}
                     author={author}
-                    totalData={(shareData, saveData, setSaveData, setSaveData)}
+                    handleAnotherType={handleAnotherType}
                   />
                 ))
               )}

@@ -6,8 +6,14 @@ import useModal from "./model/useModal";
 const Modal = (props) => {
   const { children, onClose, snap } = props;
   const { trackData } = props;
-  const [lineWeight, setLineWeight] = useState(2);
-  const [lineColor, setLineColor] = useState("#FF0000");
+
+  const [lineInfo, setLineInfo] = useState({
+    lineWeight: 2,
+    lineColor: "#FF0000",
+  });
+  const handleLineSet = (changeLine) => {
+    setLineInfo((prev) => ({ ...prev, changeLine }));
+  };
 
   const {
     isVisible,
@@ -65,9 +71,9 @@ const Modal = (props) => {
                     key={idx}
                     path={elem}
                     options={{
-                      strokeColor: lineColor,
+                      strokeColor: lineInfo.lineColor,
                       strokeOpacity: 0.8,
-                      strokeWeight: lineWeight,
+                      strokeWeight: lineInfo.lineWeight,
                     }}
                   />
                 ))}
@@ -83,8 +89,10 @@ const Modal = (props) => {
                 type="range"
                 min="1"
                 max="10"
-                value={lineWeight}
-                onChange={(e) => setLineWeight(Number(e.target.value))}
+                value={lineInfo.lineWeight}
+                onChange={(e) =>
+                  handleLineSet({ lineWeight: Number(e.target.value) })
+                }
               />
             </STYLE.SliderContainer>
             <STYLE.SliderContainer>
@@ -92,8 +100,8 @@ const Modal = (props) => {
               <STYLE.ColorPicker
                 id="lineColor"
                 type="color"
-                value={lineColor}
-                onChange={(e) => setLineColor(e.target.value)}
+                value={lineInfo.lineColor}
+                onChange={(e) => handleLineSet({ lineColor: e.target.value })}
               />
             </STYLE.SliderContainer>
             <STYLE.ButtonContainer>

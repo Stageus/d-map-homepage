@@ -1,7 +1,8 @@
 import React from "react";
 import STYLE from "./style";
 
-const ConfirmModal = ({ message, onClose, onConfirm, onCancel, type }) => {
+const ConfirmModal = (props) => {
+  const { message, onClose, onConfirm, onCancel, type } = props;
   return (
     <STYLE.ModalOverlay>
       <STYLE.ModalContent>

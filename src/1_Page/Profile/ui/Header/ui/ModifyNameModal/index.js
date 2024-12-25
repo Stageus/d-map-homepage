@@ -1,13 +1,15 @@
 import React, { useState, useRef } from "react";
 import STYLE from "./style";
+
 import Modal from "../../../../../../2_Widget/Modal";
 import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
+
 import useConfirmModal from "../../../../model/useConfirmModal";
+
 import data from "./data";
 
 const ModifyNameModal = (props) => {
-  const { name } = props;
-  const { onClose } = props;
+  const { name, onClose } = props;
   const [type, setType] = useState("현재");
 
   const nicknameRef = useRef(null);

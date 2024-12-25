@@ -11,7 +11,6 @@ const STYLE = {
     aspect-ratio: 1;
   `,
   TrackingClickBox: styled.div`
-    z-index: 10000;
     appearance: none;
     width: 20px;
     height: 20px;

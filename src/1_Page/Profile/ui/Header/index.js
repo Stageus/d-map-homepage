@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import STYLE from "./style.js";
 
 import useModifyImageModal from "./model/useModifyImageModal.js";
@@ -19,10 +19,6 @@ const Header = (props) => {
     handleCancel,
     activeTab,
   } = props;
-
-  useEffect(() => {
-    console.log(activeTab);
-  }, [activeTab]);
 
   const { modifyImageModal, handleImageModalClose, handleImageModalOpen } =
     useModifyImageModal();
