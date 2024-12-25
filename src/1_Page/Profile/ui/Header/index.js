@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import STYLE from "./style.js";
 
 import useModifyImageModal from "./model/useModifyImageModal.js";
@@ -12,11 +12,17 @@ import ModifyModeModal from "./ui/ModifyModeModal/index.js";
 import ConfirmModal from "../../../../2_Widget/ConfirmModal";
 
 const Header = (props) => {
-  const { length, name, type, author } = props;
-  const { modifyMode, handleCloseMode } = props;
-  const { profileImage } = props;
-  const { handleCancel, handleSetMode } = props;
-  const { shareData, saveData } = props;
+  const {
+    user: { name, author, profileImage },
+    data: { shareData, saveData },
+    setMode: { modifyMode, handleSetMode, handleCloseMode },
+    handleCancel,
+    activeTab,
+  } = props;
+
+  useEffect(() => {
+    console.log(activeTab);
+  }, [activeTab]);
 
   const { modifyImageModal, handleImageModalClose, handleImageModalOpen } =
     useModifyImageModal();
@@ -57,7 +63,8 @@ const Header = (props) => {
               </STYLE.Nickname>
             )}
             <STYLE.PostCount>
-              {type} 게시물 : {length}개
+              {activeTab} 게시물 :{" "}
+              {activeTab === "공유" ? shareData?.length : saveData?.length}개
             </STYLE.PostCount>
           </STYLE.UserInfo>
         </STYLE.ProfileContainer>
@@ -115,11 +122,4 @@ const Header = (props) => {
   );
 };
 
-export default React.memo(Header, (prevProps, nextProps) => {
-  return (
-    prevProps.name === nextProps.name &&
-    prevProps.length === nextProps.length &&
-    prevProps.type === nextProps.type &&
-    prevProps.modifyMode === nextProps.modifyMode
-  );
-});
+export default Header;

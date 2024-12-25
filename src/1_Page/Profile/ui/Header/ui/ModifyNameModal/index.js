@@ -9,8 +9,8 @@ const ModifyNameModal = (props) => {
   const { name } = props;
   const { onClose } = props;
   const [type, setType] = useState("현재");
-  const nicknameRef = useRef(null);
 
+  const nicknameRef = useRef(null);
   const randNickName = data?.message.nickname;
   const [randState, setRandState] = useState(0);
 
@@ -27,7 +27,6 @@ const ModifyNameModal = (props) => {
   };
 
   const closeRef = useRef(null);
-
   const handleConfirmModalOpen = (handleClose) => {
     handleSetConfirmModalOpen();
     closeRef.current = handleClose;

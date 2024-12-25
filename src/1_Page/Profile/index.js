@@ -10,6 +10,7 @@ import useSettingMode from "./model/useSettingMode";
 import useData from "./model/useData";
 
 import Loading from "../../2_Widget/Loading";
+import { useEffect } from "react";
 
 const Profile = () => {
   const name = "김재걸";
@@ -30,14 +31,11 @@ const Profile = () => {
     <>
       <STYLE.Main>
         <Header
-          modifyMode={modifyMode}
-          handleSetMode={handleSetMode}
-          handleCloseMode={handleCloseMode}
-          length={activeTab === "공유" ? shareData?.length : saveData?.length}
-          author={author}
-          type={activeTab}
-          name={name}
+          setMode={{ modifyMode, handleSetMode, handleCloseMode }}
+          data={{ shareData, saveData }}
+          activeTab={activeTab}
           handleCancel={handleCancel}
+          user={{ author, name }}
         />
         <STYLE.TabMenu>
           {author ? (
@@ -68,10 +66,7 @@ const Profile = () => {
                     data={data}
                     modifyMode={modifyMode}
                     author={author}
-                    shareData={shareData}
-                    saveData={saveData}
-                    setSaveData={setSaveData}
-                    setShareData={setShareData}
+                    totalData={(shareData, saveData, setSaveData, setSaveData)}
                   />
                 ))
               )}
@@ -85,10 +80,7 @@ const Profile = () => {
                     data={data}
                     modifyMode={modifyMode}
                     author={author}
-                    shareData={shareData}
-                    saveData={saveData}
-                    setSaveData={setSaveData}
-                    setShareData={setShareData}
+                    totalData={(shareData, saveData, setSaveData, setSaveData)}
                   />
                 ))
               )}
