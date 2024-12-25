@@ -31,26 +31,6 @@ const STYLE = {
     overflow: hidden; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
     width: 100%;
   `,
-  Slider: styled.div`
-    display: flex;
-    width: 200%; /* 두 개의 탭을 모두 포함할 넓이 */
-    transform: translateX(${({ tabIndex }) => -tabIndex * 50}%);
-    transition: transform 0.5s ease-in-out; /* 부드러운 슬라이드 애니메이션 */
-  `,
-  PostGrid: styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-auto-rows: 1fr;
-    gap: 8px;
-    width: 50%;
-    flex-shrink: 0;
-  `,
-  EmptyMessage: styled.p`
-    text-align: center;
-    color: gray;
-    margin-top: 20px;
-    font-size: 0.9rem;
-  `,
 };
 
 export default STYLE;

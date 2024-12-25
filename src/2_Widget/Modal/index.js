@@ -42,10 +42,9 @@ const Modal = (props) => {
       <STYLE.Sheet
         ref={elementRef}
         className={isVisible && "open"}
-        style={{
-          transform: `translateY(${isVisible ? translateY : "600"}px)`,
-          transition: !isDragging.current ? "transform 0.3s ease-out" : "none",
-        }}
+        $isVisible={isVisible}
+        $translateY={translateY}
+        $isDragging={isDragging.current}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}>

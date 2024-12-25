@@ -22,6 +22,10 @@ const STYLE = {
     border-radius: 20px 20px 0 0;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    transition: ${({ isDragging }) =>
+      isDragging ? "none" : "transform 0.3s ease-out"};
+    transform: ${({ isVisible, translateY }) =>
+      `translateY(${isVisible ? translateY : "600"}px)`};
     &::after {
       content: "";
       position: absolute;

@@ -1,7 +1,7 @@
 import STYLE from "./style";
 
 import Header from "./ui/Header";
-import TrackingContiner from "./ui/TrackContainer";
+import TrackTabSlider from "./ui/TrackTabSlider";
 import Loading from "../../2_Widget/Loading";
 
 import useTabs from "./model/useTabs";
@@ -9,6 +9,7 @@ import useAuthor from "./model/useAuthor";
 import useSettingMode from "./model/useSettingMode";
 import useData from "./model/useData";
 import useTrackData from "./api/useTrackingList";
+import { useEffect } from "react";
 
 const Profile = () => {
   const name = "김재걸";
@@ -18,6 +19,13 @@ const Profile = () => {
 
   const { activeTab, tabIndex, handleTabClick } = useTabs();
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
+
+  useEffect(() => {
+    console.log(activeTab);
+  }, [activeTab]);
+  useEffect(() => {
+    console.log(tabIndex);
+  }, [tabIndex]);
 
   const { data, handleAnotherType, handleCancel } = useData(track, modifyMode); // API로 호출된 데이터 관리 훅
 
@@ -53,37 +61,13 @@ const Profile = () => {
             <STYLE.TabNone>게시물</STYLE.TabNone>
           )}
         </STYLE.TabMenu>
-        <STYLE.SliderWrapper tabIndex={tabIndex}>
-          <STYLE.Slider tabIndex={tabIndex}>
-            <STYLE.PostGrid>
-              {data.shareData?.length === 0 ? (
-                <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
-              ) : (
-                data.shareData?.map((track) => (
-                  <TrackingContiner
-                    track={track}
-                    modifyMode={modifyMode}
-                    author={author}
-                    handleAnotherType={handleAnotherType}
-                  />
-                ))
-              )}
-            </STYLE.PostGrid>
-            <STYLE.PostGrid>
-              {data.saveData?.length === 0 ? (
-                <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
-              ) : (
-                data.saveData?.map((track) => (
-                  <TrackingContiner
-                    track={track}
-                    modifyMode={modifyMode}
-                    author={author}
-                    handleAnotherType={handleAnotherType}
-                  />
-                ))
-              )}
-            </STYLE.PostGrid>
-          </STYLE.Slider>
+        <STYLE.SliderWrapper>
+          <TrackTabSlider
+            modifyMode={modifyMode}
+            handleAnotherType={handleAnotherType}
+            data={data}
+            tabIndex={tabIndex}
+          />
         </STYLE.SliderWrapper>
       </STYLE.Main>
     </>
