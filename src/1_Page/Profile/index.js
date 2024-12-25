@@ -21,7 +21,7 @@ import useModifyImageModal from "./model/useModifyImageModal";
 
 import Loading from "../../2_Widget/Loading";
 import Modal from "../../2_Widget/Modal";
-import ModalConfirm from "../../2_Widget/ModalConfirm";
+import ConfirmModal from "../../2_Widget/ConfirmModal";
 
 const Profile = () => {
   const name = "김재걸";
@@ -150,7 +150,7 @@ const Profile = () => {
         </>
       )}
       {confirmModal && (
-        <ModalConfirm
+        <ConfirmModal
           message={
             modifyMode === "삭제"
               ? "저장 목록에서 삭제하시겠습니까?"

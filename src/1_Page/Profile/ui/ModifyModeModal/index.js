@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "../../../../2_Widget/Modal";
 import STYLE from "./style";
-import ModalConfirm from "../../../../2_Widget/ModalConfirm";
+import ConfirmModal from "../../../../2_Widget/ConfirmModal";
 
 const ModifyModeModal = (props) => {
   const { handleModifyClickFalse, handleSetMode, sumDataLength } = props;
@@ -18,7 +18,7 @@ const ModifyModeModal = (props) => {
 
   if (sumDataLength === 0) {
     return (
-      <ModalConfirm
+      <ConfirmModal
         type="one"
         message="편집할 그림이 없습니다"
         onClose={handleModifyClickFalse}

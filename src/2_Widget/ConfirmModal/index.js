@@ -1,7 +1,7 @@
 import React from "react";
 import STYLE from "./style";
 
-const ModalConfirm = ({ message, onClose, onConfirm, onCancel, type }) => {
+const ConfirmModal = ({ message, onClose, onConfirm, onCancel, type }) => {
   return (
     <STYLE.ModalOverlay>
       <STYLE.ModalContent>
@@ -23,4 +23,4 @@ const ModalConfirm = ({ message, onClose, onConfirm, onCancel, type }) => {
   );
 };
 
-export default ModalConfirm;
+export default ConfirmModal;

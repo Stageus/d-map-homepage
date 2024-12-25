@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import STYLE from "./style";
 import Modal from "../../../../2_Widget/Modal";
-import ModalConfirm from "../../../../2_Widget/ModalConfirm";
+import ConfirmModal from "../../../../2_Widget/ConfirmModal";
 import useConfirmModal from "../../model/useConfirmModal";
 import useFileReader from "./model/useFileReader";
 
@@ -63,7 +63,7 @@ const ModifyImageModal = (props) => {
         )}
       </Modal>
       {confirmModal && (
-        <ModalConfirm
+        <ConfirmModal
           type={"one"}
           message={"변경되었습니다"}
           onClose={() => {
