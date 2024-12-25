@@ -6,8 +6,13 @@ import Modal from "../../../../2_Widget/Modal";
 import useModifyTrackingModal from "./model/useModifyTrackingModal";
 
 const TrackContainer = (props) => {
-  const { data, modifyMode, author } = props;
-  const { shareData, saveData, setSaveData, setShareData } = props.totalData;
+  const {
+    data,
+    modifyMode,
+    author,
+    totalData: { shareData, saveData, setSaveData, setShareData },
+  } = props;
+
   const {
     modifyTrackingModal,
     handleModifyTrackingClose,
