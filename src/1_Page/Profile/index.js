@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
 import STYLE from "./style";
 
 import Header from "./ui/Header";
 import TrackingContiner from "./ui/TrackContainer";
-import ModifyModeModal from "./ui/ModifyModeModal";
+import ModifyModeModal from "./ui/Header/ui/ModifyModeModal";
 import useTrackData from "./api/useTrackingList";
 
 import useTabs from "./model/useTabs";
 import useAuthor from "./model/useAuthor";
-import useModifySettingClick from "./model/useModifySettingClick";
+import useModifySettingClick from "./ui/Header/model/useModifyMode";
 import useSettingMode from "./model/useSettingMode";
 import useData from "./model/useData";
 
@@ -22,10 +21,7 @@ const Profile = () => {
   const { activeTab, tabIndex, handleTabClick } = useTabs();
   const { author, handleAuthorTrue, handleAuthorFalse } = useAuthor();
 
-  const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode();
-
-  const { isModifyClick, handleModifyClickFalse, handleModalModifyTrue } =
-    useModifySettingClick();
+  const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
 
   const { shareData, saveData, setShareData, setSaveData, handleCancel } =
     useData(trackShareData, trackSaveData, modifyMode);
@@ -39,13 +35,13 @@ const Profile = () => {
       <STYLE.Main>
         <Header
           modifyMode={modifyMode}
+          handleSetMode={handleSetMode}
           handleCloseMode={handleCloseMode}
           length={activeTab === "공유" ? shareData?.length : saveData?.length}
           author={author}
           type={activeTab}
           name={name}
           handleCancel={handleCancel}
-          handleModalModifyTrue={handleModalModifyTrue}
         />
         <STYLE.TabMenu>
           {author ? (
@@ -104,15 +100,6 @@ const Profile = () => {
           </STYLE.Slider>
         </STYLE.SliderWrapper>
       </STYLE.Main>
-      {isModifyClick && (
-        <>
-          <ModifyModeModal
-            handleModifyClickFalse={handleModifyClickFalse}
-            handleSetMode={handleSetMode}
-            sumDataLength={shareData?.length + saveData?.length}
-          />
-        </>
-      )}
     </>
   );
 };

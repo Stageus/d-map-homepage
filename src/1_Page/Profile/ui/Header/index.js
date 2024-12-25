@@ -3,19 +3,21 @@ import STYLE from "./style.js";
 
 import useModifyImageModal from "./model/useModifyImageModal.js";
 import useModifyNameModal from "./model/useModifyNameModal.js";
+import useModifyMode from "./model/useModifyMode.js";
 import useConfirmModal from "../../model/useConfirmModal.js";
 
-import ModifyImageModal from "../ModifyImageModal";
-import ModifyNameModal from "../ModifyNameModal";
+import ModifyImageModal from "./ui/ModifyImageModal/index.js";
+import ModifyNameModal from "./ui/ModifyNameModal/index.js";
+import ModifyModeModal from "./ui/ModifyModeModal/index.js";
 import ConfirmModal from "../../../../2_Widget/ConfirmModal";
 
 const Header = (props) => {
   const { length, name, type, author } = props;
-  const { handleModalModifyTrue } = props;
-  const { handleNameModalOpen } = props;
   const { modifyMode, handleCloseMode } = props;
   const { profileImage } = props;
-  const { handleCancel } = props;
+  const { handleCancel, handleSetMode } = props;
+  const { shareData, saveData } = props;
+
   const { modifyImageModal, handleImageModalClose, handleImageModalOpen } =
     useModifyImageModal();
   const {
@@ -30,6 +32,9 @@ const Header = (props) => {
     handleSetConfirmModalClose,
   } = useConfirmModal();
 
+  const { modifyModeModal, handleModifyModeClose, handleModifyModeOpen } =
+    useModifyMode();
+
   return (
     <>
       {!modifyMode ? (
@@ -41,7 +46,7 @@ const Header = (props) => {
             <STYLE.ProfileBox>
               <STYLE.UserName>{name}</STYLE.UserName>
               {author && (
-                <STYLE.ProfileButton onClick={handleModalModifyTrue}>
+                <STYLE.ProfileButton onClick={handleModifyModeOpen}>
                   •••
                 </STYLE.ProfileButton>
               )}
@@ -81,6 +86,16 @@ const Header = (props) => {
 
       {modifyNameModal && (
         <ModifyNameModal onClose={handleModifyNameModalClose} name={name} />
+      )}
+
+      {modifyModeModal && (
+        <>
+          <ModifyModeModal
+            handleModifyModeClose={handleModifyModeClose}
+            handleSetMode={handleSetMode}
+            sumDataLength={shareData?.length + saveData?.length}
+          />
+        </>
       )}
 
       {confirmModal && (

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import STYLE from "./style";
-import Modal from "../../../../2_Widget/Modal";
-import ConfirmModal from "../../../../2_Widget/ConfirmModal";
-import useConfirmModal from "../../model/useConfirmModal";
+import Modal from "../../../../../../2_Widget/Modal";
+import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
+import useConfirmModal from "../../../../model/useConfirmModal";
 import useFileReader from "./model/useFileReader";
 
 const ModifyImageModal = (props) => {

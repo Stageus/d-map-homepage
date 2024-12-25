@@ -1,7 +1,7 @@
 import React from "react";
-import Modal from "../../../../2_Widget/Modal";
+import Modal from "../../../../../../2_Widget/Modal";
 import STYLE from "./style";
-import ConfirmModal from "../../../../2_Widget/ConfirmModal";
+import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 
 const ModifyModeModal = (props) => {
   const { handleModifyClickFalse, handleSetMode, sumDataLength } = props;
