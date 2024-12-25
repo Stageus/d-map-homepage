@@ -63,7 +63,6 @@ const useData = (track, modifyMode) => {
 // 데이터 파싱 함수
 const parseShare = (data) => {
   if (!data?.message) return { share: [], save: [] };
-
   const share = data.message.filter((item) => item.sharing === 0);
   const save = data.message.filter((item) => item.sharing === 1);
   return { share, save };

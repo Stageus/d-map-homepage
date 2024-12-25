@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import setSnapPoints from "./setSnapPoints";
+import makeSnapPoints from "../lib/makeSnapPoints";
 
 const useModal = (onClose, snap = [0]) => {
   const [isVisible, setIsVisible] = useState(false); // 열림 상태
@@ -9,7 +9,7 @@ const useModal = (onClose, snap = [0]) => {
   const isDragging = useRef(false); // 드래그 상태
   const elementRef = useRef(null);
 
-  const snapPoints = setSnapPoints(elementRef, snap);
+  const snapPoints = makeSnapPoints(elementRef, snap);
 
   useEffect(() => {
     setIsVisible(true); // Open 애니메이션 실행

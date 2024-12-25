@@ -1,4 +1,4 @@
-const setSnapPoints = (elementRef, snap) => {
+const makeSnapPoints = (elementRef, snap) => {
   const snapPoints = [0];
   const screenHeight = window.innerHeight;
 
@@ -25,4 +25,4 @@ const setSnapPoints = (elementRef, snap) => {
   return snapPoints;
 };
 
-export default setSnapPoints;
+export default makeSnapPoints;
