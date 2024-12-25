@@ -1,6 +1,13 @@
 import React from "react";
 import STYLE from "./style.js";
-import { useState, useEffect } from "react";
+
+import useModifyImageModal from "./model/useModifyImageModal.js";
+import useModifyNameModal from "./model/useModifyNameModal.js";
+import useConfirmModal from "../../model/useConfirmModal.js";
+
+import ModifyImageModal from "../ModifyImageModal";
+import ModifyNameModal from "../ModifyNameModal";
+import ConfirmModal from "../../../../2_Widget/ConfirmModal";
 
 const Header = (props) => {
   const { length, name, type, author } = props;
@@ -8,9 +15,20 @@ const Header = (props) => {
   const { handleNameModalOpen } = props;
   const { modifyMode, handleCloseMode } = props;
   const { profileImage } = props;
-  const { handleSetConfirmModalOpen } = props;
   const { handleCancel } = props;
-  const { handleImageModalOpen } = props;
+  const { modifyImageModal, handleImageModalClose, handleImageModalOpen } =
+    useModifyImageModal();
+  const {
+    modifyNameModal,
+    handleModifyNameModalClose,
+    handleModifyNameModalOpen,
+  } = useModifyNameModal();
+
+  const {
+    confirmModal,
+    handleSetConfirmModalOpen,
+    handleSetConfirmModalClose,
+  } = useConfirmModal();
 
   return (
     <>
@@ -29,7 +47,7 @@ const Header = (props) => {
               )}
             </STYLE.ProfileBox>
             {author && (
-              <STYLE.Nickname onClick={handleNameModalOpen}>
+              <STYLE.Nickname onClick={handleModifyNameModalOpen}>
                 닉네임 수정
               </STYLE.Nickname>
             )}
@@ -58,6 +76,26 @@ const Header = (props) => {
             </STYLE.Button>
           </STYLE.ButtonWrapper>
         </STYLE.Container>
+      )}
+      {modifyImageModal && <ModifyImageModal onClose={handleImageModalClose} />}
+
+      {modifyNameModal && (
+        <ModifyNameModal onClose={handleModifyNameModalClose} name={name} />
+      )}
+
+      {confirmModal && (
+        <ConfirmModal
+          message={
+            modifyMode === "삭제"
+              ? "저장 목록에서 삭제하시겠습니까?"
+              : "저장하시겠습니까?"
+          }
+          onConfirm={() => {
+            handleCloseMode();
+            handleSetConfirmModalClose();
+          }}
+          onCancel={handleSetConfirmModalClose}
+        />
       )}
     </>
   );

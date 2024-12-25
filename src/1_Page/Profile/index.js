@@ -3,59 +3,29 @@ import STYLE from "./style";
 
 import Header from "./ui/Header";
 import TrackingContiner from "./ui/TrackContainer";
-import ModifyNameModal from "./ui/ModifyNameModal";
 import ModifyModeModal from "./ui/ModifyModeModal";
-import ModifyImageModal from "./ui/ModifyImageModal";
-
 import useTrackData from "./api/useTrackingList";
 
 import useTabs from "./model/useTabs";
 import useAuthor from "./model/useAuthor";
 import useModifySettingClick from "./model/useModifySettingClick";
-import useModifyTrackingModal from "./model/useModifyTrackingModal";
-import useModifyNameModal from "./model/useModifyNameModal";
 import useSettingMode from "./model/useSettingMode";
-import useConfirmModal from "./model/useConfirmModal";
 import useData from "./model/useData";
-import useModifyImageModal from "./model/useModifyImageModal";
 
 import Loading from "../../2_Widget/Loading";
-
-import ConfirmModal from "../../2_Widget/ConfirmModal";
 
 const Profile = () => {
   const name = "김재걸";
   const { trackShareData, trackSaveData, trackLoading, trackError } =
     useTrackData("idx");
 
-  const { modifyImageModal, handleImageModalClose, handleImageModalOpen } =
-    useModifyImageModal();
   const { activeTab, tabIndex, handleTabClick } = useTabs();
-
   const { author, handleAuthorTrue, handleAuthorFalse } = useAuthor();
 
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode();
 
   const { isModifyClick, handleModifyClickFalse, handleModalModifyTrue } =
     useModifySettingClick();
-
-  const {
-    modifyTrackingModal,
-    handleModifyTrackingClose,
-    handleModifyTrackingOpen,
-  } = useModifyTrackingModal();
-
-  const {
-    modifyNameModal,
-    handleModifyNameModalClose,
-    handleModifyNameModalOpen,
-  } = useModifyNameModal();
-
-  const {
-    confirmModal,
-    handleSetConfirmModalOpen,
-    handleSetConfirmModalClose,
-  } = useConfirmModal();
 
   const { shareData, saveData, setShareData, setSaveData, handleCancel } =
     useData(trackShareData, trackSaveData, modifyMode);
@@ -69,16 +39,13 @@ const Profile = () => {
       <STYLE.Main>
         <Header
           modifyMode={modifyMode}
-          handleImageModalOpen={handleImageModalOpen}
           handleCloseMode={handleCloseMode}
           length={activeTab === "공유" ? shareData?.length : saveData?.length}
           author={author}
           type={activeTab}
           name={name}
           handleCancel={handleCancel}
-          handleSetConfirmModalOpen={handleSetConfirmModalOpen}
           handleModalModifyTrue={handleModalModifyTrue}
-          handleNameModalOpen={handleModifyNameModalOpen}
         />
         <STYLE.TabMenu>
           {author ? (
@@ -145,25 +112,6 @@ const Profile = () => {
             sumDataLength={shareData?.length + saveData?.length}
           />
         </>
-      )}
-      {confirmModal && (
-        <ConfirmModal
-          message={
-            modifyMode === "삭제"
-              ? "저장 목록에서 삭제하시겠습니까?"
-              : "저장하시겠습니까?"
-          }
-          onConfirm={() => {
-            handleCloseMode();
-            handleSetConfirmModalClose();
-          }}
-          onCancel={handleSetConfirmModalClose}
-        />
-      )}
-      {modifyImageModal && <ModifyImageModal onClose={handleImageModalClose} />}
-
-      {modifyNameModal && (
-        <ModifyNameModal onClose={handleModifyNameModalClose} name={name} />
       )}
     </>
   );
