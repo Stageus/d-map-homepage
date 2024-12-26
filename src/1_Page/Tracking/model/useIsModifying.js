@@ -1,6 +1,6 @@
 import React from "react";
 
-const useIsModfying = () => {
+const useIsModifying = () => {
   const [isModifying, setIsModifying] = React.useState(false);
 
   const toggleIsModifying = () => {
@@ -10,4 +10,4 @@ const useIsModfying = () => {
   return [isModifying, toggleIsModifying];
 };
 
-export default useIsModfying;
+export default useIsModifying;

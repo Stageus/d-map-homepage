@@ -5,12 +5,13 @@ export const handleMapLoad = (map, mapRef) => {
 };
 
 // 지도가 움직이지 않을 때 상태 trackingData를 갱신
-export const handleMapIdle = (mapRef, trackingDataRef) => {
+export const handleMapIdle = (mapRef, trackingDataRef, isTracking) => {
   if (mapRef.current) {
     trackingDataRef.current = {
       zoom: mapRef.current.zoom,
       center: mapRef.current.getCenter().toJSON(),
       heading: mapRef.current.heading,
+      line: isTracking ? [] : trackingDataRef.current
     };
   }
 };
