@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import STYLE from "./style";
+import SearchInput from "./ui/SearchInput";
 
 const Search = () => {
+  const [listItems] = useState(["류동호", "김연호", "속초", "인천"]); // 원본 리스트
+
   return (
     <>
       <STYLE.Container>
-        <STYLE.InputContainer>
-          <STYLE.Input placeholder="검색할 내용을 입력하세요" />
-          <STYLE.Icon>🔍</STYLE.Icon>
-        </STYLE.InputContainer>
+        <SearchInput />
         <STYLE.List>
-          <STYLE.ListItem>류동호</STYLE.ListItem>
-          <STYLE.ListItem>김연호</STYLE.ListItem>
-          <STYLE.ListItem>속초</STYLE.ListItem>
-          <STYLE.ListItem>인천</STYLE.ListItem>
+          {listItems.length > 0 ? (
+            listItems.map((item) => <STYLE.ListItem>{item}</STYLE.ListItem>)
+          ) : (
+            <STYLE.ListItem>검색 결과가 없습니다</STYLE.ListItem>
+          )}
         </STYLE.List>
       </STYLE.Container>
     </>
