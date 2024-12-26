@@ -87,19 +87,19 @@ const Sns = () => {
         </STYLE.Sorting>
       </STYLE.Header>
       <STYLE.TrackingList>
-      {trackingList.message.map((elem, index) => {
-        return (
-          <STYLE.TrackingContainer key={index}>
-            <STYLE.PostInfo>
-              <STYLE.PosterName>홍길동</STYLE.PosterName>
-              <STYLE.PostUpdated>1달전</STYLE.PostUpdated>
-            </STYLE.PostInfo>
-            <TrackingImage data={{...elem, draggable: false}} />
-            <TrackingImageActions data={elem} />
-          </STYLE.TrackingContainer>
-        );
-      })}
-    </STYLE.TrackingList>
+        {trackingList.message.map((elem, index) => {
+          return (
+            <STYLE.TrackingContainer key={index}>
+              <STYLE.PostInfo>
+                <STYLE.PosterName>홍길동</STYLE.PosterName>
+                <STYLE.PostUpdated>1달전</STYLE.PostUpdated>
+              </STYLE.PostInfo>
+                <TrackingImage data={{ ...elem, draggable: false }} />
+              <TrackingImageActions data={elem} />
+            </STYLE.TrackingContainer>
+          );
+        })}
+      </STYLE.TrackingList>
     </STYLE.SnsPageWrapper>
   );
 };
