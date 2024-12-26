@@ -1,12 +1,11 @@
 import styled from "styled-components";
 
-export const STYLE = {
+const STYLE = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 100%;
     margin: 0 auto;
-    font-family: "Arial", sans-serif;
   `,
   InputContainer: styled.div`
     display: flex;
@@ -40,3 +39,5 @@ export const STYLE = {
     }
   `,
 };
+
+export default STYLE;
