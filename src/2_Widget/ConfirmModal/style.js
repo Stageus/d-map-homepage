@@ -7,14 +7,14 @@ const STYLE = {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4); // 반투명 배경
+    background: rgba(0, 0, 0, 0.4); /* 반투명 배경 */
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
   `,
   ModalContent: styled.div`
-    background: #ffffff;
+    background: ${({ theme }) => theme.white};
     padding: 20px;
     width: 320px;
     border-radius: 12px;
@@ -25,7 +25,7 @@ const STYLE = {
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 20px;
-    color: #333;
+    color: ${({ theme }) => theme.black};
   `,
   ButtonWrapper: styled.div`
     display: flex;
@@ -42,13 +42,13 @@ const STYLE = {
     cursor: pointer;
 
     &.confirm {
-      background-color: #000000;
-      color: #ffffff;
+      background-color: ${({ theme }) => theme.black};
+      color: ${({ theme }) => theme.white};
     }
 
     &.cancel {
-      background-color: #e0e0e0;
-      color: #333333;
+      background-color: ${({ theme }) => theme.lignt_gray};
+      color: ${({ theme }) => theme.gray};
     }
 
     &:hover {

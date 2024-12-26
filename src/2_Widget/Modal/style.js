@@ -17,7 +17,7 @@ const STYLE = {
     position: fixed;
     bottom: 0;
     left: 0;
-    background: #ffffff;
+    background: ${({ theme }) => theme.white};
     width: 100%;
     border-radius: 20px 20px 0 0;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
@@ -33,18 +33,17 @@ const STYLE = {
       left: 0;
       width: 100%;
       height: 100vh; /* 화면 전체 높이 */
-      background-color: #ffffff;
+      background-color: ${({ theme }) => theme.white};
     }
     &.open {
       transition: transform 0.3s ease-out;
       transform: translateY(0);
     }
   `,
-
   Handle: styled.div`
     width: 50px;
     height: 5px;
-    background: #ccc;
+    background: ${({ theme }) => theme.lignt_gray};
     border-radius: 10px;
     margin: 10px auto;
     cursor: grab;
@@ -86,14 +85,14 @@ const STYLE = {
     flex: 1;
     padding: 0.5rem 1rem;
     font-size: 1rem;
-    background-color: #0047ab;
-    color: white;
+    background-color: ${({ theme }) => theme.blue};
+    color: ${({ theme }) => theme.white};
     border: none;
     border-radius: 4px;
     cursor: pointer;
 
     &:hover {
-      background-color: #003580;
+      background-color: ${({ theme }) => theme.deep_blue};
     }
   `,
 };
