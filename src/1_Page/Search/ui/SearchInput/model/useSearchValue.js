@@ -38,10 +38,9 @@ const useSearchValue = () => {
     }
   };
 
-  // 경로 이동 함수
   const navigateToSearch = () => {
     if (validateInput()) {
-      navigate(`/search/${encodeURIComponent(inputValue)}`);
+      navigate(`/search?text=${encodeURIComponent(inputValue)}`);
     }
   };
 
