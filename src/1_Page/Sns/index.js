@@ -94,10 +94,7 @@ const Sns = () => {
                 <STYLE.PosterName>홍길동</STYLE.PosterName>
                 <STYLE.PostUpdated>1달전</STYLE.PostUpdated>
               </STYLE.PostInfo>
-              <div>
                 <TrackingImage data={{ ...elem, draggable: false }} />
-              </div>
-
               <TrackingImageActions data={elem} />
             </STYLE.TrackingContainer>
           );

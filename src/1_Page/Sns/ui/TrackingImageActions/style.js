@@ -16,9 +16,9 @@ const STYLE = {
   DetailModal: styled.div`
     display: ${(props) => (props.isOpen ? "block" : "none")};
     overflow: hidden;
-    position: absolute;
+    position: fixed;
     top: 0;
-    bottom: 0;
+    bottom: 32px;
     left: 0;
     right: 0;
     z-index: 1;
