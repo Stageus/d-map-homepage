@@ -10,21 +10,18 @@ import useConfirmModal from "../../../../model/useConfirmModal";
 const ModifyImageModal = (props) => {
   const { onClose } = props;
 
-  const {
-    confirmModal,
-    handleSetConfirmModalOpen,
-    handleSetConfirmModalClose,
-  } = useConfirmModal();
+  const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
+    useConfirmModal();
 
   const closeRef = useRef(null);
 
-  const handleConfirmModalOpen = (handleClose) => {
-    handleSetConfirmModalOpen();
+  const handleImageConfirmModalOpen = (handleClose) => {
+    handleConfirmModalOpen();
     closeRef.current = handleClose;
   };
 
-  const handleConfirmModalDone = () => {
-    handleSetConfirmModalClose();
+  const handleImageConfirmModalDone = () => {
+    handleConfirmModalClose();
     closeRef.current();
   };
   const {
@@ -57,7 +54,7 @@ const ModifyImageModal = (props) => {
             </STYLE.PhotoButton>
             <STYLE.EditButton
               onClick={() => {
-                handleConfirmModalOpen(handleClose);
+                handleImageConfirmModalOpen(handleClose);
               }}>
               수정하기
             </STYLE.EditButton>
@@ -68,9 +65,7 @@ const ModifyImageModal = (props) => {
         <ConfirmModal
           type={"one"}
           message={"변경되었습니다"}
-          onClose={() => {
-            handleConfirmModalDone();
-          }}
+          onClose={handleImageConfirmModalDone}
         />
       )}
     </>

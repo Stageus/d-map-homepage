@@ -1,13 +1,13 @@
 import { useState } from "react";
 
 const useConfirmModalName = () => {
-  const [confirmModal, setOneBtnModal] = useState(false);
-  const handleSetConfirmModalOpen = () => setOneBtnModal(true);
-  const handleSetConfirmModalClose = () => setOneBtnModal(false);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const handleConfirmModalOpen = () => setConfirmModal(true);
+  const handleConfirmModalClose = () => setConfirmModal(false);
   return {
     confirmModal,
-    handleSetConfirmModalOpen,
-    handleSetConfirmModalClose,
+    handleConfirmModalOpen,
+    handleConfirmModalClose,
   };
 };
 

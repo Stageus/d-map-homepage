@@ -16,11 +16,8 @@ const ModifyNameModal = (props) => {
   const randNickName = data?.message.nickname;
   const [randState, setRandState] = useState(0);
 
-  const {
-    confirmModal,
-    handleSetConfirmModalOpen,
-    handleSetConfirmModalClose,
-  } = useConfirmModal();
+  const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
+    useConfirmModal();
 
   const handleType = () => {
     nicknameRef.current.value = randNickName[randState];
@@ -29,12 +26,12 @@ const ModifyNameModal = (props) => {
   };
 
   const closeRef = useRef(null);
-  const handleConfirmModalOpen = (handleClose) => {
-    handleSetConfirmModalOpen();
+  const handleNameConfirmModalOpen = (handleClose) => {
+    handleConfirmModalOpen();
     closeRef.current = handleClose;
   };
-  const handleConfirmModalDone = () => {
-    handleSetConfirmModalClose();
+  const handleNameConfirmModalDone = () => {
+    handleConfirmModalClose();
     closeRef.current();
   };
 
@@ -58,7 +55,7 @@ const ModifyNameModal = (props) => {
             </STYLE.InputContainer>
             <STYLE.SubmitButton
               onClick={() => {
-                handleConfirmModalOpen(handleClose);
+                handleNameConfirmModalOpen(handleClose);
               }}>
               수정하기
             </STYLE.SubmitButton>
@@ -69,7 +66,7 @@ const ModifyNameModal = (props) => {
         <ConfirmModal
           type={"one"}
           message={"변경되었습니다"}
-          onClose={handleConfirmModalDone}
+          onClose={handleNameConfirmModalDone}
         />
       )}
     </>

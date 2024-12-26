@@ -28,11 +28,8 @@ const Header = (props) => {
     handleModifyNameModalOpen,
   } = useModifyNameModal();
 
-  const {
-    confirmModal,
-    handleSetConfirmModalOpen,
-    handleSetConfirmModalClose,
-  } = useConfirmModal();
+  const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
+    useConfirmModal();
 
   const { modifyModeModal, handleModifyModeClose, handleModifyModeOpen } =
     useModifyMode();
@@ -68,11 +65,7 @@ const Header = (props) => {
         <STYLE.Container>
           <STYLE.Title>{modifyMode} 설정</STYLE.Title>
           <STYLE.ButtonWrapper>
-            <STYLE.Button
-              $primary
-              onClick={() => {
-                handleSetConfirmModalOpen();
-              }}>
+            <STYLE.Button $primary onClick={handleConfirmModalOpen}>
               완료
             </STYLE.Button>
             <STYLE.Button
@@ -109,9 +102,9 @@ const Header = (props) => {
           }
           onConfirm={() => {
             handleCloseMode();
-            handleSetConfirmModalClose();
+            handleImageModalClose();
           }}
-          onCancel={handleSetConfirmModalClose}
+          onCancel={handleImageModalClose}
         />
       )}
     </>
