@@ -46,15 +46,14 @@ const STYLE = {
     width: calc(50% - 10px);
     background-color: ${({ theme }) => theme.white};
     border-radius: 20px;
-    transition: all 0.3s ease-in-out; /* 애니메이션 효과 */
+    transition: all 0.3s ease-in-out;
   `,
   Tab: styled.button`
     flex: 1;
-    z-index: 1; /* 배경 위에 보이도록 설정 */
     padding: 10px 0;
     background-color: transparent;
     color: ${({ active, theme }) => (active ? theme.black : theme.white)};
-    transition: all 0.3s ease-in-out; /* 애니메이션 효과 */
+    transition: all 0.3s ease-in-out;
     border: none;
     font-size: 16px;
     font-weight: bold;
@@ -79,10 +78,6 @@ const STYLE = {
     color: ${({ danger, theme }) => (danger ? theme.red : theme.white)};
     font-size: 16px;
     cursor: pointer;
-    &:hover {
-      background-color: ${({ danger, theme }) =>
-        danger ? theme.lignt_gray : theme.gray};
-    }
   `,
   Footer: styled.div`
     margin-top: auto;
@@ -104,9 +99,6 @@ const STYLE = {
     background-color: transparent;
     color: ${({ theme }) => theme.black};
     cursor: pointer;
-    &:hover {
-      background-color: ${({ theme }) => theme.light_gray};
-    }
   `,
 };
 
