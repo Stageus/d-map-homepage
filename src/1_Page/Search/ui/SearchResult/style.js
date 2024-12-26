@@ -47,15 +47,12 @@ const STYLE = {
     display: flex;
     height: 500px;
     flex-direction: column;
-    gap: 16px;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch; // 모바일 터치 스크롤 활성화
   `,
   ResultItem: styled.div`
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 8px;
     border: 1px solid ${({ theme }) => theme.light_gray};
     border-radius: 8px;
   `,
@@ -65,6 +62,24 @@ const STYLE = {
     font-size: 20px;
     font-weight: bold;
   `,
+  NicckNameContainer: styled.div`
+    display: flex;
+    align-items: center;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid ${({ theme }) => theme.blue};
+    padding: 10px;
+    margin: 10px;
+  `,
+  NickNameIcon: styled.img`
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+  `,
+  NickNameText: styled.div`
+    font-weight: bold;
+    margin: 5px;
+  `,
   EmptyMessage: styled.div`
     text-align: center;
     color: ${({ theme }) => theme.gray};
@@ -72,6 +87,7 @@ const STYLE = {
   MapPreview: styled.div`
     border: 1px solid ${({ theme }) => theme.light_gray};
     border-radius: 8px;
+    margin: 10px;
   `,
 };
 

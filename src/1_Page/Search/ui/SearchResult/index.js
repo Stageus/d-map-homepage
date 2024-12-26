@@ -3,13 +3,17 @@ import STYLE from "./style";
 import TrackingImage from "../../../../2_Widget/TrackingImage";
 import useGetResult from "./api/useGetResult";
 import useTab from "./model/useTab";
+import { useNavigate } from "react-router-dom";
 
 const SearchResult = (props) => {
   const { text } = props;
   const { activeTab, handleTabName, handleTabLocation, handleGetPresentTab } =
     useTab();
   const { searchData, loading, error } = useGetResult(text, activeTab);
-
+  const navigate = useNavigate();
+  const handleNavigate = (idx) => {
+    navigate(`/profile/${idx}`); // idx를 기반으로 프로필 페이지로 이동
+  };
   return (
     <>
       <STYLE.TabContainer>
@@ -33,13 +37,21 @@ const SearchResult = (props) => {
         ) : handleGetPresentTab("이름") ? (
           searchData?.map((result) => (
             <>
-              <img src="https://via.placeholder.com/150" alt="지도 미리보기" />
-              <div>{result.nickname}</div>
+              <STYLE.NicckNameContainer
+                onClick={() => {
+                  handleNavigate(result.idx);
+                }}>
+                <STYLE.NickNameIcon alt="지도 미리보기" />
+                <STYLE.NickNameText>{result.nickname}</STYLE.NickNameText>
+              </STYLE.NicckNameContainer>
             </>
           ))
         ) : (
           searchData?.map((result) => (
-            <STYLE.MapPreview>
+            <STYLE.MapPreview
+              onClick={() => {
+                handleNavigate(result.idx);
+              }}>
               <STYLE.Title>
                 {result.idx}- {result.searchpoint}
               </STYLE.Title>
