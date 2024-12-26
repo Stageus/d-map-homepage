@@ -15,11 +15,11 @@ const Search = () => {
 
   return (
     <>
+      <SearchInput />
       {text ? (
         <div></div>
       ) : (
         <STYLE.Container>
-          <SearchInput />
           <STYLE.List>
             {listItems.length > 0 ? (
               listItems.map((item) => <STYLE.ListItem>{item}</STYLE.ListItem>)
