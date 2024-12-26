@@ -3,6 +3,7 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyles = createGlobalStyle` 
   *{
     color: ${({ theme }) => theme.color};
+    -ms-overflow-style: none;
   }
   html{
     height: 100%;
@@ -18,6 +19,10 @@ const GlobalStyles = createGlobalStyle`
   button{
     background-color: transparent;
     border: none;
+    cursor: pointer;
+  }
+  ::-webkit-scrollbar {
+  display: none;
   }
 `;
 
