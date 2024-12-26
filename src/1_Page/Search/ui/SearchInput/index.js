@@ -1,6 +1,5 @@
 import useSearchValue from "./model/useSearchValue";
 import STYLE from "./style";
-import { useState } from "react";
 
 const SearchInput = () => {
   const { isError, inputValue, errorMessage, handleSearch, setInputValue } =

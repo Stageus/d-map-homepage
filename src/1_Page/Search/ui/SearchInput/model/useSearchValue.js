@@ -1,18 +1,21 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const useSearchValue = () => {
-  const [inputValue, setInputValue] = useState(""); // 입력값 관리
-  const [isError, setIsError] = useState(false); // 에러 상태
-  const [errorMessage, setErrorMessage] = useState(""); // 에러 메시지
+  const [inputValue, setInputValue] = useState("");
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   // 정규식: 2~100글자, 영문/한글/숫자/특수문자 ','만 허용
   const regex = /^[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ0-9,]{2,100}$/;
 
-  const handleSearch = () => {
+  // 입력값 검증 함수
+  const validateInput = () => {
     if (!inputValue.trim()) {
       setIsError(true);
       setErrorMessage("값을 입력해주세요.");
-      return;
+      return false;
     }
 
     if (!regex.test(inputValue)) {
@@ -20,13 +23,22 @@ const useSearchValue = () => {
       setErrorMessage(
         "2~100글자, 영문/한글/숫자/특수문자 ','만 입력 가능합니다."
       );
-    } else {
-      setIsError(false);
-      setErrorMessage("");
-      // 유효한 입력 처리 (추가 동작)
-      console.log("검색 실행:", inputValue);
+      return false;
+    }
+
+    setIsError(false);
+    setErrorMessage("");
+    return true; // 유효한 입력
+  };
+
+  // 경로 이동 함수
+  const navigateToSearch = () => {
+    if (validateInput()) {
+      navigate(`/search/${encodeURIComponent(inputValue)}`);
     }
   };
-  return { isError, inputValue, errorMessage, handleSearch, setInputValue };
+
+  return { isError, inputValue, errorMessage, navigateToSearch, setInputValue };
 };
+
 export default useSearchValue;
