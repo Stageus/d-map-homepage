@@ -31,6 +31,13 @@ const useSearchValue = () => {
     return true; // 유효한 입력
   };
 
+  // 엔터키 핸들러
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      navigateToSearch();
+    }
+  };
+
   // 경로 이동 함수
   const navigateToSearch = () => {
     if (validateInput()) {
@@ -38,7 +45,14 @@ const useSearchValue = () => {
     }
   };
 
-  return { isError, inputValue, errorMessage, navigateToSearch, setInputValue };
+  return {
+    isError,
+    inputValue,
+    errorMessage,
+    navigateToSearch,
+    handleKeyDown,
+    setInputValue,
+  };
 };
 
 export default useSearchValue;

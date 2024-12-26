@@ -13,7 +13,7 @@ const Page = () => {
         <Route path="/" element={<Navigate to={"/sns/:category/:userIdx"} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile/:userIdx" element={<Profile />} />
-        <Route path="/search/:category" element={<Search />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/setting" element={<Setting />} />
         <Route path="/sns/:category/:userIdx" element={<Sns />} />
         <Route path="/tracking" element={<Tracking />} />
