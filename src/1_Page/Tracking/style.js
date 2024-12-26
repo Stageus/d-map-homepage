@@ -41,9 +41,12 @@ const STYLE = {
     width: 88px;
     gap: 16px;
   `,
-  TrackingControlBtn: styled.img`
+  TrackingControlBtn: styled.button`
     width: 36px;
     cursor: pointer;
+    background-color: transparent;
+    border: none;
+    outline: none;
   `,
   TrackingSaveModal: styled.div`
     animation: ${(props) => (props.isModifying ? slideUp : slideDown)} 0.5s ease
