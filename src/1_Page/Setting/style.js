@@ -14,10 +14,12 @@ const STYLE = {
     width: 80%;
     font-size: 24px;
     font-weight: bold;
+    color: ${({ theme }) => theme.black};
   `,
   HeaderTitle: styled.p`
     margin: 20px 0;
     width: 100%;
+    color: ${({ theme }) => theme.text};
   `,
   TabContainer: styled.div`
     display: flex;
@@ -69,13 +71,18 @@ const STYLE = {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    border: ${({ danger }) => (danger ? "1px solid red" : "none")};
+    border: ${({ danger, theme }) =>
+      danger ? `1px solid ${theme.red}` : "none"};
     border-radius: 5px;
     background-color: ${({ danger, theme }) =>
       danger ? "transparent" : theme.black};
-    color: ${({ danger, theme }) => (danger ? "red" : theme.white)};
+    color: ${({ danger, theme }) => (danger ? theme.red : theme.white)};
     font-size: 16px;
     cursor: pointer;
+    &:hover {
+      background-color: ${({ danger, theme }) =>
+        danger ? theme.lignt_gray : theme.gray};
+    }
   `,
   Footer: styled.div`
     margin-top: auto;
