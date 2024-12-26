@@ -13,18 +13,27 @@ const STYLE = {
     justify-content: center;
     gap: 4px;
   `,
-  Icon: styled.img`
-    width: 24px;
-    cursor: pointer;
-  `,
   DetailModal: styled.div`
     display: ${(props) => (props.isOpen ? "block" : "none")};
+    overflow: hidden;
     position: absolute;
-    top: 32px;
+    top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    border: 5px orange solid;
+    z-index: 1;
+  `,
+  Button: styled.button`
+    line-height: 26px;
+    background-color: transparent;
+    border: none;
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    border-radius: 50%;
+    background-color: gray;
   `,
 };
 

@@ -9,7 +9,6 @@ const TrackingImageActions = (props) => {
   const { data } = props;
   const { likecount } = data;
   const [viewDetailModal, toggleDetailModal] = useDetailModal();
-  console.log("es");
   return (
     <>
       <STYLE.InfoContainer>
@@ -23,15 +22,17 @@ const TrackingImageActions = (props) => {
       </STYLE.InfoContainer>
 
       <STYLE.DetailModal isOpen={viewDetailModal}>
-        <button
+        <TrackingImage data={{ ...data, height: "100%" }} />
+        {/* 상세보기 모달에 z-index 1 */}
+        <STYLE.Button
           onClick={() => {
             toggleDetailModal();
           }}
         >
-          x
-        </button>
-        <TrackingImage data={{...data, height: "100%"}} />
+          X
+        </STYLE.Button>
       </STYLE.DetailModal>
+
     </>
   );
 };
