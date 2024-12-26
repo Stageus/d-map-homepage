@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const STYLE = {
-  Main: styled.div`
+  SnsPageWrapper: styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -22,7 +22,32 @@ const STYLE = {
     border: none;
     color: gray;
     outline: none;
-  `
+  `,
+
+  TrackingList: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    font-size: large;
+    font-weight: bold;
+  `,
+  TrackingContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  `,
+  PostInfo: styled.h3`
+    padding: 0 8px;
+    display: flex;
+    gap: 4px;
+    align-items: end;
+  `,
+  PosterName: styled.p``,
+  PostUpdated: styled.p`
+    font-size: small;
+    font-weight: 400;
+    color: gray;
+  `,
 };
 
 export default STYLE;

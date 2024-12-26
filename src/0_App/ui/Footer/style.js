@@ -9,12 +9,11 @@ const STYLE = {
     width: 100%;
     justify-content: space-around;
     gap: 24px;
-    max-width: 768px;
+    max-width: 528px;
+    background-color: white;
   `,
-  Tab: styled.img`
-    width: 28px;
-    padding-bottom: 4px;
-    padding-top: 4px;
+  Tab: styled.button`
+    width: 32px;
   `,
 };
 
