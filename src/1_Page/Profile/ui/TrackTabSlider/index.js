@@ -4,7 +4,7 @@ import STYLE from "./style";
 import Modal from "../../../../2_Widget/Modal";
 import TrackContainer from "./ui/TrackContainer";
 
-import useModifyTrackingModal from "../../model/useModifyTrackingModal";
+import useModifyTrackingModal from "./model/useModifyTrackingModal";
 
 const TrackTabSlider = (props) => {
   const { modifyMode, handleAnotherType, tabIndex } = props;
