@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import STYLE from "./style";
 import SearchInput from "./ui/SearchInput";
+import SearchResult from "./ui/SearchResult";
 import { useSearchParams } from "react-router-dom";
 
 const Search = () => {
@@ -9,15 +10,11 @@ const Search = () => {
 
   const text = searchParams.get("text"); // 쿼리 값 가져오기
 
-  useEffect(() => {
-    console.log(text);
-  }, [text]);
-
   return (
     <>
       <SearchInput />
       {text ? (
-        <div></div>
+        <SearchResult />
       ) : (
         <STYLE.Container>
           <STYLE.List>
