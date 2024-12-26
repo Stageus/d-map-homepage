@@ -22,10 +22,10 @@ const STYLE = {
     border-radius: 20px 20px 0 0;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    transition: ${({ isDragging }) =>
-      isDragging ? "none" : "transform 0.3s ease-out"};
-    transform: ${({ isVisible, translateY }) =>
-      `translateY(${isVisible ? translateY : "600"}px)`};
+    transition: ${({ $isDragging }) =>
+      $isDragging ? "none" : "transform 0.3s ease-out"};
+    transform: ${({ $isVisible, $translateY }) =>
+      `translateY(${$isVisible ? $translateY : "600"}px)`};
     &::after {
       content: "";
       position: absolute;
@@ -34,10 +34,6 @@ const STYLE = {
       width: 100%;
       height: 100vh; /* 화면 전체 높이 */
       background-color: ${({ theme }) => theme.white};
-    }
-    &.open {
-      transition: transform 0.3s ease-out;
-      transform: translateY(0);
     }
   `,
   Handle: styled.div`
