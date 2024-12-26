@@ -14,7 +14,7 @@ const Search = () => {
     <>
       <SearchInput />
       {text ? (
-        <SearchResult />
+        <SearchResult text={text} />
       ) : (
         <STYLE.Container>
           <STYLE.List>

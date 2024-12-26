@@ -45,8 +45,11 @@ const STYLE = {
   `,
   ResultList: styled.div`
     display: flex;
+    height: 500px;
     flex-direction: column;
     gap: 16px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch; // 모바일 터치 스크롤 활성화
   `,
   ResultItem: styled.div`
     display: flex;
@@ -55,21 +58,12 @@ const STYLE = {
     padding: 8px;
     border: 1px solid ${({ theme }) => theme.light_gray};
     border-radius: 8px;
-
-    .profile {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: ${({ theme }) => theme.light_gray};
-    }
-
-    button {
-      margin-left: auto;
-      background: none;
-      border: none;
-      color: ${({ theme }) => theme.gray};
-      cursor: pointer;
-    }
+  `,
+  Title: styled.p`
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: bold;
   `,
   EmptyMessage: styled.div`
     text-align: center;
@@ -78,18 +72,6 @@ const STYLE = {
   MapPreview: styled.div`
     border: 1px solid ${({ theme }) => theme.light_gray};
     border-radius: 8px;
-    overflow: hidden;
-
-    img {
-      width: 100%;
-      height: auto;
-    }
-
-    div {
-      padding: 8px;
-      background-color: ${({ theme }) => theme.light_gray};
-      font-weight: bold;
-    }
   `,
 };
 

@@ -1,26 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import STYLE from "./style";
+import TrackingImage from "../../../../2_Widget/TrackingImage";
+import useGetResult from "./api/useGetResult";
+import useTab from "./model/useTab";
 
-const SearchResult = () => {
-  const [results, setResults] = useState([]);
-  const [query, setQuery] = useState("");
-  const [activeTab, setActiveTab] = useState("이름");
-
-  const handleSearch = () => {
-    // 검색 로직 예제
-    if (query === "김재걸") {
-      if (activeTab === "이름") {
-        setResults(new Array(5).fill("김재걸"));
-      } else if (activeTab === "장소") {
-        setResults([
-          { name: "김재걸", location: "미추홀구" },
-          { name: "김재걸2", location: "미추홀구" },
-        ]);
-      }
-    } else {
-      setResults([]);
-    }
-  };
+const SearchResult = (props) => {
+  const { text } = props;
+  const { activeTab, handleTabName, handleTabLocation, handleGetPresentTab } =
+    useTab();
+  const { searchData, loading, error } = useGetResult(text, activeTab);
 
   return (
     <>
@@ -28,35 +16,34 @@ const SearchResult = () => {
         <STYLE.TabBox>
           <STYLE.TabBackground $activeTabName={activeTab === "이름"} />
           <STYLE.Tab
-            active={activeTab === "이름"}
-            onClick={() => setActiveTab("이름")}>
+            active={handleGetPresentTab("이름")}
+            onClick={handleTabName}>
             이름
           </STYLE.Tab>
           <STYLE.Tab
-            active={activeTab === "장소"}
-            onClick={() => setActiveTab("장소")}>
+            active={handleGetPresentTab("장소")}
+            onClick={handleTabLocation}>
             장소
           </STYLE.Tab>
         </STYLE.TabBox>
       </STYLE.TabContainer>
       <STYLE.ResultList>
-        {results.length === 0 ? (
-          <STYLE.EmptyMessage>없는 이름입니다.</STYLE.EmptyMessage>
-        ) : activeTab === "이름" ? (
-          results.map((name, index) => (
-            <STYLE.ResultItem key={index}>
-              <div className="profile" />
-              <span>{name}</span>
-              <button>···</button>
-            </STYLE.ResultItem>
+        {searchData?.length === 0 ? (
+          <STYLE.EmptyMessage>없는 {activeTab}입니다.</STYLE.EmptyMessage>
+        ) : handleGetPresentTab("이름") ? (
+          searchData?.map((result) => (
+            <>
+              <img src="https://via.placeholder.com/150" alt="지도 미리보기" />
+              <div>{result.nickname}</div>
+            </>
           ))
         ) : (
-          results.map((result) => (
+          searchData?.map((result) => (
             <STYLE.MapPreview>
-              <div>
-                {result.name} - {result.location}
-              </div>
-              <img src="https://via.placeholder.com/150" alt="지도 미리보기" />
+              <STYLE.Title>
+                {result.idx}- {result.searchpoint}
+              </STYLE.Title>
+              <TrackingImage data={{ ...result, draggable: false }} />
             </STYLE.MapPreview>
           ))
         )}
