@@ -102,9 +102,9 @@ const Header = (props) => {
           }
           onConfirm={() => {
             handleCloseMode();
-            handleImageModalClose();
+            handleConfirmModalClose();
           }}
-          onCancel={handleImageModalClose}
+          onCancel={handleConfirmModalClose}
         />
       )}
     </>

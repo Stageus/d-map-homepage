@@ -46,23 +46,6 @@ const STYLE = {
     right: 8px;
     transition: all 0.2s ease;
   `,
-  TrackingCheckbox: styled.input.attrs({ type: "checkbox" })`
-    z-index: 10000;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid ${({ theme }) => theme.lignt_gray};
-    border-radius: 4px;
-    cursor: pointer;
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    transition: all 0.2s ease;
-    &:checked {
-      background-color: ${({ theme }) => theme.blue};
-      border-color: ${({ theme }) => theme.blue};
-    }
-  `,
 };
 
 export default STYLE;
