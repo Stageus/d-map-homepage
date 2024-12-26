@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const STYLE = {
-  // 버튼 스타일 추가
+  // 테마 기반 버튼 스타일
   BottomSheetButton: styled.button`
     width: 100%;
     padding: 20px 0;
@@ -9,8 +9,8 @@ const STYLE = {
     font-weight: bold;
     text-align: center;
     border: none;
-    background-color: ${(props) => props.bgColor || "#f1f1f1"};
-    color: ${(props) => props.color || "#000000"};
+    background-color: ${({ theme, bgColor }) => bgColor || theme.lignt_gray};
+    color: ${({ theme, color }) => color || theme.black};
     cursor: pointer;
     &:active {
       opacity: 0.7;

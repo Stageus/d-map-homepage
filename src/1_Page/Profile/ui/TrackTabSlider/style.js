@@ -9,7 +9,7 @@ const STYLE = {
     display: flex;
     width: 200%; /* 두 개의 탭을 모두 포함할 넓이 */
     transform: translateX(${({ $tabIndex }) => -$tabIndex * 50}%);
-    transition: transform 0.5s ease-in-out; /* 부드러운 슬라이드 애니메이션 */
+    transition: transform 0.5s ease-in-out;
   `,
   PostGrid: styled.div`
     display: grid;
@@ -21,12 +21,12 @@ const STYLE = {
   `,
   EmptyMessage: styled.p`
     text-align: center;
-    color: gray;
+    color: ${({ theme }) => theme.gray};
     margin-top: 20px;
     font-size: 0.9rem;
   `,
   TrackingContainer: styled.div`
-    background-color: lightblue;
+    background-color: ${({ theme }) => theme.light_blue};
     text-align: center;
     position: relative; /* 버튼의 절대 위치 기준 */
     display: flex;
@@ -38,12 +38,12 @@ const STYLE = {
     appearance: none;
     width: 20px;
     height: 20px;
-    border: 2px solid #ccc;
+    border: 2px solid ${({ theme }) => theme.lignt_gray};
     border-radius: 4px;
     cursor: pointer;
     position: absolute;
-    top: 8px; /* 상단 여백 */
-    right: 8px; /* 우측 여백 */
+    top: 8px;
+    right: 8px;
     transition: all 0.2s ease;
   `,
   TrackingCheckbox: styled.input.attrs({ type: "checkbox" })`
@@ -51,17 +51,16 @@ const STYLE = {
     appearance: none;
     width: 20px;
     height: 20px;
-    border: 2px solid #ccc;
+    border: 2px solid ${({ theme }) => theme.lignt_gray};
     border-radius: 4px;
     cursor: pointer;
     position: absolute;
-    top: 8px; /* 상단 여백 */
-    right: 8px; /* 우측 여백 */
+    top: 8px;
+    right: 8px;
     transition: all 0.2s ease;
-
     &:checked {
-      background-color: #007bff;
-      border-color: #007bff;
+      background-color: ${({ theme }) => theme.blue};
+      border-color: ${({ theme }) => theme.blue};
     }
   `,
 };

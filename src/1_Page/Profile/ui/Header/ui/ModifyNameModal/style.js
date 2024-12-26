@@ -32,7 +32,7 @@ const STYLE = {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #dcdcdc;
+    border-bottom: 1px solid ${({ theme }) => theme.lignt_gray};
     padding: 8px 0;
   `,
 
@@ -40,12 +40,12 @@ const STYLE = {
     outline: none;
     border: none;
     font-size: 16px;
-    color: #000;
+    color: ${({ theme }) => theme.black};
   `,
 
   SuggestedNickname: styled.span`
     font-size: 16px;
-    color: #007bff;
+    color: ${({ theme }) => theme.blue};
     cursor: pointer;
 
     &:hover {
@@ -55,7 +55,7 @@ const STYLE = {
 
   SuggestionText: styled.p`
     font-size: 12px;
-    color: #888;
+    color: ${({ theme }) => theme.gray};
     margin-top: 5px;
   `,
 
@@ -64,20 +64,20 @@ const STYLE = {
     padding: 12px;
     font-size: 16px;
     font-weight: 500;
-    color: #fff;
-    background-color: #007bff;
+    color: ${({ theme }) => theme.white};
+    background-color: ${({ theme }) => theme.blue};
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 
     &:hover {
-      background-color: #0056b3;
+      background-color: ${({ theme }) => theme.deep_blue};
     }
 
     &:disabled {
-      background-color: #e0e0e0;
-      color: #888;
+      background-color: ${({ theme }) => theme.lignt_gray};
+      color: ${({ theme }) => theme.gray};
       cursor: not-allowed;
     }
   `,
