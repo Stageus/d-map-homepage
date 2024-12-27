@@ -35,8 +35,8 @@ const STYLE = {
     flex: 1;
     padding: 10px 0;
     background-color: transparent;
-    color: ${({ active, theme }) => (active ? theme.blue : theme.white)};
     transition: all 0.3s ease-in-out;
+    color: ${({ $active, theme }) => ($active ? theme.blue : theme.white)};
     border: none;
     font-size: 16px;
     font-weight: bold;

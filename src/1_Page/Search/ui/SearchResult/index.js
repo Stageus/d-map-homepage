@@ -18,14 +18,14 @@ const SearchResult = (props) => {
     <>
       <STYLE.TabContainer>
         <STYLE.TabBox>
-          <STYLE.TabBackground $activeTabName={activeTab === "이름"} />
+          <STYLE.TabBackground $activeTabName={handleGetPresentTab("이름")} />
           <STYLE.Tab
-            active={handleGetPresentTab("이름")}
+            $active={handleGetPresentTab("이름")}
             onClick={handleTabName}>
             이름
           </STYLE.Tab>
           <STYLE.Tab
-            active={handleGetPresentTab("장소")}
+            $active={handleGetPresentTab("장소")}
             onClick={handleTabLocation}>
             장소
           </STYLE.Tab>
