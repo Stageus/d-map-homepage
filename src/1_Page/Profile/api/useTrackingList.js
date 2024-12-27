@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-
 import { sharedPosts } from "./data";
 
+// API 호출 함수
 const getTrackData = async (userIdx) => {
-  return sharedPosts;
   try {
+    // 개발 중에는 로컬 데이터를 반환
+    return sharedPosts;
+
+    // 실제 API 호출
     const response = await fetch(`https://주소/user/${userIdx}`, {
       method: "GET",
       headers: {
@@ -12,63 +15,55 @@ const getTrackData = async (userIdx) => {
       },
     });
 
-    const status = response.status;
-
-    // 상태 코드 처리
     if (!response.ok) {
-      switch (status) {
+      // 상태 코드 처리
+      switch (response.status) {
         case 400:
-          console.log("입력 값 오류");
+          console.error("입력 값 오류");
           break;
         case 409:
-          console.log("중복 데이터 존재");
+          console.error("중복 데이터 존재");
           break;
         default:
-          console.log("서버 오류 발생");
+          console.error("서버 오류 발생");
       }
-      return null; // 에러 발생 시 null 반환
+      return null;
     }
 
-    // 응답 처리
-    const result = await response.json();
-    return result;
+    return await response.json();
   } catch (error) {
     console.error("네트워크 또는 서버 오류:", error);
-    throw error; // 에러 재발생
+    throw error;
   }
 };
-const parseShare = (data) => {
-  const share = data?.message.filter((item) => item.sharing === 0);
-  const save = data?.message.filter((item) => item.sharing === 1);
-  return { share, save };
-};
 
-const useTrackData = () => {
-  const [trackShareData, setTrackShareData] = useState(null);
-  const [trackSaveData, setTrackSaveData] = useState(null);
-  const [trackLoading, setLoading] = useState(null);
+// 커스텀 훅
+const useTrackData = (userIdx) => {
+  const [track, setTrack] = useState([]);
+  const [trackLoading, setLoading] = useState(false);
   const [trackError, setError] = useState(null);
 
-  const fetchTrackData = async (userIdx) => {
+  const fetchTrackData = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      setLoading(true);
       const trackData = await getTrackData(userIdx);
-      const { share, save } = parseShare(trackData);
-      setTrackShareData(share);
-      setTrackSaveData(save);
-      setLoading(false);
+      setTrack(trackData);
     } catch (err) {
-      setLoading(false);
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
-
+  useEffect(() => {
+    if (userIdx) {
+      fetchTrackData();
+    }
+  }, [userIdx]);
   return {
-    trackShareData,
-    trackSaveData,
+    track,
     trackLoading,
     trackError,
-    fetchTrackData,
   };
 };
 

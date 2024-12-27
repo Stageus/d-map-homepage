@@ -53,6 +53,27 @@ const Tracking = () => {
     strokeOpacity: 0.8,
     strokeWeight: 2,
   };
+<<<<<<< HEAD
+
+  // map 이 처음 load되었을 때 실행됨
+  const handleMapLoad = (map) => {
+    mapRef.current = map;
+  };
+
+  // 지도가 움직이지 않을 때 상태 trackingData를 갱신
+  const handleMapIdle = () => {
+    if (mapRef.current) {
+      setTrackingData(
+        mapRef.current.zoom,
+        mapRef.current.getCenter().toJSON(), // 헤딩이 설정되지 않았으면 0 반환
+        mapRef.current.heading
+      );
+      console.log(trackingDataRef.current);
+    }
+  };
+
+=======
+>>>>>>> develop
   return (
     <STYLE.Main>
       {/* map instance */}
@@ -78,8 +99,7 @@ const Tracking = () => {
             zoom: trackingData.zoom,
             center: trackingData.center,
             mapId: "90f87356969d889c",
-          }}
-        >
+          }}>
           {/* 선 그리기 */}
           {trackingData.line.map((elem) => {
             return <Polyline path={elem} options={polylineOptions} />;
@@ -116,11 +136,20 @@ const Tracking = () => {
           </>
         )}
       </STYLE.TrackingControlBtnContainer>
+<<<<<<< HEAD
+
+      {/* 트래킹 정지 버튼 클릭시 나타나는, tracking image 편집 모달 */}
+=======
+>>>>>>> develop
       <STYLE.Filter
         isModifying={isModifying}
         onClick={() => {
           if (isModifying) {
+<<<<<<< HEAD
+            setIsModifying(false);
+=======
             toggleIsModifying();
+>>>>>>> develop
           }
         }}
       />
