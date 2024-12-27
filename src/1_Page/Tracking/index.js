@@ -31,7 +31,11 @@ const Tracking = () => {
   const [isTracking, toggleTracking] = useIsTracking();
   const [isModifying, toggleIsModifying] = useIsModifying();
   const [trackingData, setTrackingData] = useTrackingDataAtom(); // zoom / center / heading / line
-  const [trackingSpot] = useTrackingSpot(isTracking, currentRecordingTrackingLineRef, recordedTrackingLineRef);
+  const [trackingSpot] = useTrackingSpot(
+    isTracking,
+    currentRecordingTrackingLineRef,
+    recordedTrackingLineRef
+  );
   // STATE STATE STATE STATE STATE STATE STATE STATE STATE STATE STATE STATE STATE STATE //
 
   // THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE //
@@ -44,8 +48,6 @@ const Tracking = () => {
     });
   }, 300);
   // THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE //
-
-  
 
   // 기본 line 디자인
   const polylineOptions = {
@@ -70,7 +72,7 @@ const Tracking = () => {
             if (mapRef.current) {
               throttledSetTrackingData();
             }
-            console.log(trackingSpot)
+            console.log(trackingSpot);
           }}
           options={{
             disableDefaultUI: true,
@@ -92,8 +94,7 @@ const Tracking = () => {
           <STYLE.TrackingControlBtn
             onClick={() => {
               toggleTracking();
-            }}
-          >
+            }}>
             <img src={play_icon} alt="play" />
           </STYLE.TrackingControlBtn>
         ) : (
@@ -101,15 +102,13 @@ const Tracking = () => {
             <STYLE.TrackingControlBtn
               onClick={() => {
                 toggleTracking();
-              }}
-            >
+              }}>
               <img src={pause_icon} alt="pause" />
             </STYLE.TrackingControlBtn>
             <STYLE.TrackingControlBtn
               onClick={() => {
                 toggleIsModifying();
-              }}
-            >
+              }}>
               <img src={stop_icon} alt="stop" />
             </STYLE.TrackingControlBtn>
           </>
