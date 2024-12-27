@@ -31,7 +31,11 @@ const Tracking = () => {
   const [isTracking, toggleTracking] = useIsTracking();
   const [isModifying, toggleIsModifying] = useIsModifying();
   const [trackingData, setTrackingData] = useTrackingDataAtom(); // zoom / center / heading / line
-  const [trackingSpot] = useTrackingSpot(isTracking, currentRecordingTrackingLineRef, recordedTrackingLineRef);
+  const [trackingSpot] = useTrackingSpot(
+    isTracking,
+    currentRecordingTrackingLineRef,
+    recordedTrackingLineRef
+  );
   // STATE STATE STATE STATE STATE STATE STATE STATE STATE STATE STATE STATE STATE STATE //
 
   // THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE //
@@ -45,35 +49,12 @@ const Tracking = () => {
   }, 300);
   // THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE THROTTLE //
 
-  
-
   // 기본 line 디자인
   const polylineOptions = {
     strokeColor: "#FF0000", // 빨간색 선
     strokeOpacity: 0.8,
     strokeWeight: 2,
   };
-<<<<<<< HEAD
-
-  // map 이 처음 load되었을 때 실행됨
-  const handleMapLoad = (map) => {
-    mapRef.current = map;
-  };
-
-  // 지도가 움직이지 않을 때 상태 trackingData를 갱신
-  const handleMapIdle = () => {
-    if (mapRef.current) {
-      setTrackingData(
-        mapRef.current.zoom,
-        mapRef.current.getCenter().toJSON(), // 헤딩이 설정되지 않았으면 0 반환
-        mapRef.current.heading
-      );
-      console.log(trackingDataRef.current);
-    }
-  };
-
-=======
->>>>>>> develop
   return (
     <STYLE.Main>
       {/* map instance */}
@@ -91,7 +72,7 @@ const Tracking = () => {
             if (mapRef.current) {
               throttledSetTrackingData();
             }
-            console.log(trackingSpot)
+            console.log(trackingSpot);
           }}
           options={{
             disableDefaultUI: true,
@@ -113,8 +94,7 @@ const Tracking = () => {
           <STYLE.TrackingControlBtn
             onClick={() => {
               toggleTracking();
-            }}
-          >
+            }}>
             <img src={play_icon} alt="play" />
           </STYLE.TrackingControlBtn>
         ) : (
@@ -122,34 +102,23 @@ const Tracking = () => {
             <STYLE.TrackingControlBtn
               onClick={() => {
                 toggleTracking();
-              }}
-            >
+              }}>
               <img src={pause_icon} alt="pause" />
             </STYLE.TrackingControlBtn>
             <STYLE.TrackingControlBtn
               onClick={() => {
                 toggleIsModifying();
-              }}
-            >
+              }}>
               <img src={stop_icon} alt="stop" />
             </STYLE.TrackingControlBtn>
           </>
         )}
       </STYLE.TrackingControlBtnContainer>
-<<<<<<< HEAD
-
-      {/* 트래킹 정지 버튼 클릭시 나타나는, tracking image 편집 모달 */}
-=======
->>>>>>> develop
       <STYLE.Filter
         isModifying={isModifying}
         onClick={() => {
           if (isModifying) {
-<<<<<<< HEAD
-            setIsModifying(false);
-=======
             toggleIsModifying();
->>>>>>> develop
           }
         }}
       />

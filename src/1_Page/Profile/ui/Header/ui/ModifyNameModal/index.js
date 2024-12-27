@@ -1,29 +1,17 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import STYLE from "./style";
 
 import Modal from "../../../../../../2_Widget/Modal";
 import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 
 import useConfirmModal from "../../../../model/useConfirmModal";
-
-import data from "./data";
+import useRandomNickname from "./model/useRandomNickname";
 
 const ModifyNameModal = (props) => {
   const { name, onClose } = props;
-  const [type, setType] = useState("현재");
-
-  const nicknameRef = useRef(null);
-  const randNickName = data?.message.nickname;
-  const [randState, setRandState] = useState(0);
-
   const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
     useConfirmModal();
-
-  const handleType = () => {
-    nicknameRef.current.value = randNickName[randState];
-    setType("추천된");
-    setRandState((prev) => prev + 1);
-  };
+  const { type, nicknameRef, handleType } = useRandomNickname();
 
   const closeRef = useRef(null);
   const handleNameConfirmModalOpen = (handleClose) => {
