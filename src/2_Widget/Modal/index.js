@@ -12,7 +12,7 @@ const Modal = (props) => {
     lineColor: "#FF0000",
   });
   const handleLineSet = (changeLine) => {
-    setLineInfo((prev) => ({ ...prev, changeLine }));
+    setLineInfo((prev) => ({ ...prev, ...changeLine }));
   };
 
   const {
