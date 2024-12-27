@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import STYLE from "./style";
 
 import Modal from "../../../../../../2_Widget/Modal";
@@ -12,6 +12,22 @@ const ModifyNameModal = (props) => {
   const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
     useConfirmModal();
   const { type, nicknameRef, handleType } = useRandomNickname();
+
+  const [message, setMessage] = useState("");
+
+  const handleModifyNickname = () => {
+    const nickname = nicknameRef.current.value;
+    const nicknameRegex = /^[^\s]{2,20}$/;
+    if (!nickname) {
+      setMessage("닉네임은 필수입니다.");
+      return;
+    }
+    if (!nicknameRegex.test(nickname)) {
+      setMessage("닉네임은 2글자 이상, 20자 이하로 입력해야 합니다.");
+      return;
+    }
+    setMessage("닉네임이 변경되었습니다 : ", nickname);
+  };
 
   const closeRef = useRef(null);
   const handleNameConfirmModalOpen = (handleClose) => {
@@ -53,7 +69,7 @@ const ModifyNameModal = (props) => {
       {confirmModal && (
         <ConfirmModal
           type={"one"}
-          message={"변경되었습니다"}
+          message={message}
           onClose={handleNameConfirmModalDone}
         />
       )}
