@@ -21,7 +21,7 @@ const TrackContainer = (props) => {
   return (
     <>
       <STYLE.TrackingContainer {...(!modifyMode && longPressEvents)}>
-        <Tracking dragable={false} data={{ ...track, height: "100%" }} />
+        <Tracking data={{ ...track, height: "100%", draggable: false }} />
         {modifyMode === "공유" && (
           <STYLE.TrackingClickBox
             onClick={() => {
