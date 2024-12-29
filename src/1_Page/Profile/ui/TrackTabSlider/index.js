@@ -8,16 +8,13 @@ import useModifyTrackingModal from "./model/useModifyTrackingModal";
 
 const TrackTabSlider = (props) => {
   const { modifyMode, handleToggleSharing, tabIndex } = props;
-  const { data } = props;
+  const { trackData, getLength } = props;
 
   const {
     modifyTrackingModal,
     handleModifyTrackingClose,
     handleModifyTrackingOpen,
   } = useModifyTrackingModal();
-
-  const getLength = (isShared) =>
-    data.filter((track) => track.sharing === isShared).length;
 
   const [longPressData, setLongPressData] = useState(null);
 
@@ -29,7 +26,7 @@ const TrackTabSlider = (props) => {
             {getLength(0) === 0 ? (
               <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
             ) : (
-              data?.map(
+              trackData?.map(
                 (track) =>
                   track.sharing === 0 && (
                     <TrackContainer
@@ -47,7 +44,7 @@ const TrackTabSlider = (props) => {
             {getLength(1) === 0 ? (
               <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
             ) : (
-              data?.map(
+              trackData?.map(
                 (track) =>
                   track.sharing === 1 && (
                     <TrackContainer

@@ -22,6 +22,7 @@ const Profile = () => {
     trackError,
     handleToggleSharing,
     handleCancel,
+    getLength,
   } = useData(userIdx); // API로 호출된 데이터 관리 훅
 
   // 로딩 애러 처리
@@ -33,7 +34,8 @@ const Profile = () => {
       <STYLE.Main>
         <Header
           setMode={{ modifyMode, handleSetMode, handleCloseMode }}
-          data={trackData}
+          trackData={trackData}
+          getLength={getLength}
           activeTab={activeTab}
           handleCancel={handleCancel}
           user={{ userIdx, name }}
@@ -59,7 +61,8 @@ const Profile = () => {
         <TrackTabSlider
           modifyMode={modifyMode}
           handleToggleSharing={handleToggleSharing}
-          data={trackData}
+          trackData={trackData}
+          getLength={getLength}
           tabIndex={tabIndex}
         />
       </STYLE.Main>

@@ -14,14 +14,12 @@ import ConfirmModal from "../../../../2_Widget/ConfirmModal";
 const Header = (props) => {
   const {
     user: { userIdx, profileImage },
-    data,
+    trackData,
+    getLength,
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handleCancel,
     activeTab,
   } = props;
-
-  const getLength = (isShared) =>
-    data.filter((track) => track.sharing === isShared).length;
 
   const { modifyImageModal, handleImageModalClose, handleImageModalOpen } =
     useModifyImageModal();
@@ -91,7 +89,7 @@ const Header = (props) => {
           <ModifyModeModal
             handleModifyModeClose={handleModifyModeClose}
             handleSetMode={handleSetMode}
-            sumDataLength={data.length}
+            sumtrackDataLength={trackData.length}
           />
         </>
       )}

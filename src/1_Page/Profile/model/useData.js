@@ -41,6 +41,9 @@ const useData = (userIdx) => {
     await fetchTrackData();
   };
 
+  const getLength = (isShared) =>
+    trackData.filter((track) => track.sharing === isShared).length;
+
   return {
     trackData,
     trackLoading,
@@ -48,6 +51,7 @@ const useData = (userIdx) => {
     handleToggleSharing,
     handleCancel,
     handleModify,
+    getLength,
   };
 };
 
