@@ -9,6 +9,13 @@ const useLongPressEvent = (onPinchStart, delay = 1000) => {
     }, delay);
   };
 
+  const handleCancel = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current); // 타이머 취소
+      timerRef.current = null;
+    }
+  };
+
   useEffect(() => {
     return () => {
       clearTimeout(timerRef.current); // Cleanup 타이머
@@ -16,8 +23,9 @@ const useLongPressEvent = (onPinchStart, delay = 1000) => {
   }, []);
 
   return {
-    onMouseDown: handleStart,
     onTouchStart: handleStart,
+    onTouchEnd: handleCancel,
+    onTouchCancel: handleCancel,
   };
 };
 
