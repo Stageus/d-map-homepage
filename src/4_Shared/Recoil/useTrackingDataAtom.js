@@ -6,7 +6,6 @@ const trackingDataAtom = atom({
     zoom: 10,
     center: { lat: 37.57, lng: 126.97 },
     heading: 0,
-    line: [],
   },
 });
 
