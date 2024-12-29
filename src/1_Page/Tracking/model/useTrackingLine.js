@@ -1,11 +1,10 @@
 import React from "react";
+import useTrackingLineAtom from "../../../4_Shared/Recoil/useTrackingLineAtom";
 
-const useTrackingSpot = (
-  isTracking,
-  currentRecordingTrackingLineRef,
-  recordedTrackingLineRef
-) => {
-  const [trackingSpot, setTrackingSpot] = React.useState(null);
+const useTrackingSpot = (isTracking) => {
+  const [trackingLine, setTrackingLine] = useTrackingLineAtom(); // line
+  const currentRecordingTrackingLineRef = React.useRef([]);
+  const recordedTrackingLineRef = React.useRef([]);
 
   React.useEffect(() => {
     const prevLine = recordedTrackingLineRef.current;
@@ -18,15 +17,18 @@ const useTrackingSpot = (
               lat: position.coords.latitude,
               lng: position.coords.longitude,
             };
-            setTrackingSpot(newTrackingSpot);
-
+            console.log(newTrackingSpot);
             if (currentRecordingTrackingLineRef.current) {
               currentRecordingTrackingLineRef.current = [
                 ...currentRecordingTrackingLineRef.current,
                 newTrackingSpot,
               ];
 
-              recordedTrackingLineRef.current = [...prevLine, currentRecordingTrackingLineRef.current]
+              recordedTrackingLineRef.current = [
+                ...prevLine,
+                currentRecordingTrackingLineRef.current,
+              ];
+              setTrackingLine(recordedTrackingLineRef.current);
             }
           },
           (error) => {
@@ -37,12 +39,11 @@ const useTrackingSpot = (
         console.log("Geolocation is not supported by this browser.");
       }
     };
-    let intervalId;
 
+    let intervalId;
     if (isTracking) {
       intervalId = setInterval(getLocation, 1000);
     } else {
-      setTrackingSpot(null);
       currentRecordingTrackingLineRef.current = [];
     }
 
@@ -50,7 +51,11 @@ const useTrackingSpot = (
     return () => clearInterval(intervalId);
   }, [isTracking]);
 
-  return [trackingSpot];
+  const resetTrackingLine = () => {
+    setTrackingLine([]);
+  }
+
+  return [trackingLine, resetTrackingLine];
 };
 
 export default useTrackingSpot;
