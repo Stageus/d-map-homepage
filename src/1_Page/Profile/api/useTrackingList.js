@@ -44,7 +44,6 @@ const useTrackData = (userIdx) => {
   const [trackError, setError] = useState(null);
 
   const fetchTrackData = async () => {
-    console.log("펫치");
     setLoading(true);
     setError(null);
     try {

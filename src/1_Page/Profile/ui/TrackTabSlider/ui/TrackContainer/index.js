@@ -2,21 +2,17 @@ import React from "react";
 import STYLE from "./style";
 
 import Tracking from "../../../../../../2_Widget/TrackingImage";
-import useLongPressEvent from "../../../../../../4_Shared/useLongPressEvent";
+import useLongPressEvent from "./model/useLongPressEvent";
 
 const TrackContainer = (props) => {
   const { track, modifyMode } = props;
   const { handleToggleSharing, setLongPressData, handleModifyTrackingOpen } =
     props;
 
-  const longPressEvents = useLongPressEvent(
-    () => {
-      handleModifyTrackingOpen();
-      setLongPressData(track);
-    },
-    null,
-    1000
-  );
+  const longPressEvents = useLongPressEvent(() => {
+    handleModifyTrackingOpen();
+    setLongPressData(track);
+  }, 1000);
 
   return (
     <>

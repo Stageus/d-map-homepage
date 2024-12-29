@@ -1,17 +1,12 @@
 import { useEffect, useRef } from "react";
 
-const useLongPressEvent = (onPinchStart, onPinchEnd, delay = 1000) => {
+const useLongPressEvent = (onPinchStart, delay = 1000) => {
   const timerRef = useRef(null);
 
   const handleStart = () => {
     timerRef.current = setTimeout(() => {
       if (onPinchStart) onPinchStart();
     }, delay);
-  };
-
-  const handleEnd = () => {
-    clearTimeout(timerRef.current);
-    if (onPinchEnd) onPinchEnd();
   };
 
   useEffect(() => {
@@ -22,10 +17,7 @@ const useLongPressEvent = (onPinchStart, onPinchEnd, delay = 1000) => {
 
   return {
     onMouseDown: handleStart,
-    onMouseUp: handleEnd,
-    onMouseLeave: handleEnd,
     onTouchStart: handleStart,
-    onTouchEnd: handleEnd,
   };
 };
 
