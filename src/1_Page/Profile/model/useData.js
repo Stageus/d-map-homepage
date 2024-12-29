@@ -1,18 +1,34 @@
 import { useEffect, useState } from "react";
+import useTrackData from "../api/useTrackingList";
+import useModifySharingTracking from "../api/useModifySharingTracking";
 
-const useData = (data) => {
+const useData = (userIdx) => {
+  const { track, trackLoading, trackError, fetchTrackData } =
+    useTrackData(userIdx); // 데이터 호출
+  const { modifySharing, loading, error } = useModifySharingTracking(); // 데이터 수정
   const [trackData, setTrackData] = useState([]);
+  const [modifyIdxList, setModifyList] = useState([]);
 
   useEffect(() => {
-    if (!data.message) return;
-    setTrackData(data.message);
-  }, [data]);
-  // 데이터 변경 취소
-  const handleCancel = () => {
-    setTrackData(data.message);
+    if (!track.message) return;
+    setTrackData(track.message);
+  }, [track]);
+
+  const handleAddModifyList = (track) => {
+    if (modifyIdxList.includes(track.idx)) {
+      setModifyList((prev) => prev.filter((idx) => idx !== track.idx));
+      return;
+    }
+    setModifyList((prev) => [...prev, track.idx]);
   };
 
-  const handleAnotherType = (track) => {
+  // 데이터 변경 취소
+  const handleCancel = () => {
+    setTrackData(track.message);
+  };
+
+  const handleToggleSharing = (track) => {
+    handleAddModifyList(track);
     setTrackData((prevData) =>
       prevData.map((item) =>
         item === track ? { ...item, sharing: item.sharing === 1 ? 0 : 1 } : item
@@ -20,10 +36,18 @@ const useData = (data) => {
     );
   };
 
+  const handleModify = async () => {
+    await modifySharing(modifyIdxList);
+    await fetchTrackData();
+  };
+
   return {
     trackData,
-    handleAnotherType,
+    trackLoading,
+    trackError,
+    handleToggleSharing,
     handleCancel,
+    handleModify,
   };
 };
 

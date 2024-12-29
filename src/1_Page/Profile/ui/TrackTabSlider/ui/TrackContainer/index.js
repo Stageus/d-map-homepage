@@ -6,7 +6,7 @@ import useLongPressEvent from "../../../../../../4_Shared/useLongPressEvent";
 
 const TrackContainer = (props) => {
   const { track, modifyMode } = props;
-  const { handleAnotherType, setLongPressData, handleModifyTrackingOpen } =
+  const { handleToggleSharing, setLongPressData, handleModifyTrackingOpen } =
     props;
 
   const longPressEvents = useLongPressEvent(
@@ -25,7 +25,7 @@ const TrackContainer = (props) => {
         {modifyMode === "공유" && (
           <STYLE.TrackingClickBox
             onClick={() => {
-              handleAnotherType(track);
+              handleToggleSharing(track);
             }}
           />
         )}
