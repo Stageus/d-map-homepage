@@ -13,12 +13,15 @@ import ConfirmModal from "../../../../2_Widget/ConfirmModal";
 
 const Header = (props) => {
   const {
-    user: { name, author, profileImage },
-    data: { shareData, saveData },
+    user: { userIdx, profileImage },
+    data,
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handleCancel,
     activeTab,
   } = props;
+
+  const getLength = (isShared) =>
+    data.filter((track) => track.sharing === isShared).length;
 
   const { modifyImageModal, handleImageModalClose, handleImageModalOpen } =
     useModifyImageModal();
@@ -43,21 +46,21 @@ const Header = (props) => {
           </STYLE.ProfileWrapper>
           <STYLE.UserInfo>
             <STYLE.ProfileBox>
-              <STYLE.UserName>{name}</STYLE.UserName>
-              {author && (
+              <STYLE.UserName>{userIdx}</STYLE.UserName>
+              {userIdx && (
                 <STYLE.ProfileButton onClick={handleModifyModeOpen}>
                   •••
                 </STYLE.ProfileButton>
               )}
             </STYLE.ProfileBox>
-            {author && (
+            {userIdx && (
               <STYLE.Nickname onClick={handleModifyNameModalOpen}>
                 닉네임 수정
               </STYLE.Nickname>
             )}
             <STYLE.PostCount>
               {activeTab} 게시물 :{" "}
-              {activeTab === "공유" ? shareData?.length : saveData?.length}개
+              {activeTab === "공유" ? getLength(0) : getLength(1)}개
             </STYLE.PostCount>
           </STYLE.UserInfo>
         </STYLE.ProfileContainer>
@@ -81,14 +84,14 @@ const Header = (props) => {
 
       {modifyImageModal && <ModifyImageModal onClose={handleImageModalClose} />}
       {modifyNameModal && (
-        <ModifyNameModal onClose={handleModifyNameModalClose} name={name} />
+        <ModifyNameModal onClose={handleModifyNameModalClose} name={userIdx} />
       )}
       {modifyModeModal && (
         <>
           <ModifyModeModal
             handleModifyModeClose={handleModifyModeClose}
             handleSetMode={handleSetMode}
-            sumDataLength={shareData?.length + saveData?.length}
+            sumDataLength={data.length}
           />
         </>
       )}
