@@ -15,7 +15,7 @@ const useTrackingData = (mapRef) => {
       setTrackingData(data);
     }
     
-  }, 1000);
+  }, 100);
   return [trackingData, throttledSetTrackingData];
 };
 

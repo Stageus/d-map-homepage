@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  GoogleMap,
-  LoadScript,
-  Polyline,
-} from "@react-google-maps/api";
-import useIsTracking from "./model/useIsTracking";
-import useIsModifying from "./model/useIsModifying";
+import { GoogleMap, LoadScript, Polyline } from "@react-google-maps/api";
 import STYLE from "./style";
 import useTrackingData from "./model/useTrackingData";
 import TrackingImage from "../../2_Widget/TrackingImage";
@@ -14,16 +8,22 @@ import pause_icon from "./assets/pause-solid.svg";
 import stop_icon from "./assets/stop-solid.svg";
 import useTrackingLine from "./model/useTrackingLine";
 import polylineOptions from "./constant/polylineOptions";
+import useIsTrackingAtom from "../../4_Shared/Recoil/useIsTrackingAtom";
+import useIsModifyingTrackingAtom from "../../4_Shared/Recoil/useIsModifyingTrackingAtom";
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 const Tracking = () => {
   const mapRef = React.useRef(null); // google map instance
-  const [isTracking, toggleTracking] = useIsTracking();
-  const [isModifying, toggleIsModifying] = useIsModifying();
+  const isInteractingMap = React.useRef(false);
+  const [isTracking, toggleTracking] = useIsTrackingAtom();
+  const [isModifying, toggleIsModifying] = useIsModifyingTrackingAtom();
   const [trackingData, throttledSetTrackingData] = useTrackingData(mapRef); // zoom / center / heading
-  const [trackingLine, resetTrackingLine] = useTrackingLine(isTracking);
-  
+  const [trackingLine, resetTrackingLine] = useTrackingLine(
+    isTracking,
+    isInteractingMap
+  );
+
   return (
     <STYLE.Main>
       {/* map instance */}
@@ -36,9 +36,15 @@ const Tracking = () => {
           onLoad={(map) => {
             mapRef.current = map;
           }}
-          onIdle={() => {
-            console.log("render");
-            throttledSetTrackingData();
+          onIdle={async () => {
+            await throttledSetTrackingData();
+            isInteractingMap.current = false;
+          }}
+          onDragStart={() => {
+            isInteractingMap.current = true;
+          }}
+          onZoomChanged={() => {
+            isInteractingMap.current = true;
           }}
           options={{
             disableDefaultUI: true,
@@ -76,6 +82,7 @@ const Tracking = () => {
             </STYLE.TrackingControlBtn>
             <STYLE.TrackingControlBtn
               onClick={() => {
+                toggleTracking();
                 toggleIsModifying();
               }}
             >
@@ -93,7 +100,7 @@ const Tracking = () => {
         }}
       />
       <STYLE.TrackingSaveModal isModifying={isModifying}>
-        <TrackingImage data={trackingData} />
+        <TrackingImage data={{ ...trackingData, line: trackingLine }} />
       </STYLE.TrackingSaveModal>
     </STYLE.Main>
   );
