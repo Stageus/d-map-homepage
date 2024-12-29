@@ -1,28 +1,32 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
 import STYLE from "./style";
 
 import Modal from "../../../../../../2_Widget/Modal";
 import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 
 import useConfirmModal from "../../../../model/useConfirmModal";
-
-import data from "./data";
+import useRandomNickname from "./model/useRandomNickname";
 
 const ModifyNameModal = (props) => {
   const { name, onClose } = props;
-  const [type, setType] = useState("현재");
-
-  const nicknameRef = useRef(null);
-  const randNickName = data?.message.nickname;
-  const [randState, setRandState] = useState(0);
-
   const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
     useConfirmModal();
+  const { type, nicknameRef, handleType } = useRandomNickname();
 
-  const handleType = () => {
-    nicknameRef.current.value = randNickName[randState];
-    setType("추천된");
-    setRandState((prev) => prev + 1);
+  const [message, setMessage] = useState("");
+
+  const handleModifyNickname = () => {
+    const nickname = nicknameRef.current.value;
+    const nicknameRegex = /^[^\s]{2,20}$/;
+    if (!nickname) {
+      setMessage("닉네임은 필수입니다.");
+      return;
+    }
+    if (!nicknameRegex.test(nickname)) {
+      setMessage("닉네임은 2글자 이상, 20자 이하로 입력해야 합니다.");
+      return;
+    }
+    setMessage("닉네임이 변경되었습니다 : ", nickname);
   };
 
   const closeRef = useRef(null);
@@ -65,7 +69,7 @@ const ModifyNameModal = (props) => {
       {confirmModal && (
         <ConfirmModal
           type={"one"}
-          message={"변경되었습니다"}
+          message={message}
           onClose={handleNameConfirmModalDone}
         />
       )}
