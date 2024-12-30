@@ -19,6 +19,8 @@ const Header = (props) => {
     getLength,
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handleCancel,
+    handleDelete,
+    handleModify,
     activeTab,
   } = props;
 
@@ -115,6 +117,7 @@ const Header = (props) => {
               : "저장하시겠습니까?"
           }
           onConfirm={() => {
+            modifyMode === "삭제" ? handleDelete() : handleModify();
             handleCloseMode();
             handleConfirmModalClose();
           }}

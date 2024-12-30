@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import useTrackData from "../api/useTrackingList";
 import useModifySharingTracking from "../api/useModifySharingTracking";
+import useDeleteTrackingImage from "../api/useDeleteTrackingImage";
 
 const useManageTrackData = (userIdx) => {
   const { track, trackLoading, trackError, fetchTrackData } =
     useTrackData(userIdx); // 데이터 호출 api
-  const { modifySharing, loading, error } = useModifySharingTracking(); // 데이터 수정 api
+  const { modifySharing } = useModifySharingTracking(); // 데이터 수정 api
+  const { deleteTrackingImage, status } = useDeleteTrackingImage();
 
   const [trackData, setTrackData] = useState([]);
   const [modifyIdxList, setModifyList] = useState([]);
@@ -15,6 +17,12 @@ const useManageTrackData = (userIdx) => {
     setTrackData(track.message);
   }, [track]);
 
+  // 데이터 변경 취소
+  const handleCancel = () => {
+    setTrackData(track.message);
+    setModifyList([]);
+  };
+
   const handleAddModifyList = (track) => {
     if (modifyIdxList.includes(track.idx)) {
       setModifyList((prev) => prev.filter((idx) => idx !== track.idx));
@@ -23,9 +31,14 @@ const useManageTrackData = (userIdx) => {
     setModifyList((prev) => [...prev, track.idx]);
   };
 
-  // 데이터 변경 취소
-  const handleCancel = () => {
-    setTrackData(track.message);
+  const handleDeleteAdd = async (track) => {
+    handleAddModifyList(track);
+  };
+
+  const handleDelete = async () => {
+    await deleteTrackingImage(modifyIdxList);
+    setModifyList([]);
+    await fetchTrackData();
   };
 
   const handleToggleSharing = (track) => {
@@ -39,6 +52,7 @@ const useManageTrackData = (userIdx) => {
 
   const handleModify = async () => {
     await modifySharing(modifyIdxList);
+    setModifyList([]);
     await fetchTrackData();
   };
 
@@ -52,6 +66,8 @@ const useManageTrackData = (userIdx) => {
     handleToggleSharing,
     handleCancel,
     handleModify,
+    handleDelete,
+    handleDeleteAdd,
     getLength,
   };
 };

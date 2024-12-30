@@ -6,8 +6,12 @@ import useLongPressEvent from "./model/useLongPressEvent";
 
 const TrackContainer = (props) => {
   const { track, modifyMode } = props;
-  const { handleToggleSharing, setLongPressData, handleModifyTrackingOpen } =
-    props;
+  const {
+    handleToggleSharing,
+    handleDeleteAdd,
+    setLongPressData,
+    handleModifyTrackingOpen,
+  } = props;
 
   const longPressEvents = useLongPressEvent(() => {
     handleModifyTrackingOpen();
@@ -25,7 +29,13 @@ const TrackContainer = (props) => {
             }}
           />
         )}
-        {modifyMode === "삭제" && <STYLE.TrackingCheckbox />}
+        {modifyMode === "삭제" && (
+          <STYLE.TrackingCheckbox
+            onClick={() => {
+              handleDeleteAdd(track);
+            }}
+          />
+        )}
       </STYLE.TrackingContainer>
     </>
   );

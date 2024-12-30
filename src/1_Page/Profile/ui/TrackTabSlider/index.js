@@ -7,7 +7,7 @@ import TrackContainer from "./ui/TrackContainer";
 import useModifyTrackingModal from "./model/useModifyTrackingModal";
 
 const TrackTabSlider = (props) => {
-  const { modifyMode, handleToggleSharing, tabIndex } = props;
+  const { modifyMode, handleToggleSharing, handleDeleteAdd, tabIndex } = props;
   const { trackData, getLength } = props;
 
   const {
@@ -50,6 +50,7 @@ const TrackTabSlider = (props) => {
                     <TrackContainer
                       track={track}
                       modifyMode={modifyMode}
+                      handleDeleteAdd={handleDeleteAdd}
                       handleToggleSharing={handleToggleSharing}
                       setLongPressData={setLongPressData}
                       handleModifyTrackingOpen={handleModifyTrackingOpen}

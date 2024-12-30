@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const SETTING_MODE_LIST = ["공유", "수정"];
+const SETTING_MODE_LIST = ["공유", "삭제"];
 
 const useSettingMode = () => {
   const [modifyMode, setIsModifyState] = useState(null);
