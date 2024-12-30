@@ -1,14 +1,16 @@
 import { useState } from "react";
 
-const modifyNickname = async (token, nickname) => {
+const modifyImage = async (token, imageFile) => {
   try {
-    const response = await fetch(`https://your-api-url.com/user/nickname`, {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    const response = await fetch(`https://your-api-url.com/user/image`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
+        Authorization: token, // Content-Type은 자동 설정됨
       },
-      body: JSON.stringify({ nickname }),
+      body: formData,
     });
 
     const status = response.status;
@@ -17,13 +19,13 @@ const modifyNickname = async (token, nickname) => {
     if (!response.ok) {
       switch (status) {
         case 400:
-          console.log("입력 값 오류: 닉네임 형식이 잘못되었습니다.");
+          console.log("입력 값 오류: 이미지 파일이 올바르지 않습니다.");
           break;
         case 401:
           console.log("인증 실패: 토큰이 유효하지 않습니다.");
           break;
-        case 409:
-          console.log("중복 닉네임: 해당 닉네임은 이미 사용 중입니다.");
+        case 413:
+          console.log("파일 크기 초과: 허용된 크기를 초과했습니다.");
           break;
         default:
           console.log("서버 오류 발생");
@@ -31,7 +33,6 @@ const modifyNickname = async (token, nickname) => {
       return null; // 에러 발생 시 null 반환
     }
 
-    // 성공적으로 변경된 결과 반환
     const result = await response.json();
     return result;
   } catch (error) {
@@ -40,20 +41,20 @@ const modifyNickname = async (token, nickname) => {
   }
 };
 
-const useModifyNickname = () => {
+const useModifyImage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const modify = async (token, nickname) => {
+  const modify = async (token, imageFile) => {
     try {
       setLoading(true);
       setError(null);
-      const result = await modifyNickname(token, nickname);
+      const result = await modifyImage(token, imageFile);
       setLoading(false);
       return result;
     } catch (err) {
       setLoading(false);
-      setError(err.message || "닉네임 수정 중 오류 발생");
+      setError(err.message);
       return null;
     }
   };
@@ -61,4 +62,4 @@ const useModifyNickname = () => {
   return { modify, loading, error };
 };
 
-export default useModifyNickname;
+export default useModifyImage;

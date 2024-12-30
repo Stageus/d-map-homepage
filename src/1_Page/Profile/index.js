@@ -10,8 +10,8 @@ import useManageTrackData from "./model/useManageTrackData";
 import { useParams } from "react-router-dom";
 
 const Profile = () => {
+  const isLogin = true;
   const { userIdx } = useParams();
-
   const { activeTab, tabIndex, handleTabClick } = useTabs();
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
 
@@ -40,7 +40,7 @@ const Profile = () => {
           user={{ userIdx }}
         />
         <STYLE.TabMenu>
-          {!userIdx ? (
+          {isLogin ? (
             <>
               <STYLE.Tab
                 active={activeTab === "공유"}
