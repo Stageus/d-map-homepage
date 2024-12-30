@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import STYLE from "./style";
 
 import Modal from "../../../../../../2_Widget/Modal";
