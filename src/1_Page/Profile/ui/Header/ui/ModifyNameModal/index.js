@@ -15,18 +15,20 @@ const ModifyNameModal = (props) => {
 
   const [message, setMessage] = useState("");
 
-  const handleModifyNickname = () => {
+  const handleModifyNickname = (handleClose) => {
     const nickname = nicknameRef.current.value;
     const nicknameRegex = /^[^\s]{2,20}$/;
     if (!nickname) {
       setMessage("닉네임은 필수입니다.");
+      handleConfirmModalOpen();
       return;
     }
     if (!nicknameRegex.test(nickname)) {
       setMessage("닉네임은 2글자 이상, 20자 이하로 입력해야 합니다.");
       return;
     }
-    setMessage("닉네임이 변경되었습니다 : ", nickname);
+    setMessage(`닉네임이 변경되었습니다 :  ${nickname}`);
+    handleNameConfirmModalOpen(handleClose);
   };
 
   const closeRef = useRef(null);
@@ -36,7 +38,7 @@ const ModifyNameModal = (props) => {
   };
   const handleNameConfirmModalDone = () => {
     handleConfirmModalClose();
-    closeRef.current();
+    if (closeRef.current) closeRef.current();
   };
 
   return (
@@ -59,7 +61,7 @@ const ModifyNameModal = (props) => {
             </STYLE.InputContainer>
             <STYLE.SubmitButton
               onClick={() => {
-                handleNameConfirmModalOpen(handleClose);
+                handleModifyNickname(handleClose);
               }}>
               수정하기
             </STYLE.SubmitButton>

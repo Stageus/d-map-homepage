@@ -1,5 +1,6 @@
 import React from "react";
 import STYLE from "./style.js";
+import { useParams } from "react-router-dom";
 
 import useModifyImageModal from "./model/useModifyImageModal.js";
 import useModifyNameModal from "./model/useModifyNameModal.js";
@@ -14,13 +15,14 @@ import useGetUserData from "./model/useGetUserData.js";
 
 const Header = (props) => {
   const {
-    user: { userIdx },
     trackData,
     getLength,
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handleCancel,
     activeTab,
   } = props;
+
+  const { userIdx } = useParams();
 
   const { userData, loading, error } = useGetUserData(userIdx);
 
@@ -85,7 +87,10 @@ const Header = (props) => {
 
       {modifyImageModal && <ModifyImageModal onClose={handleImageModalClose} />}
       {modifyNameModal && (
-        <ModifyNameModal onClose={handleModifyNameModalClose} name={userIdx} />
+        <ModifyNameModal
+          onClose={handleModifyNameModalClose}
+          name={userData?.nickname}
+        />
       )}
       {modifyModeModal && (
         <>
