@@ -31,7 +31,7 @@ const useManageTrackData = (userIdx) => {
     setModifyList((prev) => [...prev, track.idx]);
   };
 
-  const handleDeleteAdd = async (track) => {
+  const handleDeleteAdd = (track) => {
     handleAddModifyList(track);
   };
 

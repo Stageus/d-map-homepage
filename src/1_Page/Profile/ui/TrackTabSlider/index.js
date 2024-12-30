@@ -32,6 +32,7 @@ const TrackTabSlider = (props) => {
                     <TrackContainer
                       track={track}
                       modifyMode={modifyMode}
+                      handleDeleteAdd={handleDeleteAdd}
                       handleToggleSharing={handleToggleSharing}
                       setLongPressData={setLongPressData}
                       handleModifyTrackingOpen={handleModifyTrackingOpen}
