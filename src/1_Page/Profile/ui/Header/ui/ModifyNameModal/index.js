@@ -6,6 +6,7 @@ import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 
 import useConfirmModal from "../../../../model/useConfirmModal";
 import useRandomNickname from "./model/useRandomNickname";
+import useModifyNickname from "./api/useModifyNickname";
 
 const ModifyNameModal = (props) => {
   const { name, onClose } = props;
@@ -14,6 +15,7 @@ const ModifyNameModal = (props) => {
   const { type, nicknameRef, handleType } = useRandomNickname();
 
   const [message, setMessage] = useState("");
+  const { modify, loading, error } = useModifyNickname();
 
   const handleModifyNickname = (handleClose) => {
     const nickname = nicknameRef.current.value;
@@ -27,8 +29,15 @@ const ModifyNameModal = (props) => {
       setMessage("닉네임은 2글자 이상, 20자 이하로 입력해야 합니다.");
       return;
     }
-    setMessage(`닉네임이 변경되었습니다 :  ${nickname}`);
-    handleNameConfirmModalOpen(handleClose);
+    const result = modify(nickname);
+
+    if (result) {
+      setMessage(`닉네임이 변경되었습니다 :  ${nickname}`);
+      handleNameConfirmModalOpen(handleClose);
+      return;
+    }
+    setMessage(result);
+    handleConfirmModalOpen();
   };
 
   const closeRef = useRef(null);
