@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import useTrackData from "../api/useTrackingList";
 import useModifySharingTracking from "../api/useModifySharingTracking";
 
-const useData = (userIdx) => {
+const useManageTrackData = (userIdx) => {
   const { track, trackLoading, trackError, fetchTrackData } =
-    useTrackData(userIdx); // 데이터 호출
-  const { modifySharing, loading, error } = useModifySharingTracking(); // 데이터 수정
+    useTrackData(userIdx); // 데이터 호출 api
+  const { modifySharing, loading, error } = useModifySharingTracking(); // 데이터 수정 api
+
   const [trackData, setTrackData] = useState([]);
   const [modifyIdxList, setModifyList] = useState([]);
 
@@ -55,4 +56,4 @@ const useData = (userIdx) => {
   };
 };
 
-export default useData;
+export default useManageTrackData;

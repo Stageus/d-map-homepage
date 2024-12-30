@@ -23,5 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 src/1_Page/Tracking/
+src/1_Page/index.js
 
 *.env

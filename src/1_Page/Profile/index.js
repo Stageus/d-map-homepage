@@ -6,11 +6,10 @@ import Loading from "../../2_Widget/Loading";
 
 import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
-import useData from "./model/useData";
+import useManageTrackData from "./model/useManageTrackData";
 import { useParams } from "react-router-dom";
 
 const Profile = () => {
-  const name = "김재걸";
   const { userIdx } = useParams();
 
   const { activeTab, tabIndex, handleTabClick } = useTabs();
@@ -23,7 +22,7 @@ const Profile = () => {
     handleToggleSharing,
     handleCancel,
     getLength,
-  } = useData(userIdx); // API로 호출된 데이터 관리 훅
+  } = useManageTrackData(userIdx); // API로 호출된 데이터 관리 훅
 
   // 로딩 애러 처리
   if (trackLoading) return <Loading />;
@@ -38,10 +37,10 @@ const Profile = () => {
           getLength={getLength}
           activeTab={activeTab}
           handleCancel={handleCancel}
-          user={{ userIdx, name }}
+          user={{ userIdx }}
         />
         <STYLE.TabMenu>
-          {userIdx ? (
+          {!userIdx ? (
             <>
               <STYLE.Tab
                 active={activeTab === "공유"}

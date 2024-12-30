@@ -10,16 +10,19 @@ import ModifyImageModal from "./ui/ModifyImageModal/index.js";
 import ModifyNameModal from "./ui/ModifyNameModal/index.js";
 import ModifyModeModal from "./ui/ModifyModeModal/index.js";
 import ConfirmModal from "../../../../2_Widget/ConfirmModal";
+import useGetUserData from "./model/useGetUserData.js";
 
 const Header = (props) => {
   const {
-    user: { userIdx, profileImage },
+    user: { userIdx },
     trackData,
     getLength,
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handleCancel,
     activeTab,
   } = props;
+
+  const { userData, loading, error } = useGetUserData(userIdx);
 
   const { modifyImageModal, handleImageModalClose, handleImageModalOpen } =
     useModifyImageModal();
@@ -40,11 +43,11 @@ const Header = (props) => {
       {!modifyMode ? (
         <STYLE.ProfileContainer>
           <STYLE.ProfileWrapper onClick={handleImageModalOpen}>
-            <STYLE.ProfileImg src={profileImage} alt="Profile" />
+            <STYLE.ProfileImg src={userData?.image} alt="Profile" />
           </STYLE.ProfileWrapper>
           <STYLE.UserInfo>
             <STYLE.ProfileBox>
-              <STYLE.UserName>{userIdx}</STYLE.UserName>
+              <STYLE.UserName>{userData?.nickname}</STYLE.UserName>
               {userIdx && (
                 <STYLE.ProfileButton onClick={handleModifyModeOpen}>
                   •••
