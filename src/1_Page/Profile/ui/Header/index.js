@@ -85,7 +85,12 @@ const Header = (props) => {
         </STYLE.Container>
       )}
 
-      {modifyImageModal && <ModifyImageModal onClose={handleImageModalClose} />}
+      {modifyImageModal && (
+        <ModifyImageModal
+          image={userData?.image}
+          onClose={handleImageModalClose}
+        />
+      )}
       {modifyNameModal && (
         <ModifyNameModal
           onClose={handleModifyNameModalClose}

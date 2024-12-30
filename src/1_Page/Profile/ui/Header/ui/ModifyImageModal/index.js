@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import STYLE from "./style";
 
 import Modal from "../../../../../../2_Widget/Modal";
@@ -6,30 +6,62 @@ import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 
 import useFileReader from "./model/useFileReader";
 import useConfirmModal from "../../../../model/useConfirmModal";
+import useModifyImage from "./api/useModifyImage";
 
 const ModifyImageModal = (props) => {
   const { onClose } = props;
+  const { image } = props;
+
+  const [message, setMessage] = useState("");
 
   const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
     useConfirmModal();
 
+  const { modify, loading, error } = useModifyImage();
+
   const closeRef = useRef(null);
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    imageRef.current = image;
+  }, [image]);
 
   const handleImageConfirmModalOpen = (handleClose) => {
     handleConfirmModalOpen();
     closeRef.current = handleClose;
   };
 
+  const handleModifyClick = async (handleClose) => {
+    if (errorMessage) {
+      setMessage(errorMessage);
+      handleConfirmModalOpen();
+    }
+    if (imageRef.current == imagePreview) {
+      setMessage("사진을 변경하세요");
+      handleConfirmModalOpen();
+      return;
+    }
+    const result = await modify(imagePreview);
+    if (result) {
+      setMessage("변경되었습니다");
+      handleImageConfirmModalOpen(handleClose);
+      return;
+    }
+    setMessage(result);
+    handleConfirmModalOpen();
+  };
+
   const handleImageConfirmModalDone = () => {
     handleConfirmModalClose();
-    closeRef.current();
+    if (closeRef.current) closeRef.current();
   };
   const {
     fileInputRef,
     imagePreview,
+    errorMessage,
     handleProfileImageClick,
     handleFileChange,
-  } = useFileReader();
+  } = useFileReader(image);
 
   return (
     <>
@@ -54,7 +86,7 @@ const ModifyImageModal = (props) => {
             </STYLE.PhotoButton>
             <STYLE.EditButton
               onClick={() => {
-                handleImageConfirmModalOpen(handleClose);
+                handleModifyClick(handleClose);
               }}>
               수정하기
             </STYLE.EditButton>
@@ -64,7 +96,7 @@ const ModifyImageModal = (props) => {
       {confirmModal && (
         <ConfirmModal
           type={"one"}
-          message={"변경되었습니다"}
+          message={message}
           onClose={handleImageConfirmModalDone}
         />
       )}
