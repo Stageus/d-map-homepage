@@ -37,6 +37,7 @@ const STYLE = {
   `,
 
   CurrentNickname: styled.input`
+    width: 100%;
     outline: none;
     border: none;
     font-size: 16px;
@@ -44,10 +45,9 @@ const STYLE = {
   `,
 
   SuggestedNickname: styled.span`
+    width: 100px;
     font-size: 16px;
     color: ${({ theme }) => theme.blue};
-    cursor: pointer;
-
     &:hover {
       text-decoration: underline;
     }
@@ -80,6 +80,14 @@ const STYLE = {
       color: ${({ theme }) => theme.gray};
       cursor: not-allowed;
     }
+  `,
+  ErrorText: styled.span`
+    color: ${({ theme }) => theme.red};
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+    font-weight: bold;
+    line-height: 1.2;
   `,
 };
 

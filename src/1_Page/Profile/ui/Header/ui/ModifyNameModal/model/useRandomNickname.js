@@ -1,15 +1,15 @@
 import useGetRandomNicknames from "../api/useGetRandomNicknames";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
-const useRandomNickname = () => {
+const useRandomNickname = (setValue) => {
   const { nicknames, loading, error, getRandomNicknames } =
     useGetRandomNicknames();
   const [type, setType] = useState("현재");
 
-  const nicknameRef = useRef(null);
   const [randState, setRandState] = useState(0);
   const handleType = async () => {
-    nicknameRef.current.value = nicknames[randState];
+    setValue("nickname", nicknames[randState]);
+    setValue(nicknames[randState]);
     setType("추천된");
     setRandState((prev) => prev + 1);
     if (randState + 1 >= nicknames.length) {
@@ -17,6 +17,6 @@ const useRandomNickname = () => {
       setRandState(0);
     }
   };
-  return { type, nicknameRef, handleType };
+  return { type, handleType };
 };
 export default useRandomNickname;

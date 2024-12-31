@@ -10,7 +10,6 @@ import useNicknameModal from "./model/useNicknameModal";
 
 const ModifyNameModal = (props) => {
   const { name, onClose } = props;
-  const { type, handleType } = useRandomNickname();
   const {
     confirmModal,
     message,
@@ -21,14 +20,13 @@ const ModifyNameModal = (props) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: { nickname: name },
   });
 
-  const onSubmit = (data, handleClose) => {
-    handleModifyNickname(data.nickname, handleClose);
-  };
+  const { type, handleType } = useRandomNickname(setValue);
 
   return (
     <>
@@ -50,7 +48,10 @@ const ModifyNameModal = (props) => {
                     },
                   })}
                 />
-                <STYLE.SuggestedNickname onClick={handleType}>
+                <STYLE.SuggestedNickname
+                  onClick={() => {
+                    handleType(setValue);
+                  }}>
                   딴거할래요
                 </STYLE.SuggestedNickname>
               </STYLE.InputWrapper>
@@ -62,7 +63,9 @@ const ModifyNameModal = (props) => {
               </STYLE.SuggestionText>
             </STYLE.InputContainer>
             <STYLE.SubmitButton
-              onClick={handleSubmit((data) => onSubmit(data, handleClose))}>
+              onClick={handleSubmit((data) =>
+                handleModifyNickname(data.nickname, handleClose)
+              )}>
               수정하기
             </STYLE.SubmitButton>
           </STYLE.Container>

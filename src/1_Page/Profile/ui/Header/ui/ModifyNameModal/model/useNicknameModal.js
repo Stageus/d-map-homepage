@@ -10,16 +10,15 @@ const useNicknameModal = () => {
 
   const handleModifyNickname = (nickname, handleClose) => {
     const result = modify(nickname);
-
     if (result) {
       setMessage(`닉네임이 변경되었습니다 : ${nickname}`);
       handleNameConfirmModalOpen(handleClose);
       return;
     }
-
     setMessage(result);
     handleConfirmModalOpen();
   };
+
   const closeRef = useRef(null);
   const handleNameConfirmModalOpen = (handleClose) => {
     handleConfirmModalOpen();
@@ -29,6 +28,7 @@ const useNicknameModal = () => {
     handleConfirmModalClose();
     if (closeRef.current) closeRef.current();
   };
+
   return {
     confirmModal,
     message,
