@@ -16,11 +16,9 @@ import useGetUserData from "./model/useGetUserData.js";
 const Header = (props) => {
   const {
     trackData,
-    getLengthSharing,
+    getTrackLength,
     setMode: { modifyMode, handleSetMode, handleCloseMode },
-    handleCancel,
-    handleDelete,
-    handleModify,
+    handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
     activeTab,
   } = props;
 
@@ -65,8 +63,7 @@ const Header = (props) => {
             )}
             <STYLE.PostCount>
               {activeTab} 게시물 :{" "}
-              {activeTab === "공유" ? getLengthSharing(0) : getLengthSharing(1)}
-              개
+              {activeTab === "공유" ? getTrackLength(0) : getTrackLength(1)}개
             </STYLE.PostCount>
           </STYLE.UserInfo>
         </STYLE.ProfileContainer>
@@ -80,7 +77,7 @@ const Header = (props) => {
             <STYLE.Button
               onClick={() => {
                 handleCloseMode();
-                handleCancel();
+                handleSelectCancel();
               }}>
               취소
             </STYLE.Button>
@@ -118,7 +115,7 @@ const Header = (props) => {
               : "저장하시겠습니까?"
           }
           onConfirm={() => {
-            modifyMode === "삭제" ? handleDelete() : handleModify();
+            modifyMode === "삭제" ? handleDeleteTrack() : handleModifyTrack();
             handleCloseMode();
             handleConfirmModalClose();
           }}

@@ -18,7 +18,7 @@ const useManageTrackData = (userIdx) => {
   }, [track]);
 
   // 데이터 변경 취소
-  const handleCancel = () => {
+  const handleSelectCancel = () => {
     setTrackData(track.message);
     setModifyList([]);
   };
@@ -35,13 +35,13 @@ const useManageTrackData = (userIdx) => {
     handleAddModifyList(track);
   };
 
-  const handleDelete = async () => {
+  const handleDeleteTrack = async () => {
     await deleteTrackingImage(modifyIdxList);
     setModifyList([]);
     await fetchTrackData();
   };
 
-  const handleToggleSharing = (track) => {
+  const handleToggleTrackType = (track) => {
     handleAddModifyList(track);
     setTrackData((prevData) =>
       prevData.map((item) =>
@@ -50,25 +50,25 @@ const useManageTrackData = (userIdx) => {
     );
   };
 
-  const handleModify = async () => {
+  const handleModifyTrack = async () => {
     await modifySharing(modifyIdxList);
     setModifyList([]);
     await fetchTrackData();
   };
 
-  const getLength = (isShared) =>
+  const getTrackLength = (isShared) =>
     trackData.filter((track) => track.sharing === isShared).length;
 
   return {
     trackData,
     trackLoading,
     trackError,
-    handleToggleSharing,
-    handleCancel,
-    handleModify,
-    handleDelete,
+    handleToggleTrackType,
+    handleSelectCancel,
+    handleModifyTrack,
+    handleDeleteTrack,
     handleDeleteAdd,
-    getLength,
+    getTrackLength,
   };
 };
 

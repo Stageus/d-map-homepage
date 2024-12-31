@@ -5,12 +5,15 @@ import Tracking from "../../../../../../2_Widget/TrackingImage";
 import useLongPressEvent from "./model/useLongPressEvent";
 
 const TrackContainer = (props) => {
-  const { track, modifyMode } = props;
   const {
-    handleDeleteAdd,
-    handleToggleSharing,
+    track,
+    modifyMode,
     setLongPressData,
-    handleModifyTrackingOpen,
+    handle: {
+      handleDeleteAdd,
+      handleToggleTrackType,
+      handleModifyTrackingOpen,
+    },
   } = props;
 
   const longPressEvents = useLongPressEvent(() => {
@@ -25,7 +28,7 @@ const TrackContainer = (props) => {
         {modifyMode === "공유" && (
           <STYLE.TrackingClickBox
             onClick={() => {
-              handleToggleSharing(track);
+              handleToggleTrackType(track);
             }}
           />
         )}

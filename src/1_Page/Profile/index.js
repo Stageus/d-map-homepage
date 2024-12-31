@@ -19,12 +19,12 @@ const Profile = () => {
     trackData,
     trackLoading,
     trackError,
-    getLengthSharing,
-    handleToggleSharing,
-    handleCancel,
-    handleModify,
-    handleDelete,
+    handleToggleTrackType,
+    handleSelectCancel,
+    handleModifyTrack,
+    handleDeleteTrack,
     handleDeleteAdd,
+    getTrackLength,
   } = useManageTrackData(userIdx); // API로 호출된 데이터 관리 훅
 
   // 로딩 애러 처리
@@ -37,11 +37,9 @@ const Profile = () => {
         <Header
           setMode={{ modifyMode, handleSetMode, handleCloseMode }}
           trackData={trackData}
-          getLengthSharing={getLengthSharing}
+          getTrackLength={getTrackLength}
           activeTab={activeTab}
-          handleCancel={handleCancel}
-          handleDelete={handleDelete}
-          handleModify={handleModify}
+          handler={{ handleSelectCancel, handleDeleteTrack, handleModifyTrack }}
           user={{ userIdx }}
         />
         <STYLE.TabMenu>
@@ -64,10 +62,9 @@ const Profile = () => {
         </STYLE.TabMenu>
         <TrackTabSlider
           modifyMode={modifyMode}
-          handleToggleSharing={handleToggleSharing}
-          handleDeleteAdd={handleDeleteAdd}
+          handle={{ handleToggleTrackType, handleDeleteAdd }}
           trackData={trackData}
-          getLengthSharing={getLengthSharing}
+          getTrackLength={getTrackLength}
           tabIndex={tabIndex}
         />
       </STYLE.Main>

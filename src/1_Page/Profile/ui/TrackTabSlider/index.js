@@ -7,14 +7,19 @@ import TrackContainer from "./ui/TrackContainer";
 import useModifyTrackingModal from "./model/useModifyTrackingModal";
 
 const TrackTabSlider = (props) => {
-  const { modifyMode, handleToggleSharing, handleDeleteAdd, tabIndex } = props;
-  const { trackData, getLengthSharing } = props;
+  const {
+    trackData,
+    getTrackLength,
+    modifyMode,
+    tabIndex,
+    handle: { handleToggleTrackType, handleDeleteAdd },
+  } = props;
 
   const {
     modifyTrackingModal,
     handleModifyTrackingClose,
     handleModifyTrackingOpen,
-  } = useModifyTrackingModal();
+  } = useModifyTrackingModal(); // 트래킹 이미지 수정 모달 관리
 
   const [longPressData, setLongPressData] = useState(null);
 
@@ -23,7 +28,7 @@ const TrackTabSlider = (props) => {
       <STYLE.SliderWrapper>
         <STYLE.Slider $tabIndex={tabIndex}>
           <STYLE.PostGrid>
-            {getLengthSharing(0) === 0 ? (
+            {getTrackLength(0) === 0 ? (
               <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
             ) : (
               trackData?.map(
@@ -32,17 +37,19 @@ const TrackTabSlider = (props) => {
                     <TrackContainer
                       track={track}
                       modifyMode={modifyMode}
-                      handleDeleteAdd={handleDeleteAdd}
-                      handleToggleSharing={handleToggleSharing}
+                      handle={{
+                        handleDeleteAdd,
+                        handleToggleTrackType,
+                        handleModifyTrackingOpen,
+                      }}
                       setLongPressData={setLongPressData}
-                      handleModifyTrackingOpen={handleModifyTrackingOpen}
                     />
                   )
               )
             )}
           </STYLE.PostGrid>
           <STYLE.PostGrid>
-            {getLengthSharing(1) === 0 ? (
+            {getTrackLength(1) === 0 ? (
               <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
             ) : (
               trackData?.map(
@@ -51,10 +58,12 @@ const TrackTabSlider = (props) => {
                     <TrackContainer
                       track={track}
                       modifyMode={modifyMode}
-                      handleDeleteAdd={handleDeleteAdd}
-                      handleToggleSharing={handleToggleSharing}
+                      handle={{
+                        handleDeleteAdd,
+                        handleToggleTrackType,
+                        handleModifyTrackingOpen,
+                      }}
                       setLongPressData={setLongPressData}
-                      handleModifyTrackingOpen={handleModifyTrackingOpen}
                     />
                   )
               )
