@@ -36,15 +36,15 @@ const ModifyNameModal = (props) => {
             <STYLE.Header>닉네임 변경</STYLE.Header>
             <STYLE.InputContainer>
               <STYLE.Label>닉네임</STYLE.Label>
-              <STYLE.InputWrapper>
+              <STYLE.InputWrapper $error={errors.nickname}>
                 <STYLE.CurrentNickname
                   placeholder="닉네임 입력"
                   {...register("nickname", {
-                    required: "닉네임은 필수입니다.",
+                    required: "닉네임은 필수입니다!",
                     pattern: {
                       value: /^[^\s]{2,20}$/,
                       message:
-                        "닉네임은 2글자 이상, 20자 이하로 입력해야 합니다.",
+                        "닉네임은 2글자 이상, 20자 이하로 입력해야 합니다!",
                     },
                   })}
                 />

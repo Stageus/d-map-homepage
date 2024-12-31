@@ -32,7 +32,8 @@ const STYLE = {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid ${({ theme }) => theme.lignt_gray};
+    border-bottom: 1px solid
+      ${({ $error, theme }) => ($error ? theme.red : theme.lignt_gray)};
     padding: 8px 0;
   `,
 
@@ -55,6 +56,7 @@ const STYLE = {
 
   SuggestionText: styled.p`
     font-size: 12px;
+    height: 12px;
     color: ${({ theme }) => theme.gray};
     margin-top: 5px;
   `,
@@ -81,13 +83,16 @@ const STYLE = {
       cursor: not-allowed;
     }
   `,
-  ErrorText: styled.span`
+  ErrorText: styled.div`
+    width: 100%;
+    height: 12px;
+    margin-top: 5px;
     color: ${({ theme }) => theme.red};
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
+    font-size: 10px;
     display: block;
     font-weight: bold;
     line-height: 1.2;
+    text-align: end;
   `,
 };
 
