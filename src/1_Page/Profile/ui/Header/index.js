@@ -16,7 +16,7 @@ import useGetUserData from "./model/useGetUserData.js";
 const Header = (props) => {
   const {
     trackData,
-    getLength,
+    getLengthSharing,
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handleCancel,
     handleDelete,
@@ -26,21 +26,21 @@ const Header = (props) => {
 
   const { userIdx } = useParams();
 
-  const { userData, loading, error } = useGetUserData(userIdx);
+  const { userData, loading, error } = useGetUserData(userIdx); // 프로필 데이터
 
   const { modifyImageModal, handleImageModalClose, handleImageModalOpen } =
-    useModifyImageModal();
+    useModifyImageModal(); // 프로필 이미지 모달
   const {
     modifyNameModal,
     handleModifyNameModalClose,
     handleModifyNameModalOpen,
-  } = useModifyNameModal();
-
-  const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
-    useConfirmModal();
+  } = useModifyNameModal(); // 닉네임 수정 모달
 
   const { modifyModeModal, handleModifyModeClose, handleModifyModeOpen } =
-    useModifyMode();
+    useModifyMode(); // 수정 , 삭제 뒤로가기 모달
+
+  const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
+    useConfirmModal(); // 확인 모달
 
   return (
     <>
@@ -65,7 +65,8 @@ const Header = (props) => {
             )}
             <STYLE.PostCount>
               {activeTab} 게시물 :{" "}
-              {activeTab === "공유" ? getLength(0) : getLength(1)}개
+              {activeTab === "공유" ? getLengthSharing(0) : getLengthSharing(1)}
+              개
             </STYLE.PostCount>
           </STYLE.UserInfo>
         </STYLE.ProfileContainer>

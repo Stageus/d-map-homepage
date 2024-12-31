@@ -19,7 +19,7 @@ const Profile = () => {
     trackData,
     trackLoading,
     trackError,
-    getLength,
+    getLengthSharing,
     handleToggleSharing,
     handleCancel,
     handleModify,
@@ -37,7 +37,7 @@ const Profile = () => {
         <Header
           setMode={{ modifyMode, handleSetMode, handleCloseMode }}
           trackData={trackData}
-          getLength={getLength}
+          getLengthSharing={getLengthSharing}
           activeTab={activeTab}
           handleCancel={handleCancel}
           handleDelete={handleDelete}
@@ -67,7 +67,7 @@ const Profile = () => {
           handleToggleSharing={handleToggleSharing}
           handleDeleteAdd={handleDeleteAdd}
           trackData={trackData}
-          getLength={getLength}
+          getLengthSharing={getLengthSharing}
           tabIndex={tabIndex}
         />
       </STYLE.Main>

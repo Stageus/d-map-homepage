@@ -8,7 +8,7 @@ import useModifyTrackingModal from "./model/useModifyTrackingModal";
 
 const TrackTabSlider = (props) => {
   const { modifyMode, handleToggleSharing, handleDeleteAdd, tabIndex } = props;
-  const { trackData, getLength } = props;
+  const { trackData, getLengthSharing } = props;
 
   const {
     modifyTrackingModal,
@@ -23,7 +23,7 @@ const TrackTabSlider = (props) => {
       <STYLE.SliderWrapper>
         <STYLE.Slider $tabIndex={tabIndex}>
           <STYLE.PostGrid>
-            {getLength(0) === 0 ? (
+            {getLengthSharing(0) === 0 ? (
               <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
             ) : (
               trackData?.map(
@@ -42,7 +42,7 @@ const TrackTabSlider = (props) => {
             )}
           </STYLE.PostGrid>
           <STYLE.PostGrid>
-            {getLength(1) === 0 ? (
+            {getLengthSharing(1) === 0 ? (
               <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
             ) : (
               trackData?.map(
