@@ -55,12 +55,13 @@ const ModifyNameModal = (props) => {
                   딴거할래요
                 </STYLE.SuggestedNickname>
               </STYLE.InputWrapper>
-              {errors.nickname && (
-                <STYLE.ErrorText>{errors.nickname.message}</STYLE.ErrorText>
+              {errors.nickname ? (
+                <STYLE.ErrorText>{errors.nickname?.message}</STYLE.ErrorText>
+              ) : (
+                <STYLE.SuggestionText>
+                  → {type} 닉네임이에요!
+                </STYLE.SuggestionText>
               )}
-              <STYLE.SuggestionText>
-                → {type} 닉네임이에요!
-              </STYLE.SuggestionText>
             </STYLE.InputContainer>
             <STYLE.SubmitButton
               onClick={handleSubmit((data) =>
