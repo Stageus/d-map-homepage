@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import useNavigateHandler from "./model/useNavigateHandler";
 import STYLE from "./style";
+import useSetInputText from "./model/useSetInputText";
 
 const SearchInput = (props) => {
   const { searchInputText, addSearchHistory } = props;
   const { navigateToSearch } = useNavigateHandler(addSearchHistory);
-
   const {
     register,
     handleSubmit,
@@ -14,9 +14,7 @@ const SearchInput = (props) => {
     formState: { errors },
   } = useForm();
 
-  useEffect(() => {
-    reset({ searchInputText: searchInputText || "" });
-  }, [searchInputText, reset]);
+  useSetInputText(reset, searchInputText);
 
   return (
     <>

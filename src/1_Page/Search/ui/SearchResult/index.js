@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import STYLE from "./style";
 import TrackingImage from "../../../../2_Widget/TrackingImage";
-import useGetResult from "./api/useGetResult";
+import useGetResult from "../../../../3_Entity/Search/useSearchData";
 import useTab from "./model/useTab";
-import useHandler from "./model/useHandler";
+import useNavigateHandler from "./model/useNavigateHandler";
 
 const SearchResult = (props) => {
   const { searchInputText } = props;
   const { activeTab, handleTabName, handleTabLocation, handleGetPresentTab } =
     useTab(); // 탭 관리
   const { searchData } = useGetResult(searchInputText, activeTab); // 검색 데이터 호출 api
-
-  const { handleNavigate } = useHandler();
+  const { handleNavigate } = useNavigateHandler();
 
   return (
     <>
