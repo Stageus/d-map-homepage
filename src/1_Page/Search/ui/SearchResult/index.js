@@ -8,11 +8,8 @@ import useHandler from "./model/useHandler";
 const SearchResult = (props) => {
   const { searchInputText } = props;
   const { activeTab, handleTabName, handleTabLocation, handleGetPresentTab } =
-    useTab();
-  const { searchData, loading, error } = useGetResult(
-    searchInputText,
-    activeTab
-  );
+    useTab(); // 탭 관리
+  const { searchData } = useGetResult(searchInputText, activeTab); // 검색 데이터 호출 api
 
   const { handleNavigate } = useHandler();
 

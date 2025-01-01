@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import useNavigateHandler from "./model/useNavigateHandler";
 import STYLE from "./style";
 
-const SearchInput = () => {
+const SearchInput = (props) => {
+  const { searchInputText } = props;
   const { navigateToSearch } = useNavigateHandler();
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    reset({ searchInputText: searchInputText || "" });
+  }, [searchInputText, reset]);
 
   return (
     <>
