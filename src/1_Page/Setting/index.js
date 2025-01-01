@@ -4,9 +4,12 @@ import useTab from "./model/useTab";
 import ConfirmModal from "../../2_Widget/ConfirmModal";
 import useConfirmModal from "./model/useConfirmModal";
 import useType from "./model/useType";
+import useGetUserData from "./api/useGetUserData";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
-  const name = "김재걸";
+  const cookie = "";
+  const { userData } = useGetUserData(cookie);
 
   const { type, message, handleSetDelete, handleSetLogout } = useType();
   const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
@@ -20,6 +23,17 @@ const UserProfile = () => {
   const handleDeleteAccount = () => {
     handleConfirmModalClose();
     console.log("회원 탈퇴 실행");
+  };
+
+  const handleLogin = () => {
+    // 백엔드 로그인 URL
+    const backendLoginUrl = "https://example.com/api/login";
+    window.location.href = backendLoginUrl;
+  };
+  const navigate = useNavigate(); // React Router의 navigate 함수
+
+  const handleBack = () => {
+    navigate(-1); // 이전 큐로 이동
   };
   const { activeTab, handleTabWhite, handleTabDark, handleGetPresentTab } =
     useTab();
@@ -37,7 +51,9 @@ const UserProfile = () => {
     <>
       <STYLE.Container>
         <STYLE.Header>
-          <STYLE.HeaderTitle>{name}</STYLE.HeaderTitle>
+          <STYLE.HeaderTitle>
+            {userData ? userData.nickname : "로그인이 필요합니다"}
+          </STYLE.HeaderTitle>
         </STYLE.Header>
         <STYLE.TabContainer>
           <STYLE.TabBox>
@@ -58,28 +74,39 @@ const UserProfile = () => {
         </STYLE.TabContainer>
         <STYLE.ButtonContainer>
           <STYLE.ButtonBox>
-            <STYLE.Button
-              danger
-              onClick={() => {
-                handleSetDelete();
-                handleConfirmModalOpen();
-              }}>
-              회원탈퇴
-            </STYLE.Button>
-            <STYLE.Button
-              onClick={() => {
-                handleSetLogout();
-                handleConfirmModalOpen();
-              }}>
-              로그아웃
-            </STYLE.Button>
+            {userData ? (
+              <>
+                <STYLE.Button
+                  danger
+                  onClick={() => {
+                    handleSetDelete();
+                    handleConfirmModalOpen();
+                  }}>
+                  회원탈퇴
+                </STYLE.Button>
+                <STYLE.Button
+                  onClick={() => {
+                    handleSetLogout();
+                    handleConfirmModalOpen();
+                  }}>
+                  로그아웃
+                </STYLE.Button>
+              </>
+            ) : (
+              <STYLE.Button
+                onClick={() => {
+                  handleLogin();
+                }}>
+                로그인 하기
+              </STYLE.Button>
+            )}
           </STYLE.ButtonBox>
           <STYLE.ButtonBox>
             <STYLE.Footer>
               <p>Copyright 2021. 닉네임 All rights reserved.</p>
               <p>(c) 2021. 닉네임 All rights reserved.</p>
             </STYLE.Footer>
-            <STYLE.BackButton>뒤로가기</STYLE.BackButton>
+            <STYLE.BackButton onClick={handleBack}>뒤로가기</STYLE.BackButton>
           </STYLE.ButtonBox>
         </STYLE.ButtonContainer>
       </STYLE.Container>
