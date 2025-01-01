@@ -1,7 +1,7 @@
 import React from "react";
 import STYLE from "./style";
 import TrackingImage from "../../../../2_Widget/TrackingImage";
-import useGetResult from "../../../../3_Entity/Search/useSearchData";
+import useGetResult from "../../../../3_Entity/Search/useGetSearchData";
 import useTab from "./model/useTab";
 import useNavigateHandler from "./model/useNavigateHandler";
 
