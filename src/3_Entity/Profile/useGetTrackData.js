@@ -38,7 +38,7 @@ const getTrackData = async (userIdx) => {
 };
 
 // 커스텀 훅
-const useTrackData = (userIdx) => {
+const useGetTrackData = (userIdx) => {
   const [track, setTrack] = useState([]);
   const [trackLoading, setLoading] = useState(false);
   const [trackError, setError] = useState(null);
@@ -68,4 +68,4 @@ const useTrackData = (userIdx) => {
   };
 };
 
-export default useTrackData;
+export default useGetTrackData;

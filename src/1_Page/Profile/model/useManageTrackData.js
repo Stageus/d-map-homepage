@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import useTrackData from "../../../3_Entity/Profile/useTrackingList";
+import useGetTrackData from "../../../3_Entity/Profile/useGetTrackData";
 import useModifySharingTracking from "../../../3_Entity/Profile/useModifySharingTracking";
 import useDeleteTrackingImage from "../../../3_Entity/Profile/useDeleteTrackingImage";
 
 const useManageTrackData = (userIdx) => {
   const { track, trackLoading, trackError, fetchTrackData } =
-    useTrackData(userIdx); // 데이터 호출 api
+    useGetTrackData(userIdx); // 데이터 호출 api
   const { modifySharing } = useModifySharingTracking(); // 데이터 수정 api
   const { deleteTrackingImage, status } = useDeleteTrackingImage();
 
