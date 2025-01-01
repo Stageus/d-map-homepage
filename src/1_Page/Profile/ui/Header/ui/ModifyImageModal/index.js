@@ -1,35 +1,30 @@
-import React, { useRef } from "react";
+import React from "react";
 import STYLE from "./style";
 
 import Modal from "../../../../../../2_Widget/Modal";
 import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 
 import useFileReader from "./model/useFileReader";
-import useConfirmModal from "../../../../model/useConfirmModal";
+import useImageModal from "./model/useImageModal";
 
 const ModifyImageModal = (props) => {
   const { onClose } = props;
+  const { image } = props;
 
-  const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
-    useConfirmModal();
-
-  const closeRef = useRef(null);
-
-  const handleImageConfirmModalOpen = (handleClose) => {
-    handleConfirmModalOpen();
-    closeRef.current = handleClose;
-  };
-
-  const handleImageConfirmModalDone = () => {
-    handleConfirmModalClose();
-    closeRef.current();
-  };
   const {
     fileInputRef,
     imagePreview,
+    errorMessage,
     handleProfileImageClick,
     handleFileChange,
-  } = useFileReader();
+  } = useFileReader(image);
+
+  const {
+    message,
+    confirmModal,
+    handleModifyClick,
+    handleImageConfirmModalDone,
+  } = useImageModal(image, errorMessage, imagePreview);
 
   return (
     <>
@@ -54,7 +49,7 @@ const ModifyImageModal = (props) => {
             </STYLE.PhotoButton>
             <STYLE.EditButton
               onClick={() => {
-                handleImageConfirmModalOpen(handleClose);
+                handleModifyClick(handleClose);
               }}>
               수정하기
             </STYLE.EditButton>
@@ -64,7 +59,7 @@ const ModifyImageModal = (props) => {
       {confirmModal && (
         <ConfirmModal
           type={"one"}
-          message={"변경되었습니다"}
+          message={message}
           onClose={handleImageConfirmModalDone}
         />
       )}

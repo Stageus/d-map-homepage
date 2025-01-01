@@ -7,14 +7,19 @@ import TrackContainer from "./ui/TrackContainer";
 import useModifyTrackingModal from "./model/useModifyTrackingModal";
 
 const TrackTabSlider = (props) => {
-  const { modifyMode, handleAnotherType, tabIndex } = props;
-  const { shareData, saveData } = props.data;
+  const {
+    trackData,
+    getTrackLength,
+    modifyMode,
+    tabIndex,
+    handle: { handleToggleTrackType, handleDeleteAdd },
+  } = props;
 
   const {
     modifyTrackingModal,
     handleModifyTrackingClose,
     handleModifyTrackingOpen,
-  } = useModifyTrackingModal();
+  } = useModifyTrackingModal(); // 트래킹 이미지 수정 모달 관리
 
   const [longPressData, setLongPressData] = useState(null);
 
@@ -23,33 +28,45 @@ const TrackTabSlider = (props) => {
       <STYLE.SliderWrapper>
         <STYLE.Slider $tabIndex={tabIndex}>
           <STYLE.PostGrid>
-            {shareData?.length === 0 ? (
+            {getTrackLength(0) === 0 ? (
               <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
             ) : (
-              shareData?.map((track) => (
-                <TrackContainer
-                  track={track}
-                  modifyMode={modifyMode}
-                  handleAnotherType={handleAnotherType}
-                  setLongPressData={setLongPressData}
-                  handleModifyTrackingOpen={handleModifyTrackingOpen}
-                />
-              ))
+              trackData?.map(
+                (track) =>
+                  track.sharing === 0 && (
+                    <TrackContainer
+                      track={track}
+                      modifyMode={modifyMode}
+                      handle={{
+                        handleDeleteAdd,
+                        handleToggleTrackType,
+                        handleModifyTrackingOpen,
+                      }}
+                      setLongPressData={setLongPressData}
+                    />
+                  )
+              )
             )}
           </STYLE.PostGrid>
           <STYLE.PostGrid>
-            {saveData?.length === 0 ? (
+            {getTrackLength(1) === 0 ? (
               <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
             ) : (
-              saveData?.map((track) => (
-                <TrackContainer
-                  track={track}
-                  modifyMode={modifyMode}
-                  handleAnotherType={handleAnotherType}
-                  setLongPressData={setLongPressData}
-                  handleModifyTrackingOpen={handleModifyTrackingOpen}
-                />
-              ))
+              trackData?.map(
+                (track) =>
+                  track.sharing === 1 && (
+                    <TrackContainer
+                      track={track}
+                      modifyMode={modifyMode}
+                      handle={{
+                        handleDeleteAdd,
+                        handleToggleTrackType,
+                        handleModifyTrackingOpen,
+                      }}
+                      setLongPressData={setLongPressData}
+                    />
+                  )
+              )
             )}
           </STYLE.PostGrid>
         </STYLE.Slider>

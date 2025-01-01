@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { sharedPosts } from "./data";
+import { sharedPosts } from "./dataSharePost";
 
 // API 호출 함수
 const getTrackData = async (userIdx) => {
@@ -8,7 +8,7 @@ const getTrackData = async (userIdx) => {
     return sharedPosts;
 
     // 실제 API 호출
-    const response = await fetch(`https://주소/user/${userIdx}`, {
+    const response = await fetch(`/tracking${userIdx}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +38,7 @@ const getTrackData = async (userIdx) => {
 };
 
 // 커스텀 훅
-const useTrackData = (userIdx) => {
+const useGetTrackData = (userIdx) => {
   const [track, setTrack] = useState([]);
   const [trackLoading, setLoading] = useState(false);
   const [trackError, setError] = useState(null);
@@ -64,7 +64,8 @@ const useTrackData = (userIdx) => {
     track,
     trackLoading,
     trackError,
+    fetchTrackData,
   };
 };
 
-export default useTrackData;
+export default useGetTrackData;

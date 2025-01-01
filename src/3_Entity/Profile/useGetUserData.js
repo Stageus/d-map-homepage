@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
 
+const templeData = {
+  message: {
+    user: {
+      nickname: "이쁜호랑이",
+      image: "/home/account/image.png",
+    },
+  },
+};
+
 const getUserData = async (userIdx) => {
+  return templeData;
   try {
     const response = await fetch(`https://주소/user/${userIdx}`, {
       method: "GET",
@@ -35,7 +45,7 @@ const getUserData = async (userIdx) => {
   }
 };
 
-const useUserData = (initialUserIdx = null) => {
+const useGetUserData = (initialUserIdx = null) => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -44,11 +54,11 @@ const useUserData = (initialUserIdx = null) => {
     try {
       setLoading(true);
       const user = await getUserData(userIdx);
-      setUserData(user);
+      setUserData(user.message.user);
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      setError(err.message || "An error occurred");
+      setError(err.message);
     }
   };
 
@@ -61,4 +71,4 @@ const useUserData = (initialUserIdx = null) => {
   return { userData, loading, error };
 };
 
-export default useUserData;
+export default useGetUserData;

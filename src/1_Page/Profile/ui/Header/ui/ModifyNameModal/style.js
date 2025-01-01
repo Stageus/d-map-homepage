@@ -32,11 +32,13 @@ const STYLE = {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid ${({ theme }) => theme.lignt_gray};
+    border-bottom: 1px solid
+      ${({ $error, theme }) => ($error ? theme.red : theme.lignt_gray)};
     padding: 8px 0;
   `,
 
   CurrentNickname: styled.input`
+    width: 100%;
     outline: none;
     border: none;
     font-size: 16px;
@@ -44,10 +46,9 @@ const STYLE = {
   `,
 
   SuggestedNickname: styled.span`
+    width: 100px;
     font-size: 16px;
     color: ${({ theme }) => theme.blue};
-    cursor: pointer;
-
     &:hover {
       text-decoration: underline;
     }
@@ -55,6 +56,7 @@ const STYLE = {
 
   SuggestionText: styled.p`
     font-size: 12px;
+    height: 12px;
     color: ${({ theme }) => theme.gray};
     margin-top: 5px;
   `,
@@ -80,6 +82,17 @@ const STYLE = {
       color: ${({ theme }) => theme.gray};
       cursor: not-allowed;
     }
+  `,
+  ErrorText: styled.div`
+    width: 100%;
+    height: 12px;
+    margin-top: 5px;
+    color: ${({ theme }) => theme.red};
+    font-size: 10px;
+    display: block;
+    font-weight: bold;
+    line-height: 1.2;
+    text-align: end;
   `,
 };
 

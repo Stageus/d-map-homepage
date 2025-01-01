@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-const useLongPressEvent = (onPinchStart, onPinchEnd, delay = 1000) => {
+const useLongPressEvent = (onPinchStart, delay = 1000) => {
   const timerRef = useRef(null);
 
   const handleStart = () => {
@@ -9,9 +9,11 @@ const useLongPressEvent = (onPinchStart, onPinchEnd, delay = 1000) => {
     }, delay);
   };
 
-  const handleEnd = () => {
-    clearTimeout(timerRef.current);
-    if (onPinchEnd) onPinchEnd();
+  const handleCancel = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current); // 타이머 취소
+      timerRef.current = null;
+    }
   };
 
   useEffect(() => {
@@ -21,11 +23,9 @@ const useLongPressEvent = (onPinchStart, onPinchEnd, delay = 1000) => {
   }, []);
 
   return {
-    onMouseDown: handleStart,
-    onMouseUp: handleEnd,
-    onMouseLeave: handleEnd,
     onTouchStart: handleStart,
-    onTouchEnd: handleEnd,
+    onTouchEnd: handleCancel,
+    onTouchCancel: handleCancel,
   };
 };
 
