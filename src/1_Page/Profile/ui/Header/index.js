@@ -5,13 +5,13 @@ import { useParams } from "react-router-dom";
 import useModifyImageModal from "./model/useModifyImageModal.js";
 import useModifyNameModal from "./model/useModifyNameModal.js";
 import useModifyMode from "./model/useModifyMode.js";
-import useConfirmModal from "../../model/useConfirmModal.js";
+import useConfirmModal from "../../../../2_Widget/ConfirmModal/model/useConfirmModal.js";
 
 import ModifyImageModal from "./ui/ModifyImageModal/index.js";
 import ModifyNameModal from "./ui/ModifyNameModal/index.js";
 import ModifyModeModal from "./ui/ModifyModeModal/index.js";
 import ConfirmModal from "../../../../2_Widget/ConfirmModal";
-import useGetUserData from "./api/useGetUserData.js";
+import useGetUserData from "../../../../3_Entity/Profile/useGetUserData.js";
 
 const Header = (props) => {
   const {

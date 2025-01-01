@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import useConfirmModal from "../../../../../model/useConfirmModal";
-import useModifyImage from "../api/useModifyImage";
+import useConfirmModal from "../../../../../../../2_Widget/ConfirmModal/model/useConfirmModal";
+import useModifyImage from "../../../../../../../3_Entity/Profile/useModifyImage";
 
 const useImageModal = (image, errorMessage, imagePreview) => {
   const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import data from "./data";
+import data from "./dataNickName";
 
 // 랜덤 닉네임 가져오기 API 호출 함수
 const fetchRandomNicknames = async () => {

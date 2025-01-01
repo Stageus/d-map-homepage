@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
-import useModifyNickname from "../api/useModifyNickname";
-import useConfirmModal from "../../../../../model/useConfirmModal";
+import useModifyNickname from "../../../../../../../3_Entity/Profile/useModifyNickname";
+import useConfirmModal from "../../../../../../../2_Widget/ConfirmModal/model/useConfirmModal";
 
 const useNicknameModal = () => {
   const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =

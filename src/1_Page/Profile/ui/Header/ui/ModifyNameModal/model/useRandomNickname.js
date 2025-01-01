@@ -1,4 +1,4 @@
-import useGetRandomNicknames from "../api/useGetRandomNicknames";
+import useGetRandomNicknames from "../../../../../../../3_Entity/Profile/useGetRandomNicknames";
 import { useState } from "react";
 
 const useRandomNickname = (setValue) => {

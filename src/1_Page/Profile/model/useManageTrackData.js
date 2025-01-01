@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import useTrackData from "../api/useTrackingList";
-import useModifySharingTracking from "../api/useModifySharingTracking";
-import useDeleteTrackingImage from "../api/useDeleteTrackingImage";
+import useTrackData from "../../../3_Entity/Profile/useTrackingList";
+import useModifySharingTracking from "../../../3_Entity/Profile/useModifySharingTracking";
+import useDeleteTrackingImage from "../../../3_Entity/Profile/useDeleteTrackingImage";
 
 const useManageTrackData = (userIdx) => {
   const { track, trackLoading, trackError, fetchTrackData } =

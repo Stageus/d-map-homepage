@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { sharedPosts } from "./data";
+import { sharedPosts } from "./dataSharePost";
 
 // API 호출 함수
 const getTrackData = async (userIdx) => {
