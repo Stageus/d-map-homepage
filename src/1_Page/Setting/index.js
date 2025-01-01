@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import STYLE from "./style";
 import useTab from "./model/useTab";
 import ConfirmModal from "../../2_Widget/ConfirmModal";
