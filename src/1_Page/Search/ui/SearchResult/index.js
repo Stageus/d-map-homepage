@@ -1,62 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import STYLE from "./style";
 import TrackingImage from "../../../../2_Widget/TrackingImage";
-import useGetResult from "./api/useGetResult";
+import useGetResult from "../../../../3_Entity/Search/useGetSearchData";
 import useTab from "./model/useTab";
-import { useNavigate } from "react-router-dom";
+import useNavigateHandler from "./model/useNavigateHandler";
 
 const SearchResult = (props) => {
-  const { text } = props;
+  const { searchInputText } = props;
   const { activeTab, handleTabName, handleTabLocation, handleGetPresentTab } =
-    useTab();
-  const { searchData, loading, error } = useGetResult(text, activeTab);
-  const navigate = useNavigate();
-  const handleNavigate = (idx) => {
-    navigate(`/profile/${idx}`); // idx를 기반으로 프로필 페이지로 이동
-  };
+    useTab(); // 탭 관리
+  const { searchData } = useGetResult(searchInputText, activeTab); // 검색 데이터 호출 api
+  const { handleNavigate } = useNavigateHandler();
+
   return (
     <>
       <STYLE.TabContainer>
         <STYLE.TabBox>
-          <STYLE.TabBackground $activeTabName={activeTab === "이름"} />
+          <STYLE.TabBackground $activeTabName={handleGetPresentTab("장소")} />
           <STYLE.Tab
-            active={handleGetPresentTab("이름")}
-            onClick={handleTabName}>
-            이름
-          </STYLE.Tab>
-          <STYLE.Tab
-            active={handleGetPresentTab("장소")}
+            $active={handleGetPresentTab("장소")}
             onClick={handleTabLocation}>
             장소
+          </STYLE.Tab>
+          <STYLE.Tab
+            $active={handleGetPresentTab("이름")}
+            onClick={handleTabName}>
+            이름
           </STYLE.Tab>
         </STYLE.TabBox>
       </STYLE.TabContainer>
       <STYLE.ResultList>
         {searchData?.length === 0 ? (
           <STYLE.EmptyMessage>없는 {activeTab}입니다.</STYLE.EmptyMessage>
-        ) : handleGetPresentTab("이름") ? (
+        ) : handleGetPresentTab("장소") ? (
           searchData?.map((result) => (
             <>
-              <STYLE.NicckNameContainer
+              <STYLE.MapPreview
                 onClick={() => {
                   handleNavigate(result.idx);
                 }}>
-                <STYLE.NickNameIcon alt="지도 미리보기" />
-                <STYLE.NickNameText>{result.nickname}</STYLE.NickNameText>
-              </STYLE.NicckNameContainer>
+                <STYLE.TitleContainer>
+                  <STYLE.ProfileIcon src={result.image} />
+                  <STYLE.Title>
+                    {result.nickname}- {result.searchpoint}
+                  </STYLE.Title>
+                </STYLE.TitleContainer>
+                <TrackingImage
+                  data={{ ...result, draggable: false, height: "300px" }}
+                />
+              </STYLE.MapPreview>
             </>
           ))
         ) : (
           searchData?.map((result) => (
-            <STYLE.MapPreview
+            <STYLE.NicckNameContainer
               onClick={() => {
                 handleNavigate(result.idx);
               }}>
-              <STYLE.Title>
-                {result.idx}- {result.searchpoint}
-              </STYLE.Title>
-              <TrackingImage data={{ ...result, draggable: false }} />
-            </STYLE.MapPreview>
+              <STYLE.ProfileIcon src={result.image} />
+              <STYLE.NickNameText>{result.nickname}</STYLE.NickNameText>
+            </STYLE.NicckNameContainer>
           ))
         )}
       </STYLE.ResultList>

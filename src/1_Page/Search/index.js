@@ -1,25 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import STYLE from "./style";
 import SearchInput from "./ui/SearchInput";
 import SearchResult from "./ui/SearchResult";
-import { useSearchParams } from "react-router-dom";
+import useNavigateHandler from "./model/useNavigateHandler";
+import useSearchHistory from "./model/useSearchHistory";
 
 const Search = () => {
-  const [listItems] = useState(["류동호", "김연호", "속초", "인천"]); // 원본 리스트
-  const [searchParams] = useSearchParams();
-
-  const text = searchParams.get("text"); // 쿼리 값 가져오기
+  const { searchInputText, handleListClick } = useNavigateHandler();
+  const { listItems, addSearchHistory, clearSearchHistory } =
+    useSearchHistory();
 
   return (
     <>
-      <SearchInput />
-      {text ? (
-        <SearchResult text={text} />
+      <SearchInput
+        addSearchHistory={addSearchHistory}
+        searchInputText={searchInputText}
+      />
+      {searchInputText ? (
+        <SearchResult searchInputText={searchInputText} />
       ) : (
         <STYLE.Container>
           <STYLE.List>
             {listItems.length > 0 ? (
-              listItems.map((item) => <STYLE.ListItem>{item}</STYLE.ListItem>)
+              listItems.map((item) => (
+                <STYLE.ListItem
+                  onClick={() => {
+                    handleListClick(item.searchInputText);
+                  }}>
+                  {item.searchInputText}
+                </STYLE.ListItem>
+              ))
             ) : (
               <STYLE.ListItem>검색 결과가 없습니다</STYLE.ListItem>
             )}

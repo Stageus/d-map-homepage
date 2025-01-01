@@ -38,7 +38,7 @@ const getSearchData = async (SearchText, type) => {
   }
 };
 
-const useSearchData = (searchText, type) => {
+const useGetSearchData = (searchText, type) => {
   const [searchData, setSearchData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -64,4 +64,4 @@ const useSearchData = (searchText, type) => {
   return { searchData, loading, error };
 };
 
-export default useSearchData;
+export default useGetSearchData;
