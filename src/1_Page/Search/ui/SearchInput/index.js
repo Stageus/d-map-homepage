@@ -4,8 +4,8 @@ import useNavigateHandler from "./model/useNavigateHandler";
 import STYLE from "./style";
 
 const SearchInput = (props) => {
-  const { searchInputText } = props;
-  const { navigateToSearch } = useNavigateHandler();
+  const { searchInputText, addSearchHistory } = props;
+  const { navigateToSearch } = useNavigateHandler(addSearchHistory);
 
   const {
     register,

@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import STYLE from "./style";
 import SearchInput from "./ui/SearchInput";
 import SearchResult from "./ui/SearchResult";
 import useNavigateHandler from "./model/useNavigateHandler";
+import useSearchHistory from "./model/useSearchHistory";
 
 const Search = () => {
-  const [listItems] = useState(["류동호", "김연호", "속초", "인천"]); // 원본 리스트
   const { searchInputText, handleListClick } = useNavigateHandler();
+  const { listItems, addSearchHistory, clearSearchHistory } =
+    useSearchHistory();
 
   return (
     <>
-      <SearchInput searchInputText={searchInputText} />
+      <SearchInput
+        addSearchHistory={addSearchHistory}
+        searchInputText={searchInputText}
+      />
       {searchInputText ? (
         <SearchResult searchInputText={searchInputText} />
       ) : (
@@ -20,9 +25,9 @@ const Search = () => {
               listItems.map((item) => (
                 <STYLE.ListItem
                   onClick={() => {
-                    handleListClick(item);
+                    handleListClick(item.searchInputText);
                   }}>
-                  {item}
+                  {item.searchInputText}
                 </STYLE.ListItem>
               ))
             ) : (
