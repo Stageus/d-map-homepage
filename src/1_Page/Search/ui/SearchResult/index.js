@@ -20,45 +20,50 @@ const SearchResult = (props) => {
     <>
       <STYLE.TabContainer>
         <STYLE.TabBox>
-          <STYLE.TabBackground $activeTabName={handleGetPresentTab("이름")} />
-          <STYLE.Tab
-            $active={handleGetPresentTab("이름")}
-            onClick={handleTabName}>
-            이름
-          </STYLE.Tab>
+          <STYLE.TabBackground $activeTabName={handleGetPresentTab("장소")} />
           <STYLE.Tab
             $active={handleGetPresentTab("장소")}
             onClick={handleTabLocation}>
             장소
+          </STYLE.Tab>
+          <STYLE.Tab
+            $active={handleGetPresentTab("이름")}
+            onClick={handleTabName}>
+            이름
           </STYLE.Tab>
         </STYLE.TabBox>
       </STYLE.TabContainer>
       <STYLE.ResultList>
         {searchData?.length === 0 ? (
           <STYLE.EmptyMessage>없는 {activeTab}입니다.</STYLE.EmptyMessage>
-        ) : handleGetPresentTab("이름") ? (
+        ) : handleGetPresentTab("장소") ? (
           searchData?.map((result) => (
             <>
-              <STYLE.NicckNameContainer
+              <STYLE.MapPreview
                 onClick={() => {
                   handleNavigate(result.idx);
                 }}>
-                <STYLE.NickNameIcon alt="지도 미리보기" />
-                <STYLE.NickNameText>{result.nickname}</STYLE.NickNameText>
-              </STYLE.NicckNameContainer>
+                <STYLE.TitleContainer>
+                  <STYLE.ProfileIcon src={result.image} />
+                  <STYLE.Title>
+                    {result.nickname}- {result.searchpoint}
+                  </STYLE.Title>
+                </STYLE.TitleContainer>
+                <TrackingImage
+                  data={{ ...result, draggable: false, height: "300px" }}
+                />
+              </STYLE.MapPreview>
             </>
           ))
         ) : (
           searchData?.map((result) => (
-            <STYLE.MapPreview
+            <STYLE.NicckNameContainer
               onClick={() => {
                 handleNavigate(result.idx);
               }}>
-              <STYLE.Title>
-                {result.idx}- {result.searchpoint}
-              </STYLE.Title>
-              <TrackingImage data={{ ...result, draggable: false }} />
-            </STYLE.MapPreview>
+              <STYLE.ProfileIcon src={result.image} />
+              <STYLE.NickNameText>{result.nickname}</STYLE.NickNameText>
+            </STYLE.NicckNameContainer>
           ))
         )}
       </STYLE.ResultList>

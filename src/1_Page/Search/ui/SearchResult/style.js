@@ -21,6 +21,7 @@ const STYLE = {
     align-items: center;
     padding: 10px;
   `,
+
   TabBackground: styled.div`
     position: absolute;
     top: 5px;
@@ -56,11 +57,26 @@ const STYLE = {
     border: 1px solid ${({ theme }) => theme.light_gray};
     border-radius: 8px;
   `,
+  TitleContainer: styled.div`
+    display: flex;
+    height: auto;
+    width: 100%;
+    align-items: center;
+  `,
   Title: styled.p`
     width: 100%;
     padding: 10px;
     font-size: 20px;
     font-weight: bold;
+    line-height: 100%;
+  `,
+  ProfileIcon: styled.img`
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid ${({ theme }) => theme.black};
+    margin-right: 5px;
+    margin-left: 5px;
   `,
   NicckNameContainer: styled.div`
     display: flex;
@@ -85,9 +101,12 @@ const STYLE = {
     color: ${({ theme }) => theme.gray};
   `,
   MapPreview: styled.div`
-    border: 1px solid ${({ theme }) => theme.light_gray};
+    padding: 10px;
+    padding-top: 0px;
+    border: 1px solid ${({ theme }) => theme.blue};
     border-radius: 8px;
     margin: 10px;
+    height: 800px;
   `,
 };
 
