@@ -4,30 +4,25 @@ import useTab from "./model/useTab";
 import ConfirmModal from "../../2_Widget/ConfirmModal";
 import useConfirmModal from "./model/useConfirmModal";
 import useType from "./model/useType";
-import useGetUserData from "./api/useGetUserData";
 import useManageUser from "./model/useManageUser";
+import useChangeTheme from "./model/useChangeTheme";
 
 const UserProfile = () => {
-  const cookie = "";
-  const { userData } = useGetUserData(cookie);
-
   const { type, message, handleSetDelete, handleSetLogout } = useType();
   const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
     useConfirmModal();
 
   const { handleTabWhite, handleTabDark, isPresentTab } = useTab();
 
-  const { handleLogin, handleDeleteAccount, handleBack, handleLogout } =
-    useManageUser(handleConfirmModalClose);
+  const {
+    userData,
+    handleLogin,
+    handleDeleteAccount,
+    handleBack,
+    handleLogout,
+  } = useManageUser(handleConfirmModalClose);
 
-  const [theme, setTheme] = useState("화이트");
-  const toggleThemeByType = () => {
-    if (type === "다크") {
-      setTheme("다크");
-    } else if (type === "화이트") {
-      setTheme("화이트");
-    }
-  };
+  const { theme } = useChangeTheme(type);
 
   return (
     <>

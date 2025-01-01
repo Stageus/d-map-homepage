@@ -1,6 +1,20 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getCookie } from "../../../4_Shared/Cookie";
+import useGetUserData from "../../../3_Entity/Setting/useGetUserData";
 
 const useManageUser = (handleConfirmModalClose) => {
+  // 초기화: 쿠키에서 검색 기록 가져오기
+
+  const [token, setToken] = useState(null);
+  const { userData } = useGetUserData(token);
+  useEffect(() => {
+    const token = getCookie("token");
+    if (token) {
+      setToken(token);
+    }
+  }, []);
+
   const handleLogout = () => {
     handleConfirmModalClose();
     console.log("로그아웃 실행");
@@ -22,6 +36,12 @@ const useManageUser = (handleConfirmModalClose) => {
     navigate(-1); // 이전 큐로 이동
   };
 
-  return { handleLogin, handleDeleteAccount, handleBack, handleLogout };
+  return {
+    userData,
+    handleLogin,
+    handleDeleteAccount,
+    handleBack,
+    handleLogout,
+  };
 };
 export default useManageUser;
