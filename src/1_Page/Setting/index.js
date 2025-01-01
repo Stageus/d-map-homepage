@@ -5,7 +5,7 @@ import ConfirmModal from "../../2_Widget/ConfirmModal";
 import useConfirmModal from "./model/useConfirmModal";
 import useType from "./model/useType";
 import useGetUserData from "./api/useGetUserData";
-import { useNavigate } from "react-router-dom";
+import useManageUser from "./model/useManageUser";
 
 const UserProfile = () => {
   const cookie = "";
@@ -15,28 +15,10 @@ const UserProfile = () => {
   const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
     useConfirmModal();
 
-  const handleLogout = () => {
-    handleConfirmModalClose();
-    console.log("로그아웃 실행");
-  };
+  const { handleTabWhite, handleTabDark, isPresentTab } = useTab();
 
-  const handleDeleteAccount = () => {
-    handleConfirmModalClose();
-    console.log("회원 탈퇴 실행");
-  };
-
-  const handleLogin = () => {
-    // 백엔드 로그인 URL
-    const backendLoginUrl = "https://example.com/api/login";
-    window.location.href = backendLoginUrl;
-  };
-  const navigate = useNavigate(); // React Router의 navigate 함수
-
-  const handleBack = () => {
-    navigate(-1); // 이전 큐로 이동
-  };
-  const { activeTab, handleTabWhite, handleTabDark, handleGetPresentTab } =
-    useTab();
+  const { handleLogin, handleDeleteAccount, handleBack, handleLogout } =
+    useManageUser(handleConfirmModalClose);
 
   const [theme, setTheme] = useState("화이트");
   const toggleThemeByType = () => {
@@ -58,18 +40,14 @@ const UserProfile = () => {
         <STYLE.TabContainer>
           <STYLE.TabBox>
             <STYLE.Tab
-              $active={handleGetPresentTab("화이트")}
+              $active={isPresentTab("화이트")}
               onClick={handleTabWhite}>
               화이트
             </STYLE.Tab>
-            <STYLE.Tab
-              $active={handleGetPresentTab("다크")}
-              onClick={handleTabDark}>
+            <STYLE.Tab $active={isPresentTab("다크")} onClick={handleTabDark}>
               다크
             </STYLE.Tab>
-            <STYLE.TabBackground
-              $activeTabName={handleGetPresentTab("화이트")}
-            />
+            <STYLE.TabBackground $activeTabName={isPresentTab("화이트")} />
           </STYLE.TabBox>
         </STYLE.TabContainer>
         <STYLE.ButtonContainer>
