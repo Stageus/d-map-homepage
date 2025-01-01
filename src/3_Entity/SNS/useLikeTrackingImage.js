@@ -2,22 +2,19 @@ import React from "react";
 const BASE_URL = "SERVER URL";
 
 const useLikeTrackingImage = (trackingImageIdx) => {
+  const likeTrackingImage = async () => {
+    // 1. fetch
+    //let result = TEMP_DATA;
 
-  React.useEffect(() => {
-    const fetchTrackingImageList = async () => {
-      // 1. fetch
-      //let result = TEMP_DATA;
+    // 2. status error handling
+    // ...
 
-      // 2. status error handling
-      // ...
+    // 3. data processing
 
-      // 3. data processing
+    // 4. handle loading
+    console.log("like");
+  };
 
-      // 4. handle loading
-    };
-
-    fetchTrackingImageList();
-  }, [trackingImageIdx]);
-
+  return [likeTrackingImage];
 };
 export default useLikeTrackingImage;
