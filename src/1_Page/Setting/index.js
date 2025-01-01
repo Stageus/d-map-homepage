@@ -41,17 +41,19 @@ const UserProfile = () => {
         </STYLE.Header>
         <STYLE.TabContainer>
           <STYLE.TabBox>
-            <STYLE.TabBackground $activeTabName={activeTab === "화이트"} />
             <STYLE.Tab
-              active={handleGetPresentTab("화이트")}
+              $active={handleGetPresentTab("화이트")}
               onClick={handleTabWhite}>
-              이름
+              화이트
             </STYLE.Tab>
             <STYLE.Tab
-              active={handleGetPresentTab("다크")}
+              $active={handleGetPresentTab("다크")}
               onClick={handleTabDark}>
-              장소
+              다크
             </STYLE.Tab>
+            <STYLE.TabBackground
+              $activeTabName={handleGetPresentTab("화이트")}
+            />
           </STYLE.TabBox>
         </STYLE.TabContainer>
         <STYLE.ButtonContainer>
