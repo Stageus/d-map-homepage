@@ -17,7 +17,6 @@ const Sns = () => {
       </STYLE.Header>
       <STYLE.TrackingList>
         {trackingImageList.map((elem, index) => {
-          console.log(elem.line)
           return (
             <STYLE.TrackingContainer key={index}>
               <STYLE.PostInfo>
