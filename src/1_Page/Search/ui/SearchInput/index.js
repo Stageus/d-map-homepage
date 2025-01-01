@@ -1,30 +1,44 @@
-import useSearchValue from "./model/useSearchValue";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import useNavigateHandler from "./model/useNavigateHandler";
 import STYLE from "./style";
 
-const SearchInput = (props) => {
-  const { searchInputText } = props;
+const SearchInput = () => {
+  const { navigateToSearch } = useNavigateHandler();
+
   const {
-    isError,
-    inputValue,
-    errorMessage,
-    navigateToSearch,
-    handleKeyDown,
-    setInputValue,
-  } = useSearchValue();
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   return (
     <>
-      <STYLE.InputContainer>
+      <STYLE.InputContainer $isError={errors.searchInputText}>
         <STYLE.Input
           placeholder="검색할 내용을 입력하세요"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={handleKeyDown}
-          $isError={isError}
+          {...register("searchInputText", {
+            required: "값을 입력해주세요.",
+            pattern: {
+              value: /^[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ0-9,]{2,100}$/,
+              message:
+                "2~100글자, 영문/한글/숫자/특수문자 ','만 입력 가능합니다.",
+            },
+          })}
+          $isError={errors.searchInputText}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleSubmit(navigateToSearch)();
+            }
+          }}
         />
-        <STYLE.Icon onClick={navigateToSearch}>🔍</STYLE.Icon>
+        <STYLE.Icon onClick={handleSubmit(navigateToSearch)}>🔍</STYLE.Icon>
       </STYLE.InputContainer>
-      {<STYLE.ErrorMessage>{errorMessage}</STYLE.ErrorMessage>}
+      <STYLE.ErrorMessage>
+        {errors.searchInputText && errors.searchInputText.message}
+      </STYLE.ErrorMessage>
     </>
   );
 };

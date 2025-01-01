@@ -5,9 +5,11 @@ const STYLE = {
     display: flex;
     align-items: center;
     margin: 10px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid
+      ${({ theme, $isError }) => ($isError ? theme.red : theme.grey)};
   `,
   Input: styled.input`
+    width: 80%;
     flex: 1;
     border: none;
     outline: none;
@@ -21,6 +23,7 @@ const STYLE = {
     margin-left: 8px;
   `,
   ErrorMessage: styled.div`
+    height: 15px;
     color: red;
     font-size: 12px;
     margin: 10px;
