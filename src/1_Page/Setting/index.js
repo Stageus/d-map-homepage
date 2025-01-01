@@ -2,7 +2,7 @@ import React from "react";
 import STYLE from "./style";
 import useTab from "./model/useTab";
 import ConfirmModal from "../../2_Widget/ConfirmModal";
-import useConfirmModal from "./model/useConfirmModal";
+import useConfirmModal from "../../2_Widget/model/useConfirmModal";
 import useType from "./model/useType";
 import useManageUser from "./model/useManageUser";
 import useChangeTheme from "./model/useChangeTheme";
