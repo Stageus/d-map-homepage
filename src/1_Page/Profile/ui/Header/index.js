@@ -2,10 +2,10 @@ import React from "react";
 import STYLE from "./style.js";
 import { useParams } from "react-router-dom";
 
-import useModifyImageModal from "./model/useModifyImageModal.js";
-import useModifyNameModal from "./model/useModifyNameModal.js";
-import useModifyMode from "./model/useModifyMode.js";
-import useConfirmModal from "../../../../2_Widget/ConfirmModal/model/useConfirmModal.js";
+import useModifyImageModal from "../../../../4_Shared/model/useModalHandler.js";
+import useModifyNameModal from "../../../../4_Shared/model/useModalHandler.js";
+import useModifyMode from "../../../../4_Shared/model/useModalHandler.js";
+import useConfirmModal from "../../../../4_Shared/model/useModalHandler.js";
 
 import ModifyImageModal from "./ui/ModifyImageModal/index.js";
 import ModifyNameModal from "./ui/ModifyNameModal/index.js";
@@ -26,18 +26,18 @@ const Header = (props) => {
 
   const { userData, loading, error } = useGetUserData(userIdx); // 프로필 데이터
 
-  const { modifyImageModal, handleImageModalClose, handleImageModalOpen } =
+  const [modifyImageModal, handleImageModalOpen, handleImageModalClose] =
     useModifyImageModal(); // 프로필 이미지 모달
-  const {
+  const [
     modifyNameModal,
-    handleModifyNameModalClose,
     handleModifyNameModalOpen,
-  } = useModifyNameModal(); // 닉네임 수정 모달
+    handleModifyNameModalClose,
+  ] = useModifyNameModal(); // 닉네임 수정 모달
 
-  const { modifyModeModal, handleModifyModeClose, handleModifyModeOpen } =
+  const [modifyModeModal, handleModifyModeOpen, handleModifyModeClose] =
     useModifyMode(); // 수정 , 삭제 뒤로가기 모달
 
-  const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
+  const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
     useConfirmModal(); // 확인 모달
 
   return (

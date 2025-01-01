@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
 import useModifyNickname from "../../../../../../../3_Entity/Profile/useModifyNickname";
-import useConfirmModal from "../../../../../../../2_Widget/ConfirmModal/model/useConfirmModal";
+import useConfirmModal from "../../../../../../../4_Shared/model/useModalHandler";
 
 const useNicknameModal = () => {
-  const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
+  const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
     useConfirmModal();
   const [message, setMessage] = useState("");
   const { modify, loading, error } = useModifyNickname();

@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import useConfirmModal from "../../../../../../../2_Widget/ConfirmModal/model/useConfirmModal";
+import useConfirmModal from "../../../../../../../4_Shared/model/useModalHandler";
 import useModifyImage from "../../../../../../../3_Entity/Profile/useModifyImage";
 
 const useImageModal = (image, errorMessage, imagePreview) => {
-  const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
+  const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
     useConfirmModal();
   const { modify, loading, error } = useModifyImage();
 
