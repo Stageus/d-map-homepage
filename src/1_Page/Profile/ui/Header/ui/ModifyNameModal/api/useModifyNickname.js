@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const modifyNickname = async (token, nickname) => {
   try {
-    const response = await fetch(`https://your-api-url.com/user/nickname`, {
+    const response = await fetch(`/account/nickname`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

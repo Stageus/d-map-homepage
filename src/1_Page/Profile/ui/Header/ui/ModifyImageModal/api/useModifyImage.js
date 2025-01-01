@@ -6,7 +6,7 @@ const modifyImage = async (token, imageFile) => {
     const formData = new FormData();
     formData.append("image", imageFile);
 
-    const response = await fetch(`https://your-api-url.com/user/image`, {
+    const response = await fetch(`/account/image`, {
       method: "PUT",
       headers: {
         Authorization: token, // Content-Type은 자동 설정됨

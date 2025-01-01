@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const modifySharingTracking = async (token, idxList) => {
   try {
-    const response = await fetch(`https://your-api-url.com/tracking/sharing`, {
+    const response = await fetch(`/tracking`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -8,7 +8,7 @@ const useDeleteTrackingImage = () => {
     setLoading(true);
     setStatus("loading");
     try {
-      const response = await fetch(`/api/tracking-image/${idx}`, {
+      const response = await fetch(`/tracking/${idx}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

@@ -8,7 +8,7 @@ const getTrackData = async (userIdx) => {
     return sharedPosts;
 
     // 실제 API 호출
-    const response = await fetch(`https://주소/user/${userIdx}`, {
+    const response = await fetch(`/tracking${userIdx}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

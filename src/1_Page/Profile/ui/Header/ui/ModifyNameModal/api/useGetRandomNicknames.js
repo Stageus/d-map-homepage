@@ -5,7 +5,7 @@ import data from "./data";
 const fetchRandomNicknames = async () => {
   return data;
   try {
-    const response = await fetch(`https://주소/randomNicknames`, {
+    const response = await fetch(`/account/nickname`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
