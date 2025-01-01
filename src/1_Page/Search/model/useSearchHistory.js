@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
-import { setCookie, getCookie, deleteCookie } from "../../../4_Shared/Cookie"; // 유틸리티 임포트
 
 const useSearchHistory = () => {
   const [listItems, setListItems] = useState([]);
 
-  // 초기화: 쿠키에서 검색 기록 가져오기
+  // 로컬 스토리지에서 데이터 가져오기
   useEffect(() => {
-    const cookieData = getCookie("searchHistory");
-    console.log(cookieData);
-    if (cookieData) {
-      setListItems(cookieData);
+    const storedData = localStorage.getItem("searchHistory");
+    if (storedData) {
+      setListItems(JSON.parse(storedData));
     }
   }, []);
 
@@ -18,9 +16,8 @@ const useSearchHistory = () => {
     if (!item) return; // 빈 입력 방지
 
     setListItems((prevItems) => {
-      const updatedItems = [item, ...prevItems.filter((i) => i !== item)]; // 중복 제거 및 최신 항목 추가
-      console.log(updatedItems);
-      setCookie("searchHistory", updatedItems, { path: "/", maxAge: 604800 }); // 쿠키에 저장 (7일 유지)
+      const updatedItems = [item, ...prevItems.filter((i) => i !== item)];
+      localStorage.setItem("searchHistory", JSON.stringify(updatedItems));
       return updatedItems;
     });
   };
@@ -28,7 +25,7 @@ const useSearchHistory = () => {
   // 검색 기록 삭제 함수
   const clearSearchHistory = () => {
     setListItems([]);
-    deleteCookie("searchHistory"); // 쿠키에서 삭제
+    localStorage.removeItem("searchHistory");
   };
 
   return { listItems, addSearchHistory, clearSearchHistory };
