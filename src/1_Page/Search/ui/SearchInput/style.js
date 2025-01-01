@@ -5,6 +5,7 @@ const STYLE = {
     display: flex;
     align-items: center;
     margin: 10px;
+    margin-bottom: 0px;
     border-bottom: 1px solid
       ${({ theme, $isError }) => ($isError ? theme.red : theme.grey)};
   `,
@@ -23,11 +24,11 @@ const STYLE = {
     margin-left: 8px;
   `,
   ErrorMessage: styled.div`
-    height: 15px;
-    color: red;
+    height: 10px;
+    color: ${({ theme }) => theme.red};
     font-size: 12px;
-    margin: 10px;
-    margin-bottom: auto;
+    margin: 5px;
+    margin-left: 10px;
   `,
 };
 
