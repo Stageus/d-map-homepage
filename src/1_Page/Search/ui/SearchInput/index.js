@@ -1,7 +1,8 @@
 import useSearchValue from "./model/useSearchValue";
 import STYLE from "./style";
 
-const SearchInput = () => {
+const SearchInput = (props) => {
+  const { searchInputText } = props;
   const {
     isError,
     inputValue,

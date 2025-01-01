@@ -3,17 +3,19 @@ import STYLE from "./style";
 import TrackingImage from "../../../../2_Widget/TrackingImage";
 import useGetResult from "./api/useGetResult";
 import useTab from "./model/useTab";
-import { useNavigate } from "react-router-dom";
+import useHandler from "./model/useHandler";
 
 const SearchResult = (props) => {
-  const { text } = props;
+  const { searchInputText } = props;
   const { activeTab, handleTabName, handleTabLocation, handleGetPresentTab } =
     useTab();
-  const { searchData, loading, error } = useGetResult(text, activeTab);
-  const navigate = useNavigate();
-  const handleNavigate = (idx) => {
-    navigate(`/profile/${idx}`); // idx를 기반으로 프로필 페이지로 이동
-  };
+  const { searchData, loading, error } = useGetResult(
+    searchInputText,
+    activeTab
+  );
+
+  const { handleNavigate } = useHandler();
+
   return (
     <>
       <STYLE.TabContainer>
