@@ -33,6 +33,7 @@ const STYLE = {
   `,
   Tab: styled.button`
     flex: 1;
+    z-index: 1;
     padding: 10px 0;
     background-color: transparent;
     transition: all 0.3s ease-in-out;
