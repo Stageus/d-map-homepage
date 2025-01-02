@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const STYLE = {
+  TrackingImageWrapper: styled.div``,
   Container: styled.div`
     display: flex;
     flex-direction: column;
