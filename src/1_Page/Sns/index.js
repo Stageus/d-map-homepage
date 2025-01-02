@@ -1,13 +1,11 @@
 import STYLE from "./style";
 import React from "react";
-import TrackingImage from "../../2_Widget/TrackingImage";
-import TrackingImageActions from "./ui/TrackingImageActions";
 import useTrackingImageList from "../../3_Entity/SNS/useTrackingImageList";
+import TrackingImagePost from "./ui/TrackingImagePost";
 const Sns = () => {
   const [trackingImageList, trackingImageListLoading] = useTrackingImageList();
-  
   return (
-    <STYLE.SnsPageWrapper>
+    <STYLE.SnsPageContainer>
       <STYLE.Header>
         <STYLE.Date>2024.11.09 목</STYLE.Date>
         <STYLE.Sorting>
@@ -23,13 +21,12 @@ const Sns = () => {
                 <STYLE.PosterName>홍길동</STYLE.PosterName>
                 <STYLE.PostUpdated>1달전</STYLE.PostUpdated>
               </STYLE.PostInfo>
-                <TrackingImage data={{ ...elem, draggable: false }} />
-              <TrackingImageActions data={elem} />
+              <TrackingImagePost data={{ ...elem, draggable: false }}/>
             </STYLE.TrackingContainer>
           );
         })}
       </STYLE.TrackingList>
-    </STYLE.SnsPageWrapper>
+    </STYLE.SnsPageContainer>
   );
 };
 

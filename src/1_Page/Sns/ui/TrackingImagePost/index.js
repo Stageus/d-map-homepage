@@ -1,23 +1,30 @@
-import STYLE from "./style";
 import React from "react";
-import LikeBtn from "./ui/LikeBtn";
-import useDetailModal from "./model/useDetailModal";
 import TrackingImage from "../../../../2_Widget/TrackingImage";
-import EventBtn from "./ui/EventBtn";
+import useDetailModal from "./model/useDetailModal";
 import detail_icon from "./assets/detail.svg"
+import like_icon from "./assets/like.svg"
+import unlike_icon from "./assets/unlike.svg"
 import open_in_tracking_page_icon from "./assets/openInTrackingPage.svg"
+import EventBtn from "./ui/EventBtn";
+import useToggleLikeTrackingImage from "./model/useToggleLikeTrackingImage";
+import STYLE from "./style";
 import { useNavigate } from "react-router-dom";
-const TrackingImageActions = (props) => {
+
+const TrackingImagePost = (props) => {
   const { data } = props;
-  const { likecount } = data;
-  const navigate = useNavigate();
+  const {likecount, idx} = data;
   const [viewDetailModal, toggleDetailModal] = useDetailModal();
+  const [like, toggleLikeTrackingImage] = useToggleLikeTrackingImage(idx);
+  const navigate = useNavigate();
+
   return (
-    <>
+    <STYLE.Container onDoubleClick={()=>{toggleLikeTrackingImage()}}>
+      <TrackingImage data={data} />
+      
       <STYLE.InfoContainer>
         <p>좋아요: {likecount}</p>
         <STYLE.BtnContainer>
-          <LikeBtn trackingImageIdx={data.idx}/>
+          <EventBtn icon={like ? like_icon : unlike_icon} clickEvent={toggleLikeTrackingImage} />
           <EventBtn icon={detail_icon} clickEvent={toggleDetailModal}/>
           <EventBtn icon={open_in_tracking_page_icon} clickEvent={()=>{navigate("/tracking")}}/>
         </STYLE.BtnContainer>
@@ -34,9 +41,8 @@ const TrackingImageActions = (props) => {
           X
         </STYLE.Button>
       </STYLE.DetailModal>
-
-    </>
+    </STYLE.Container>
   );
 };
 
-export default TrackingImageActions;
+export default TrackingImagePost;

@@ -1,11 +1,15 @@
 import styled from "styled-components";
 
 const STYLE = {
-  SnsPageWrapper: styled.div`
+  SnsPageContainer: styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
     gap: 16px;
+  `,
+  TrackingImageWrapper: styled.div`
+    display: flex;
+    flex-direction: column;
   `,
   Header: styled.div`
     display: flex;
