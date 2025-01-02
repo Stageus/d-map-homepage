@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getCookie } from "../../../4_Shared/Cookie";
+import { getCookie } from "../../../4_Shared/model/cookie";
 import useGetUserData from "../../../3_Entity/Setting/useGetUserData";
 
 const useManageUser = (handleConfirmModalClose) => {
