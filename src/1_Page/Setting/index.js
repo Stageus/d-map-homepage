@@ -85,9 +85,9 @@ const UserProfile = () => {
       </STYLE.Container>
       {confirmModal && (
         <ConfirmModal
-          msessage={message}
+          message={message}
           onConfirm={type === "탈퇴" ? handleDeleteAccount : handleLogout}
-          onCancle={handleConfirmModalClose}
+          onCancel={handleConfirmModalClose}
         />
       )}
     </>
