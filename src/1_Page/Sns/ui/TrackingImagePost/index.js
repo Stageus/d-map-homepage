@@ -4,18 +4,16 @@ import useDetailModal from "./model/useDetailModal";
 import detail_icon from "./assets/detail.svg";
 import like_icon from "./assets/like.svg";
 import unlike_icon from "./assets/unlike.svg";
-import open_in_tracking_page_icon from "./assets/openInTrackingPage.svg";
 import EventBtn from "./ui/EventBtn";
 import useToggleLikeTrackingImage from "./model/useToggleLikeTrackingImage";
 import STYLE from "./style";
-import { useNavigate } from "react-router-dom";
+import TrackingImageLoaderBtn from "./ui/TrackingImageLoaderBtn";
 
 const TrackingImagePost = (props) => {
   const { data } = props;
   const { likecount, idx } = data;
   const [viewDetailModal, toggleDetailModal] = useDetailModal();
   const [like, toggleLikeTrackingImage] = useToggleLikeTrackingImage(idx);
-  const navigate = useNavigate();
 
   return (
     <STYLE.Container>
@@ -35,12 +33,7 @@ const TrackingImagePost = (props) => {
             clickEvent={toggleLikeTrackingImage}
           />
           <EventBtn icon={detail_icon} clickEvent={toggleDetailModal} />
-          <EventBtn
-            icon={open_in_tracking_page_icon}
-            clickEvent={() => {
-              navigate("/tracking");
-            }}
-          />
+          <TrackingImageLoaderBtn data={data}/>
         </STYLE.BtnContainer>
       </STYLE.InfoContainer>
 
