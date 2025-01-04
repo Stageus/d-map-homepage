@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 
-const ACTION_TYPES = ["탈퇴", "로그아웃"];
-
 const useType = () => {
   const [type, setType] = useState(null);
 
