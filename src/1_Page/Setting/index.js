@@ -76,8 +76,15 @@ const UserProfile = () => {
           </STYLE.ButtonBox>
           <STYLE.ButtonBox>
             <STYLE.Footer>
-              <p>Copyright 2021. 닉네임 All rights reserved.</p>
-              <p>(c) 2021. 닉네임 All rights reserved.</p>
+              <p>
+                Copyright © 2025. Stageus Team.
+                <br />
+                Designed for Android and iOS.
+                <br />
+                Published on Google Play and App Store.
+                <br />
+                All rights reserved.
+              </p>
             </STYLE.Footer>
             <STYLE.BackButton onClick={handleBack}>뒤로가기</STYLE.BackButton>
           </STYLE.ButtonBox>
