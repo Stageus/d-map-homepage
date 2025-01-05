@@ -1,11 +1,14 @@
 import React from "react";
 import STYLE from "./style";
-import useTab from "./model/useTab";
+
 import ConfirmModal from "../../2_Widget/ConfirmModal";
 import useConfirmModal from "../../4_Shared/model/useModalHandler";
+
+import useTab from "./model/useTab";
 import useActionModalMessageSet from "./model/useActionModalMessageSet";
 import useManageUser from "./model/useManageUser";
 import useChangeTheme from "./model/useChangeTheme";
+
 import ACTION_MESSAGES from "./constant/actionMessagesType";
 import TABS from "./constant/tabs";
 
