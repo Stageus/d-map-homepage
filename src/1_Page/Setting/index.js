@@ -1,18 +1,25 @@
 import React from "react";
 import STYLE from "./style";
-import useTab from "./model/useTab";
+
 import ConfirmModal from "../../2_Widget/ConfirmModal";
 import useConfirmModal from "../../4_Shared/model/useModalHandler";
-import useType from "./model/useType";
+
+import useTab from "./model/useTab";
+import useActionModalMessageSet from "./model/useActionModalMessageSet";
 import useManageUser from "./model/useManageUser";
 import useChangeTheme from "./model/useChangeTheme";
 
+import ACTION_MESSAGES from "./constant/actionMessagesType";
+import TABS from "./constant/tabs";
+
 const UserProfile = () => {
-  const { type, message, handleSetDelete, handleSetLogout } = useType();
+  const { selectedAction, handleMessageSetDelete, handleMessageSetLogout } =
+    useActionModalMessageSet();
+
   const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
     useConfirmModal();
 
-  const { handleTabWhite, handleTabDark, isPresentTab } = useTab();
+  const { activeTab, handleTabWhite, handleTabDark, isPresentTab } = useTab();
 
   const {
     userData,
@@ -22,7 +29,7 @@ const UserProfile = () => {
     handleLogout,
   } = useManageUser(handleConfirmModalClose);
 
-  const { theme } = useChangeTheme(type);
+  const { theme } = useChangeTheme(activeTab);
 
   return (
     <>
@@ -35,14 +42,16 @@ const UserProfile = () => {
         <STYLE.TabContainer>
           <STYLE.TabBox>
             <STYLE.Tab
-              $active={isPresentTab("화이트")}
+              $active={isPresentTab(TABS.WHITE)}
               onClick={handleTabWhite}>
               화이트
             </STYLE.Tab>
-            <STYLE.Tab $active={isPresentTab("다크")} onClick={handleTabDark}>
+            <STYLE.Tab
+              $active={isPresentTab(TABS.DARK)}
+              onClick={handleTabDark}>
               다크
             </STYLE.Tab>
-            <STYLE.TabBackground $activeTabName={isPresentTab("화이트")} />
+            <STYLE.TabBackground $activeTabName={isPresentTab(TABS.WHITE)} />
           </STYLE.TabBox>
         </STYLE.TabContainer>
         <STYLE.ButtonContainer>
@@ -52,14 +61,14 @@ const UserProfile = () => {
                 <STYLE.Button
                   danger
                   onClick={() => {
-                    handleSetDelete();
+                    handleMessageSetDelete();
                     handleConfirmModalOpen();
                   }}>
                   회원탈퇴
                 </STYLE.Button>
                 <STYLE.Button
                   onClick={() => {
-                    handleSetLogout();
+                    handleMessageSetLogout();
                     handleConfirmModalOpen();
                   }}>
                   로그아웃
@@ -76,8 +85,15 @@ const UserProfile = () => {
           </STYLE.ButtonBox>
           <STYLE.ButtonBox>
             <STYLE.Footer>
-              <p>Copyright 2021. 닉네임 All rights reserved.</p>
-              <p>(c) 2021. 닉네임 All rights reserved.</p>
+              <p>
+                Copyright © 2025. Stageus Team.
+                <br />
+                Designed for Android and iOS.
+                <br />
+                Published on Google Play and App Store.
+                <br />
+                All rights reserved.
+              </p>
             </STYLE.Footer>
             <STYLE.BackButton onClick={handleBack}>뒤로가기</STYLE.BackButton>
           </STYLE.ButtonBox>
@@ -85,9 +101,13 @@ const UserProfile = () => {
       </STYLE.Container>
       {confirmModal && (
         <ConfirmModal
-          msessage={message}
-          onConfirm={type === "탈퇴" ? handleDeleteAccount : handleLogout}
-          onCancle={handleConfirmModalClose}
+          message={`정말로 ${selectedAction} 하시겠습니까?`}
+          onConfirm={
+            selectedAction === ACTION_MESSAGES.delete
+              ? handleDeleteAccount
+              : handleLogout
+          }
+          onCancel={handleConfirmModalClose}
         />
       )}
     </>
