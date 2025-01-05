@@ -3,16 +3,19 @@ import STYLE from "./style";
 import useTab from "./model/useTab";
 import ConfirmModal from "../../2_Widget/ConfirmModal";
 import useConfirmModal from "../../4_Shared/model/useModalHandler";
-import useType from "./model/useType";
+import useActionModalMessageSet from "./model/useActionModalMessageSet";
 import useManageUser from "./model/useManageUser";
 import useChangeTheme from "./model/useChangeTheme";
+import ACTION_MESSAGES from "./constant/actionMessagesType";
 
 const UserProfile = () => {
-  const { type, message, handleSetDelete, handleSetLogout } = useType();
+  const { selectedAction, handleMessageSetDelete, handleMessageSetLogout } =
+    useActionModalMessageSet();
+
   const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
     useConfirmModal();
 
-  const { handleTabWhite, handleTabDark, isPresentTab } = useTab();
+  const { activeTab, handleTabWhite, handleTabDark, isPresentTab } = useTab();
 
   const {
     userData,
@@ -22,7 +25,7 @@ const UserProfile = () => {
     handleLogout,
   } = useManageUser(handleConfirmModalClose);
 
-  const { theme } = useChangeTheme(type);
+  const { theme } = useChangeTheme(activeTab);
 
   return (
     <>
@@ -52,14 +55,14 @@ const UserProfile = () => {
                 <STYLE.Button
                   danger
                   onClick={() => {
-                    handleSetDelete();
+                    handleMessageSetDelete();
                     handleConfirmModalOpen();
                   }}>
                   회원탈퇴
                 </STYLE.Button>
                 <STYLE.Button
                   onClick={() => {
-                    handleSetLogout();
+                    handleMessageSetLogout();
                     handleConfirmModalOpen();
                   }}>
                   로그아웃
@@ -92,8 +95,12 @@ const UserProfile = () => {
       </STYLE.Container>
       {confirmModal && (
         <ConfirmModal
-          message={message}
-          onConfirm={type === "탈퇴" ? handleDeleteAccount : handleLogout}
+          message={`정말로 ${selectedAction} 하시겠습니까?`}
+          onConfirm={
+            selectedAction === ACTION_MESSAGES.delete
+              ? handleDeleteAccount
+              : handleLogout
+          }
           onCancel={handleConfirmModalClose}
         />
       )}
