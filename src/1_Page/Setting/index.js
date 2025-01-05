@@ -7,6 +7,7 @@ import useActionModalMessageSet from "./model/useActionModalMessageSet";
 import useManageUser from "./model/useManageUser";
 import useChangeTheme from "./model/useChangeTheme";
 import ACTION_MESSAGES from "./constant/actionMessagesType";
+import TABS from "./constant/tabs";
 
 const UserProfile = () => {
   const { selectedAction, handleMessageSetDelete, handleMessageSetLogout } =
@@ -38,14 +39,16 @@ const UserProfile = () => {
         <STYLE.TabContainer>
           <STYLE.TabBox>
             <STYLE.Tab
-              $active={isPresentTab("화이트")}
+              $active={isPresentTab(TABS.WHITE)}
               onClick={handleTabWhite}>
               화이트
             </STYLE.Tab>
-            <STYLE.Tab $active={isPresentTab("다크")} onClick={handleTabDark}>
+            <STYLE.Tab
+              $active={isPresentTab(TABS.DARK)}
+              onClick={handleTabDark}>
               다크
             </STYLE.Tab>
-            <STYLE.TabBackground $activeTabName={isPresentTab("화이트")} />
+            <STYLE.TabBackground $activeTabName={isPresentTab(TABS.WHITE)} />
           </STYLE.TabBox>
         </STYLE.TabContainer>
         <STYLE.ButtonContainer>
