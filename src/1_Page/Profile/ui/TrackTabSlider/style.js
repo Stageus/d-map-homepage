@@ -7,19 +7,20 @@ const STYLE = {
   `,
   Slider: styled.div`
     display: flex;
+    justify-content: center;
     width: 200%; /* 두 개의 탭을 모두 포함할 넓이 */
     transform: translateX(${({ $tabIndex }) => -$tabIndex * 50}%);
     transition: transform 0.5s ease-in-out;
   `,
   PostGrid: styled.div`
     display: grid;
-    overflow: auto; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
-    height: calc(100vh - 200px); /* 헤더 높이를 제외한 나머지 */
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-auto-rows: 1fr;
+    overflow: auto;
+    height: calc(100vh - 400px);
     gap: 8px;
-    width: 50%;
+    grid-template-columns: repeat(3, calc((100% - 16px) / 3));
+    grid-auto-rows: 1fr;
     flex-shrink: 0;
+    width: 50%;
   `,
   EmptyMessage: styled.p`
     text-align: center;

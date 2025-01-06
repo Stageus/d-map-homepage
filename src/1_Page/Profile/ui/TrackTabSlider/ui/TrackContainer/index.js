@@ -1,7 +1,7 @@
 import React from "react";
 import STYLE from "./style";
 
-import TrackingImage from "../../../../../../2_Widget/TrackingImage";
+import TrackingImage from "./ui/TrackingImage";
 import useLongPressEvent from "./model/useLongPressEvent";
 
 const TrackContainer = (props) => {

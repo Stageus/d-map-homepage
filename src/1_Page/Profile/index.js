@@ -8,12 +8,15 @@ import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
 import useManageTrackData from "./model/useManageTrackData";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 
 const Profile = () => {
   const isLogin = true;
   const { userIdx } = useParams();
   const { activeTab, tabIndex, handleTabClick } = useTabs();
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
+
+  const [page, setPage] = useState(1);
 
   const {
     trackData,
