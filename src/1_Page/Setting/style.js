@@ -52,12 +52,12 @@ const STYLE = {
     flex: 1;
     padding: 10px 0;
     background-color: transparent;
-    color: ${({ active, theme }) => (active ? theme.black : theme.white)};
+    color: ${({ $active, theme }) => ($active ? theme.black : theme.white)};
     transition: all 0.3s ease-in-out;
     border: none;
     font-size: 16px;
     font-weight: bold;
-    cursor: pointer;
+    z-index: 1;
   `,
   ButtonContainer: styled.div`
     width: 80%;

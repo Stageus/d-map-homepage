@@ -2,21 +2,24 @@ import React from "react";
 import STYLE from "./style";
 
 import Tracking from "../../../../../../2_Widget/TrackingImage";
-import useLongPressEvent from "../../../../../../4_Shared/useLongPressEvent";
+import useLongPressEvent from "./model/useLongPressEvent";
 
 const TrackContainer = (props) => {
-  const { track, modifyMode } = props;
-  const { handleAnotherType, setLongPressData, handleModifyTrackingOpen } =
-    props;
-
-  const longPressEvents = useLongPressEvent(
-    () => {
-      handleModifyTrackingOpen();
-      setLongPressData(track);
+  const {
+    track,
+    modifyMode,
+    setLongPressData,
+    handle: {
+      handleDeleteAdd,
+      handleToggleTrackType,
+      handleModifyTrackingOpen,
     },
-    null,
-    1000
-  );
+  } = props;
+
+  const longPressEvents = useLongPressEvent(() => {
+    handleModifyTrackingOpen();
+    setLongPressData(track);
+  }, 1000);
 
   return (
     <>
@@ -25,11 +28,17 @@ const TrackContainer = (props) => {
         {modifyMode === "공유" && (
           <STYLE.TrackingClickBox
             onClick={() => {
-              handleAnotherType(track);
+              handleToggleTrackType(track);
             }}
           />
         )}
-        {modifyMode === "삭제" && <STYLE.TrackingCheckbox />}
+        {modifyMode === "삭제" && (
+          <STYLE.TrackingCheckbox
+            onChange={() => {
+              handleDeleteAdd(track);
+            }}
+          />
+        )}
       </STYLE.TrackingContainer>
     </>
   );

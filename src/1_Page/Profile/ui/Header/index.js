@@ -1,63 +1,69 @@
 import React from "react";
 import STYLE from "./style.js";
+import { useParams } from "react-router-dom";
 
-import useModifyImageModal from "./model/useModifyImageModal.js";
-import useModifyNameModal from "./model/useModifyNameModal.js";
-import useModifyMode from "./model/useModifyMode.js";
-import useConfirmModal from "../../model/useConfirmModal.js";
+import useModifyImageModal from "../../../../4_Shared/model/useModalHandler.js";
+import useModifyNameModal from "../../../../4_Shared/model/useModalHandler.js";
+import useModifyMode from "../../../../4_Shared/model/useModalHandler.js";
+import useConfirmModal from "../../../../4_Shared/model/useModalHandler.js";
 
 import ModifyImageModal from "./ui/ModifyImageModal/index.js";
 import ModifyNameModal from "./ui/ModifyNameModal/index.js";
 import ModifyModeModal from "./ui/ModifyModeModal/index.js";
 import ConfirmModal from "../../../../2_Widget/ConfirmModal";
+import useGetUserData from "../../../../3_Entity/Profile/useGetUserData.js";
 
 const Header = (props) => {
   const {
-    user: { name, author, profileImage },
-    data: { shareData, saveData },
+    trackData,
+    getTrackLength,
     setMode: { modifyMode, handleSetMode, handleCloseMode },
-    handleCancel,
+    handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
     activeTab,
   } = props;
 
-  const { modifyImageModal, handleImageModalClose, handleImageModalOpen } =
-    useModifyImageModal();
-  const {
+  const { userIdx } = useParams();
+
+  const { userData, loading, error } = useGetUserData(userIdx); // 프로필 데이터
+
+  const [modifyImageModal, handleImageModalOpen, handleImageModalClose] =
+    useModifyImageModal(); // 프로필 이미지 모달
+  const [
     modifyNameModal,
-    handleModifyNameModalClose,
     handleModifyNameModalOpen,
-  } = useModifyNameModal();
+    handleModifyNameModalClose,
+  ] = useModifyNameModal(); // 닉네임 수정 모달
 
-  const { confirmModal, handleConfirmModalOpen, handleConfirmModalClose } =
-    useConfirmModal();
+  const [modifyModeModal, handleModifyModeOpen, handleModifyModeClose] =
+    useModifyMode(); // 수정 , 삭제 뒤로가기 모달
 
-  const { modifyModeModal, handleModifyModeClose, handleModifyModeOpen } =
-    useModifyMode();
+  const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
+    useConfirmModal(); // 확인 모달
 
   return (
     <>
       {!modifyMode ? (
         <STYLE.ProfileContainer>
           <STYLE.ProfileWrapper onClick={handleImageModalOpen}>
-            <STYLE.ProfileImg src={profileImage} alt="Profile" />
+            <STYLE.ProfileImg src={userData?.image} alt="Profile" />
           </STYLE.ProfileWrapper>
           <STYLE.UserInfo>
             <STYLE.ProfileBox>
-              <STYLE.UserName>{name}</STYLE.UserName>
-              {author && (
+              <STYLE.UserName>{userData?.nickname}</STYLE.UserName>
+              {userIdx && (
                 <STYLE.ProfileButton onClick={handleModifyModeOpen}>
                   •••
                 </STYLE.ProfileButton>
               )}
             </STYLE.ProfileBox>
-            {author && (
+            {userIdx && (
               <STYLE.Nickname onClick={handleModifyNameModalOpen}>
                 닉네임 수정
               </STYLE.Nickname>
             )}
             <STYLE.PostCount>
               {activeTab} 게시물 :{" "}
-              {activeTab === "공유" ? shareData?.length : saveData?.length}개
+              {activeTab === "공유" ? getTrackLength(0) : getTrackLength(1)}개
             </STYLE.PostCount>
           </STYLE.UserInfo>
         </STYLE.ProfileContainer>
@@ -71,7 +77,7 @@ const Header = (props) => {
             <STYLE.Button
               onClick={() => {
                 handleCloseMode();
-                handleCancel();
+                handleSelectCancel();
               }}>
               취소
             </STYLE.Button>
@@ -79,16 +85,24 @@ const Header = (props) => {
         </STYLE.Container>
       )}
 
-      {modifyImageModal && <ModifyImageModal onClose={handleImageModalClose} />}
+      {modifyImageModal && (
+        <ModifyImageModal
+          image={userData?.image}
+          onClose={handleImageModalClose}
+        />
+      )}
       {modifyNameModal && (
-        <ModifyNameModal onClose={handleModifyNameModalClose} name={name} />
+        <ModifyNameModal
+          onClose={handleModifyNameModalClose}
+          name={userData?.nickname}
+        />
       )}
       {modifyModeModal && (
         <>
           <ModifyModeModal
             handleModifyModeClose={handleModifyModeClose}
             handleSetMode={handleSetMode}
-            sumDataLength={shareData?.length + saveData?.length}
+            sumtrackDataLength={trackData.length}
           />
         </>
       )}
@@ -101,6 +115,7 @@ const Header = (props) => {
               : "저장하시겠습니까?"
           }
           onConfirm={() => {
+            modifyMode === "삭제" ? handleDeleteTrack() : handleModifyTrack();
             handleCloseMode();
             handleConfirmModalClose();
           }}

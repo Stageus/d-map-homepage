@@ -1,14 +1,10 @@
 import { useState } from "react";
 
-const useConfirmModal = () => {
+const useModalHandler = () => {
   const [confirmModal, setConfirmModal] = useState(false);
   const handleConfirmModalOpen = () => setConfirmModal(true);
   const handleConfirmModalClose = () => setConfirmModal(false);
-  return {
-    confirmModal,
-    handleConfirmModalOpen,
-    handleConfirmModalClose,
-  };
+  return [confirmModal, handleConfirmModalOpen, handleConfirmModalClose];
 };
 
-export default useConfirmModal;
+export default useModalHandler;

@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
-import { locationData, nicknameData } from "./data";
 
-const getSearchData = async (SearchText, type) => {
-  if (type === "이름") return nicknameData;
-  if (type === "장소") return locationData;
+const templeData = {
+  message: {
+    user: {
+      nickname: "이쁜호랑이",
+      image: "/home/account/image.png",
+    },
+  },
+};
+
+const getUserData = async (userIdx) => {
+  return templeData;
   try {
-    const response = await fetch(`https://주소/Search/${SearchText}`, {
+    const response = await fetch(`https://주소/user/${userIdx}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -38,16 +45,16 @@ const getSearchData = async (SearchText, type) => {
   }
 };
 
-const useSearchData = (searchText, type) => {
-  const [searchData, setSearchData] = useState([]);
+const useGetUserData = (initialUserIdx = null) => {
+  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = async (SearchText, type) => {
+  const fetchData = async (userIdx) => {
     try {
       setLoading(true);
-      const data = await getSearchData(SearchText, type);
-      setSearchData(data.message);
+      const user = await getUserData(userIdx);
+      setUserData(user.message.user);
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -56,12 +63,12 @@ const useSearchData = (searchText, type) => {
   };
 
   useEffect(() => {
-    if (searchText && type) {
-      fetchData(searchText, type);
+    if (initialUserIdx) {
+      fetchData(initialUserIdx);
     }
-  }, [searchText, type]);
+  }, [initialUserIdx]);
 
-  return { searchData, loading, error };
+  return { userData, loading, error };
 };
 
-export default useSearchData;
+export default useGetUserData;
