@@ -15,7 +15,6 @@ const STYLE = {
   PostGrid: styled.div`
     display: grid;
     overflow: auto;
-    height: calc(100vh - 400px);
     gap: 8px;
     grid-template-columns: repeat(3, calc((100% - 16px) / 3));
     grid-auto-rows: 1fr;
