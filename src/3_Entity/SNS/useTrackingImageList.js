@@ -166,25 +166,22 @@ const useTrackingImageList = (
       // ...
 
       // 3. data processing
-      if (trackingImageList.length > 12) {
-        // const canvases = document.querySelectorAll("canvas");
+      if (trackingImageList.length === 8) {
+        const canvases = document.querySelectorAll("canvas");
+        canvases.forEach((canvas) => {
+          // canvas가 WebGL 컨텍스트를 가지고 있다면 초기화
+          const context =
+            canvas.getContext("webgl") || canvas.getContext("webgl2");
 
-        // canvases.forEach((canvas) => {
-        //   // canvas가 WebGL 컨텍스트를 가지고 있다면 초기화
-        //   const context =
-        //     canvas.getContext("webgl") || canvas.getContext("webgl2");
-
-        //   if (context) {
-        //     // WebGL 컨텍스트 초기화
-        //     context.getExtension("WEBGL_lose_context")?.loseContext();
-        //   }
-        // });
-        setTrackingImageList(result.message);
+          if (context) {
+            // WebGL 컨텍스트 초기화
+            context.getExtension("WEBGL_lose_context")?.loseContext();
+          }
+        });
+        setTrackingImageList([])
+        setTimeout(()=>{setTrackingImageList(result.message)}, 100)
       } else {
-        setTrackingImageList((prevList) => [
-          ...prevList,
-          ...result.message,
-        ]);
+        setTrackingImageList((prevList) => [...prevList, ...result.message]);
       }
 
       // 4. handle loading
@@ -194,6 +191,6 @@ const useTrackingImageList = (
     fetchTrackingImageList();
   }, [category, page]);
 
-  return [trackingImageList, loading, hasMoreContent, trackingImageList.length];
+  return [trackingImageList, loading, hasMoreContent];
 };
 export default useTrackingImageList;
