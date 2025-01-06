@@ -10,18 +10,22 @@ import STYLE from "./style";
 import TrackingImageLoaderBtn from "./ui/TrackingImageLoaderBtn";
 
 const TrackingImagePost = (props) => {
-  const { data } = props;
+  const { data, observe } = props;
   const { likecount, idx } = data;
   const [viewDetailModal, toggleDetailModal] = useDetailModal();
   const [like, toggleLikeTrackingImage] = useToggleLikeTrackingImage(idx);
   return (
-    <STYLE.Container>
+    <STYLE.Container ref={observe}>
+      <STYLE.PostInfo>
+        <STYLE.PosterName>{data.nickname}</STYLE.PosterName>
+        <STYLE.PostUpdated>1달전</STYLE.PostUpdated>
+      </STYLE.PostInfo>
       <STYLE.TrackingImageWrapper
         onDoubleClick={() => {
           toggleLikeTrackingImage();
         }}
       >
-        <TrackingImage data={data} />
+        <TrackingImage data={{ ...data, height: "70vh" }} />
       </STYLE.TrackingImageWrapper>
 
       <STYLE.InfoContainer>
@@ -32,7 +36,7 @@ const TrackingImagePost = (props) => {
             clickEvent={toggleLikeTrackingImage}
           />
           <EventBtn icon={detail_icon} clickEvent={toggleDetailModal} />
-          <TrackingImageLoaderBtn data={data}/>
+          <TrackingImageLoaderBtn data={data} />
         </STYLE.BtnContainer>
       </STYLE.InfoContainer>
 
