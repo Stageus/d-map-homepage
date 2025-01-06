@@ -39,7 +39,11 @@ const Profile = () => {
           trackData={trackData}
           getTrackLength={getTrackLength}
           activeTab={activeTab}
-          handler={{ handleSelectCancel, handleDeleteTrack, handleModifyTrack }}
+          handler={{
+            handleSelectCancel,
+            handleDeleteTrack,
+            handleModifyTrack,
+          }}
           user={{ userIdx }}
         />
         <STYLE.TabMenu>

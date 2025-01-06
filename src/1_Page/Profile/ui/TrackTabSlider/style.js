@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 const STYLE = {
   SliderWrapper: styled.div`
-    overflow: hidden; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
     width: 100%;
+    overflow: hidden;
   `,
   Slider: styled.div`
     display: flex;
@@ -13,6 +13,8 @@ const STYLE = {
   `,
   PostGrid: styled.div`
     display: grid;
+    overflow: auto; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
+    height: calc(100vh - 200px); /* 헤더 높이를 제외한 나머지 */
     grid-template-columns: 1fr 1fr 1fr;
     grid-auto-rows: 1fr;
     gap: 8px;

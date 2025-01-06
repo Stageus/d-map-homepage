@@ -4,6 +4,7 @@ const STYLE = {
   ProfileContainer: styled.div`
     display: flex;
     align-items: center;
+    height: 55px;
     margin: 16px 0;
   `,
   UserInfo: styled.div`
@@ -37,6 +38,7 @@ const STYLE = {
   `,
   Container: styled.div`
     display: flex;
+    height: 55px;
     flex-direction: column;
     align-items: center;
     margin: 16px 0;
