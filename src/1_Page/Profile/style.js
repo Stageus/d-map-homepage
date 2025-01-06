@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 const STYLE = {
   Main: styled.div`
-    width: 100%;
     padding: 16px;
     display: flex;
     flex-direction: column;
     background-color: ${({ theme }) => theme.background};
+    overflow: hidden;
   `,
   TabMenu: styled.div`
     display: flex;

@@ -32,10 +32,11 @@ const TrackTabSlider = (props) => {
               <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
             ) : (
               trackData?.map(
-                (track) =>
+                (track, index) =>
                   track.sharing === 0 && (
                     <TrackContainer
                       track={track}
+                      id={index}
                       modifyMode={modifyMode}
                       handle={{
                         handleDeleteAdd,
@@ -53,10 +54,11 @@ const TrackTabSlider = (props) => {
               <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
             ) : (
               trackData?.map(
-                (track) =>
+                (track, index) =>
                   track.sharing === 1 && (
                     <TrackContainer
                       track={track}
+                      id={index}
                       modifyMode={modifyMode}
                       handle={{
                         handleDeleteAdd,
