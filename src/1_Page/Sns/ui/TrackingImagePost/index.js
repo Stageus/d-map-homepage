@@ -14,7 +14,6 @@ const TrackingImagePost = (props) => {
   const { likecount, idx } = data;
   const [viewDetailModal, toggleDetailModal] = useDetailModal();
   const [like, toggleLikeTrackingImage] = useToggleLikeTrackingImage(idx);
-
   return (
     <STYLE.Container>
       <STYLE.TrackingImageWrapper
