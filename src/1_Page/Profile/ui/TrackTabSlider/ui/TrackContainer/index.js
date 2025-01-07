@@ -18,6 +18,8 @@ const TrackContainer = (props) => {
     },
   } = props;
 
+  const { handleNextPage } = props;
+
   const { index } = props;
   const { setInView } = props;
   const { resetState, setResetState } = props;
@@ -42,6 +44,13 @@ const TrackContainer = (props) => {
     handleModifyTrackingOpen();
     setLongPressData(track);
   }, 1000);
+
+  useEffect(() => {
+    console.log(inView);
+    if (handleNextPage && inView) {
+      handleNextPage();
+    }
+  }, [inView, handleNextPage]);
 
   return (
     <>

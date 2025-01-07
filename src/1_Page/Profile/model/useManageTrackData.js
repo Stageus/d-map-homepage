@@ -3,9 +3,11 @@ import useGetTrackData from "../../../3_Entity/Profile/useGetTrackData";
 import useModifySharingTracking from "../../../3_Entity/Profile/useModifySharingTracking";
 import useDeleteTrackingImage from "../../../3_Entity/Profile/useDeleteTrackingImage";
 
-const useManageTrackData = (userIdx) => {
-  const { track, trackLoading, trackError, fetchTrackData } =
-    useGetTrackData(userIdx); // 데이터 호출 api
+const useManageTrackData = (userIdx, page) => {
+  const { track, trackLoading, trackError, fetchTrackData } = useGetTrackData(
+    userIdx,
+    page
+  ); // 데이터 호출 api
   const { modifySharing } = useModifySharingTracking(); // 데이터 수정 api
   const { deleteTrackingImage, status } = useDeleteTrackingImage();
 
@@ -13,13 +15,13 @@ const useManageTrackData = (userIdx) => {
   const [modifyIdxList, setModifyList] = useState([]);
 
   useEffect(() => {
-    if (!track.message) return;
-    setTrackData(track.message);
+    if (!track) return;
+    setTrackData(track);
   }, [track]);
 
   // 데이터 변경 취소
   const handleSelectCancel = () => {
-    setTrackData(track.message);
+    setTrackData(track);
     setModifyList([]);
   };
 

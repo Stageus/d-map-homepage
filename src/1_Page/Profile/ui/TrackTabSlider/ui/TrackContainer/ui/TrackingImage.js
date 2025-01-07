@@ -30,7 +30,7 @@ const TrackingImage = (props) => {
       mapInstanceRef.current = null; // 기존 인스턴스 무효화
     }
     setMapKey((prevKey) => prevKey + 1); // React key 변경으로 맵 컴포넌트 재생성
-    console.log("Map reset", index);
+    // console.log("Map reset", index);
   };
 
   const handleMapLoad = (map) => {
@@ -47,7 +47,7 @@ const TrackingImage = (props) => {
       timer = setTimeout(() => {
         setResetState(false);
         resetMap();
-      }, 500);
+      }, 100);
     }
     return () => {
       if (timer) {

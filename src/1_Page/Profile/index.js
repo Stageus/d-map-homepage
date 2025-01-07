@@ -6,9 +6,9 @@ import Loading from "../../2_Widget/Loading";
 
 import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
-import useManageTrackData from "./model/useManageTrackData";
+import useManageTrackData from "./model/useManageTrackData.js";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Profile = () => {
   const isLogin = true;
@@ -17,6 +17,13 @@ const Profile = () => {
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
 
   const [page, setPage] = useState(1);
+  const handleNextPage = () => {
+    setPage((prev) => prev + 1);
+    console.log("다음페이지");
+  };
+  useEffect(() => {
+    console.log(page);
+  }, [page]);
 
   const {
     trackData,
@@ -28,7 +35,7 @@ const Profile = () => {
     handleDeleteTrack,
     handleDeleteAdd,
     getTrackLength,
-  } = useManageTrackData(userIdx); // API로 호출된 데이터 관리 훅
+  } = useManageTrackData(userIdx, page); // API로 호출된 데이터 관리 훅
 
   // 로딩 애러 처리
   if (trackLoading) return <Loading />;
@@ -73,6 +80,7 @@ const Profile = () => {
           trackData={trackData}
           getTrackLength={getTrackLength}
           tabIndex={tabIndex}
+          handleNextPage={handleNextPage}
         />
       </STYLE.Main>
     </>

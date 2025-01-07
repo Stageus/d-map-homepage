@@ -14,6 +14,7 @@ const TrackTabSlider = (props) => {
     tabIndex,
     handle: { handleToggleTrackType, handleDeleteAdd },
   } = props;
+  const { handleNextPage } = props;
 
   const {
     modifyTrackingModal,
@@ -52,6 +53,9 @@ const TrackTabSlider = (props) => {
     cleanupMap();
   }, [inViewCount]);
 
+  const shareTrackData = trackData?.filter((track) => track.sharing === 0);
+  const saveTrackData = trackData?.filter((track) => track.sharing === 1);
+
   return (
     <>
       <STYLE.SliderWrapper>
@@ -60,13 +64,18 @@ const TrackTabSlider = (props) => {
             {getTrackLength(0) === 0 ? (
               <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
             ) : (
-              trackData?.map(
+              shareTrackData?.map(
                 (track, index) =>
                   track.sharing === 0 && (
                     <TrackContainer
                       key={track.id} // 고유 key 필요
                       track={track}
                       index={index}
+                      handleNextPage={
+                        shareTrackData.length === index + 1
+                          ? handleNextPage
+                          : null
+                      }
                       resetState={resetState}
                       setResetState={setResetState}
                       modifyMode={modifyMode}
@@ -86,13 +95,18 @@ const TrackTabSlider = (props) => {
             {getTrackLength(1) === 0 ? (
               <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
             ) : (
-              trackData?.map(
+              saveTrackData?.map(
                 (track, index) =>
                   track.sharing === 1 && (
                     <TrackContainer
                       key={track.id} // 고유 key 필요
                       track={track}
                       index={index}
+                      handleNextPage={
+                        saveTrackData.length === index + 1
+                          ? handleNextPage
+                          : null
+                      }
                       resetState={resetState}
                       setResetState={setResetState}
                       modifyMode={modifyMode}
