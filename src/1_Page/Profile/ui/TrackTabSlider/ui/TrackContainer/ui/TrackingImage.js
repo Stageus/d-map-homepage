@@ -45,6 +45,7 @@ const TrackingImage = (props) => {
     let timer;
     if (inView && resetState) {
       timer = setTimeout(() => {
+        setResetState(false);
         resetMap();
       }, 500);
     }
