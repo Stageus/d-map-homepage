@@ -15,7 +15,7 @@ const TrackingImagePost = (props) => {
   const [viewDetailModal, toggleDetailModal] = useDetailModal();
   const [like, toggleLikeTrackingImage] = useToggleLikeTrackingImage(idx);
   return (
-    <STYLE.Container ref={observe}>
+    <STYLE.Container>
       <STYLE.PostInfo>
         <STYLE.PosterName>{data.nickname}</STYLE.PosterName>
         <STYLE.PostUpdated>1달전</STYLE.PostUpdated>
@@ -24,6 +24,7 @@ const TrackingImagePost = (props) => {
         onDoubleClick={() => {
           toggleLikeTrackingImage();
         }}
+        ref={observe}
       >
         <TrackingImage data={{ ...data, height: "70vh" }} />
       </STYLE.TrackingImageWrapper>

@@ -8,12 +8,10 @@ import useInfiniteScrollPaging from "./model/useInfiniteScrollPaging";
 const Sns = () => {
   const [page, setPage] = React.useState(1);
   const { category, userIdx } = useParams();
-  const [
-    trackingImageList,
-    trackingImageListLoading,
-    hasMoreContent
-  ] = useTrackingImageList(category, userIdx, page);
-  const [ref] = useInfiniteScrollPaging(
+  const [trackingImageList, trackingImageListLoading, hasMoreContent] =
+    useTrackingImageList(category, userIdx, page);
+  const [prevPagingRef, nextPagingRef] = useInfiniteScrollPaging(
+    page,
     setPage,
     trackingImageListLoading,
     hasMoreContent
@@ -34,7 +32,9 @@ const Sns = () => {
             <STYLE.TrackingContainer key={index}>
               <TrackingImagePost
                 data={{ ...elem, draggable: false }}
-                observe={index === trackingImageList.length - 1 ? ref : null}
+                observe={index === trackingImageList.length - 1
+                  ? nextPagingRef // 마지막 요소
+                  : undefined}
               />
             </STYLE.TrackingContainer>
           );
