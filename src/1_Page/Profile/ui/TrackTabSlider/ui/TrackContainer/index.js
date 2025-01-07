@@ -46,7 +46,6 @@ const TrackContainer = (props) => {
   }, 1000);
 
   useEffect(() => {
-    console.log(inView);
     if (handleNextPage && inView) {
       handleNextPage();
     }

@@ -27,29 +27,30 @@ const TrackTabSlider = (props) => {
 
   const [resetState, setResetState] = useState(false);
 
-  // WebGL 컨텍스트 초기화
-  const cleanupMap = () => {
+  const cleanupMap = async () => {
     const canvases = document.querySelectorAll("canvas");
     if (canvases.length === 0) {
-      console.log("초기화할 캔버스가 없습니다.");
       return;
     }
-    canvases.forEach((canvas) => {
+    for (const canvas of canvases) {
       const context = canvas.getContext("webgl") || canvas.getContext("webgl2");
       if (context) {
         const extension = context.getExtension("WEBGL_lose_context");
         if (extension) {
-          extension.loseContext();
-          setResetState(true);
+          await extension.loseContext(); // 컨텍스트 손실
+        }
+        // 손실된 컨텍스트에서 추가 호출 방지
+        if (context.isContextLost()) {
+          console.warn("WebGL context is lost. Skipping further operations.");
+          continue;
         }
       }
-    });
+    }
+    setResetState(true); // 상태 업데이트
   };
 
   // inViewCount 변경 시 컴포넌트 초기화
   useEffect(() => {
-    console.log("inViewCount:", inViewCount);
-    if (inViewCount <= 0) return;
     cleanupMap();
   }, [inViewCount]);
 

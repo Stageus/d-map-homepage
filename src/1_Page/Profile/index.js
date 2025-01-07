@@ -21,9 +21,6 @@ const Profile = () => {
     setPage((prev) => prev + 1);
     console.log("다음페이지");
   };
-  useEffect(() => {
-    console.log(page);
-  }, [page]);
 
   const {
     trackData,
