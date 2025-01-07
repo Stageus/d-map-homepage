@@ -1,13 +1,24 @@
 import STYLE from "./style";
 import React from "react";
-import TrackingImage from "../../2_Widget/TrackingImage";
-import TrackingImageActions from "./ui/TrackingImageActions";
 import useTrackingImageList from "../../3_Entity/SNS/useTrackingImageList";
+import TrackingImagePost from "./ui/TrackingImagePost";
+import { useParams } from "react-router-dom";
+import useInfiniteScrollPaging from "./model/useInfiniteScrollPaging";
+
 const Sns = () => {
-  const [trackingImageList, trackingImageListLoading] = useTrackingImageList();
-  
+  const [page, setPage] = React.useState(1);
+  const { category, userIdx } = useParams();
+  const [trackingImageList, trackingImageListLoading, hasMoreContent] =
+    useTrackingImageList(category, userIdx, page);
+  const [prevPagingRef, nextPagingRef] = useInfiniteScrollPaging(
+    page,
+    setPage,
+    trackingImageListLoading,
+    hasMoreContent
+  );
+
   return (
-    <STYLE.SnsPageWrapper>
+    <STYLE.SnsPageContainer>
       <STYLE.Header>
         <STYLE.Date>2024.11.09 목</STYLE.Date>
         <STYLE.Sorting>
@@ -17,20 +28,19 @@ const Sns = () => {
       </STYLE.Header>
       <STYLE.TrackingList>
         {trackingImageList.map((elem, index) => {
-          console.log(elem.line)
           return (
             <STYLE.TrackingContainer key={index}>
-              <STYLE.PostInfo>
-                <STYLE.PosterName>홍길동</STYLE.PosterName>
-                <STYLE.PostUpdated>1달전</STYLE.PostUpdated>
-              </STYLE.PostInfo>
-                <TrackingImage data={{ ...elem, draggable: false }} />
-              <TrackingImageActions data={elem} />
+              <TrackingImagePost
+                data={{ ...elem, draggable: false }}
+                observe={index === trackingImageList.length - 1
+                  ? nextPagingRef // 마지막 요소
+                  : undefined}
+              />
             </STYLE.TrackingContainer>
           );
         })}
       </STYLE.TrackingList>
-    </STYLE.SnsPageWrapper>
+    </STYLE.SnsPageContainer>
   );
 };
 

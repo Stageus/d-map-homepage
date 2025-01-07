@@ -1,18 +1,25 @@
 import styled from "styled-components";
 
 const STYLE = {
-  SnsPageWrapper: styled.div`
-    height: 100%;
+  SnsPageContainer: styled.div`
+    padding-top: 50px;
+  `,
+  TrackingImageWrapper: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 16px;
   `,
   Header: styled.div`
+  background-color: white;
     display: flex;
     padding: 8px 16px;
     gap: 16px;
     min-height: 50px;
     align-items: end;
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
   `,
   Date: styled.h3`
     font-size: x-large;
@@ -35,18 +42,6 @@ const STYLE = {
     display: flex;
     flex-direction: column;
     gap: 4px;
-  `,
-  PostInfo: styled.h3`
-    padding: 0 8px;
-    display: flex;
-    gap: 4px;
-    align-items: end;
-  `,
-  PosterName: styled.p``,
-  PostUpdated: styled.p`
-    font-size: small;
-    font-weight: 400;
-    color: gray;
   `,
 };
 
