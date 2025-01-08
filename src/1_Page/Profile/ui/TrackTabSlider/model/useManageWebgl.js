@@ -81,7 +81,7 @@ const useManageWebGL = (tabIndex, page, divElement, scrollPosition) => {
         isScrolling.current = true;
         setIsScroll(true);
       }
-      initializeWebGL();
+      // initializeWebGL();
 
       // };// 스크롤 멈춤 처리
       const scroolStopEvent = () => {

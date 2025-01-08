@@ -1,10 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { GoogleMap, Polyline } from "@react-google-maps/api";
 import STYLE from "./style";
-
 import { useInView } from "react-intersection-observer";
-
-const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 const TrackingImage = (props) => {
   const {
@@ -18,17 +15,16 @@ const TrackingImage = (props) => {
     draggable = true,
   } = props.data;
 
-  const { handleNextPage } = props;
-
-  const { isScroll, index } = props;
+  const { handleNextPage, index, isScroll } = props;
 
   const { ref, inView } = useInView({
     threshold: 0.5,
     triggerOnce: false,
   });
 
-  const mapRef = useRef(null); // Google Map 인스턴스를 참조
-  const [resetCount, setResetCount] = useState(0); // 맵 리셋 카운터
+  const mapRef = useRef(null);
+  const mapDivRef = useRef(null);
+  const [resetCount, setResetCount] = useState(0);
 
   const polylineOptions = {
     strokeColor: lineColor,
@@ -36,98 +32,79 @@ const TrackingImage = (props) => {
     strokeWeight: lineWeight,
   };
 
-  const [mapUrl, setMapUrl] = useState("");
+  const isChangeRef = useRef(false);
+  const onClearCanvas = () => {
+    if (mapDivRef.current) {
+      const canvasElements = mapDivRef.current.querySelectorAll("canvas");
+      canvasElements.forEach((canvas) => {
+        const context =
+          canvas.getContext("webgl") || canvas.getContext("webgl2");
+        if (context) {
+          const loseExtension = context.getExtension("WEBGL_lose_context");
+          if (loseExtension) {
+            try {
+              loseExtension.loseContext();
+            } catch (error) {
+              console.error("WebGL 초기화 중 오류 발생:", error.message);
+            }
+          }
+        }
+      });
+    }
+    if (mapRef.current) {
+      mapRef.current = null;
+    }
+  };
+  const initialInViewRef = useRef(null);
 
   useEffect(() => {
-    if (handleNextPage && inView) handleNextPage();
-  }, [inView]);
-  useEffect(() => {
-    const size = `${600}x${400}`;
-    const centerParam = `${center.lat},${center.lng}`;
-    const pathParams = line
-      .map(
-        (path) => path.map((point) => `${point.lat},${point.lng}`).join("|") // 라인 내 각 좌표를 연결
-      )
-      .map(
-        (path) =>
-          `&path=color:${`0x${lineColor.substring(1)}`}|weight:${
-            lineWeight * 5
-          }|${path}` // 각 라인의 색상, 두께, 좌표 설정
-      )
-      .join(""); // 여러 라인을 처리
-    const adjustZoom = (zoom) => {
-      const vectorToStaticFactor = 0.8; // 벡터 -> 스태틱 보정 값
-      return zoom * vectorToStaticFactor;
-    };
-    // 스타일 설정
-    const styles = [
-      "feature:landscape|element:geometry|color:0xf5f5f5", // 도로 외 배경을 회색으로 설정
-      "feature:water|element:geometry|color:0xe0e0e0", // 물을 연회색으로 설정
-      "feature:poi.park|element:geometry|color:0xf5f5f5", // 공원(녹지)을 회색으로 설정
-      "feature:all|element:labels|visibility:off", // 모든 레이블 숨기기
-    ]
-      .map((style) => `&style=${style}`)
-      .join("");
-    const url = `https://maps.googleapis.com/maps/api/staticmap?center=${centerParam}&zoom=${adjustZoom(
-      zoom
-    )}&size=${size}${pathParams}${styles}&key=${API_KEY}`;
-    setMapUrl(url);
-  }, [zoom, center, line, lineColor, lineWeight]);
+    if (isScroll) {
+      // 스크롤 시작 시 `inView` 값을 기록
+      initialInViewRef.current = inView;
+      console.log("스크롤 시작:", initialInViewRef.current);
+    } else if (!isScroll) {
+      console.log("스크롤 끝:", inView, "초기값:", initialInViewRef.current);
+      if (!initialInViewRef.current && inView) {
+        setResetCount((prev) => prev + 1); // 리렌더링 트리거
+      }
+      onClearCanvas(); // WebGL 컨텍스트 해제
+      isChangeRef.current = inView; // 현재 상태로 업데이트
+    }
+  }, [isScroll]);
 
   return (
     <STYLE.MapContainer>
       <div ref={ref} style={{ width: "100%", height: "100%" }}>
-        <div style={{ position: "relative", width: "100%", height: height }}>
-          {inView ? (
+        <div
+          ref={mapDivRef}
+          style={{ position: "relative", width: "100%", height: height }}>
+          {inView && (
             <GoogleMap
-              key={resetCount} // resetCount 변경 시 맵 재생성
+              key={resetCount} // Trigger re-render by changing key
               mapContainerStyle={{
                 width: "100%",
                 height: "100%",
               }}
               onLoad={(mapInstance) => {
-                mapRef.current = mapInstance; // Google Map 인스턴스를 참조
+                mapRef.current = mapInstance;
               }}
               options={{
                 zoom,
                 center,
                 heading,
-                mapId: "90f87356969d889c",
-                disableDefaultUI: true, // 기본 UI 비활성화
+                ...(!isScroll && { mapId: "90f87356969d889c" }),
+                disableDefaultUI: true,
                 draggable,
                 zoomControl: false,
                 mapTypeControl: false,
                 fullscreenControl: false,
                 streetViewControl: false,
-                attributionControl: false, // 지도 데이터와 약관 비활성화
+                attributionControl: false,
               }}>
               {line.map((path, i) => (
                 <Polyline key={i} path={path} options={polylineOptions} />
               ))}
             </GoogleMap>
-          ) : (
-            <div
-              style={{ position: "relative", width: "100%", height: "100%" }}>
-              <img
-                src={mapUrl}
-                alt="Tracking Map"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover", // 이미지 크기 맞추기
-                }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "black",
-                  opacity: "10%",
-                }}></div>
-            </div>
           )}
         </div>
       </div>

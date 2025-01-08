@@ -68,7 +68,9 @@ const useGetTrackData = (userIdx, page) => {
 
   useEffect(() => {
     if (userIdx && page) {
-      fetchTrackData();
+      if (track.length % 20 !== 0 || track.length === 0) {
+        fetchTrackData();
+      }
     }
   }, [userIdx, page]);
 

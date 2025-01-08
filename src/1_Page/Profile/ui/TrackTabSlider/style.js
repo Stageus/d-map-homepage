@@ -18,7 +18,7 @@ const STYLE = {
     grid-template-columns: repeat(3, calc((100% - 16px) / 3));
     grid-auto-rows: calc((100vw - 16px) / 3); /* 가로 너비 기준 */
     width: 50%;
-    height: calc(90vh - 150px);
+    height: calc(90vh - 200px);
     overflow-y: auto;
   `,
   EmptyMessage: styled.p`
