@@ -1,6 +1,6 @@
 export const sharedPosts = {
   message: [
-    ...Array.from({ length: 40 }, (_, idx) => ({
+    ...Array.from({ length: 50 }, (_, idx) => ({
       idx: 100 + idx,
       line: [
         [

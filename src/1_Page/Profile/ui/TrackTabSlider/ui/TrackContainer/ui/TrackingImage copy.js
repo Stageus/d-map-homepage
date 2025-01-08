@@ -9,9 +9,10 @@ const TrackingImage = (props) => {
     line = [],
     lineColor = "0xFF0000",
     lineWeight = 2,
-    height = 400,
     width = 600,
   } = data;
+
+  const height = 400;
 
   const [mapUrl, setMapUrl] = useState("");
 
@@ -23,7 +24,7 @@ const TrackingImage = (props) => {
         (path) => path.map((point) => `${point.lat},${point.lng}`).join("|") // 라인 내 각 좌표를 연결
       )
       .map(
-        (path) => `&path=color:${lineColor}|weight:${lineWeight}|${path}` // 각 라인의 색상, 두께, 좌표 설정
+        (path) => `&path=color:${lineColor}|weight:${lineWeight * 3}|${path}` // 각 라인의 색상, 두께, 좌표 설정
       )
       .join(""); // 여러 라인을 처리
 

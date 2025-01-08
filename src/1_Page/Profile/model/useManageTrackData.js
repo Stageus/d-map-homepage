@@ -4,10 +4,14 @@ import useModifySharingTracking from "../../../3_Entity/Profile/useModifySharing
 import useDeleteTrackingImage from "../../../3_Entity/Profile/useDeleteTrackingImage";
 
 const useManageTrackData = (userIdx, page) => {
-  const { track, trackLoading, trackError, fetchTrackData } = useGetTrackData(
-    userIdx,
-    page
-  ); // 데이터 호출 api
+  const {
+    track,
+    trackLoading,
+    trackError,
+    fetchTrackData,
+    divElement,
+    scrollPosition,
+  } = useGetTrackData(userIdx, page); // 데이터 호출 api
   const { modifySharing } = useModifySharingTracking(); // 데이터 수정 api
   const { deleteTrackingImage, status } = useDeleteTrackingImage();
 
@@ -71,6 +75,8 @@ const useManageTrackData = (userIdx, page) => {
     handleDeleteTrack,
     handleDeleteAdd,
     getTrackLength,
+    divElement,
+    scrollPosition,
   };
 };
 

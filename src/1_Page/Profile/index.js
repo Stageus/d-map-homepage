@@ -8,7 +8,7 @@ import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
 import useManageTrackData from "./model/useManageTrackData.js";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Profile = () => {
   const isLogin = true;
@@ -32,6 +32,8 @@ const Profile = () => {
     handleDeleteTrack,
     handleDeleteAdd,
     getTrackLength,
+    divElement,
+    scrollPosition,
   } = useManageTrackData(userIdx, page); // API로 호출된 데이터 관리 훅
 
   // 로딩 애러 처리
@@ -75,8 +77,11 @@ const Profile = () => {
           modifyMode={modifyMode}
           handle={{ handleToggleTrackType, handleDeleteAdd }}
           trackData={trackData}
+          divElement={divElement}
+          scrollPosition={scrollPosition}
           getTrackLength={getTrackLength}
           tabIndex={tabIndex}
+          page={page}
           handleNextPage={handleNextPage}
         />
       </STYLE.Main>

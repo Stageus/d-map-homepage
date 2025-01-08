@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import STYLE from "./style";
 
 import Modal from "../../../../2_Widget/Modal";
 import TrackContainer from "./ui/TrackContainer";
 
 import useModifyTrackingModal from "./model/useModifyTrackingModal";
+import useManageWebGl from "./model/useManageWebgl";
 
 const TrackTabSlider = (props) => {
   const {
@@ -14,7 +15,8 @@ const TrackTabSlider = (props) => {
     tabIndex,
     handle: { handleToggleTrackType, handleDeleteAdd },
   } = props;
-  const { handleNextPage } = props;
+  const { page, handleNextPage } = props;
+  const { divElement, scrollPosition } = props;
 
   const {
     modifyTrackingModal,
@@ -23,36 +25,11 @@ const TrackTabSlider = (props) => {
   } = useModifyTrackingModal(); // 트래킹 이미지 수정 모달 관리
 
   const [longPressData, setLongPressData] = useState(null);
-  const [inViewCount, setInView] = useState(0);
 
   const [resetState, setResetState] = useState(false);
 
-  const cleanupMap = async () => {
-    const canvases = document.querySelectorAll("canvas");
-    if (canvases.length === 0) {
-      return;
-    }
-    for (const canvas of canvases) {
-      const context = canvas.getContext("webgl") || canvas.getContext("webgl2");
-      if (context) {
-        const extension = context.getExtension("WEBGL_lose_context");
-        if (extension) {
-          await extension.loseContext(); // 컨텍스트 손실
-        }
-        // 손실된 컨텍스트에서 추가 호출 방지
-        if (context.isContextLost()) {
-          console.warn("WebGL context is lost. Skipping further operations.");
-          continue;
-        }
-      }
-    }
-    setResetState(true); // 상태 업데이트
-  };
-
-  // inViewCount 변경 시 컴포넌트 초기화
-  useEffect(() => {
-    cleanupMap();
-  }, [inViewCount]);
+  const { postFirstTabRef, postSecondTabRef, isScroll, isLoaded } =
+    useManageWebGl(tabIndex, page, divElement, scrollPosition);
 
   const shareTrackData = trackData?.filter((track) => track.sharing === 0);
   const saveTrackData = trackData?.filter((track) => track.sharing === 1);
@@ -61,38 +38,45 @@ const TrackTabSlider = (props) => {
     <>
       <STYLE.SliderWrapper>
         <STYLE.Slider $tabIndex={tabIndex}>
-          <STYLE.PostGrid>
+          <STYLE.PostGrid ref={postFirstTabRef}>
             {getTrackLength(0) === 0 ? (
               <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
             ) : (
-              shareTrackData?.map(
-                (track, index) =>
-                  track.sharing === 0 && (
-                    <TrackContainer
-                      key={track.id} // 고유 key 필요
-                      track={track}
-                      index={index}
-                      handleNextPage={
-                        shareTrackData.length === index + 1
-                          ? handleNextPage
-                          : null
-                      }
-                      resetState={resetState}
-                      setResetState={setResetState}
-                      modifyMode={modifyMode}
-                      setInView={setInView}
-                      handle={{
-                        handleDeleteAdd,
-                        handleToggleTrackType,
-                        handleModifyTrackingOpen,
-                      }}
-                      setLongPressData={setLongPressData}
-                    />
-                  )
-              )
+              <>
+                {isLoaded && (
+                  <STYLE.LoadingOverlay>
+                    <STYLE.Spinner />
+                  </STYLE.LoadingOverlay>
+                )}
+                {shareTrackData?.map(
+                  (track, index) =>
+                    track.sharing === 0 && (
+                      <TrackContainer
+                        key={track.id} // 고유 key 필요
+                        track={track}
+                        index={index}
+                        isScroll={isScroll}
+                        handleNextPage={
+                          shareTrackData.length === index + 1
+                            ? handleNextPage
+                            : null
+                        }
+                        resetState={resetState}
+                        setResetState={setResetState}
+                        modifyMode={modifyMode}
+                        handle={{
+                          handleDeleteAdd,
+                          handleToggleTrackType,
+                          handleModifyTrackingOpen,
+                        }}
+                        setLongPressData={setLongPressData}
+                      />
+                    )
+                )}
+              </>
             )}
           </STYLE.PostGrid>
-          <STYLE.PostGrid>
+          <STYLE.PostGrid ref={postSecondTabRef}>
             {getTrackLength(1) === 0 ? (
               <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
             ) : (
@@ -103,6 +87,7 @@ const TrackTabSlider = (props) => {
                       key={track.id} // 고유 key 필요
                       track={track}
                       index={index}
+                      isScroll={isScroll}
                       handleNextPage={
                         saveTrackData.length === index + 1
                           ? handleNextPage
@@ -111,7 +96,6 @@ const TrackTabSlider = (props) => {
                       resetState={resetState}
                       setResetState={setResetState}
                       modifyMode={modifyMode}
-                      setInView={setInView}
                       handle={{
                         handleDeleteAdd,
                         handleToggleTrackType,

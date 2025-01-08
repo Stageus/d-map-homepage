@@ -48,6 +48,32 @@ const STYLE = {
     right: 8px;
     transition: all 0.2s ease;
   `,
+  LoadingOverlay: styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검정 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  `,
+  Spinner: styled.div`
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3); /* 배경 테두리 */
+    border-radius: 50%;
+    border-top-color: #ffffff; /* 메인 스피너 색상 */
+    animation: spin 1s ease-in-out infinite;
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  `,
 };
 
 export default STYLE;
