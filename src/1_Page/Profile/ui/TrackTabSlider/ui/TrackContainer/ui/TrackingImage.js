@@ -32,45 +32,60 @@ const TrackingImage = (props) => {
     strokeWeight: lineWeight,
   };
 
-  const isChangeRef = useRef(false);
   const onClearCanvas = () => {
-    if (mapDivRef.current) {
-      const canvasElements = mapDivRef.current.querySelectorAll("canvas");
-      canvasElements.forEach((canvas) => {
-        const context =
-          canvas.getContext("webgl") || canvas.getContext("webgl2");
-        if (context) {
-          const loseExtension = context.getExtension("WEBGL_lose_context");
-          if (loseExtension) {
-            try {
-              loseExtension.loseContext();
-            } catch (error) {
-              console.error("WebGL 초기화 중 오류 발생:", error.message);
-            }
+    console.log("초기화 시작");
+    const canvasElements = document.querySelectorAll("canvas");
+    canvasElements.forEach((canvas) => {
+      const context = canvas.getContext("webgl") || canvas.getContext("webgl2");
+      if (context) {
+        const loseExtension = context.getExtension("WEBGL_lose_context");
+        if (loseExtension) {
+          try {
+            console.log("WebGL 초기화");
+            loseExtension.loseContext();
+          } catch (error) {
+            console.log("WebGL 초기화 중 오류 발생:", error.message);
           }
         }
-      });
-    }
-    if (mapRef.current) {
-      mapRef.current = null;
-    }
+      }
+    });
   };
-  const initialInViewRef = useRef(null);
+
+  //   if (mapRef.current) {
+  //     mapRef.current = null;
+  //   }
+  // };
+  // const initialInViewRef = useRef(null);
+
+  // useEffect(() => {
+  //   if (isScroll) {
+  //     // 스크롤 시작 시 `inView` 값을 기록
+  //     initialInViewRef.current = inView;
+  //     console.log("스크롤 시작:", initialInViewRef.current);
+  //   } else if (!isScroll) {
+  //     console.log("스크롤 끝:", inView, "초기값:", initialInViewRef.current);
+  //     if (!initialInViewRef.current && inView) {
+  //       setResetCount((prev) => prev + 1); // 리렌더링 트리거
+  //     }
+  //     onClearCanvas(); // WebGL 컨텍스트 해제
+  //     isChangeRef.current = inView; // 현재 상태로 업데이트
+  //   }
+  // }, [isScroll]);
+  // const onRemoveCanvas = () => {
+  //   const canvasElements = document.querySelectorAll("canvas");
+  //   canvasElements.forEach((canvas) => {
+  //     canvas.parentElement?.removeChild(canvas);
+  //   });
+  // };
 
   useEffect(() => {
-    if (isScroll) {
-      // 스크롤 시작 시 `inView` 값을 기록
-      initialInViewRef.current = inView;
-      console.log("스크롤 시작:", initialInViewRef.current);
-    } else if (!isScroll) {
-      console.log("스크롤 끝:", inView, "초기값:", initialInViewRef.current);
-      if (!initialInViewRef.current && inView) {
-        setResetCount((prev) => prev + 1); // 리렌더링 트리거
-      }
-      onClearCanvas(); // WebGL 컨텍스트 해제
-      isChangeRef.current = inView; // 현재 상태로 업데이트
+    if (inView) {
+      onClearCanvas();
+      setTimeout(() => {
+        setResetCount((prev) => prev + 1);
+      }, 200);
     }
-  }, [isScroll]);
+  }, [inView, isScroll]);
 
   return (
     <STYLE.MapContainer>
@@ -78,34 +93,32 @@ const TrackingImage = (props) => {
         <div
           ref={mapDivRef}
           style={{ position: "relative", width: "100%", height: height }}>
-          {inView && (
-            <GoogleMap
-              key={resetCount} // Trigger re-render by changing key
-              mapContainerStyle={{
-                width: "100%",
-                height: "100%",
-              }}
-              onLoad={(mapInstance) => {
-                mapRef.current = mapInstance;
-              }}
-              options={{
-                zoom,
-                center,
-                heading,
-                ...(!isScroll && { mapId: "90f87356969d889c" }),
-                disableDefaultUI: true,
-                draggable,
-                zoomControl: false,
-                mapTypeControl: false,
-                fullscreenControl: false,
-                streetViewControl: false,
-                attributionControl: false,
-              }}>
-              {line.map((path, i) => (
-                <Polyline key={i} path={path} options={polylineOptions} />
-              ))}
-            </GoogleMap>
-          )}
+          <GoogleMap
+            key={resetCount} // Trigger re-render by changing key
+            mapContainerStyle={{
+              width: "100%",
+              height: "100%",
+            }}
+            onLoad={(mapInstance) => {
+              mapRef.current = mapInstance;
+            }}
+            options={{
+              zoom,
+              center,
+              heading,
+              ...(!isScroll && { mapId: "90f87356969d889c" }),
+              disableDefaultUI: true,
+              draggable,
+              zoomControl: false,
+              mapTypeControl: false,
+              fullscreenControl: false,
+              streetViewControl: false,
+              attributionControl: false,
+            }}>
+            {line.map((path, i) => (
+              <Polyline key={i} path={path} options={polylineOptions} />
+            ))}
+          </GoogleMap>
         </div>
       </div>
     </STYLE.MapContainer>
