@@ -30,10 +30,6 @@ const Profile = () => {
     getTrackLength,
   } = useManageTrackData(userIdx); // API로 호출된 데이터 관리 훅
 
-  // 로딩 애러 처리
-  if (trackLoading) return <Loading />;
-  if (trackError) return <Loading />;
-
   return (
     <>
       <STYLE.Main>
