@@ -4,8 +4,6 @@ import STYLE from "./style";
 import Modal from "../../../../2_Widget/Modal";
 import TrackContainer from "./ui/TrackContainer";
 
-import useModifyTrackingModal from "./model/useModifyTrackingModal";
-
 const TrackTabSlider = (props) => {
   const {
     trackData,
@@ -14,14 +12,6 @@ const TrackTabSlider = (props) => {
     tabIndex,
     handle: { handleToggleTrackType, handleDeleteAdd },
   } = props;
-
-  const {
-    modifyTrackingModal,
-    handleModifyTrackingClose,
-    handleModifyTrackingOpen,
-  } = useModifyTrackingModal(); // 트래킹 이미지 수정 모달 관리
-
-  const [longPressData, setLongPressData] = useState(null);
 
   return (
     <>
@@ -41,9 +31,7 @@ const TrackTabSlider = (props) => {
                       handle={{
                         handleDeleteAdd,
                         handleToggleTrackType,
-                        handleModifyTrackingOpen,
                       }}
-                      setLongPressData={setLongPressData}
                     />
                   )
               )
@@ -63,9 +51,7 @@ const TrackTabSlider = (props) => {
                       handle={{
                         handleDeleteAdd,
                         handleToggleTrackType,
-                        handleModifyTrackingOpen,
                       }}
-                      setLongPressData={setLongPressData}
                     />
                   )
               )
@@ -73,9 +59,6 @@ const TrackTabSlider = (props) => {
           </STYLE.PostGrid>
         </STYLE.Slider>
       </STYLE.SliderWrapper>
-      {modifyTrackingModal && longPressData && (
-        <Modal onClose={handleModifyTrackingClose} trackData={longPressData} />
-      )}
     </>
   );
 };
