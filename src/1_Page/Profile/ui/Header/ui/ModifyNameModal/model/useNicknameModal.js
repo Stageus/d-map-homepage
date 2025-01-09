@@ -12,7 +12,8 @@ const useNicknameModal = () => {
     const result = modify(nickname);
     if (result) {
       setMessage(`닉네임이 변경되었습니다 : ${nickname}`);
-      handleNameConfirmModalOpen(handleClose);
+      handleConfirmModalOpen();
+      closeRef.current = handleClose;
       return;
     }
     setMessage(result);
@@ -20,10 +21,6 @@ const useNicknameModal = () => {
   };
 
   const closeRef = useRef(null);
-  const handleNameConfirmModalOpen = (handleClose) => {
-    handleConfirmModalOpen();
-    closeRef.current = handleClose;
-  };
   const handleNameConfirmModalDone = () => {
     handleConfirmModalClose();
     if (closeRef.current) closeRef.current();

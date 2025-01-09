@@ -3,13 +3,13 @@ import useConfirmModal from "../../../../../../../4_Shared/model/useModalHandler
 import useModifyImage from "../../../../../../../3_Entity/Profile/useModifyImage";
 
 const useImageModal = (image, errorMessage, imagePreview) => {
+  const { modify, loading, error } = useModifyImage(); // 이미지 수정 훅
+
   const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
     useConfirmModal();
-  const { modify, loading, error } = useModifyImage();
-
   const [message, setMessage] = useState("");
 
-  const imageRef = useRef(null);
+  const imageRef = useRef(null); // 현재 이미지 설정
   useEffect(() => {
     imageRef.current = image;
   }, [image]);
@@ -30,6 +30,7 @@ const useImageModal = (image, errorMessage, imagePreview) => {
       setMessage(errorMessage);
       handleConfirmModalOpen();
     }
+    // 이미지 수정하지 않은 경우 예외처리
     if (imageRef.current == imagePreview) {
       setMessage("사진을 변경하세요");
       handleConfirmModalOpen();
