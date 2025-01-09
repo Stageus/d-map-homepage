@@ -3,52 +3,57 @@ import useConfirmModal from "../../../../../../../4_Shared/model/useModalHandler
 import useModifyImage from "../../../../../../../3_Entity/Profile/useModifyImage";
 
 const useImageModal = (image, errorMessage, imagePreview) => {
-  const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
-    useConfirmModal();
+  const [confirmModal, openConfirmModal, closeConfirmModal] = useConfirmModal();
   const { modify, loading, error } = useModifyImage();
 
   const [message, setMessage] = useState("");
+  const currentImageRef = useRef(image);
+  const closeCallbackRef = useRef(null);
 
-  const imageRef = useRef(null);
   useEffect(() => {
-    imageRef.current = image;
+    currentImageRef.current = image;
   }, [image]);
 
-  const closeRef = useRef(null);
-  const handleImageConfirmModalOpen = (handleClose) => {
-    handleConfirmModalOpen();
-    closeRef.current = handleClose;
-  };
-  const handleImageConfirmModalDone = () => {
-    handleConfirmModalClose();
-    if (closeRef.current) closeRef.current();
+  const openImageModalWithCallback = (onClose) => {
+    openConfirmModal();
+    closeCallbackRef.current = onClose;
   };
 
-  const handleModifyClick = async (handleClose) => {
-    if (errorMessage) {
-      setMessage(errorMessage);
-      handleConfirmModalOpen();
-    }
-    if (imageRef.current == imagePreview) {
-      setMessage("사진을 변경하세요");
-      handleConfirmModalOpen();
+  const closeAndExecuteCallback = () => {
+    closeConfirmModal();
+    if (closeCallbackRef.current) closeCallbackRef.current();
+  };
+
+  const validateImageChange = () => {
+    if (errorMessage) return errorMessage;
+    if (currentImageRef.current === imagePreview) return "사진을 변경하세요";
+    return null;
+  };
+
+  const handleModifyClick = async (onClose) => {
+    const validationError = validateImageChange();
+    if (validationError) {
+      setMessage(validationError);
+      openConfirmModal();
       return;
     }
+
     const result = await modify(imagePreview);
     if (result) {
       setMessage("변경되었습니다");
-      handleImageConfirmModalOpen(handleClose);
+      openImageModalWithCallback(onClose);
       return;
     }
-    setMessage(result);
-    handleConfirmModalOpen();
+
+    setMessage(result || "변경에 실패했습니다");
+    openConfirmModal();
   };
 
   return {
     message,
     confirmModal,
     handleModifyClick,
-    handleImageConfirmModalDone,
+    closeAndExecuteCallback,
   };
 };
 
