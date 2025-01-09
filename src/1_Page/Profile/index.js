@@ -2,7 +2,7 @@ import STYLE from "./style";
 
 import Header from "./ui/Header";
 import Loading from "../../2_Widget/Loading";
-import PostGrid from "./ui/PostGrid";
+import TrackingImageTab from "./ui/TrackingImageTab";
 
 import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
@@ -69,14 +69,14 @@ const Profile = () => {
         </STYLE.TabMenu>
         <STYLE.SliderWrapper>
           <STYLE.Slider $tabIndex={tabIndex}>
-            <PostGrid
+            <TrackingImageTab
               sharingType={0}
               trackData={trackData}
               getTrackLength={getTrackLength}
               modifyMode={modifyMode}
               handle={{ handleDeleteAdd, handleToggleTrackType }}
             />
-            <PostGrid
+            <TrackingImageTab
               sharingType={1}
               trackData={trackData}
               getTrackLength={getTrackLength}

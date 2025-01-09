@@ -8,7 +8,7 @@ import Modal from "../../../../../../2_Widget/Modal";
 import useLongPressEvent from "./model/useLongPressEvent";
 import useConfirmModal from "../../../../../../4_Shared/model/useModalHandler";
 
-const TrackContainer = (props) => {
+const TrackingImageContainer = (props) => {
   const {
     track,
     modifyMode,
@@ -60,4 +60,4 @@ const TrackContainer = (props) => {
   );
 };
 
-export default TrackContainer;
+export default TrackingImageContainer;

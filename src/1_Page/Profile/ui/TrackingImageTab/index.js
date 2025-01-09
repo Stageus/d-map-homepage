@@ -1,8 +1,8 @@
 import React from "react";
 import STYLE from "./style";
-import TrackContainer from "./ui/TrackContainer";
+import TrackContainer from "./ui/TrackingImageContainer";
 
-const PostGrid = (props) => {
+const TrackingImageTab = (props) => {
   const { sharingType, trackData, getTrackLength, modifyMode, handle } = props;
   return getTrackLength(sharingType) === 0 ? (
     <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
@@ -22,4 +22,4 @@ const PostGrid = (props) => {
   );
 };
 
-export default PostGrid;
+export default TrackingImageTab;
