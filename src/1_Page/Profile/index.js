@@ -1,8 +1,8 @@
 import STYLE from "./style";
 
 import Header from "./ui/Header";
-import TrackTabSlider from "./ui/TrackTabSlider";
 import Loading from "../../2_Widget/Loading";
+import PostGrid from "./ui/PostGrid";
 
 import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
@@ -67,13 +67,24 @@ const Profile = () => {
             <STYLE.TabNone>게시물</STYLE.TabNone>
           )}
         </STYLE.TabMenu>
-        <TrackTabSlider
-          modifyMode={modifyMode}
-          handle={{ handleToggleTrackType, handleDeleteAdd }}
-          trackData={trackData}
-          getTrackLength={getTrackLength}
-          tabIndex={tabIndex}
-        />
+        <STYLE.SliderWrapper>
+          <STYLE.Slider $tabIndex={tabIndex}>
+            <PostGrid
+              sharingType={0}
+              trackData={trackData}
+              getTrackLength={getTrackLength}
+              modifyMode={modifyMode}
+              handle={{ handleDeleteAdd, handleToggleTrackType }}
+            />
+            <PostGrid
+              sharingType={1}
+              trackData={trackData}
+              getTrackLength={getTrackLength}
+              modifyMode={modifyMode}
+              handle={{ handleDeleteAdd, handleToggleTrackType }}
+            />
+          </STYLE.Slider>
+        </STYLE.SliderWrapper>
       </STYLE.Main>
     </>
   );
