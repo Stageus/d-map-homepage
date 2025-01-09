@@ -16,10 +16,10 @@ import useGetUserData from "../../../../3_Entity/Profile/useGetUserData.js";
 const Header = (props) => {
   const {
     trackData,
-    getTrackLength,
+    trackDataLegth,
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
-    activeTab,
+    activeTabStr,
   } = props;
 
   const { userIdx } = useParams();
@@ -62,8 +62,7 @@ const Header = (props) => {
               </STYLE.Nickname>
             )}
             <STYLE.PostCount>
-              {activeTab} 게시물 :{" "}
-              {activeTab === "공유" ? getTrackLength(0) : getTrackLength(1)}개
+              {activeTabStr} 게시물 : {trackDataLegth}개
             </STYLE.PostCount>
           </STYLE.UserInfo>
         </STYLE.ProfileContainer>

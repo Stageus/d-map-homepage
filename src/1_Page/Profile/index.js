@@ -1,27 +1,24 @@
 import STYLE from "./style";
 
 import Header from "./ui/Header";
-import Loading from "../../2_Widget/Loading";
 import TrackingImageTab from "./ui/TrackingImageTab";
 
 import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
 import useManageTrackData from "./model/useManageTrackData";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Profile = () => {
   const isLogin = true;
   const { userIdx } = useParams();
-  const { activeTab, tabIndex, handleTabClick } = useTabs();
+  const { tabState, handleTabClick } = useTabs();
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
 
   const [page, setPage] = useState(1);
 
   const {
     trackData,
-    trackLoading,
-    trackError,
     handleToggleTrackType,
     handleSelectCancel,
     handleModifyTrack,
@@ -30,14 +27,18 @@ const Profile = () => {
     getTrackLength,
   } = useManageTrackData(userIdx); // API로 호출된 데이터 관리 훅
 
+  useEffect(() => {
+    console.log(tabState);
+  }, [tabState]);
+
   return (
     <>
       <STYLE.Main>
         <Header
           setMode={{ modifyMode, handleSetMode, handleCloseMode }}
           trackData={trackData}
-          getTrackLength={getTrackLength}
-          activeTab={activeTab}
+          trackDataLegth={getTrackLength(tabState?.tabIndex)}
+          activeTabStr={tabState?.activeTabStr}
           handler={{
             handleSelectCancel,
             handleDeleteTrack,
@@ -49,12 +50,12 @@ const Profile = () => {
           {isLogin ? (
             <>
               <STYLE.Tab
-                active={activeTab === "공유"}
+                $active={tabState?.activeTabStr === "공유"}
                 onClick={() => handleTabClick("공유")}>
                 공유
               </STYLE.Tab>
               <STYLE.Tab
-                active={activeTab === "저장"}
+                $active={tabState?.activeTabStr === "저장"}
                 onClick={() => handleTabClick("저장")}>
                 저장
               </STYLE.Tab>
@@ -64,7 +65,7 @@ const Profile = () => {
           )}
         </STYLE.TabMenu>
         <STYLE.SliderWrapper>
-          <STYLE.Slider $tabIndex={tabIndex}>
+          <STYLE.Slider $tabIndex={tabState?.tabIndex}>
             <TrackingImageTab
               sharingType={0}
               trackData={trackData}

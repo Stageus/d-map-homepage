@@ -18,10 +18,10 @@ const STYLE = {
     text-align: center;
     padding: 8px 16px;
     cursor: pointer;
-    font-weight: ${({ active }) => (active ? "bold" : "normal")};
-    border-bottom: ${({ active, theme }) =>
-      active ? `2px solid ${theme.black}` : "none"};
-    color: ${({ active, theme }) => (active ? theme.black : theme.gray)};
+    font-weight: ${({ $active }) => ($active ? "bold" : "normal")};
+    border-bottom: ${({ $active, theme }) =>
+      $active ? `2px solid ${theme.black}` : "none"};
+    color: ${({ $active, theme }) => ($active ? theme.black : theme.gray)};
   `,
   TabNone: styled.div`
     width: 100%;
