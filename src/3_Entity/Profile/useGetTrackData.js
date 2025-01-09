@@ -48,7 +48,7 @@ const useGetTrackData = (userIdx) => {
     setError(null);
     try {
       const trackData = await getTrackData(userIdx);
-      setTrack(trackData);
+      setTrack(trackData.message);
     } catch (err) {
       setError(err.message);
     } finally {

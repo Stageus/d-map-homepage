@@ -13,13 +13,13 @@ const useManageTrackData = (userIdx) => {
   const [modifyIdxList, setModifyList] = useState([]);
 
   useEffect(() => {
-    if (!track.message) return;
-    setTrackData(track.message);
+    if (!track) return;
+    setTrackData(track);
   }, [track]);
 
   // 데이터 변경 취소
   const handleSelectCancel = () => {
-    setTrackData(track.message);
+    setTrackData(track);
     setModifyList([]);
   };
 
