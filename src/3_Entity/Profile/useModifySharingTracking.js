@@ -42,11 +42,11 @@ const modifySharingTracking = async (token, idxList) => {
   }
 };
 
-const useModifySharingTracking = () => {
+const useModifySharingTracking = (token) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const modifySharing = async (token, idxList) => {
+  const modifySharing = async (idxList) => {
     try {
       setLoading(true);
       setError(null);
