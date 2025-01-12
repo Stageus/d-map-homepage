@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { sharedPosts } from "./dataSharePost";
 
 // API 호출 함수
-const getTrackData = async (token, userIdx) => {
+const getTrackData = async (userIdx) => {
   try {
     // 개발 중에는 로컬 데이터를 반환
     return sharedPosts;
@@ -38,7 +38,7 @@ const getTrackData = async (token, userIdx) => {
 };
 
 // 커스텀 훅
-const useGetTrackData = (token, userIdx) => {
+const useGetTrackData = (userIdx) => {
   const [track, setTrack] = useState([]);
   const [trackLoading, setLoading] = useState(false);
   const [trackError, setError] = useState(null);
@@ -47,7 +47,7 @@ const useGetTrackData = (token, userIdx) => {
     setLoading(true);
     setError(null);
     try {
-      const trackData = await getTrackData(token, userIdx);
+      const trackData = await getTrackData(userIdx);
       setTrack(trackData.message);
     } catch (err) {
       setError(err.message);

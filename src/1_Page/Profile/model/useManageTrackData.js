@@ -4,12 +4,10 @@ import useModifySharingTracking from "../../../3_Entity/Profile/useModifySharing
 import useDeleteTrackingImage from "../../../3_Entity/Profile/useDeleteTrackingImage";
 
 const useManageTrackData = (userIdx) => {
-  const token = null;
-  const { track, trackLoading, trackError, fetchTrackData } =
-    useGetTrackData(userIdx); // 데이터 호출 api
+  const { track, fetchTrackData } = useGetTrackData(userIdx); // 데이터 호출 api
 
-  const { modifySharing } = useModifySharingTracking(token); // 데이터 수정 api
-  const { deleteTrackingImage, status } = useDeleteTrackingImage(token);
+  const { modifySharing } = useModifySharingTracking(); // 데이터 수정 api
+  const { deleteTrackingImage, status } = useDeleteTrackingImage();
 
   const [trackData, setTrackData] = useState([]);
 

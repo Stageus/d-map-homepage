@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Profile = () => {
-  const isLogin = true;
+  const isLogin = false;
   const { userIdx } = useParams();
   const { tabState, handleTabClick } = useTabs();
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
@@ -27,10 +27,6 @@ const Profile = () => {
     getTrackLength,
   } = useManageTrackData(userIdx); // API로 호출된 데이터 관리 훅
 
-  useEffect(() => {
-    console.log(tabState);
-  }, [tabState]);
-
   return (
     <>
       <STYLE.Main>
@@ -39,6 +35,7 @@ const Profile = () => {
           trackData={trackData}
           trackDataLegth={getTrackLength(tabState?.tabIndex)}
           activeTabStr={tabState?.activeTabStr}
+          isLogin={isLogin}
           handler={{
             handleSelectCancel,
             handleDeleteTrack,
