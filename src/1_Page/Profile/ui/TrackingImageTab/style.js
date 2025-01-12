@@ -8,12 +8,13 @@ const STYLE = {
     grid-auto-rows: calc((100vw - 16px) / 3); /* 가로 너비 기준 */
     width: 50%;
     height: calc(90vh - 150px);
+
     overflow-y: auto;
   `,
   EmptyMessage: styled.p`
-    text-align: center;
+    text-align: start;
     color: ${({ theme }) => theme.gray};
-    margin-top: 20px;
+    width: 100%;
     font-size: 0.9rem;
   `,
 };

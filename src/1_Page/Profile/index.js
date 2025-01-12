@@ -7,10 +7,10 @@ import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
 import useManageTrackData from "./model/useManageTrackData";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Profile = () => {
-  const isLogin = false;
+  const isMine = true;
   const { userIdx } = useParams();
   const { tabState, handleTabClick } = useTabs();
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
@@ -35,7 +35,7 @@ const Profile = () => {
           trackData={trackData}
           trackDataLegth={getTrackLength(tabState?.tabIndex)}
           activeTabStr={tabState?.activeTabStr}
-          isLogin={isLogin}
+          isMine={isMine}
           handler={{
             handleSelectCancel,
             handleDeleteTrack,
@@ -44,7 +44,7 @@ const Profile = () => {
           user={{ userIdx }}
         />
         <STYLE.TabMenu>
-          {isLogin ? (
+          {isMine ? (
             <>
               <STYLE.Tab
                 $active={tabState?.activeTabStr === "공유"}

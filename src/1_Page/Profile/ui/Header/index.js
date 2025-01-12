@@ -17,7 +17,7 @@ const Header = (props) => {
   const {
     trackData,
     trackDataLegth,
-    isLogin,
+    isMine,
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
     activeTabStr,
@@ -45,19 +45,19 @@ const Header = (props) => {
     <>
       {!modifyMode ? (
         <STYLE.ProfileContainer>
-          <STYLE.ProfileWrapper onClick={isLogin && handleImageModalOpen}>
+          <STYLE.ProfileWrapper onClick={isMine && handleImageModalOpen}>
             <STYLE.ProfileImg src={userData?.image} alt="Profile" />
           </STYLE.ProfileWrapper>
           <STYLE.UserInfo>
             <STYLE.ProfileBox>
               <STYLE.UserName>{userData?.nickname}</STYLE.UserName>
-              {isLogin && (
+              {isMine && (
                 <STYLE.ProfileButton onClick={handleModifyModeOpen}>
                   •••
                 </STYLE.ProfileButton>
               )}
             </STYLE.ProfileBox>
-            {isLogin && (
+            {isMine && (
               <STYLE.Nickname onClick={handleModifyNameModalOpen}>
                 닉네임 수정
               </STYLE.Nickname>
