@@ -17,11 +17,13 @@ const Header = (props) => {
   const {
     trackData,
     trackDataLegth,
-    isMine,
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
-    activeTabStr,
+    tabState,
+    handleTabClick,
   } = props;
+
+  const isMine = true;
 
   const { userIdx } = useParams();
 
@@ -45,7 +47,8 @@ const Header = (props) => {
     <>
       {!modifyMode ? (
         <STYLE.ProfileContainer>
-          <STYLE.ProfileWrapper onClick={isMine && handleImageModalOpen}>
+          <STYLE.ProfileWrapper
+            onClick={isMine ? handleImageModalOpen : undefined}>
             <STYLE.ProfileImg src={userData?.image} alt="Profile" />
           </STYLE.ProfileWrapper>
           <STYLE.UserInfo>
@@ -63,7 +66,7 @@ const Header = (props) => {
               </STYLE.Nickname>
             )}
             <STYLE.PostCount>
-              {activeTabStr} 게시물 : {trackDataLegth}개
+              {tabState?.activeTabStr} 게시물 : {trackDataLegth}개
             </STYLE.PostCount>
           </STYLE.UserInfo>
         </STYLE.ProfileContainer>
@@ -84,6 +87,25 @@ const Header = (props) => {
           </STYLE.ButtonWrapper>
         </STYLE.Container>
       )}
+
+      <STYLE.TabMenu>
+        {isMine ? (
+          <>
+            <STYLE.Tab
+              $active={tabState?.activeTabStr === "공유"}
+              onClick={() => handleTabClick("공유")}>
+              공유
+            </STYLE.Tab>
+            <STYLE.Tab
+              $active={tabState?.activeTabStr === "저장"}
+              onClick={() => handleTabClick("저장")}>
+              저장
+            </STYLE.Tab>
+          </>
+        ) : (
+          <STYLE.TabNone>게시물</STYLE.TabNone>
+        )}
+      </STYLE.TabMenu>
 
       {modifyImageModal && (
         <ModifyImageModal
