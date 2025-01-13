@@ -1,6 +1,8 @@
 import React from "react";
 import CATEGORY from "../../1_Page/Sns/constant/category";
-const BASE_URL = "SERVER URL";
+import { fetchRequest } from "../../4_Shared/util/apiUtil";
+const BASE_URL = process.env.REACT_APP_SERVER_URL;
+const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
 const createDataArray = (count) => {
   return Array.from({ length: count }, (_, idx) => ({
@@ -57,6 +59,14 @@ const useTrackingImageList = (
     const fetchTrackingImageList = async () => {
       // 1. fetch
       let result = TEMP_DATA;
+      try{
+        const response = await fetchRequest("GET", `${BASE_URL}/sns/?category=default&page=${1}`, null, TEST_TOKEN);
+        console.log(await response.json())
+      } catch (error) {
+        console.log(error)
+      } finally{
+        setLoading(false);
+      }
       if (result.message) setHasMoreContent(true);
       else setHasMoreContent(false);
 
@@ -82,7 +92,7 @@ const useTrackingImageList = (
           setTrackingImageList(result.message);
         }, 100);
       } else {
-        setTrackingImageList((prevList) => [...prevList, ...result.message]);
+        setTrackingImageList(result.message);
       }
       // 4. handle loading
       setLoading(false);
