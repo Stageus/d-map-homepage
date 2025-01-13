@@ -7,10 +7,12 @@ const GlobalStyles = createGlobalStyle`
   }
   html{
     height: 100%;
+    overscroll-behavior: none;
   }
   body {
     line-height: 1;
     height: 100%;
+    overscroll-behavior: none;
   }
   #root{
     height: 100%;
