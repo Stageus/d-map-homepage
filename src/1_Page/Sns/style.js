@@ -3,6 +3,8 @@ import styled from "styled-components";
 const STYLE = {
   SnsPageContainer: styled.div`
     padding-top: 50px;
+    height: 100%;
+    overflow-y: scroll;
   `,
   TrackingImageWrapper: styled.div`
     display: flex;

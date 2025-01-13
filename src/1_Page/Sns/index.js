@@ -3,22 +3,25 @@ import React from "react";
 import useTrackingImageList from "../../3_Entity/SNS/useTrackingImageList";
 import TrackingImagePost from "./ui/TrackingImagePost";
 import { useParams } from "react-router-dom";
-import useInfiniteScrollPaging from "./model/useInfiniteScrollPaging";
+import usePullToPaging from "./model/usePullToPaging";
 
 const Sns = () => {
+  const snsPageContainerRef = React.useRef();
   const [page, setPage] = React.useState(1);
   const { category, userIdx } = useParams();
   const [trackingImageList, trackingImageListLoading, hasMoreContent] =
     useTrackingImageList(category, userIdx, page);
-  const [prevPagingRef, nextPagingRef] = useInfiniteScrollPaging(
+  usePullToPaging(
     page,
     setPage,
     trackingImageListLoading,
-    hasMoreContent
+    hasMoreContent,
+    snsPageContainerRef
   );
 
+
   return (
-    <STYLE.SnsPageContainer>
+    <STYLE.SnsPageContainer ref={snsPageContainerRef}>
       <STYLE.Header>
         <STYLE.Date>2024.11.09 목</STYLE.Date>
         <STYLE.Sorting>
@@ -30,12 +33,7 @@ const Sns = () => {
         {trackingImageList.map((elem, index) => {
           return (
             <STYLE.TrackingContainer key={index}>
-              <TrackingImagePost
-                data={{ ...elem, draggable: false }}
-                observe={index === trackingImageList.length - 1
-                  ? nextPagingRef // 마지막 요소
-                  : undefined}
-              />
+              <TrackingImagePost data={{ ...elem, draggable: false }} />
             </STYLE.TrackingContainer>
           );
         })}
