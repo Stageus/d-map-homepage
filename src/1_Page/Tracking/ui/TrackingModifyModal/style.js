@@ -24,30 +24,6 @@ const slideDown = keyframes`
   }
 `;
 const STYLE = {
-  Main: styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    border: 1px orange solid;
-  `,
-  TrackingControlBtnContainer: styled.div`
-    display: flex;
-    position: absolute;
-    bottom: 100px;
-    right: calc(50% - 44px);
-    justify-content: center;
-    width: 88px;
-    gap: 16px;
-  `,
-  TrackingControlBtn: styled.button`
-    width: 36px;
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-    outline: none;
-  `,
   TrackingSaveModal: styled.div`
     animation: ${(props) => (props.$isModifying ? slideUp : slideDown)} 0.5s ease
       forwards;
@@ -61,18 +37,6 @@ const STYLE = {
     padding-top: 36px;
     background-color: white;
     border-radius: 8px 8px 0 0;
-  `,
-  Filter: styled.div`
-    display: ${(props) => (props.$isModifying ? "block" : "none")};
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0.5;
-    background-color: gray;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
   `,
 };
 
