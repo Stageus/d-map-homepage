@@ -3,79 +3,51 @@ import CATEGORY from "../../1_Page/Sns/constant/category";
 import { fetchRequest } from "../../4_Shared/util/apiUtil";
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
+const ITEMS_PER_PAGE = 20;
 
-const createDataArray = (count) => {
-  return Array.from({ length: count }, (_, idx) => ({
-    idx: idx + 1,
-    nickname: `너구리${idx + 1}`,
-    image: `www.s3-urlLink~${idx + 1}`,
-    line: [
-      [
-        { lat: 37.57, lng: 126.97 },
-        { lat: 37.5715, lng: 126.973 },
-        { lat: 37.5725, lng: 126.975 },
-        { lat: 37.5715, lng: 126.977 },
-        { lat: 37.57, lng: 126.976 },
-        { lat: 37.57, lng: 126.97 },
-      ],
-      [
-        { lat: 37.57, lng: 126.97 },
-        { lat: 37.5715, lng: 126.975 },
-        { lat: 37.572, lng: 126.97 },
-        { lat: 37.57, lng: 126.97 },
-      ],
-      [
-        { lat: 37.57, lng: 126.97 },
-        { lat: 37.57, lng: 126.975 },
-        { lat: 37.571, lng: 126.975 },
-        { lat: 37.571, lng: 126.97 },
-        { lat: 37.57, lng: 126.97 },
-      ],
-    ],
-    searchpoint: "서울시 종로구",
-    center: { lat: 37.57, lng: 126.97 },
-    zoom: 15,
-    heading: 250,
-    sharing: 0,
-    likecount: 100 + idx,
-    color: idx % 3,
-    thickness: 15,
-    background: idx % 2,
-    liked_by_user: idx % 2 === 0,
-  }));
-};
-const TEMP_DATA = {
-  message: createDataArray(10),
-};
-const useTrackingImageList = (
-  category = CATEGORY.DEFAULT,
-  userIdx = 0,
-  page = 1
-) => {
+const useTrackingImageList = (category = CATEGORY.DEFAULT, page) => {
   const [loading, setLoading] = React.useState(true);
   const [trackingImageList, setTrackingImageList] = React.useState([]);
   const [hasMoreContent, setHasMoreContent] = React.useState(false);
+
   React.useEffect(() => {
     const fetchTrackingImageList = async () => {
-      // 1. fetch
-      let result = TEMP_DATA;
-      try{
-        const response = await fetchRequest("GET", `${BASE_URL}/sns/?category=default&page=${1}`, null, TEST_TOKEN);
-        console.log(await response.json())
+      let result = [];
+      try {
+        // fetch
+        const response = await fetchRequest(
+          "GET",
+          `${BASE_URL}/sns/?category=${category}&page=${page}`,
+          null,
+          TEST_TOKEN
+        );
+
+        const data = await response.json();
+        // status handling
+        switch (response.status) {
+          case 200:
+            result = data.tracking_image;
+            //result = TEMP_DATA
+            console.log(result, page);
+            break;
+          case 400:
+          case 404:
+          case 500:
+          default:
+            console.log(data.message);
+        }
       } catch (error) {
-        console.log(error)
-      } finally{
+        console.log(error);
+      } finally {
         setLoading(false);
       }
-      if (result.message) setHasMoreContent(true);
-      else setHasMoreContent(false);
 
-      // 2. status error handling
-      // ...
+      // is there more contents?
+      setHasMoreContent(result.length >= ITEMS_PER_PAGE);
 
-      // 3. data processing
-      if (page !== 1) {
-        console.log("reset webgl")
+      // data processing
+      if (true) {
+        console.log("reset webgl");
         const canvases = document.querySelectorAll("canvas");
         canvases.forEach((canvas) => {
           // canvas가 WebGL 컨텍스트를 가지고 있다면 초기화
@@ -89,15 +61,14 @@ const useTrackingImageList = (
         });
         setTrackingImageList([]);
         setTimeout(() => {
-          setTrackingImageList(result.message);
-        }, 100);
+          setTrackingImageList([...result]);
+        }, 200);
       } else {
-        setTrackingImageList(result.message);
+        setTrackingImageList(result);
       }
       // 4. handle loading
       setLoading(false);
     };
-
     fetchTrackingImageList();
   }, [category, page]);
 
