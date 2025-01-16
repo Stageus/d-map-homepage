@@ -2,13 +2,22 @@ import { fetchRequest } from "../../4_Shared/util/apiUtil";
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
-const usePutTrackingImage = (trackingIdx, trackingdata) => {
+const usePutTrackingImage = (trackingData) => {
   const putTrackingImage = async () => {
     try {
       const response = await fetchRequest(
         "PUT",
-        `${BASE_URL}/tracking`,
-        { ...trackingdata },
+        `${BASE_URL}/tracking/${trackingData.trackingIdx}`,
+        {
+          line: trackingData?.line,
+          searchpoint: trackingData?.searchPoint,
+          center: trackingData?.center,
+          zoom: trackingData?.zoom,
+          heading: trackingData?.heading,
+          sharing: trackingData?.sharing,
+          color: trackingData?.lineColor,
+          thickness: trackingData?.lineWeight,
+        },
         TEST_TOKEN
       );
       const data = await response.json();

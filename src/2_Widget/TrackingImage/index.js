@@ -14,7 +14,7 @@ const TrackingImage = (props) => {
     draggable = true,
     searchPoint = "서울시 종로구",
     sharing = false,
-    tracking_idx = -1,
+    trackingIdx = -1,
   } = data;
 
   const polylineOptions = {
