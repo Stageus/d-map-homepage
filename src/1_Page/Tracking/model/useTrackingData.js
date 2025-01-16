@@ -11,6 +11,10 @@ const useTrackingData = (mapRef) => {
         zoom: mapRef.current?.getZoom(),
         center: mapRef.current?.getCenter().toJSON(),
         heading: mapRef.current?.getHeading(),
+        searchPoint: "서울시 종로구",
+        sharing: false,
+        lineColor: "#FF0000",
+        lineWeight: 2,
       };
       setTrackingData(data);
     }

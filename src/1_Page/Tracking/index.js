@@ -2,7 +2,6 @@ import React from "react";
 import { GoogleMap, Polyline } from "@react-google-maps/api";
 import STYLE from "./style";
 import useTrackingData from "./model/useTrackingData";
-import TrackingImage from "../../2_Widget/TrackingImage";
 import play_icon from "./assets/play-solid.svg";
 import pause_icon from "./assets/pause-solid.svg";
 import stop_icon from "./assets/stop-solid.svg";
@@ -10,7 +9,9 @@ import useTrackingLine from "./model/useTrackingLine";
 import polylineOptions from "./constant/polylineOptions";
 import useIsTrackingAtom from "../../4_Shared/Recoil/useIsTrackingAtom";
 import useIsModifyingTrackingAtom from "../../4_Shared/Recoil/useIsModifyingTrackingAtom";
-
+import TrackingModifyModal from "./ui/TrackingModifyModal";
+import TrackingImage from "../../2_Widget/TrackingImage";
+import Modal from "../../2_Widget/Modal";
 const Tracking = () => {
   const mapRef = React.useRef(null); // google map instance
   const isInteractingMap = React.useRef(false);
@@ -21,7 +22,7 @@ const Tracking = () => {
     isTracking,
     isInteractingMap
   );
-
+  console.log({ ...trackingData, line: trackingLine })
   return (
     <STYLE.Main>
       {/* map instance */}
@@ -57,19 +58,6 @@ const Tracking = () => {
         })}
       </GoogleMap>
 
-      {/* 수정 모달 */}
-      <STYLE.Filter
-        isModifying={isModifying}
-        onClick={() => {
-          if (isModifying) {
-            toggleIsModifying();
-          }
-        }}
-      />
-      <STYLE.TrackingSaveModal isModifying={isModifying}>
-        <TrackingImage data={{ ...trackingData, line: trackingLine }} />
-      </STYLE.TrackingSaveModal>
-
       {/* Tracking Control Panel*/}
       <STYLE.TrackingControlBtnContainer>
         {!isTracking ? (
@@ -100,6 +88,16 @@ const Tracking = () => {
           </>
         )}
       </STYLE.TrackingControlBtnContainer>
+
+      {/* 수정 모달 */}
+      {isModifying && (
+        <Modal
+          onClose={() => {
+            toggleIsModifying();
+          }}
+          trackData={{ ...trackingData, line: trackingLine }}
+        />
+      )}
     </STYLE.Main>
   );
 };

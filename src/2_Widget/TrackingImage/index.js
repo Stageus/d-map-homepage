@@ -12,6 +12,9 @@ const TrackingImage = (props) => {
     lineWeight = 2,
     height = "400px",
     draggable = true,
+    searchPoint = "서울시 종로구",
+    sharing = false,
+    tracking_idx = -1,
   } = data;
 
   const polylineOptions = {
