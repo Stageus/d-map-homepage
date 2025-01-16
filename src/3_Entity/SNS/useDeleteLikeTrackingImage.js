@@ -3,8 +3,8 @@ import { fetchRequest } from "../../4_Shared/util/apiUtil";
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
-const useUnLikeTrackingImage = (trackingImageIdx) => {
-  const unlikeTrackingImage = async () => {
+const useDeleteLikeTrackingImage = (trackingImageIdx) => {
+  const deletelikeTrackingImage = async () => {
     try {
       const response = await fetchRequest(
         "DELETE",
@@ -30,6 +30,6 @@ const useUnLikeTrackingImage = (trackingImageIdx) => {
     }
   };
 
-  return [unlikeTrackingImage];
+  return [deletelikeTrackingImage];
 };
-export default useUnLikeTrackingImage;
+export default useDeleteLikeTrackingImage;

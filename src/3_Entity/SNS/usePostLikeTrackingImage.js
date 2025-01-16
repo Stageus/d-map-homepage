@@ -1,10 +1,9 @@
-import React from "react";
 import { fetchRequest } from "../../4_Shared/util/apiUtil";
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
-const useLikeTrackingImage = (trackingImageIdx) => {
-  const likeTrackingImage = async () => {
+const usePostLikeTrackingImage = (trackingImageIdx) => {
+  const postLikeTrackingImage = async () => {
     try {
       const response = await fetchRequest(
         "POST",
@@ -30,6 +29,6 @@ const useLikeTrackingImage = (trackingImageIdx) => {
     }
   };
 
-  return [likeTrackingImage];
+  return [postLikeTrackingImage];
 };
-export default useLikeTrackingImage;
+export default usePostLikeTrackingImage;
