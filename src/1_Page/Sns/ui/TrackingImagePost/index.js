@@ -11,9 +11,9 @@ import TrackingImageLoaderBtn from "./ui/TrackingImageLoaderBtn";
 
 const TrackingImagePost = (props) => {
   const { data } = props;
-  const { likecount, idx } = data;
+  const { likecount, idx, liked_by_user } = data;
   const [viewDetailModal, toggleDetailModal] = useDetailModal();
-  const [like, toggleLikeTrackingImage] = useToggleLikeTrackingImage(idx);
+  const [like, toggleLikeTrackingImage] = useToggleLikeTrackingImage(idx, liked_by_user);
   return (
     <STYLE.Container>
       <STYLE.PostInfo>

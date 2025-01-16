@@ -27,7 +27,7 @@ const STYLE = {
     font-size: x-large;
     font-weight: bold;
   `,
-  Sorting: styled.select`
+  SortingSelect: styled.select`
     border: none;
     color: gray;
     outline: none;
