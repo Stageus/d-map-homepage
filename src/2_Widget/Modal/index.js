@@ -2,13 +2,21 @@ import React from "react";
 import { GoogleMap, Polyline } from "@react-google-maps/api";
 import STYLE from "./style";
 import useHandleModal from "./model/useHandleModal";
-import useLineInfo from "./model/useLineInfo";
+import useDeleteTrackingImage from "../../3_Entity/Tracking/useDeleteTrackingImage";
+import usePostTrackingImage from "../../3_Entity/Tracking/usePostTrackingImage";
+import usePutTrackingImage from "../../3_Entity/Tracking/usePutTrackingImage";
 
 const Modal = (props) => {
   const { children, onClose, trackData } = props;
+  const [newTrackingData, setNewTrackingData] = React.useState(trackData);
   const sheetRef = React.useRef();
-  const [lineInfo, handleLineSet] = useLineInfo();
-  const { isVisible, translateY, isDraggingRef, handleClose } = useHandleModal(onClose, sheetRef);
+  const { isVisible, translateY, isDraggingRef, handleClose } = useHandleModal(
+    onClose,
+    sheetRef
+  );
+  const [postTrackingImage] = usePostTrackingImage(newTrackingData);
+  //const putTrackingImage = usePutTrackingImage();
+  // const deleteTrackingImage = useDeleteTrackingImage();
 
   return (
     <>
@@ -33,13 +41,15 @@ const Modal = (props) => {
                   width: "100%",
                   height: "400px",
                 }}
-                onLoad={(map)=>{if (trackData) {
-                  map.setOptions({
-                    zoom: trackData.zoom,
-                    center: trackData.center,
-                    heading: trackData.heading,
-                  });
-                }}}
+                onLoad={(map) => {
+                  if (trackData) {
+                    map.setOptions({
+                      zoom: trackData.zoom,
+                      center: trackData.center,
+                      heading: trackData.heading,
+                    });
+                  }
+                }}
                 options={{
                   mapId: "90f87356969d889c",
                   disableDefaultUI: true,
@@ -50,9 +60,9 @@ const Modal = (props) => {
                     key={idx}
                     path={elem}
                     options={{
-                      strokeColor: lineInfo.lineColor,
+                      strokeColor: newTrackingData.lineColor,
                       strokeOpacity: 0.8,
-                      strokeWeight: lineInfo.lineWeight,
+                      strokeWeight: newTrackingData.lineWeight,
                     }}
                   />
                 ))}
@@ -71,9 +81,9 @@ const Modal = (props) => {
                 type="range"
                 min="1"
                 max="10"
-                value={lineInfo.lineWeight}
+                value={newTrackingData.lineWeight}
                 onChange={(e) =>
-                  handleLineSet({ lineWeight: Number(e.target.value) })
+                  setNewTrackingData({ ...newTrackingData, lineWeight: Number(e.target.value) })
                 }
               />
             </STYLE.SliderContainer>
@@ -82,13 +92,14 @@ const Modal = (props) => {
               <STYLE.ColorPicker
                 id="lineColor"
                 type="color"
-                value={lineInfo.lineColor}
-                onChange={(e) => handleLineSet({ lineColor: e.target.value })}
+                value={newTrackingData.lineColor}
+                onChange={(e) => setNewTrackingData({ ...newTrackingData, lineColor: e.target.value })}
               />
             </STYLE.SliderContainer>
             <STYLE.ButtonContainer>
               <STYLE.Button
                 onClick={() => {
+                  postTrackingImage(newTrackingData);
                   handleClose();
                 }}
               >
