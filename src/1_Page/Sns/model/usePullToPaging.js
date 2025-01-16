@@ -48,16 +48,17 @@ const usePullToPaging = (
   }, [paging, setPage, loading, hasMoreContent]);
 
   React.useEffect(() => {
-    document.addEventListener("touchstart", handleTouchStart);
-    document.addEventListener("touchmove", handleTouchMove, { passive: false });
-    document.addEventListener("touchend", handleTouchEnd);
+    const scrollElement = scrollElemRef.current;
+    scrollElement.addEventListener("touchstart", handleTouchStart);
+    scrollElement.addEventListener("touchmove", handleTouchMove, { passive: false });
+    scrollElement.addEventListener("touchend", handleTouchEnd);
 
     return () => {
-      document.removeEventListener("touchstart", handleTouchStart);
-      document.removeEventListener("touchmove", handleTouchMove);
-      document.removeEventListener("touchend", handleTouchEnd);
+      scrollElement.removeEventListener("touchstart", handleTouchStart);
+      scrollElement.removeEventListener("touchmove", handleTouchMove);
+      scrollElement.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [handleTouchStart, handleTouchMove, handleTouchEnd]);
+  }, [handleTouchStart, handleTouchMove, handleTouchEnd, scrollElemRef]);
 
   return [paging];
 };

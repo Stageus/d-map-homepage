@@ -1,14 +1,14 @@
 import React from "react";
-import useLikeTrackingImage from "../../../../../3_Entity/SNS/useLikeTrackingImage";
-import useUnLikeTrackingImage from "../../../../../3_Entity/SNS/useUnLikeTrackingImage";
+import usePostLikeTrackingImage from "../../../../../3_Entity/SNS/usePostLikeTrackingImage";
+import useDeleteLikeTrackingImage from "../../../../../3_Entity/SNS/useDeleteLikeTrackingImage";
 
 const useToggleLikeTrackingImage = (trackingImageIdx, liked_by_user) => {
-  const [likeTrackingImage] = useLikeTrackingImage(trackingImageIdx);
-  const [unlikeTrackingImage] = useUnLikeTrackingImage(trackingImageIdx);
+  const [postLikeTrackingImage] = usePostLikeTrackingImage(trackingImageIdx);
+  const [deleteLikeTrackingImage] = useDeleteLikeTrackingImage(trackingImageIdx);
   const [like, setLike] = React.useState(liked_by_user);
 
   const toggleLikeTrackingImage = () => {
-    !like ? likeTrackingImage() : unlikeTrackingImage();
+    !like ? postLikeTrackingImage() : deleteLikeTrackingImage();
     setLike(!like);
   };
 
