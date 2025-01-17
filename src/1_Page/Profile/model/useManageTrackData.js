@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import getTrackData from "../../../3_Entity/Tracking/getTrackData";
-import putTrackingImage from "../../../3_Entity/Tracking/putTrackingImage";
+import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingToShare";
+import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingToNotShare";
 import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
 
 const useManageTrackData = (userIdx) => {
@@ -69,7 +70,17 @@ const useManageTrackData = (userIdx) => {
   // 수정 버튼 클릭 처리
   const handleModifyTrack = async () => {
     try {
-      await putTrackingImage(modifyIdxList);
+      const groupedBySharing = modifyIdxList.reduce(
+        (acc, item) => {
+          if (item.sharing === 1) acc.notShare.push(item);
+          if (item.sharing === 0) acc.share.push(item);
+          return acc;
+        },
+        { notShare: [], share: [] }
+      );
+      await putTrackingToShare(groupedBySharing.notShare);
+      await putTrackingToNotShare(groupedBySharing.share);
+
       setModifyIdxList([]);
       fetchTrackData();
     } catch (error) {
