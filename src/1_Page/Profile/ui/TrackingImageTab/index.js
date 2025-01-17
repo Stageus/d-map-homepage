@@ -3,8 +3,8 @@ import STYLE from "./style";
 import TrackContainer from "./ui/TrackingImageContainer";
 
 const TrackingImageTab = (props) => {
-  const { sharingType, trackData, getTrackLength, modifyMode, handle } = props;
-  return getTrackLength(sharingType) === 0 ? (
+  const { sharingType, trackData, length, modifyMode, handle } = props;
+  return length === 0 ? (
     <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
   ) : (
     <STYLE.PostGrid>

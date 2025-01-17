@@ -47,14 +47,14 @@ const Profile = () => {
             <TrackingImageTab
               sharingType={0}
               trackData={trackData}
-              getTrackLength={getTrackLength}
+              length={getTrackLength(0)}
               modifyMode={modifyMode}
               handle={{ handleDeleteAdd, handleToggleTrackType }}
             />
             <TrackingImageTab
               sharingType={1}
               trackData={trackData}
-              getTrackLength={getTrackLength}
+              length={getTrackLength(1)}
               modifyMode={modifyMode}
               handle={{ handleDeleteAdd, handleToggleTrackType }}
             />

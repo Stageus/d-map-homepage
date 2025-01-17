@@ -15,7 +15,6 @@ const useHandleModal = (onClose, sheetRef) => {
     setIsVisible(true); // Open 애니메이션 실행
   }, []);
 
-
   const handleClose = () => {
     setIsVisible(false);
     setTimeout(() => {
@@ -23,7 +22,7 @@ const useHandleModal = (onClose, sheetRef) => {
     }, 300);
   };
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     const handleTouchStart = (e) => {
       if (!isVisible) return;
       isDraggingRef.current = true;
@@ -42,7 +41,7 @@ const useHandleModal = (onClose, sheetRef) => {
         handleClose();
         return;
       }
-  
+
       const closestSnapPoint = snapPoints.reduce((closest, current) => {
         return Math.abs(current - translateY) < Math.abs(closest - translateY)
           ? current
@@ -50,7 +49,7 @@ const useHandleModal = (onClose, sheetRef) => {
       });
       setTranslateY(closestSnapPoint);
     };
-    const sheetElement = sheetRef.current
+    const sheetElement = sheetRef.current;
     sheetElement.addEventListener("touchstart", handleTouchStart);
     sheetElement.addEventListener("touchmove", handleTouchMove);
     sheetElement.addEventListener("touchend", handleTouchEnd);
@@ -60,7 +59,7 @@ const useHandleModal = (onClose, sheetRef) => {
       sheetElement.removeEventListener("touchmove", handleTouchMove);
       sheetElement.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [])
+  }, []);
 
   return {
     isVisible,

@@ -6,7 +6,7 @@ const STYLE = {
     gap: 8px;
     grid-template-columns: repeat(3, calc((100% - 16px) / 3));
     grid-auto-rows: calc((100vw - 16px) / 3); /* 가로 너비 기준 */
-    width: 50%;
+    width: 100%;
     height: calc(90vh - 150px);
 
     overflow-y: auto;
