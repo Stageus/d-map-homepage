@@ -1,5 +1,6 @@
 import React from "react";
 import { GoogleMap, Polyline } from "@react-google-maps/api";
+import MAPTYPE from "../../4_Shared/constant/mapType";
 
 const TrackingImage = (props) => {
   const { data } = props;
@@ -8,19 +9,20 @@ const TrackingImage = (props) => {
     center = { lat: 37.57, lng: 126.97 },
     heading = 0,
     line = [],
-    lineColor = "#FF0000",
-    lineWeight = 2,
+    color = "#FF0000",
+    thickness = 2,
     height = "400px",
     draggable = true,
-    searchPoint = "서울시 종로구",
+    searchpoint = "서울시 종로구",
     sharing = false,
-    trackingIdx = -1,
+    idx = -1,
+    background = 0,
   } = data;
 
   const polylineOptions = {
-    strokeColor: lineColor, // 빨간색 선
+    strokeColor: color, // 빨간색 선
     strokeOpacity: 0.8,
-    strokeWeight: lineWeight,
+    strokeWeight: thickness,
   };
 
   return (
@@ -34,9 +36,9 @@ const TrackingImage = (props) => {
             zoom: zoom,
             center: center,
             heading: heading, // 지도 회전 각도 설정 (0 ~ 360)
-            mapId: "90f87356969d889c",
             disableDefaultUI: true, // UI 요소 비활성화
             draggable, // 드래그 활성화/비활성화
+            mapTypeId: MAPTYPE[background]
           }}>
           {/* 선 그리기 */}
           {line.map((elem) => {

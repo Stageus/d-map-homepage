@@ -6,12 +6,11 @@ import play_icon from "./assets/play-solid.svg";
 import pause_icon from "./assets/pause-solid.svg";
 import stop_icon from "./assets/stop-solid.svg";
 import useTrackingLine from "./model/useTrackingLine";
-import polylineOptions from "./constant/polylineOptions";
 import useIsTrackingAtom from "../../4_Shared/Recoil/useIsTrackingAtom";
 import useIsModifyingTrackingAtom from "../../4_Shared/Recoil/useIsModifyingTrackingAtom";
-import TrackingModifyModal from "./ui/TrackingModifyModal";
-import TrackingImage from "../../2_Widget/TrackingImage";
 import Modal from "../../2_Widget/Modal";
+import MAPTYPE from "../../4_Shared/constant/mapType";
+
 const Tracking = () => {
   const mapRef = React.useRef(null); // google map instance
   const isInteractingMap = React.useRef(false);
@@ -22,7 +21,6 @@ const Tracking = () => {
     isTracking,
     isInteractingMap
   );
-  console.log({ ...trackingData, line: trackingLine })
   return (
     <STYLE.Main>
       {/* map instance */}
@@ -34,8 +32,8 @@ const Tracking = () => {
         onLoad={(map) => {
           mapRef.current = map;
         }}
-        onIdle={async () => {
-          await throttledSetTrackingData();
+        onIdle={() => {
+          throttledSetTrackingData();
           isInteractingMap.current = false;
         }}
         onDragStart={() => {
@@ -49,12 +47,21 @@ const Tracking = () => {
           heading: trackingData.heading,
           zoom: trackingData.zoom,
           center: trackingData.center,
-          mapId: "90f87356969d889c",
+          mapTypeId: MAPTYPE[trackingData.background],
         }}
       >
         {/* 선 그리기 */}
         {trackingLine.map((elem) => {
-          return <Polyline path={elem} options={polylineOptions} />;
+          return (
+            <Polyline
+              path={elem}
+              options={{
+                strokeColor: trackingData.color,
+                strokeOpacity: 0.8,
+                strokeWeight: trackingData.thickness,
+              }}
+            />
+          );
         })}
       </GoogleMap>
 
