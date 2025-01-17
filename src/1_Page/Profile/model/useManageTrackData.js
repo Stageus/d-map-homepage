@@ -80,7 +80,6 @@ const useManageTrackData = (userIdx) => {
       );
       await putTrackingToShare(groupedBySharing.notShare);
       await putTrackingToNotShare(groupedBySharing.share);
-
       setModifyIdxList([]);
       fetchTrackData();
     } catch (error) {

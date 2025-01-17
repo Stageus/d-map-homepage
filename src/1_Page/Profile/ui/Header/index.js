@@ -11,7 +11,7 @@ import ModifyImageModal from "./ui/ModifyImageModal/index.js";
 import ModifyNameModal from "./ui/ModifyNameModal/index.js";
 import ModifyModeModal from "./ui/ModifyModeModal/index.js";
 import ConfirmModal from "../../../../2_Widget/ConfirmModal";
-import useGetUserData from "../../../../3_Entity/Profile/useGetUserData.js";
+import useGetUserData from "../../../../3_Entity/Account/getUserInfo.js";
 
 const Header = (props) => {
   const {

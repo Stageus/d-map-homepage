@@ -1,11 +1,12 @@
 import { fetchRequest } from "../../4_Shared/util/apiUtil";
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
+const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
-const putNickname = async (token, nickname) => {
+const putNickname = async (nickname) => {
   try {
     const endpoint = `${BASE_URL}/account/nickname`;
 
-    const response = await fetchRequest("PUT", endpoint, nickname, token);
+    const response = await fetchRequest("PUT", endpoint, nickname, TEST_TOKEN);
 
     if (!response.ok) {
       const errorMessages = {

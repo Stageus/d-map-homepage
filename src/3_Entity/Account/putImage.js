@@ -1,13 +1,15 @@
 import { fetchRequest } from "../../4_Shared/util/apiUtil";
 
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
-const putImage = async (token, imageFile) => {
+const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
+
+const putImage = async (imageFile) => {
   try {
     const formData = new FormData();
     formData.append("image", imageFile);
     const endpoint = `${BASE_URL}/account/image`;
 
-    const response = await fetchRequest("PUT", endpoint, formData, token);
+    const response = await fetchRequest("PUT", endpoint, formData, TEST_TOKEN);
 
     if (!response.ok) {
       const errorMessages = {
