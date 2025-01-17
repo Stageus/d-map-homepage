@@ -1,23 +1,18 @@
+import { fetchRequest } from "../../4_Shared/util/apiUtil";
+
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
 // 삭제 API 호출 함수
-const deleteTrackingImage = async (idx) => {
+const deleteTrackingImage = async (idxList) => {
   try {
-    const response = await fetch(`${BASE_URL}/tracking/${idx}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: TEST_TOKEN,
-      },
-    });
+    const endpoint = `${BASE_URL}/tracking`;
+    const response = await fetchRequest("GET", endpoint, null, TEST_TOKEN);
 
     if (!response.ok) {
       handleDeleteError(response.status);
       throw new Error(`삭제 실패: 상태 코드 ${response.status}`);
     }
-
-    console.log("이미지가 성공적으로 삭제되었습니다.");
     return response;
   } catch (error) {
     console.error("삭제 요청 중 오류 발생:", error.message);

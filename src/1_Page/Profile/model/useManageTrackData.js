@@ -1,14 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
 import getTrackData from "../../../3_Entity/Tracking/getTrackData";
 import useModifySharingTracking from "../../../3_Entity/Profile/useModifySharingTracking";
-import useDeleteTrackingImage from "../../../3_Entity/Profile/useDeleteTrackingImage";
+import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
 
 const useManageTrackData = (userIdx) => {
   const [page, setPage] = useState(1);
   const [trackData, setTrackData] = useState([]);
   const [modifyIdxList, setModifyIdxList] = useState([]);
   const { modifySharing } = useModifySharingTracking(); // 수정 API
-  const { deleteTrackingImage } = useDeleteTrackingImage(); // 삭제 API
 
   // 데이터 호출 함수
   const fetchTrackData = useCallback(async () => {
