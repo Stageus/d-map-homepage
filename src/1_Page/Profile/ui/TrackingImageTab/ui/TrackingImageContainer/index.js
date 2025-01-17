@@ -35,9 +35,10 @@ const TrackingImageContainer = (props) => {
     <>
       <STYLE.TrackingContainer
         {...(!modifyMode && longPressEvents)}
-        ref={isLast ? lastElementRef : null} // isLast가 true인 경우 ref 추가
-      >
-        <TrackingImage data={{ ...track, height: "100%", draggable: false }} />
+        ref={isLast ? lastElementRef : null}>
+        <TrackingImage
+          data={{ ...track, height: "100%", draggable: false, background: 0 }}
+        />
         {modifyMode === "공유" && (
           <STYLE.TrackingClickBox
             onClick={() => {
