@@ -2,6 +2,7 @@ import { sharedPosts } from "../Profile/dataSharePost";
 import { fetchRequest } from "../../4_Shared/util/apiUtil";
 
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
+const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
 // 에러 상태 처리 함수
 const handleError = (status) => {
@@ -22,7 +23,7 @@ const getTrackData = async (userIdx, page) => {
     }
     // 실제 API 호출
     const endpoint = `${BASE_URL}/tracking/account/${userIdx}?page=${page}`;
-    const response = await fetchRequest("GET", endpoint);
+    const response = await fetchRequest("GET", endpoint, null, TEST_TOKEN);
 
     if (!response.ok) {
       handleError(response.status);

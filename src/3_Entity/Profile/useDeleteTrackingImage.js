@@ -1,53 +1,41 @@
-import { useState } from "react";
+const BASE_URL = process.env.REACT_APP_SERVER_URL;
+const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
-const deleteTrackingImageAPI = async (idx, token) => {
-  const response = await fetch(`/tracking/${idx}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: token,
-    },
-  });
+// 삭제 API 호출 함수
+const deleteTrackingImage = async (idx) => {
+  try {
+    const response = await fetch(`${BASE_URL}/tracking/${idx}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: TEST_TOKEN,
+      },
+    });
 
-  if (!response.ok) {
-    switch (response.status) {
-      case 400:
-        console.log("잘못된 요청 데이터입니다.");
-        break;
-      case 401:
-        console.log("인증 오류: 토큰이 유효하지 않습니다.");
-        break;
-      case 404:
-        console.log("이미지를 찾을 수 없습니다.");
-        break;
-      default:
-        console.log(`예상치 못한 오류: ${response.status}`);
+    if (!response.ok) {
+      handleDeleteError(response.status);
+      throw new Error(`삭제 실패: 상태 코드 ${response.status}`);
     }
-    throw new Error("삭제 실패");
+
+    console.log("이미지가 성공적으로 삭제되었습니다.");
+    return response;
+  } catch (error) {
+    console.error("삭제 요청 중 오류 발생:", error.message);
+    throw error;
   }
-  return response;
 };
 
-const useDeleteTrackingImage = (token) => {
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("idle");
-
-  const deleteTrackingImage = async (idx) => {
-    try {
-      setLoading(true);
-      setStatus("loading");
-      await deleteTrackingImageAPI(idx, token);
-      setStatus("success");
-      console.log("이미지가 성공적으로 삭제되었습니다.");
-    } catch (err) {
-      console.log("네트워크 또는 서버 오류:", err);
-      setStatus("error");
-    } finally {
-      setLoading(false);
-    }
+// 에러 상태 처리 함수
+const handleDeleteError = (status) => {
+  const errorMessages = {
+    400: "잘못된 요청 데이터입니다.",
+    401: "인증 오류: 토큰이 유효하지 않습니다.",
+    404: "이미지를 찾을 수 없습니다.",
   };
 
-  return { deleteTrackingImage, loading, status };
+  console.error(
+    errorMessages[status] || `예상치 못한 오류: 상태 코드 ${status}`
+  );
 };
 
-export default useDeleteTrackingImage;
+export default deleteTrackingImage;
