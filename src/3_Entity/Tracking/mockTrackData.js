@@ -1,4 +1,4 @@
-export const sharedPosts = {
+export const mockData = {
   message: [
     ...Array.from({ length: 100 }, (_, idx) => ({
       idx: 100 + idx,
