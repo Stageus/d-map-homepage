@@ -1,13 +1,12 @@
 import { useEffect, useState, useCallback } from "react";
 import getTrackData from "../../../3_Entity/Tracking/getTrackData";
-import useModifySharingTracking from "../../../3_Entity/Profile/useModifySharingTracking";
+import putTrackingImage from "../../../3_Entity/Tracking/putTrackingImage";
 import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
 
 const useManageTrackData = (userIdx) => {
   const [page, setPage] = useState(1);
   const [trackData, setTrackData] = useState([]);
   const [modifyIdxList, setModifyIdxList] = useState([]);
-  const { modifySharing } = useModifySharingTracking(); // 수정 API
 
   // 데이터 호출 함수
   const fetchTrackData = useCallback(async () => {
@@ -70,7 +69,7 @@ const useManageTrackData = (userIdx) => {
   // 수정 버튼 클릭 처리
   const handleModifyTrack = async () => {
     try {
-      await modifySharing(modifyIdxList);
+      await putTrackingImage(modifyIdxList);
       setModifyIdxList([]);
       fetchTrackData();
     } catch (error) {

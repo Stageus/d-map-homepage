@@ -13,29 +13,40 @@ const deleteTrackingImage = async (idxList) => {
       idxList,
       TEST_TOKEN
     );
-
     if (!response.ok) {
-      handleDeleteError(response.status);
-      throw new Error(`삭제 실패: 상태 코드 ${response.status}`);
+      await handleErrorResponse(response);
     }
-    return response;
+    return await response.json(); // 응답 데이터 반환
   } catch (error) {
-    console.error("삭제 요청 중 오류 발생:", error.message);
-    throw error;
+    console.log(error);
   }
 };
 
 // 에러 상태 처리 함수
-const handleDeleteError = (status) => {
+const handleErrorResponse = async (response) => {
   const errorMessages = {
     400: "잘못된 요청 데이터입니다.",
-    401: "인증 오류: 토큰이 유효하지 않습니다.",
-    404: "이미지를 찾을 수 없습니다.",
+    401: "인증 오류: 토큰이 만료되었습니다.",
+    403: "잘못된 인증 토큰입니다.",
+    404: "요청한 리소스를 찾을 수 없습니다.",
+    500: "서버 연결에 실패하였습니다.",
   };
-
-  console.error(
-    errorMessages[status] || `예상치 못한 오류: 상태 코드 ${status}`
-  );
+  switch (response.status) {
+    case 401:
+      console.error("토큰 만료 처리 로직 실행 중...");
+      break;
+    case 403:
+      console.error(errorMessages[403]);
+      break;
+    case 404:
+      console.error(errorMessages[404]);
+      break;
+    case 500:
+      console.error(errorMessages[500]);
+      break;
+    default:
+      console.error("오류");
+  }
 };
 
 export default deleteTrackingImage;
