@@ -1,17 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import STYLE from "./style.js";
-import { useParams } from "react-router-dom";
 
 import useModifyImageModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyNameModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyMode from "../../../../4_Shared/model/useModalHandler.js";
 import useConfirmModal from "../../../../4_Shared/model/useModalHandler.js";
+import useManageUserInfo from "./model/useManageUserInfo.js";
 
 import ModifyImageModal from "./ui/ModifyImageModal/index.js";
 import ModifyNameModal from "./ui/ModifyNameModal/index.js";
 import ModifyModeModal from "./ui/ModifyModeModal/index.js";
 import ConfirmModal from "../../../../2_Widget/ConfirmModal";
-import useGetUserData from "../../../../3_Entity/Account/getUserInfo.js";
 
 const Header = (props) => {
   const {
@@ -23,11 +22,7 @@ const Header = (props) => {
     handleTabClick,
   } = props;
 
-  const isMine = true;
-
-  const { userIdx } = useParams();
-
-  const { userData, loading, error } = useGetUserData(userIdx); // 프로필 데이터
+  const userInfo = useManageUserInfo();
 
   const [modifyImageModal, handleImageModalOpen, handleImageModalClose] =
     useModifyImageModal(); // 프로필 이미지 모달
@@ -48,19 +43,19 @@ const Header = (props) => {
       {!modifyMode ? (
         <STYLE.ProfileContainer>
           <STYLE.ProfileWrapper
-            onClick={isMine ? handleImageModalOpen : undefined}>
-            <STYLE.ProfileImg src={userData?.image} alt="Profile" />
+            onClick={userInfo?.isMine ? handleImageModalOpen : undefined}>
+            <STYLE.ProfileImg src={userInfo?.image} alt="Profile" />
           </STYLE.ProfileWrapper>
           <STYLE.UserInfo>
             <STYLE.ProfileBox>
-              <STYLE.UserName>{userData?.nickname}</STYLE.UserName>
-              {isMine && (
+              <STYLE.UserName>{userInfo?.nickname}</STYLE.UserName>
+              {userInfo?.isMine && (
                 <STYLE.ProfileButton onClick={handleModifyModeOpen}>
                   •••
                 </STYLE.ProfileButton>
               )}
             </STYLE.ProfileBox>
-            {isMine && (
+            {userInfo?.isMine && (
               <STYLE.Nickname onClick={handleModifyNameModalOpen}>
                 닉네임 수정
               </STYLE.Nickname>
@@ -89,7 +84,7 @@ const Header = (props) => {
       )}
 
       <STYLE.TabMenu>
-        {isMine ? (
+        {userInfo?.isMine ? (
           <>
             <STYLE.Tab
               $active={tabState?.activeTabStr === "공유"}
@@ -109,14 +104,14 @@ const Header = (props) => {
 
       {modifyImageModal && (
         <ModifyImageModal
-          image={userData?.image}
+          image={userInfo?.image}
           onClose={handleImageModalClose}
         />
       )}
       {modifyNameModal && (
         <ModifyNameModal
           onClose={handleModifyNameModalClose}
-          name={userData?.nickname}
+          name={userInfo?.nickname}
         />
       )}
       {modifyModeModal && (
