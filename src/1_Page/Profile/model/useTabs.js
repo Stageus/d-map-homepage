@@ -9,16 +9,10 @@ const useTabs = (initialTab = "공유") => {
     setTabIndex(tab === "공유" ? 0 : 1);
   };
 
-  const handleGetLength = (tab, trackShareData, trackSaveData) => {
-    if (!trackShareData || !trackSaveData) return "로딩중";
-    return tab === "공유" ? trackShareData?.length : trackSaveData?.length;
-  };
-
   return {
     activeTab,
     tabIndex,
     handleTabClick,
-    handleGetLength,
   };
 };
 

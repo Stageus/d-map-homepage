@@ -4,8 +4,8 @@ const STYLE = {
   Main: styled.div`
     height: 100%;
     position: relative;
-    border: 2px blue solid;
-    overflow: auto;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
   `,
 };
 
