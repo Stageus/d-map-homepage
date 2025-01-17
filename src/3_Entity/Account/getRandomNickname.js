@@ -1,13 +1,22 @@
-import data from "./dataNickName";
 import { fetchRequest } from "../../4_Shared/util/apiUtil";
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const IS_DEV = process.env.NODE_ENV === "development";
+
+const mockData = {
+  message: {
+    nickname: [
+      "슬픈호랑이",
+      "바쁜나비",
+      "기쁜타조", // 몇 개 보낼 지 논의 필요
+    ],
+  },
+};
 
 // 랜덤 닉네임 관리 함수
 const getRandomNicknames = async () => {
   try {
     if (IS_DEV) {
-      return { nicknames: data, error: null };
+      return mockData.message.nickname;
     }
     const endpoint = `${BASE_URL}/account/nickname`;
 

@@ -17,10 +17,10 @@ const TrackingImageTab = ({
   return (
     <STYLE.PostGrid>
       {filteredTracks.map((track, index) => {
-        const isLast = index === filteredTracks.length - 1; // 마지막 항목 확인
+        const isLast = index === filteredTracks.length - 1;
         return (
           <TrackContainer
-            key={track.id} // 고유 키 설정
+            key={track.id}
             track={track}
             modifyMode={modifyMode}
             handle={handle}

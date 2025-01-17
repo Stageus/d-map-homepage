@@ -18,7 +18,6 @@ const getUserInfo = async (userIdx) => {
   if (!userIdx) {
     throw new Error("유효하지 않은 사용자 ID입니다.");
   }
-
   try {
     // 개발 환경에서 모의 데이터 반환
     if (process.env.NODE_ENV === "development") {

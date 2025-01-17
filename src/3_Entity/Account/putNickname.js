@@ -20,9 +20,6 @@ const putNickname = async (nickname) => {
       console.error(`Error ${response.status}: ${message}`);
       throw new Error(message);
     }
-
-    const result = await response.json();
-    return result; // 성공적으로 처리된 응답 반환
   } catch (error) {
     console.error("네트워크 또는 서버 오류:", error);
     throw error; // 호출자에게 에러 전달
