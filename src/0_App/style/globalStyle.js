@@ -7,6 +7,7 @@ const GlobalStyles = createGlobalStyle`
   }
   html{
     height: 100%;
+    overscroll-behavior: none;
   }
   body {
     line-height: 1;
@@ -22,7 +23,7 @@ const GlobalStyles = createGlobalStyle`
     cursor: pointer;
   }
   ::-webkit-scrollbar {
-  display: none;
+    display: none;
   }
 `;
 

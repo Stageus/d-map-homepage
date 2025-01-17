@@ -10,7 +10,7 @@ const STYLE = {
     border: none;
     width: 26px;
   `,
-  Icon: styled.img`
+  IconImg: styled.img`
     object-fit: contain; /* 이미지 비율 유지 */
   `,
 };

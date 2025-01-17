@@ -10,7 +10,7 @@ const Page = () => {
   return (
     <STYLE.Main>
       <Routes>
-        <Route path="/" element={<Navigate to={"/sns/:category/:userIdx"} />} />
+        <Route path="/" element={<Navigate to={"/sns/recent/0"} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile/:userIdx" element={<Profile />} />
         <Route path="/search" element={<Search />} />
