@@ -1,15 +1,14 @@
 import { useState, useRef } from "react";
-import useModifyNickname from "../../../../../../../3_Entity/Profile/useModifyNickname";
+import putNickname from "../../../../../../../3_Entity/Account/putNickname";
 import useConfirmModal from "../../../../../../../4_Shared/model/useModalHandler";
 
 const useNicknameModal = () => {
   const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
     useConfirmModal();
   const [message, setMessage] = useState("");
-  const { modify, loading, error } = useModifyNickname();
 
-  const handleModifyNickname = (nickname, handleClose) => {
-    const result = modify(nickname);
+  const handleModifyNickname = async (nickname, handleClose) => {
+    const result = await putNickname(nickname);
     if (result) {
       setMessage(`닉네임이 변경되었습니다 : ${nickname}`);
       handleConfirmModalOpen();
