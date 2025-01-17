@@ -1,5 +1,6 @@
 import React from "react";
-import Modal from "../../../../../../2_Widget/Modal";
+import Modal from "../Modal";
+
 import STYLE from "./style";
 import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 

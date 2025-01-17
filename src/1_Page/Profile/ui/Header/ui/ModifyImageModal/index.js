@@ -1,7 +1,7 @@
 import React from "react";
 import STYLE from "./style";
 
-import Modal from "../../../../../../2_Widget/Modal";
+import Modal from "../Modal";
 import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 
 import useFileReader from "./model/useFileReader";

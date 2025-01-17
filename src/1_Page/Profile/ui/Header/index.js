@@ -1,30 +1,28 @@
 import React from "react";
 import STYLE from "./style.js";
-import { useParams } from "react-router-dom";
 
 import useModifyImageModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyNameModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyMode from "../../../../4_Shared/model/useModalHandler.js";
 import useConfirmModal from "../../../../4_Shared/model/useModalHandler.js";
+import useManageUserInfo from "./model/useManageUserInfo.js";
 
 import ModifyImageModal from "./ui/ModifyImageModal/index.js";
 import ModifyNameModal from "./ui/ModifyNameModal/index.js";
 import ModifyModeModal from "./ui/ModifyModeModal/index.js";
 import ConfirmModal from "../../../../2_Widget/ConfirmModal";
-import useGetUserData from "../../../../3_Entity/Profile/useGetUserData.js";
 
 const Header = (props) => {
   const {
     trackData,
-    getTrackLength,
+    trackDataLegth,
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
-    activeTab,
+    tabState,
+    handleTabClick,
   } = props;
 
-  const { userIdx } = useParams();
-
-  const { userData, loading, error } = useGetUserData(userIdx); // 프로필 데이터
+  const userInfo = useManageUserInfo();
 
   const [modifyImageModal, handleImageModalOpen, handleImageModalClose] =
     useModifyImageModal(); // 프로필 이미지 모달
@@ -44,26 +42,26 @@ const Header = (props) => {
     <>
       {!modifyMode ? (
         <STYLE.ProfileContainer>
-          <STYLE.ProfileWrapper onClick={handleImageModalOpen}>
-            <STYLE.ProfileImg src={userData?.image} alt="Profile" />
+          <STYLE.ProfileWrapper
+            onClick={userInfo?.isMine ? handleImageModalOpen : undefined}>
+            <STYLE.ProfileImg src={userInfo?.image} alt="Profile" />
           </STYLE.ProfileWrapper>
           <STYLE.UserInfo>
             <STYLE.ProfileBox>
-              <STYLE.UserName>{userData?.nickname}</STYLE.UserName>
-              {userIdx && (
+              <STYLE.UserName>{userInfo?.nickname}</STYLE.UserName>
+              {userInfo?.isMine && (
                 <STYLE.ProfileButton onClick={handleModifyModeOpen}>
                   •••
                 </STYLE.ProfileButton>
               )}
             </STYLE.ProfileBox>
-            {userIdx && (
+            {userInfo?.isMine && (
               <STYLE.Nickname onClick={handleModifyNameModalOpen}>
                 닉네임 수정
               </STYLE.Nickname>
             )}
             <STYLE.PostCount>
-              {activeTab} 게시물 :{" "}
-              {activeTab === "공유" ? getTrackLength(0) : getTrackLength(1)}개
+              {tabState?.activeTabStr} 게시물 : {trackDataLegth}개
             </STYLE.PostCount>
           </STYLE.UserInfo>
         </STYLE.ProfileContainer>
@@ -85,16 +83,35 @@ const Header = (props) => {
         </STYLE.Container>
       )}
 
+      <STYLE.TabMenu>
+        {userInfo?.isMine ? (
+          <>
+            <STYLE.Tab
+              $active={tabState?.activeTabStr === "공유"}
+              onClick={() => handleTabClick("공유")}>
+              공유
+            </STYLE.Tab>
+            <STYLE.Tab
+              $active={tabState?.activeTabStr === "저장"}
+              onClick={() => handleTabClick("저장")}>
+              저장
+            </STYLE.Tab>
+          </>
+        ) : (
+          <STYLE.TabNone>게시물</STYLE.TabNone>
+        )}
+      </STYLE.TabMenu>
+
       {modifyImageModal && (
         <ModifyImageModal
-          image={userData?.image}
+          image={userInfo?.image}
           onClose={handleImageModalClose}
         />
       )}
       {modifyNameModal && (
         <ModifyNameModal
           onClose={handleModifyNameModalClose}
-          name={userData?.nickname}
+          name={userInfo?.nickname}
         />
       )}
       {modifyModeModal && (

@@ -10,6 +10,7 @@ const STYLE = {
     aspect-ratio: 1;
     width: 100%;
   `,
+
   TrackingClickBox: styled.div`
     appearance: none;
     width: 20px;
