@@ -1,22 +1,17 @@
 import data from "./dataNickName";
+import { fetchRequest } from "../../4_Shared/util/apiUtil";
+const BASE_URL = process.env.REACT_APP_SERVER_URL;
+const IS_DEV = process.env.NODE_ENV === "development";
 
 // 랜덤 닉네임 관리 함수
 const getRandomNicknames = async () => {
-  const BASE_URL = process.env.REACT_APP_SERVER_URL;
-  const IS_DEV = process.env.NODE_ENV === "development";
-
   try {
     if (IS_DEV) {
       return { nicknames: data, error: null };
     }
     const endpoint = `${BASE_URL}/account/nickname`;
 
-    const response = await fetch(endpoint, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetchRequest("GET", endpoint, null, null);
 
     // 응답 상태 코드 확인
     if (!response.ok) {
