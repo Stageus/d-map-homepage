@@ -1,71 +1,92 @@
-import { useEffect, useState } from "react";
-import useGetTrackData from "../../../3_Entity/Profile/useGetTrackData";
+import { useEffect, useState, useCallback } from "react";
+import getTrackData from "../../../3_Entity/Tracking/getTrackData";
 import useModifySharingTracking from "../../../3_Entity/Profile/useModifySharingTracking";
 import useDeleteTrackingImage from "../../../3_Entity/Profile/useDeleteTrackingImage";
 
 const useManageTrackData = (userIdx) => {
-  const { track, fetchTrackData } = useGetTrackData(userIdx); // 데이터 호출 api
-
-  const { modifySharing } = useModifySharingTracking(); // 데이터 수정 api
-  const { deleteTrackingImage, status } = useDeleteTrackingImage();
-
+  const [page, setPage] = useState(1);
   const [trackData, setTrackData] = useState([]);
+  const [modifyIdxList, setModifyIdxList] = useState([]);
+  const { modifySharing } = useModifySharingTracking(); // 수정 API
+  const { deleteTrackingImage } = useDeleteTrackingImage(); // 삭제 API
 
-  // fetch된 데이터로 화면 생성
-  useEffect(() => {
-    if (!track) return;
-    setTrackData(track);
-  }, [track]);
-
-  // 수정 및 삭제 시 선택된 데이터 관리 STATE
-  const [modifyIdxList, setModifyList] = useState([]);
-
-  // 데이터 변경 취소
-  const handleSelectCancel = () => {
-    setTrackData(track);
-    setModifyList([]);
-  };
-
-  // 수정 또는 삭제 시 STATE에 데이터 추가
-  const handleAddModifyList = (track) => {
-    if (modifyIdxList.includes(track.idx)) {
-      setModifyList((prev) => prev.filter((idx) => idx !== track.idx));
-      return;
+  // 데이터 호출 함수
+  const fetchTrackData = useCallback(async () => {
+    try {
+      const track = await getTrackData(userIdx, page);
+      setTrackData(track || []);
+    } catch (error) {
+      console.error("데이터 로드 중 오류 발생:", error);
     }
-    setModifyList((prev) => [...prev, track.idx]);
-  };
+  }, [userIdx, page]);
 
-  // 삭제상태 트랙 선택시 -> 삭제할 데이터 추가
+  // 페이지 변경 시 데이터 로드
+  useEffect(() => {
+    if (userIdx) {
+      fetchTrackData();
+    }
+  }, [fetchTrackData, userIdx]);
+
+  // 페이지 증가 함수
+  const handleNextPage = () => setPage((prev) => prev + 1);
+
+  // 수정 및 삭제 시 선택된 데이터 관리
   const handleDeleteAdd = (track) => {
-    handleAddModifyList(track);
+    setModifyIdxList((prev) =>
+      prev.includes(track.idx)
+        ? prev.filter((idx) => idx !== track.idx)
+        : [...prev, track.idx]
+    );
   };
 
-  // 삭제버튼 ->  삭제 및 reFetch
-  const handleDeleteTrack = async () => {
-    await deleteTrackingImage(modifyIdxList);
-    setModifyList([]);
-    await fetchTrackData();
+  // 데이터 상태 초기화
+  const handleSelectCancel = () => {
+    setModifyIdxList([]);
+    fetchTrackData();
   };
 
-  // 데이터 상태 바꾸기 , 수정 데이터 추가
+  // 데이터 상태 변경 (수정)
   const handleToggleTrackType = (track) => {
-    handleAddModifyList(track);
+    handleDeleteAdd(track);
     setTrackData((prevData) =>
       prevData.map((item) =>
-        item === track ? { ...item, sharing: item.sharing === 1 ? 0 : 1 } : item
+        item.idx === track.idx
+          ? { ...item, sharing: item.sharing === 1 ? 0 : 1 }
+          : item
       )
     );
   };
 
-  // 수정버튼 클릭 -> 수정 및 refetch
-  const handleModifyTrack = async () => {
-    await modifySharing(modifyIdxList);
-    setModifyList([]);
-    await fetchTrackData();
+  // 삭제 버튼 클릭 처리
+  const handleDeleteTrack = async () => {
+    try {
+      await deleteTrackingImage(modifyIdxList);
+      setModifyIdxList([]);
+      fetchTrackData();
+    } catch (error) {
+      console.error("삭제 중 오류 발생:", error);
+    }
   };
 
+  // 수정 버튼 클릭 처리
+  const handleModifyTrack = async () => {
+    try {
+      await modifySharing(modifyIdxList);
+      setModifyIdxList([]);
+      fetchTrackData();
+    } catch (error) {
+      console.error("수정 중 오류 발생:", error);
+    }
+  };
+
+  useEffect(() => {
+    console.log(trackData);
+  }, [trackData]);
+
   const getTrackLength = (isShared) =>
-    trackData.filter((track) => track.sharing === isShared).length;
+    Array.isArray(trackData)
+      ? trackData.filter((track) => track.sharing === isShared).length
+      : 0;
 
   return {
     trackData,
@@ -73,8 +94,9 @@ const useManageTrackData = (userIdx) => {
     handleSelectCancel,
     handleModifyTrack,
     handleDeleteTrack,
-    handleDeleteAdd,
+    handleDeleteAdd, // 삭제 항목 추가 (별칭 처리)
     getTrackLength,
+    handleNextPage,
   };
 };
 
