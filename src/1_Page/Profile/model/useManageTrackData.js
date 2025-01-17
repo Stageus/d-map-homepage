@@ -77,10 +77,6 @@ const useManageTrackData = (userIdx) => {
     }
   };
 
-  useEffect(() => {
-    console.log(trackData);
-  }, [trackData]);
-
   const getTrackLength = (isShared) =>
     Array.isArray(trackData)
       ? trackData.filter((track) => track.sharing === isShared).length

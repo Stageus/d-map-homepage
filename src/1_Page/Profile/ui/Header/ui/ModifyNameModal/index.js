@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import STYLE from "./style";
 
-import Modal from "../../../../../../2_Widget/Modal";
+import Modal from "../Modal";
 import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 
 import useRandomNickname from "./model/useRandomNickname";

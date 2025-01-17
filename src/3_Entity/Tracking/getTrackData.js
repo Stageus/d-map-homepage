@@ -1,4 +1,4 @@
-import { sharedPosts } from "../Profile/dataSharePost";
+import { sharedPosts } from "./dataSharePost";
 import { fetchRequest } from "../../4_Shared/util/apiUtil";
 
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
