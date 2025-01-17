@@ -1,10 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import useConfirmModal from "../../../../../../../4_Shared/model/useModalHandler";
-import useModifyImage from "../../../../../../../3_Entity/Profile/useModifyImage";
+import putImage from "../../../../../../../3_Entity/Account/putImage";
 
 const useImageModal = (image, errorMessage, imagePreview) => {
-  const { modify, loading, error } = useModifyImage(); // 이미지 수정 훅
-
   const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
     useConfirmModal();
   const [message, setMessage] = useState("");
@@ -36,7 +34,7 @@ const useImageModal = (image, errorMessage, imagePreview) => {
       handleConfirmModalOpen();
       return;
     }
-    const result = await modify(imagePreview);
+    const result = await putImage(imagePreview);
     if (result) {
       setMessage("변경되었습니다");
       handleImageConfirmModalOpen(handleClose);
