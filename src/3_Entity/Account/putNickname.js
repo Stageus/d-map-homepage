@@ -1,64 +1,31 @@
-import { useState } from "react";
+import { fetchRequest } from "../../4_Shared/util/apiUtil";
+const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
-const modifyNickname = async (token, nickname) => {
+const putNickname = async (token, nickname) => {
   try {
-    const response = await fetch(`/account/nickname`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-      body: JSON.stringify({ nickname }),
-    });
+    const endpoint = `${BASE_URL}/account/nickname`;
 
-    const status = response.status;
+    const response = await fetchRequest("PUT", endpoint, nickname, token);
 
-    // 상태 코드 처리
     if (!response.ok) {
-      switch (status) {
-        case 400:
-          console.log("입력 값 오류: 닉네임 형식이 잘못되었습니다.");
-          break;
-        case 401:
-          console.log("인증 실패: 토큰이 유효하지 않습니다.");
-          break;
-        case 409:
-          console.log("중복 닉네임: 해당 닉네임은 이미 사용 중입니다.");
-          break;
-        default:
-          console.log("서버 오류 발생");
-      }
-      return null; // 에러 발생 시 null 반환
+      const errorMessages = {
+        400: "입력 값 오류: 닉네임 형식이 잘못되었습니다.",
+        401: "인증 실패: 토큰이 유효하지 않습니다.",
+        409: "중복 닉네임: 해당 닉네임은 이미 사용 중입니다.",
+      };
+
+      const message =
+        errorMessages[response.status] || "서버 오류가 발생했습니다.";
+      console.error(`Error ${response.status}: ${message}`);
+      throw new Error(message);
     }
 
-    // 성공적으로 변경된 결과 반환
     const result = await response.json();
-    return result;
+    return result; // 성공적으로 처리된 응답 반환
   } catch (error) {
     console.error("네트워크 또는 서버 오류:", error);
-    throw error;
+    throw error; // 호출자에게 에러 전달
   }
 };
 
-const useModifyNickname = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  const modify = async (token, nickname) => {
-    try {
-      setLoading(true);
-      setError(null);
-      const result = await modifyNickname(token, nickname);
-      setLoading(false);
-      return result;
-    } catch (err) {
-      setLoading(false);
-      setError(err.message || "닉네임 수정 중 오류 발생");
-      return null;
-    }
-  };
-
-  return { modify, loading, error };
-};
-
-export default useModifyNickname;
+export default putNickname;
