@@ -60,7 +60,7 @@ const useHandleModal = (onClose, sheetRef) => {
       sheetElement.removeEventListener("touchmove", handleTouchMove);
       sheetElement.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [sheetRef])
+  }, [])
 
   return {
     isVisible,

@@ -27,7 +27,6 @@ const useTrackingImageList = (category = CATEGORY.DEFAULT, page) => {
         switch (response.status) {
           case 200:
             result = data.tracking_image;
-            //result = TEMP_DATA
             console.log(result, page);
             break;
           case 400:
