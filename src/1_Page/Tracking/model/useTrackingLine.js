@@ -58,6 +58,8 @@ const useTrackingSpot = (isTracking, isInteractingMapRef) => {
 
   const resetTrackingLine = () => {
     setTrackingLine([]); // trackingLine 초기화
+    currentRecordingTrackingLineRef.current = [];
+    recordedTrackingLineRef.current = [];
   };
 
   return [trackingLine, resetTrackingLine];

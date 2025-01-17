@@ -49,9 +49,9 @@ const STYLE = {
     outline: none;
   `,
   TrackingSaveModal: styled.div`
-    animation: ${(props) => (props.isModifying ? slideUp : slideDown)} 0.5s ease
+    animation: ${(props) => (props.$isModifying ? slideUp : slideDown)} 0.5s ease
       forwards;
-    display: ${(props) => (props.isModifying ? "flex" : "none")};
+    display: ${(props) => (props.$isModifying ? "flex" : "none")};
     flex-direction: column;
     position: absolute;
     bottom: 0;
@@ -63,7 +63,7 @@ const STYLE = {
     border-radius: 8px 8px 0 0;
   `,
   Filter: styled.div`
-    display: ${(props) => (props.isModifying ? "block" : "none")};
+    display: ${(props) => (props.$isModifying ? "block" : "none")};
     position: absolute;
     width: 100%;
     height: 100%;

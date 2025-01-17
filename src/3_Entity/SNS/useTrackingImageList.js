@@ -1,115 +1,76 @@
 import React from "react";
-const BASE_URL = "SERVER URL";
-const TEMP_DATA = {
-  message: [
-    {
-      idx: 123,
-      nickname: "행복한너구리",
-      image: "www.s3-urlLink~",
-      line: [
-        [
-          { lat: 37.57, lng: 126.97 },
-          { lat: 37.5715, lng: 126.973 },
-          { lat: 37.5725, lng: 126.975 },
-          { lat: 37.5715, lng: 126.977 },
-          { lat: 37.57, lng: 126.976 },
-          { lat: 37.57, lng: 126.97 },
-        ],
-        [
-          { lat: 37.57, lng: 126.97 },
-          { lat: 37.5715, lng: 126.975 },
-          { lat: 37.572, lng: 126.97 },
-          { lat: 37.57, lng: 126.97 },
-        ],
-        [
-          { lat: 37.57, lng: 126.97 },
-          { lat: 37.57, lng: 126.975 },
-          { lat: 37.571, lng: 126.975 },
-          { lat: 37.571, lng: 126.97 },
-          { lat: 37.57, lng: 126.97 },
-        ],
-      ],
-      searchpoint: "서울시 종로구",
-      center: { lat: 37.57, lng: 126.97 },
-      zoom: 15,
-      heading: 250,
-      sharing: 0,
-      likecount: 121,
-      color: 0,
-      thickness: 15,
-      background: 0,
-      nickname: "화난너구리",
-      image: "S3 URL 이 들어갑니다.",
-      liked_by_user: true,
-    },
-    {
-      idx: 131,
-      nickname: "행복한너구리",
-      image: "www.s3-urlLink~",
-      line: [
-        [
-          { lat: 37.57, lng: 126.97 },
-          { lat: 37.5715, lng: 126.973 },
-          { lat: 37.5725, lng: 126.975 },
-          { lat: 37.5715, lng: 126.977 },
-          { lat: 37.57, lng: 126.976 },
-          { lat: 37.57, lng: 126.97 },
-        ],
-        [
-          { lat: 37.57, lng: 126.97 },
-          { lat: 37.5715, lng: 126.975 },
-          { lat: 37.572, lng: 126.97 },
-          { lat: 37.57, lng: 126.97 },
-        ],
-        [
-          { lat: 37.57, lng: 126.97 },
-          { lat: 37.57, lng: 126.975 },
-          { lat: 37.571, lng: 126.975 },
-          { lat: 37.571, lng: 126.97 },
-          { lat: 37.57, lng: 126.97 },
-        ],
-      ],
-      searchpoint: "인천광역시 미추홀구",
-      center: { lat: 37.57, lng: 126.97 },
-      zoom: 10,
-      heading: 250,
-      sharing: 0,
-      likecount: 223,
-      color: 0,
-      thickness: 15,
-      background: 0,
-      nickname: "화난너구리",
-      image: "S3 URL 이 들어갑니다.",
-      liked_by_user: false,
-    },
-  ],
-};
+import CATEGORY from "../../1_Page/Sns/constant/category";
+import { fetchRequest } from "../../4_Shared/util/apiUtil";
+const BASE_URL = process.env.REACT_APP_SERVER_URL;
+const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
+const ITEMS_PER_PAGE = 20;
 
-const useTrackingImageList = (category, page = 1) => {
+const useTrackingImageList = (category = CATEGORY.DEFAULT, page) => {
   const [loading, setLoading] = React.useState(true);
   const [trackingImageList, setTrackingImageList] = React.useState([]);
+  const [hasMoreContent, setHasMoreContent] = React.useState(false);
 
   React.useEffect(() => {
     const fetchTrackingImageList = async () => {
-      // 1. fetch
-      let result = TEMP_DATA;
+      let result = [];
+      try {
+        // fetch
+        const response = await fetchRequest(
+          "GET",
+          `${BASE_URL}/sns/?category=${category}&page=${page}`,
+          null,
+          TEST_TOKEN
+        );
 
-      // 2. status error handling
-      // ...
+        const data = await response.json();
+        // status handling
+        switch (response.status) {
+          case 200:
+            result = data.tracking_image;
+            console.log(result, page);
+            break;
+          case 400:
+          case 404:
+          case 500:
+          default:
+            console.log(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
 
-      // 3. data processing
-      await setTrackingImageList((prevList) => [
-        ...prevList,
-        ...result.message,
-      ]);
+      // is there more contents?
+      setHasMoreContent(result.length >= ITEMS_PER_PAGE);
 
+      // data processing
+      if (true) {
+        console.log("reset webgl");
+        const canvases = document.querySelectorAll("canvas");
+        canvases.forEach((canvas) => {
+          // canvas가 WebGL 컨텍스트를 가지고 있다면 초기화
+          const context =
+            canvas.getContext("webgl") || canvas.getContext("webgl2");
+
+          if (context) {
+            // WebGL 컨텍스트 초기화
+            context.getExtension("WEBGL_lose_context")?.loseContext();
+          }
+        });
+        setTrackingImageList([]);
+        setTimeout(() => {
+          setTrackingImageList([...result]);
+        }, 200);
+      } else {
+        setTrackingImageList(result);
+      }
       // 4. handle loading
       setLoading(false);
     };
-
     fetchTrackingImageList();
   }, [category, page]);
 
-  return [trackingImageList, loading];
+  return [trackingImageList, loading, hasMoreContent];
 };
 export default useTrackingImageList;

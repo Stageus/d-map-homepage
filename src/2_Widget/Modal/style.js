@@ -50,7 +50,7 @@ const STYLE = {
     align-items: center;
     margin-bottom: 20px;
   `,
-  MapContainer: styled.div`
+  MapWrapper: styled.div`
     width: 80%;
     margin-bottom: 20px;
   `,

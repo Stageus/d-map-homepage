@@ -6,7 +6,7 @@ export const fetchRequest = async (method, url, body = null, token = null) => {
     },
   };
   if (token !== null) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers.Authorization = `${token}`;
   }
   if (body !== null) {
     config.body = JSON.stringify(body);
@@ -14,19 +14,5 @@ export const fetchRequest = async (method, url, body = null, token = null) => {
 
   const response = await fetch(url, config);
 
-  let result = handleStatus(response);
-  return result;
+  return response;
 };
-
-const handleStatus = async (response) => {
-  const data = await response.json()
-  switch (response.status) {
-    case 200:
-    case 201:
-      return data;
-    default:
-      console.log(data.message);
-      return data;
-  }
-};
-

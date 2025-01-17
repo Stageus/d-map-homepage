@@ -3,9 +3,15 @@ import { atom, useRecoilValue, useSetRecoilState } from "recoil";
 const trackingDataAtom = atom({
   key: "TRACKINGDATA_ATOM",
   default: {
+    idx: -1,
     zoom: 10,
     center: { lat: 37.57, lng: 126.97 },
     heading: 0,
+    background: 0,
+    searchpoint: "서울시 종로구",
+    sharing: false,
+    color: "#FF0000",
+    thickness: 2,
   },
 });
 
