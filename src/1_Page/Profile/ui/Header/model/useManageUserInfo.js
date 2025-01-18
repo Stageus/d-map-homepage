@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import getUserInfo from "../../../../../3_Entity/Account/getUserInfo";
 
 const useManageUserInfo = () => {
   const { userIdx } = useParams();
   const [userInfo, setUserInfo] = useState(null);
+  const navigate = useNavigate();
 
   const handleChangeNickName = (nickname) => {
     setUserInfo((pre) => {
@@ -17,8 +18,12 @@ const useManageUserInfo = () => {
       if (!userIdx) {
         return;
       }
-      const data = await getUserInfo(userIdx);
-      setUserInfo(data);
+      try {
+        const data = await getUserInfo(userIdx);
+        setUserInfo(data);
+      } catch (error) {
+        navigate(-1);
+      }
     };
 
     fetchUserData();

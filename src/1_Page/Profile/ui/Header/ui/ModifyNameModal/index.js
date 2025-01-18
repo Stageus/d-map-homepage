@@ -17,6 +17,8 @@ const ModifyNameModal = (props) => {
     handleNameConfirmModalDone,
   } = useNicknameModal(handleChangeNickName);
 
+  const { typeText, handleNextNickname } = useRandomNickname();
+
   const {
     register,
     handleSubmit,
@@ -25,8 +27,6 @@ const ModifyNameModal = (props) => {
   } = useForm({
     defaultValues: { nickname: name },
   });
-
-  const { typeText, handleNextNickname } = useRandomNickname();
 
   return (
     <>
