@@ -9,7 +9,7 @@ const STYLE = {
     font-weight: bold;
     text-align: center;
     border: none;
-    background-color: ${({ theme, bgColor }) => bgColor || theme.lignt_gray};
+    background-color: ${({ theme, bgColor }) => bgColor || theme.white};
     color: ${({ theme, color }) => color || theme.black};
     cursor: pointer;
     &:active {

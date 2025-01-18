@@ -92,7 +92,7 @@ const STYLE = {
   `
         : `
     background-color: ${theme.lignt_gray};
-    color: ${theme.gray};
+    color: ${theme.white};
   `}
 
     &:hover {
