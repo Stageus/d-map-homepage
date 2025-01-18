@@ -71,10 +71,10 @@ const useManageTrackData = (tabIndex) => {
     setModifyIdxList((pre) => {
       // 이미 포함되어 있다면 제거
       if (pre.includes(track)) {
-        return pre.filter((item) => item !== track);
+        return pre.filter((item) => item !== track.idx);
       }
       // 포함되어 있지 않다면 추가
-      return [...pre, track];
+      return [...pre, track.idx];
     });
   };
 
@@ -114,11 +114,13 @@ const useManageTrackData = (tabIndex) => {
 
   // 삭제 버튼 클릭 처리
   const handleDeleteTrack = useCallback(async () => {
-    try {
-      await deleteTrackingImage(modifyIdxList.map((item) => item.idx));
+    const result = await deleteTrackingImage(modifyIdxList);
+    if (result) {
+      setTrackData((pre) =>
+        pre.filter((item) => !modifyIdxList.includes(item.idx))
+      );
+      handleTrackDataLessCheck();
       setModifyIdxList([]);
-    } catch (error) {
-      console.error("Error deleting tracking data:", error);
     }
   }, [modifyIdxList]);
 

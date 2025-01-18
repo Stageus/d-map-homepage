@@ -10,9 +10,10 @@ const deleteTrackingImage = async (idxList) => {
     const response = await fetchRequest(
       "DELETE",
       endpoint,
-      idxList,
+      { idxList },
       TEST_TOKEN
     );
+
     if (!response.ok) {
       await handleErrorResponse(response);
     }
