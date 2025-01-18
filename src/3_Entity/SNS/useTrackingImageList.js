@@ -7,7 +7,10 @@ const ITEMS_PER_PAGE = 20;
 
 const useTrackingImageList = (category = CATEGORY.DEFAULT, page) => {
   const [loading, setLoading] = React.useState(true);
-  const [trackingImageList, setTrackingImageList] = React.useState([]);
+  const [defaultTrackingImageList, setDefaultTrackingImageList] =
+    React.useState([]);
+  const [todayHotTrackingImageList, setTodayHotTrackingImageList] =
+    React.useState([]);
   const [hasMoreContent, setHasMoreContent] = React.useState(false);
 
   React.useEffect(() => {
@@ -45,14 +48,23 @@ const useTrackingImageList = (category = CATEGORY.DEFAULT, page) => {
       setHasMoreContent(result.length >= ITEMS_PER_PAGE);
 
       // data processing
-      setTrackingImageList((prev)=>[...prev, ...result]);
-      
+      switch (category) {
+        case CATEGORY.DEFAULT:
+          setDefaultTrackingImageList((prev) => [...prev, ...result]);
+          break;
+        case CATEGORY.TODAYHOT:
+          setTodayHotTrackingImageList((prev) => [...prev, ...result]);
+          break;
+        default:
+          break;
+      }
+
       // 4. handle loading
       setLoading(false);
     };
     fetchTrackingImageList();
   }, [category, page]);
 
-  return [trackingImageList, loading, hasMoreContent];
+  return [defaultTrackingImageList, todayHotTrackingImageList, loading, hasMoreContent];
 };
 export default useTrackingImageList;

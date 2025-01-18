@@ -1,7 +1,7 @@
 const CATEGORY = {
-  DEFAULT: "default",
+  DEFAULT: "recent",
   SEARCH: "SEARCH",
-  RECENT: "recent",
+  TODAYHOT: "default",
 };
 
 export default CATEGORY;
