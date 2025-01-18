@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 
 import STYLE from "./style.js";
 
@@ -129,18 +130,28 @@ const Header = (props) => {
         </Modal>
       )}
 
-      {modifyModeModal && (
-        <Modal onClose={handleModifyModeClose} snap={[0.2]}>
-          {({ handleClose }) => (
-            <ModifyModeModal
-              handleSetMode={handleSetMode}
-              handleClose={handleClose}
-              handleModifyModeClose={handleModifyModeClose}
-              trackDataLegth={trackDataLegth}
-            />
-          )}
-        </Modal>
-      )}
+      {modifyModeModal &&
+        (trackDataLegth === 0 ? (
+          ReactDOM.createPortal(
+            <ConfirmModal
+              type="one"
+              message="편집할 그림이 없습니다"
+              onClose={handleModifyModeClose}
+            />,
+            document.body
+          )
+        ) : (
+          <Modal onClose={handleModifyModeClose} snap={[0.2]}>
+            {({ handleClose }) => (
+              <ModifyModeModal
+                handleSetMode={handleSetMode}
+                handleClose={handleClose}
+                handleModifyModeClose={handleModifyModeClose}
+                trackDataLegth={trackDataLegth}
+              />
+            )}
+          </Modal>
+        ))}
 
       {confirmModal && (
         <ConfirmModal
