@@ -14,15 +14,14 @@ import ConfirmModal from "../../../../2_Widget/ConfirmModal";
 
 const Header = (props) => {
   const {
-    trackData,
-    trackDataLegth,
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
     tabState,
     handleTabClick,
   } = props;
+  const trackDataLegth = 0;
 
-  const userInfo = useManageUserInfo();
+  const { userInfo, handleImageChange } = useManageUserInfo();
 
   const [modifyImageModal, handleImageModalOpen, handleImageModalClose] =
     useModifyImageModal(); // 프로필 이미지 모달
@@ -44,7 +43,7 @@ const Header = (props) => {
         <STYLE.ProfileContainer>
           <STYLE.ProfileWrapper
             onClick={userInfo?.isMine ? handleImageModalOpen : undefined}>
-            <STYLE.ProfileImg src={userInfo?.image} alt="Profile" />
+            <STYLE.ProfileImg src={userInfo?.image_url} alt="Profile" />
           </STYLE.ProfileWrapper>
           <STYLE.UserInfo>
             <STYLE.ProfileBox>
@@ -104,7 +103,8 @@ const Header = (props) => {
 
       {modifyImageModal && (
         <ModifyImageModal
-          image={userInfo?.image}
+          image={userInfo?.image_url}
+          handleImageChange={handleImageChange}
           onClose={handleImageModalClose}
         />
       )}
@@ -119,7 +119,6 @@ const Header = (props) => {
           <ModifyModeModal
             handleModifyModeClose={handleModifyModeClose}
             handleSetMode={handleSetMode}
-            sumtrackDataLength={trackData.length}
           />
         </>
       )}

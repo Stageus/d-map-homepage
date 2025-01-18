@@ -102,14 +102,12 @@ const STYLE = {
   ProfileWrapper: styled.div`
     width: 60px;
     height: 60px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: ${({ theme }) => theme.lignt_gray};
+    background-color: ${({ theme }) => theme.white};
   `,
   ProfileImg: styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
   `,
 };
 

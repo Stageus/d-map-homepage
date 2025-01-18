@@ -4,6 +4,7 @@ const useFileReader = (image) => {
   const fileInputRef = useRef(null);
 
   const [imagePreview, setImagePreview] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null); // 에러 메시지 상태
 
   useEffect(() => {
@@ -20,7 +21,6 @@ const useFileReader = (image) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       const fileExtension = selectedFile.name.split(".").pop().toLowerCase();
-
       if (!allowedExtensions.includes(fileExtension)) {
         setErrorMessage(
           `허용되지 않는 파일 형식입니다. ${allowedExtensions.join(
@@ -28,21 +28,25 @@ const useFileReader = (image) => {
           )}만 업로드 가능합니다.`
         );
         setImagePreview(null); // 이전 프리뷰 초기화
+        setImageFile(null);
         return;
       }
-
       setErrorMessage(null); // 에러 초기화
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result); // Base64로 변환된 이미지 데이터 저장
+      // Object URL로 미리보기 설정
+      const objectUrl = URL.createObjectURL(selectedFile);
+      setImagePreview(objectUrl);
+      setImageFile(selectedFile);
+      // URL을 사용한 후 메모리 해제
+      return () => {
+        URL.revokeObjectURL(objectUrl);
       };
-      reader.readAsDataURL(selectedFile); // 파일을 Base64로 읽기
     }
   };
-
   return {
+    imageFile,
     fileInputRef,
     imagePreview,
+    setImagePreview,
     errorMessage,
     handleProfileImageClick,
     handleFileChange,

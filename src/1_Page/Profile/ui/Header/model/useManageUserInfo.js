@@ -4,7 +4,7 @@ import getUserInfo from "../../../../../3_Entity/Account/getUserInfo";
 
 const useManageUserInfo = () => {
   const { userIdx } = useParams();
-  const [userData, setUserData] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -12,13 +12,18 @@ const useManageUserInfo = () => {
         return;
       }
       const data = await getUserInfo(userIdx);
-      setUserData(data);
+      setUserInfo(data);
     };
 
     fetchUserData();
   }, [userIdx]);
 
-  return userData;
+  const handleImageChange = (imageFile) => {
+    const objectUrl = URL.createObjectURL(imageFile);
+    setUserInfo((prev) => ({ ...prev, image_url: objectUrl }));
+  };
+
+  return { userInfo, handleImageChange };
 };
 
 export default useManageUserInfo;

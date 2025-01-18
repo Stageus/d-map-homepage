@@ -9,9 +9,10 @@ import useImageModal from "./model/useImageModal";
 
 const ModifyImageModal = (props) => {
   const { onClose } = props;
-  const { image } = props;
+  const { image, handleImageChange } = props;
 
   const {
+    imageFile,
     fileInputRef,
     imagePreview,
     errorMessage,
@@ -24,7 +25,13 @@ const ModifyImageModal = (props) => {
     confirmModal,
     handleModifyClick,
     handleImageConfirmModalDone,
-  } = useImageModal(image, errorMessage, imagePreview);
+  } = useImageModal(
+    image,
+    errorMessage,
+    imageFile,
+    imageFile,
+    handleImageChange
+  );
 
   return (
     <>

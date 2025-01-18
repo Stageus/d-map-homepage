@@ -1,5 +1,3 @@
-import { fetchRequest } from "../../4_Shared/util/apiUtil";
-
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
@@ -9,7 +7,13 @@ const putImage = async (imageFile) => {
     formData.append("image", imageFile);
     const endpoint = `${BASE_URL}/account/image`;
 
-    const response = await fetchRequest("PUT", endpoint, formData, TEST_TOKEN);
+    const response = await fetch(endpoint, {
+      method: "PUT",
+      headers: {
+        Authorization: `${TEST_TOKEN}`,
+      },
+      body: formData,
+    });
 
     if (!response.ok) {
       const errorMessages = {
@@ -23,6 +27,7 @@ const putImage = async (imageFile) => {
       console.error(`Error ${response.status}: ${message}`);
       throw new Error(message);
     }
+    return true;
   } catch (error) {
     console.error("네트워크 또는 서버 오류:", error);
     throw error; // 호출자에게 에러 전달

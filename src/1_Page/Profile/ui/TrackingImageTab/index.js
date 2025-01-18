@@ -5,12 +5,11 @@ import TrackContainer from "./ui/TrackingImageContainer";
 const TrackingImageTab = ({
   sharingType,
   trackData,
-  length,
   modifyMode,
   lastElementRef,
   handle,
 }) => {
-  if (length === 0) {
+  if (trackData.length === 0) {
     return <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>;
   }
   const filteredTracks =
