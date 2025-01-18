@@ -35,6 +35,9 @@ const useImageModal = (
       handleConfirmModalOpen();
     }
     // 이미지 수정하지 않은 경우 예외처리
+    console.log(imageRef.current, "ref");
+    console.log(imagePreview, "pre");
+
     if (imageRef.current == imagePreview) {
       setMessage("사진을 변경하세요");
       handleConfirmModalOpen();

@@ -27,7 +27,7 @@ const ModifyImageModal = (props) => {
   } = useImageModal(
     image,
     errorMessage,
-    imageFile,
+    imagePreview,
     imageFile,
     handleImageChange
   );
