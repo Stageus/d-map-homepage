@@ -1,52 +1,53 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
-const useFileReader = (image) => {
+const useFileReader = (initialImage) => {
   const fileInputRef = useRef(null);
 
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState(initialImage);
   const [imageFile, setImageFile] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null); // 에러 메시지 상태
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  const allowedExtensions = useRef(["jpg", "jpeg", "png", "gif"]); // 허용 확장자를 useRef로 고정
 
   useEffect(() => {
-    setImagePreview(image);
-  }, [image]);
+    setImagePreview(initialImage);
+  }, [initialImage]);
 
-  const allowedExtensions = ["jpg", "jpeg", "png", "gif"]; // 허용 확장자
+  const handleProfileImageClick = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
 
-  const handleProfileImageClick = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleFileChange = (event) => {
+  const handleFileChange = useCallback((event) => {
     const selectedFile = event.target.files[0];
-    if (selectedFile) {
-      const fileExtension = selectedFile.name.split(".").pop().toLowerCase();
-      if (!allowedExtensions.includes(fileExtension)) {
-        setErrorMessage(
-          `허용되지 않는 파일 형식입니다. ${allowedExtensions.join(
-            ", "
-          )}만 업로드 가능합니다.`
-        );
-        setImagePreview(null); // 이전 프리뷰 초기화
-        setImageFile(null);
-        return;
-      }
-      setErrorMessage(null); // 에러 초기화
-      // Object URL로 미리보기 설정
-      const objectUrl = URL.createObjectURL(selectedFile);
-      setImagePreview(objectUrl);
-      setImageFile(selectedFile);
-      // URL을 사용한 후 메모리 해제
-      return () => {
-        URL.revokeObjectURL(objectUrl);
-      };
+
+    if (!selectedFile) return;
+
+    const fileExtension = selectedFile.name.split(".").pop().toLowerCase();
+    if (!allowedExtensions.current.includes(fileExtension)) {
+      setErrorMessage(
+        `허용되지 않는 파일 형식입니다. ${allowedExtensions.current.join(
+          ", "
+        )}만 업로드 가능합니다.`
+      );
+      setImagePreview(null); // 이전 프리뷰 초기화
+      setImageFile(null);
+      return;
     }
-  };
+
+    setErrorMessage(null); // 에러 초기화
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setImagePreview(objectUrl);
+    setImageFile(selectedFile);
+
+    return () => {
+      URL.revokeObjectURL(objectUrl); // 메모리 누수 방지
+    };
+  }, []);
+
   return {
     imageFile,
     fileInputRef,
     imagePreview,
-    setImagePreview,
     errorMessage,
     handleProfileImageClick,
     handleFileChange,
