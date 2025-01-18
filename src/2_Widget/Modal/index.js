@@ -9,14 +9,19 @@ import useNewTrackingData from "./model/useNewTrackingData";
 
 const Modal = (props) => {
   const { children, onClose, trackData } = props;
-  const [newTrackingData, throttledSetNewTrackingData] =
+  const [newTrackingData, setNewTrackingData, syncNewTrackingData] =
     useNewTrackingData(trackData);
   const sheetRef = React.useRef();
   const mapRef = React.useRef(null);
-  const { isVisible, translateY, isDraggingRef, handleClose } = useHandleModal(
-    onClose,
-    sheetRef
-  );
+  const {
+    isVisible,
+    translateY,
+    isDraggingRef,
+    handleClose,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+  } = useHandleModal(onClose, sheetRef);
 
   return (
     <>
@@ -26,6 +31,9 @@ const Modal = (props) => {
         $isVisible={isVisible}
         $translateY={translateY}
         $isDragging={isDraggingRef.current}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         <STYLE.Handle />
         <STYLE.Container>
@@ -43,13 +51,12 @@ const Modal = (props) => {
               onLoad={(map) => {
                 mapRef.current = map;
               }}
-              
               options={{
-                mapTypeId: MAPTYPE[trackData.background],
+                mapTypeId: MAPTYPE[newTrackingData.background],
                 disableDefaultUI: true,
-                zoom: trackData.zoom,
-                center: trackData.center,
-                heading: trackData.heading,
+                zoom: newTrackingData.zoom,
+                center: newTrackingData.center,
+                heading: newTrackingData.heading,
               }}
             >
               {trackData.line?.map((elem, idx) => (
@@ -80,9 +87,11 @@ const Modal = (props) => {
               max="10"
               value={newTrackingData.thickness}
               onChange={(e) => {
-                console.log(e.target.value);
-                throttledSetNewTrackingData({
+                console.log(mapRef.current.getZoom())
+                setNewTrackingData({
                   thickness: Number(e.target.value),
+                  center: mapRef.current.getCenter().toJSON(),
+                  zoom: mapRef.current.getZoom(),
                 });
               }}
             />
@@ -94,18 +103,20 @@ const Modal = (props) => {
               type="color"
               value={newTrackingData.color}
               onChange={(e) => {
-                throttledSetNewTrackingData({
+                setNewTrackingData({
                   color: e.target.value,
+                  center: mapRef.current.getCenter().toJSON(),
+                  zoom: mapRef.current.getZoom(),
                 });
               }}
             />
           </STYLE.SliderContainer>
           <STYLE.ButtonContainer>
             <STYLE.Button
-              onClick={() => {
+              onClick={async () => {
                 newTrackingData.idx === -1
-                  ? postTrackingImage(newTrackingData)
-                  : putTrackingImage(newTrackingData);
+                  ? postTrackingImage(newTrackingData) // tracking image 생성
+                  : putTrackingImage(newTrackingData); // tracking image 수정
                 handleClose();
               }}
             >

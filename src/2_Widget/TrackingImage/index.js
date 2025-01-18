@@ -41,8 +41,8 @@ const TrackingImage = (props) => {
             mapTypeId: MAPTYPE[background]
           }}>
           {/* 선 그리기 */}
-          {line.map((elem) => {
-            return <Polyline path={elem} options={polylineOptions} />;
+          {line.map((elem, index) => {
+            return <Polyline path={elem} options={polylineOptions} key={index} />;
           })}
         </GoogleMap>
     </>
