@@ -26,6 +26,7 @@ const Header = (props) => {
 
   const { userInfo, handleImageChange, handleChangeNickName } =
     useManageUserInfo();
+
   const trackDataLegth =
     tabState.tabIndex === 1
       ? userInfo?.share_tracking_length || 1

@@ -28,12 +28,12 @@ const STYLE = {
   ProfileContainer: styled.div`
     display: flex;
     align-items: center;
-    height: 55px;
+    width: 100%;
+    height: auto;
     margin: 16px 0;
   `,
   UserInfo: styled.div`
-    width: 100%;
-    margin-left: 12px;
+    width: 80%;
   `,
   ProfileBox: styled.div`
     display: flex;
@@ -103,11 +103,19 @@ const STYLE = {
     width: 60px;
     height: 60px;
     background-color: ${({ theme }) => theme.white};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    overflow: hidden; /* 이미지가 부모 크기를 초과할 경우 숨김 */
+    border-radius: 50%; /* 부모 요소도 원형으로 만듦 */
   `,
   ProfileImg: styled.img`
-    width: 60px;
-    height: 60px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 50%;
+    aspect-ratio: 1 / 1;
   `,
 };
 
