@@ -8,10 +8,7 @@ const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
 const useGetTrackingImageList = (userIdx, page, category) => {
   const [loading, setLoading] = useState(true);
-  const [trackingImageList, setTrackingImageLists] = useState({
-    save: [],
-    share: [],
-  });
+  const [trackingImageList, setTrackingImageLists] = useState([]);
   const [hasMoreContent, setHasMoreContent] = useState({
     save: false,
     share: false,
@@ -19,14 +16,10 @@ const useGetTrackingImageList = (userIdx, page, category) => {
 
   const updateListAndState = (data, isSaveCategory) => {
     const key = isSaveCategory ? "save" : "share";
-
-    setTrackingImageLists((prev) => ({
-      ...prev,
-      [key]: [...prev[key], ...data.tracking_image],
-    }));
+    setTrackingImageLists((prev) => [...prev, ...data]);
     setHasMoreContent((prev) => ({
       ...prev,
-      [key]: data.tracking_image.length >= ITEMS_PER_PAGE,
+      [key]: data.length >= ITEMS_PER_PAGE,
     }));
   };
 
@@ -43,7 +36,7 @@ const useGetTrackingImageList = (userIdx, page, category) => {
         }
 
         const data = await response.json();
-        updateListAndState(data, category === 0);
+        updateListAndState(data.tracking_image, category === 0);
       } catch (error) {
         console.error("Failed to fetch tracking image list:", error);
       } finally {

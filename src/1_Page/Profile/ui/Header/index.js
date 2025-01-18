@@ -11,6 +11,7 @@ import ModifyImageModal from "./ui/ModifyImageModal/index.js";
 import ModifyNameModal from "./ui/ModifyNameModal/index.js";
 import ModifyModeModal from "./ui/ModifyModeModal/index.js";
 import ConfirmModal from "../../../../2_Widget/ConfirmModal";
+import Modal from "./ui/Modal";
 
 const Header = (props) => {
   const {
@@ -19,9 +20,12 @@ const Header = (props) => {
     tabState,
     handleTabClick,
   } = props;
-  const trackDataLegth = 0;
 
   const { userInfo, handleImageChange } = useManageUserInfo();
+  const trackDataLegth =
+    tabState.tabIndex === 1
+      ? userInfo?.share_tracking_length || 0
+      : userInfo?.save_tracking_length || 0;
 
   const [modifyImageModal, handleImageModalOpen, handleImageModalClose] =
     useModifyImageModal(); // 프로필 이미지 모달
@@ -102,25 +106,39 @@ const Header = (props) => {
       </STYLE.TabMenu>
 
       {modifyImageModal && (
-        <ModifyImageModal
-          image={userInfo?.image_url}
-          handleImageChange={handleImageChange}
-          onClose={handleImageModalClose}
-        />
+        <Modal onClose={handleImageModalClose} snap={[0.2]}>
+          {({ handleClose }) => (
+            <ModifyImageModal
+              image={userInfo?.image_url}
+              handleImageChange={handleImageChange}
+              handleClose={handleClose}
+            />
+          )}
+        </Modal>
       )}
+
       {modifyNameModal && (
-        <ModifyNameModal
-          onClose={handleModifyNameModalClose}
-          name={userInfo?.nickname}
-        />
+        <Modal onClose={{ handleModifyNameModalClose }} snap={[0.2]}>
+          {({ handleClose }) => (
+            <ModifyNameModal
+              handleClose={handleClose}
+              name={userInfo?.nickname}
+            />
+          )}
+        </Modal>
       )}
+
       {modifyModeModal && (
-        <>
-          <ModifyModeModal
-            handleModifyModeClose={handleModifyModeClose}
-            handleSetMode={handleSetMode}
-          />
-        </>
+        <Modal onClose={handleModifyModeClose} snap={[0.2]}>
+          {({ handleClose }) => (
+            <ModifyModeModal
+              handleSetMode={handleSetMode}
+              handleClose={handleClose}
+              handleModifyModeClose={handleModifyModeClose}
+              trackDataLegth={trackDataLegth}
+            />
+          )}
+        </Modal>
       )}
 
       {confirmModal && (

@@ -6,23 +6,21 @@ import TrackingImageTab from "./ui/TrackingImageTab";
 import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
 import useManageTrackData from "./model/useManageTrackData.js";
-import useObserver from "./model/useObserver.js";
 
 const Profile = () => {
   const { tabState, handleTabClick } = useTabs();
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
 
   const {
-    trackData,
+    shareTrackingImageData,
+    saveTrackingImageData,
     handleToggleTrackType,
     handleSelectCancel,
     handleModifyTrack,
     handleDeleteTrack,
     handleDeleteAdd,
-    handleNextPage,
+    handleScroll,
   } = useManageTrackData(tabState?.tabIndex); // API로 호출된 데이터 관리 훅
-
-  const handleScroll = useObserver(handleNextPage);
 
   return (
     <>
@@ -40,9 +38,8 @@ const Profile = () => {
         <STYLE.SliderWrapper>
           <STYLE.Slider $tabIndex={tabState?.tabIndex}>
             <TrackingImageTab
-              trackData={trackData?.share}
+              trackData={shareTrackingImageData}
               modifyMode={modifyMode}
-              // scrollContainerRef={scrollContainerSaveRef}
               handleScroll={handleScroll}
               handle={{
                 handleDeleteAdd,
@@ -50,10 +47,9 @@ const Profile = () => {
               }}
             />
             <TrackingImageTab
-              trackData={trackData?.save}
+              trackData={saveTrackingImageData}
               modifyMode={modifyMode}
               handleScroll={handleScroll}
-              // scrollContainerRef={scrollContainerShareRef}
               handle={{
                 handleDeleteAdd,
                 handleToggleTrackType,

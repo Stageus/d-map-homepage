@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import useGetTrackingImageList from "../../../3_Entity/Tracking/useGetTrackingImageList";
 import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingImageToShare";
 import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingImageToNotShare";
@@ -10,10 +10,7 @@ const useManageTrackData = (tabIndex) => {
 
   const [page, setPage] = useState({ save: 1, share: 1 });
 
-  const [trackData, setTrackData] = useState({
-    save: [],
-    share: [],
-  });
+  const [trackData, setTrackData] = useState([]);
 
   const [modifyIdxList, setModifyIdxList] = useState([]);
 
@@ -24,12 +21,22 @@ const useManageTrackData = (tabIndex) => {
     useGetTrackingImageList(userIdx, paging, category);
 
   useEffect(() => {
-    console.log(hasMoreContent);
-  }, [hasMoreContent]);
-
-  useEffect(() => {
     setTrackData(trackingImageList);
   }, [trackingImageList]);
+
+  const { shareTrackingImageData, saveTrackingImageData } = useMemo(() => {
+    return trackData?.reduce(
+      (acc, item) => {
+        if (item.sharing === true) {
+          acc.shareTrackingImageData.push(item);
+        } else {
+          acc.saveTrackingImageData.push(item);
+        }
+        return acc;
+      },
+      { shareTrackingImageData: [], saveTrackingImageData: [] }
+    );
+  }, [trackData]); // trackData가 변경될 때만 계산
 
   const hasMoreContentRef = useRef(hasMoreContent);
 
@@ -61,6 +68,23 @@ const useManageTrackData = (tabIndex) => {
     );
   };
 
+  const handleScroll = useCallback((event) => {
+    const container = event.target;
+    const isBottom =
+      container.scrollHeight - container.scrollTop - 1 <=
+      container.clientHeight;
+
+    if (isBottom) {
+      handleNextPage();
+    }
+  }, []);
+  const handleTrackDataLessCheck = (sharing) => {
+    const data = sharing ? shareTrackingImageData : saveTrackingImageData;
+    if ((data?.length || 0) <= 9) {
+      handleNextPage();
+    }
+  };
+
   // 데이터 상태 초기화
   const handleSelectCancel = () => {
     setModifyIdxList([]);
@@ -70,11 +94,12 @@ const useManageTrackData = (tabIndex) => {
   // 데이터 상태 변경 (수정)
   const handleToggleTrackType = (track) => {
     toggleModifyList(track);
-    setTrackData((prevData) =>
-      prevData.map((item) =>
+    handleTrackDataLessCheck(track.sharing);
+    setTrackData((prevData) => {
+      return prevData.map((item) =>
         item.idx === track.idx ? { ...item, sharing: !item.sharing } : item
-      )
-    );
+      );
+    });
   };
 
   // 삭제 버튼 클릭 처리
@@ -111,13 +136,14 @@ const useManageTrackData = (tabIndex) => {
   }, [modifyIdxList]);
 
   return {
-    trackData,
+    shareTrackingImageData,
+    saveTrackingImageData,
     handleToggleTrackType,
     handleSelectCancel,
     handleModifyTrack,
     handleDeleteTrack,
     toggleModifyList,
-    handleNextPage,
+    handleScroll,
   };
 };
 
