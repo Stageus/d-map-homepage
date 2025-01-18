@@ -15,58 +15,47 @@ const useHandleModal = (onClose, sheetRef) => {
     setIsVisible(true); // Open 애니메이션 실행
   }, []);
 
-
   const handleClose = () => {
     setIsVisible(false);
     setTimeout(() => {
       if (onClose) onClose();
     }, 300);
   };
+  const handleTouchStart = (e) => {
+    if (!isVisible) return;
+    isDraggingRef.current = true;
+    startYRef.current = e.touches[0].clientY;
+    currentYRef.current = translateY;
+  };
+  const handleTouchMove = (e) => {
+    if (!isDraggingRef.current || !isVisible) return;
+    const deltaY = e.touches[0].clientY - startYRef.current;
+    setTranslateY(currentYRef.current + deltaY);
+  };
+  const handleTouchEnd = () => {
+    if (!isVisible) return;
+    isDraggingRef.current = false;
+    if (translateY > 20) {
+      handleClose();
+      return;
+    }
 
-  React.useEffect(()=>{
-    const handleTouchStart = (e) => {
-      if (!isVisible) return;
-      isDraggingRef.current = true;
-      startYRef.current = e.touches[0].clientY;
-      currentYRef.current = translateY;
-    };
-    const handleTouchMove = (e) => {
-      if (!isDraggingRef.current || !isVisible) return;
-      const deltaY = e.touches[0].clientY - startYRef.current;
-      setTranslateY(currentYRef.current + deltaY);
-    };
-    const handleTouchEnd = () => {
-      if (!isVisible) return;
-      isDraggingRef.current = false;
-      if (translateY > 20) {
-        handleClose();
-        return;
-      }
-  
-      const closestSnapPoint = snapPoints.reduce((closest, current) => {
-        return Math.abs(current - translateY) < Math.abs(closest - translateY)
-          ? current
-          : closest;
-      });
-      setTranslateY(closestSnapPoint);
-    };
-    const sheetElement = sheetRef.current
-    sheetElement.addEventListener("touchstart", handleTouchStart);
-    sheetElement.addEventListener("touchmove", handleTouchMove);
-    sheetElement.addEventListener("touchend", handleTouchEnd);
-
-    return () => {
-      sheetElement.removeEventListener("touchstart", handleTouchStart);
-      sheetElement.removeEventListener("touchmove", handleTouchMove);
-      sheetElement.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, [])
+    const closestSnapPoint = snapPoints.reduce((closest, current) => {
+      return Math.abs(current - translateY) < Math.abs(closest - translateY)
+        ? current
+        : closest;
+    });
+    setTranslateY(closestSnapPoint);
+  };
 
   return {
     isVisible,
     translateY,
     isDraggingRef,
     handleClose,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd
   };
 };
 

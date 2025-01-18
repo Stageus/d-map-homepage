@@ -7,6 +7,7 @@ const postTrackingImage = async (trackingData) => {
   try {
     console.log("Test")
     const searchpoint = await searchpointConverter(trackingData.center);
+    console.log(searchpoint)
     const response = await fetchRequest(
       "POST",
       `${BASE_URL}/tracking`,
