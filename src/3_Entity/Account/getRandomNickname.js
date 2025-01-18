@@ -1,23 +1,9 @@
 import { fetchRequest } from "../../4_Shared/util/apiUtil";
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
-const IS_DEV = process.env.NODE_ENV === "development";
-
-const mockData = {
-  message: {
-    nickname: [
-      "슬픈호랑이",
-      "바쁜나비",
-      "기쁜타조", // 몇 개 보낼 지 논의 필요
-    ],
-  },
-};
 
 // 랜덤 닉네임 관리 함수
 const getRandomNicknames = async () => {
   try {
-    if (IS_DEV) {
-      return mockData.message.nickname;
-    }
     const endpoint = `${BASE_URL}/account/nickname`;
 
     const response = await fetchRequest("GET", endpoint, null, null);
@@ -36,15 +22,12 @@ const getRandomNicknames = async () => {
         errorMessages[response.status] || "알 수 없는 오류가 발생했습니다.";
       console.error(`Error ${response.status}: ${message}`);
 
-      if (response.status === 401) {
-        console.error("토큰 갱신 로직 실행 중...");
-      }
-
       throw new Error(message);
     }
 
     const result = await response.json();
-    return result.message.nickname || [];
+    return ["허허잇", "허허잇2", "허허잇3"];
+    return result.nickname || [];
   } catch (error) {
     console.error("네트워크 또는 서버 오류:", error);
     return { nicknames: [], error: error.message };

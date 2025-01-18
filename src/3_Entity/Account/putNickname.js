@@ -5,7 +5,6 @@ const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 const putNickname = async (nickname) => {
   try {
     const endpoint = `${BASE_URL}/account/nickname`;
-
     const response = await fetchRequest("PUT", endpoint, nickname, TEST_TOKEN);
 
     if (!response.ok) {
@@ -20,6 +19,7 @@ const putNickname = async (nickname) => {
       console.error(`Error ${response.status}: ${message}`);
       throw new Error(message);
     }
+    return true;
   } catch (error) {
     console.error("네트워크 또는 서버 오류:", error);
     throw error; // 호출자에게 에러 전달

@@ -1,5 +1,5 @@
 import React from "react";
-
+import ReactDOM from "react-dom";
 import STYLE from "./style";
 import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 
@@ -18,12 +18,13 @@ const ModifyModeModal = (props) => {
   };
 
   if (trackDataLegth === 0) {
-    return (
+    return ReactDOM.createPortal(
       <ConfirmModal
         type="one"
         message="편집할 그림이 없습니다"
         onClose={handleModifyModeClose}
-      />
+      />,
+      document.body
     );
   }
 
