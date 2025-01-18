@@ -3,28 +3,13 @@ import { fetchRequest } from "../../4_Shared/util/apiUtil";
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
-const mockData = {
-  message: {
-    user: {
-      nickname: "이쁜호랑이",
-      image: "/home/account/image.png",
-      isMine: true,
-    },
-  },
-};
-
 // 사용자 데이터 가져오기 함수
 const getUserInfo = async (userIdx) => {
   if (!userIdx) {
     throw new Error("유효하지 않은 사용자 ID입니다.");
   }
   try {
-    // 개발 환경에서 모의 데이터 반환
-    if (process.env.NODE_ENV === "development") {
-      return mockData.message.user; // 사용자 정보 반환
-    }
-
-    const endpoint = `${BASE_URL}/info/${userIdx}`;
+    const endpoint = `${BASE_URL}/account/info/${userIdx}`;
 
     const response = await fetchRequest("GET", endpoint, null, TEST_TOKEN);
 
@@ -41,7 +26,7 @@ const getUserInfo = async (userIdx) => {
     }
 
     const result = await response.json();
-    return result.message.user; // 사용자 정보 반환
+    return result;
   } catch (error) {
     console.error("네트워크 또는 서버 오류:", error);
     throw error; // 호출자에게 에러 전달

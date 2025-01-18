@@ -2,9 +2,9 @@ import { fetchRequest } from "../../4_Shared/util/apiUtil";
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
 // 공유 상태 수정 API 호출 함수
-const putTrackingToNotShare = async (token, idxList) => {
+const putTrackingImageToShare = async (token, idxList) => {
   try {
-    const endPoint = `${BASE_URL}/tracking/toNotSharing`;
+    const endPoint = `${BASE_URL}/tracking/toSharing`;
     const response = await fetchRequest("PUT", endPoint, idxList, token);
 
     if (!response.ok) {
@@ -33,4 +33,4 @@ const handleModifyError = (status) => {
   console.error(errorMessages[status] || `서버 오류 발생: 상태 코드 ${status}`);
 };
 
-export default putTrackingToNotShare;
+export default putTrackingImageToShare;

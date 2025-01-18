@@ -26,7 +26,7 @@ const ModifyNameModal = (props) => {
     defaultValues: { nickname: name },
   });
 
-  const { type, handleType } = useRandomNickname(setValue);
+  const { type, handleType } = useRandomNickname();
 
   return (
     <>

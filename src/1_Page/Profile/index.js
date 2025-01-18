@@ -6,10 +6,8 @@ import TrackingImageTab from "./ui/TrackingImageTab";
 import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
 import useManageTrackData from "./model/useManageTrackData.js";
-import { useParams } from "react-router-dom";
 
 const Profile = () => {
-  const { userIdx } = useParams();
   const { tabState, handleTabClick } = useTabs();
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
 
@@ -22,7 +20,7 @@ const Profile = () => {
     handleDeleteAdd,
     getTrackLength,
     handleNextPage,
-  } = useManageTrackData(userIdx); // API로 호출된 데이터 관리 훅
+  } = useManageTrackData(); // API로 호출된 데이터 관리 훅
 
   return (
     <>
@@ -38,14 +36,13 @@ const Profile = () => {
             handleDeleteTrack,
             handleModifyTrack,
           }}
-          user={{ userIdx }}
         />
         <STYLE.SliderWrapper>
           <STYLE.Slider $tabIndex={tabState?.tabIndex}>
             <TrackingImageTab
-              sharingType={0}
+              sharingType={true}
               trackData={trackData}
-              length={getTrackLength(0)}
+              length={getTrackLength(true)}
               modifyMode={modifyMode}
               handle={{
                 handleDeleteAdd,
@@ -54,9 +51,9 @@ const Profile = () => {
               }}
             />
             <TrackingImageTab
-              sharingType={1}
+              sharingType={false}
               trackData={trackData}
-              length={getTrackLength(1)}
+              length={getTrackLength(false)}
               modifyMode={modifyMode}
               handle={{
                 handleDeleteAdd,

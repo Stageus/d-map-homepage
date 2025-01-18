@@ -69,8 +69,6 @@ const useHandleModal = (onClose, snap = [0]) => {
         handleClose();
         return;
       }
-      console.log(snapPoints);
-      console.log(translateY);
       const closestSnapPoint = snapPoints.reduce((closest, current) => {
         return Math.abs(current - translateY) < Math.abs(closest - translateY)
           ? current

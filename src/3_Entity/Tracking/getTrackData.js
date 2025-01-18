@@ -1,5 +1,4 @@
 import { fetchRequest } from "../../4_Shared/util/apiUtil";
-import { mockData } from "./mockTrackData";
 
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
@@ -10,13 +9,8 @@ const getTrackData = async (userIdx, page) => {
   }
 
   try {
-    // 개발 환경에서는 로컬 데이터 반환
-    if (process.env.NODE_ENV === "development") {
-      return mockData.message;
-    }
-
     // 실제 API 호출
-    const endpoint = `${BASE_URL}/tracking/${userIdx}?page=${page}`;
+    const endpoint = `${BASE_URL}/tracking/account/${userIdx}?page=${page}`;
     const response = await fetchRequest("GET", endpoint, null, TEST_TOKEN);
 
     if (!response.ok) {
@@ -32,9 +26,9 @@ const getTrackData = async (userIdx, page) => {
       console.error(`Error ${response.status}: ${message}`);
       throw new Error(message);
     }
-    const trackData = (await response.json().message) || [];
 
-    return trackData;
+    const trackData = await response.json();
+    return trackData.tracking_image;
   } catch (error) {
     console.error("네트워크 또는 서버 오류:", error);
     throw error; // 호출자에게 에러 전달

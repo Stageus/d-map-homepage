@@ -1,7 +1,7 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import getRandomNicknames from "../../../../../../../3_Entity/Account/getRandomNickname";
 
-const useRandomNickname = (setValue) => {
+const useRandomNickname = () => {
   const [nicknames, setNicknames] = useState([]);
   const [type, setType] = useState("현재");
   const [randState, setRandState] = useState(0);
@@ -15,7 +15,7 @@ const useRandomNickname = (setValue) => {
 
   fetchNicknames();
 
-  const handleType = async () => {
+  const handleType = async (setValue) => {
     if (nicknames.length === 0) return;
 
     setValue("nickname", nicknames[randState]);

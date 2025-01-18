@@ -1,22 +1,24 @@
 import { useEffect, useState, useCallback } from "react";
 import getTrackData from "../../../3_Entity/Tracking/getTrackData";
-import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingToShare";
-import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingToNotShare";
+import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingImageToShare";
+import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingImageToNotShare";
 import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
+import { useParams } from "react-router-dom";
 
-const useManageTrackData = (userIdx) => {
+const useManageTrackData = () => {
+  const { userIdx } = useParams();
+
+  const [hasMoreContent, setHasMoreContent] = useState(true);
   const [page, setPage] = useState(1);
   const [trackData, setTrackData] = useState([]);
   const [modifyIdxList, setModifyIdxList] = useState([]);
 
   // 데이터 호출 함수
   const fetchTrackData = useCallback(async () => {
-    try {
-      const track = await getTrackData(userIdx, page);
-      setTrackData(track || []);
-    } catch (error) {
-      console.error("데이터 로드 중 오류 발생:", error);
-    }
+    const track = await getTrackData(userIdx, page);
+    if (track.length !== 20) setHasMoreContent(false);
+    if (track.length === 0) return;
+    setTrackData((pre) => [...pre, ...track]);
   }, [userIdx, page]);
 
   // 페이지 변경 시 데이터 로드
@@ -27,7 +29,10 @@ const useManageTrackData = (userIdx) => {
   }, [fetchTrackData, userIdx]);
 
   // 페이지 증가 함수
-  const handleNextPage = () => setPage((prev) => prev + 1);
+  const handleNextPage = () => {
+    if (!hasMoreContent) return;
+    setPage((prev) => prev + 1);
+  };
 
   // 수정 및 삭제 시 선택된 데이터 관리
   const handleDeleteAdd = (track) => {
@@ -50,7 +55,7 @@ const useManageTrackData = (userIdx) => {
     setTrackData((prevData) =>
       prevData.map((item) =>
         item.idx === track.idx
-          ? { ...item, sharing: item.sharing === 1 ? 0 : 1 }
+          ? { ...item, sharing: item.sharing === true ? false : true }
           : item
       )
     );
@@ -72,8 +77,8 @@ const useManageTrackData = (userIdx) => {
     try {
       const groupedBySharing = modifyIdxList.reduce(
         (acc, item) => {
-          if (item.sharing === 1) acc.notShare.push(item);
-          if (item.sharing === 0) acc.share.push(item);
+          if (item.sharing === false) acc.notShare.push(item);
+          if (item.sharing === true) acc.share.push(item);
           return acc;
         },
         { notShare: [], share: [] }
