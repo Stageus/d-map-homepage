@@ -40,7 +40,7 @@ const TrackingImagePost = (props) => {
         </STYLE.BtnContainer>
       </STYLE.InfoContainer>
 
-      <STYLE.DetailModal isOpen={viewDetailModal}>
+      <STYLE.DetailModal $isOpen={viewDetailModal}>
         <TrackingImage data={{ ...data, height: "100%", draggable: true }} />
         {/* 상세보기 모달에 z-index 1 */}
         <STYLE.Button

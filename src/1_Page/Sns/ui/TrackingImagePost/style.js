@@ -22,7 +22,7 @@ const STYLE = {
     gap: 4px;
   `,
   DetailModal: styled.div`
-    display: ${(props) => (props.isOpen ? "block" : "none")};
+    display: ${(props) => (props.$isOpen ? "block" : "none")};
     overflow: hidden;
     position: fixed;
     top: 0;
