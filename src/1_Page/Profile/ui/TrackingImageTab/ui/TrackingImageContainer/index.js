@@ -6,15 +6,14 @@ import TrackingImage from "../../../../../../2_Widget/TrackingImage";
 import Modal from "../../../../../../2_Widget/Modal";
 
 import useLongPressEvent from "./model/useLongPressEvent";
-import useObserver from "./model/useObserver";
 import useConfirmModal from "../../../../../../4_Shared/model/useModalHandler";
 
 const TrackingImageContainer = (props) => {
   const {
     track,
     modifyMode,
-    isLast,
-    handle: { handleDeleteAdd, handleToggleTrackType, handleNextPage },
+    lastElementRef,
+    handle: { handleDeleteAdd, handleToggleTrackType },
   } = props;
 
   const [
@@ -23,8 +22,6 @@ const TrackingImageContainer = (props) => {
     handleModifyTrackingClose,
   ] = useConfirmModal();
   const [longPressData, setLongPressData] = useState(null);
-
-  const lastElementRef = useObserver(isLast, handleNextPage);
 
   const longPressEvents = useLongPressEvent(() => {
     handleModifyTrackingOpen();
@@ -35,7 +32,7 @@ const TrackingImageContainer = (props) => {
     <>
       <STYLE.TrackingContainer
         {...(!modifyMode && longPressEvents)}
-        ref={isLast ? lastElementRef : null}>
+        ref={lastElementRef ? lastElementRef : null}>
         <TrackingImage
           data={{ ...track, height: "100%", draggable: false, background: 0 }}
         />

@@ -30,8 +30,8 @@ const useManageTrackData = () => {
   const handleDeleteAdd = (track) => {
     setModifyIdxList((prev) =>
       prev.includes(track.idx)
-        ? prev.filter((idx) => idx !== track.idx)
-        : [...prev, track.idx]
+        ? prev.filter((item) => item.idx !== track.idx)
+        : [...prev, { idx: track.idx, sharing: track.sharing }]
     );
   };
 
@@ -68,14 +68,16 @@ const useManageTrackData = () => {
     try {
       const groupedBySharing = modifyIdxList.reduce(
         (acc, item) => {
-          if (item.sharing === false) acc.notShare.push(item);
-          if (item.sharing === true) acc.share.push(item);
+          if (item.sharing === false) acc.toShare.push(item.idx);
+          if (item.sharing === true) acc.toNotshare.push(item.idx);
           return acc;
         },
-        { notShare: [], share: [] }
+        { toShare: [], toNotshare: [] }
       );
-      await putTrackingToShare(groupedBySharing.notShare);
-      await putTrackingToNotShare(groupedBySharing.share);
+      console.log(groupedBySharing);
+
+      await putTrackingToShare(groupedBySharing.toShare);
+      await putTrackingToNotShare(groupedBySharing.toNotshare);
       setModifyIdxList([]);
     } catch (error) {
       console.error("수정 중 오류 발생:", error);

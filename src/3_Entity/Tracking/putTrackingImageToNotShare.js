@@ -1,11 +1,18 @@
 import { fetchRequest } from "../../4_Shared/util/apiUtil";
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
+const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
 // 공유 상태 수정 API 호출 함수
-const putTrackingImageToNotShare = async (token, idxList) => {
+const putTrackingImageToNotShare = async (idxList) => {
   try {
     const endPoint = `${BASE_URL}/tracking/toNotSharing`;
-    const response = await fetchRequest("PUT", endPoint, idxList, token);
+    console.log(idxList);
+    const response = await fetchRequest(
+      "PUT",
+      endPoint,
+      { idxList },
+      TEST_TOKEN
+    );
 
     if (!response.ok) {
       handleModifyError(response.status);

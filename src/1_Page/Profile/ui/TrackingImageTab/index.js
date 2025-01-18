@@ -7,6 +7,7 @@ const TrackingImageTab = ({
   trackData,
   length,
   modifyMode,
+  lastElementRef,
   handle,
 }) => {
   if (length === 0) {
@@ -24,7 +25,7 @@ const TrackingImageTab = ({
             track={track}
             modifyMode={modifyMode}
             handle={handle}
-            isLast={isLast}
+            lastElementRef={isLast ? lastElementRef : null}
           />
         );
       })}

@@ -6,6 +6,7 @@ import TrackingImageTab from "./ui/TrackingImageTab";
 import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
 import useManageTrackData from "./model/useManageTrackData.js";
+import useObserver from "./model/useObserver.js";
 
 const Profile = () => {
   const { tabState, handleTabClick } = useTabs();
@@ -21,6 +22,8 @@ const Profile = () => {
     getTrackLength,
     handleNextPage,
   } = useManageTrackData(); // API로 호출된 데이터 관리 훅
+
+  const [lastSaveElementRef, lastShareElementRef] = useObserver(handleNextPage);
 
   return (
     <>
@@ -44,10 +47,10 @@ const Profile = () => {
               trackData={trackData}
               length={getTrackLength(true)}
               modifyMode={modifyMode}
+              lastElementRef={lastShareElementRef}
               handle={{
                 handleDeleteAdd,
                 handleToggleTrackType,
-                handleNextPage,
               }}
             />
             <TrackingImageTab
@@ -55,10 +58,10 @@ const Profile = () => {
               trackData={trackData}
               length={getTrackLength(false)}
               modifyMode={modifyMode}
+              lastElementRef={lastSaveElementRef}
               handle={{
                 handleDeleteAdd,
                 handleToggleTrackType,
-                handleNextPage,
               }}
             />
           </STYLE.Slider>
