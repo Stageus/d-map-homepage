@@ -9,12 +9,7 @@ import useLongPressEvent from "./model/useLongPressEvent";
 import useConfirmModal from "../../../../../../4_Shared/model/useModalHandler";
 
 const TrackingImageContainer = (props) => {
-  const {
-    track,
-    modifyMode,
-
-    handle: { handleAddModifyIdxList, handleAddDeleteIdxList },
-  } = props;
+  const { track, modifyMode, handleAddModifyIdxList } = props;
 
   const [
     modifyTrackingModal,
@@ -31,20 +26,21 @@ const TrackingImageContainer = (props) => {
   return (
     <>
       <STYLE.TrackingContainer {...(!modifyMode && longPressEvents)}>
+        <p>{track.idx}</p>
         <TrackingImage
           data={{ ...track, height: "100%", draggable: false, background: 0 }}
         />
         {modifyMode === "공유" && (
           <STYLE.TrackingClickBox
             onClick={() => {
-              handleAddModifyIdxList(track);
+              handleAddModifyIdxList(track, false);
             }}
           />
         )}
         {modifyMode === "삭제" && (
           <STYLE.TrackingCheckbox
             onChange={() => {
-              handleAddDeleteIdxList(track);
+              handleAddModifyIdxList(track, true);
             }}
           />
         )}

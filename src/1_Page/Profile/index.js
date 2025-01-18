@@ -6,6 +6,7 @@ import TrackingImageTab from "./ui/TrackingImageTab";
 import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
 import useManageTrackData from "./model/useManageTrackData.js";
+import { useEffect } from "react";
 
 const Profile = () => {
   const { tabState, handleTabClick } = useTabs();
@@ -15,12 +16,15 @@ const Profile = () => {
     shareTrackingImageData,
     saveTrackingImageData,
     handleAddModifyIdxList,
-    handleAddDeleteIdxList,
     handleSelectCancel,
     handleModifyTrack,
     handleDeleteTrack,
     handleScroll,
   } = useManageTrackData(tabState?.tabIndex); // API로 호출된 데이터 관리 훅
+
+  useEffect(() => {
+    console.log(shareTrackingImageData);
+  }, [shareTrackingImageData]);
 
   return (
     <>
@@ -41,19 +45,13 @@ const Profile = () => {
               trackData={shareTrackingImageData}
               modifyMode={modifyMode}
               handleScroll={handleScroll}
-              handle={{
-                handleAddModifyIdxList,
-                handleAddDeleteIdxList,
-              }}
+              handleAddModifyIdxList={handleAddModifyIdxList}
             />
             <TrackingImageTab
               trackData={saveTrackingImageData}
               modifyMode={modifyMode}
               handleScroll={handleScroll}
-              handle={{
-                handleAddModifyIdxList,
-                handleAddDeleteIdxList,
-              }}
+              handleAddModifyIdxList={handleAddModifyIdxList}
             />
           </STYLE.Slider>
         </STYLE.SliderWrapper>

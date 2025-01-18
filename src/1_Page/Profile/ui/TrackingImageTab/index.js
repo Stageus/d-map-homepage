@@ -2,7 +2,8 @@ import React from "react";
 import STYLE from "./style";
 import TrackContainer from "./ui/TrackingImageContainer";
 
-const TrackingImageTab = ({ trackData, modifyMode, handleScroll, handle }) => {
+const TrackingImageTab = (props) => {
+  const { trackData, modifyMode, handleScroll, handleAddModifyIdxList } = props;
   return (
     <>
       {trackData.length === 0 ? (
@@ -15,7 +16,7 @@ const TrackingImageTab = ({ trackData, modifyMode, handleScroll, handle }) => {
                 key={track.id}
                 track={track}
                 modifyMode={modifyMode}
-                handle={handle}
+                handleAddModifyIdxList={handleAddModifyIdxList}
               />
             );
           })}
