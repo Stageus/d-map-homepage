@@ -5,7 +5,12 @@ const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 const putNickname = async (nickname) => {
   try {
     const endpoint = `${BASE_URL}/account/nickname`;
-    const response = await fetchRequest("PUT", endpoint, nickname, TEST_TOKEN);
+    const response = await fetchRequest(
+      "PUT",
+      endpoint,
+      { nickname },
+      TEST_TOKEN
+    );
 
     if (!response.ok) {
       const errorMessages = {

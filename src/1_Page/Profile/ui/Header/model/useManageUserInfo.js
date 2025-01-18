@@ -6,6 +6,12 @@ const useManageUserInfo = () => {
   const { userIdx } = useParams();
   const [userInfo, setUserInfo] = useState(null);
 
+  const handleChangeNickName = (nickname) => {
+    setUserInfo((pre) => {
+      return { ...pre, nickname };
+    });
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       if (!userIdx) {
@@ -23,7 +29,7 @@ const useManageUserInfo = () => {
     setUserInfo((prev) => ({ ...prev, image_url: objectUrl }));
   };
 
-  return { userInfo, handleImageChange };
+  return { userInfo, handleImageChange, handleChangeNickName };
 };
 
 export default useManageUserInfo;

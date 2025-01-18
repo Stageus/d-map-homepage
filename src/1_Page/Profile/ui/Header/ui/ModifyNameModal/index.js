@@ -9,13 +9,13 @@ import useRandomNickname from "./model/useRandomNickname";
 import useNicknameModal from "./model/useNicknameModal";
 
 const ModifyNameModal = (props) => {
-  const { name, handleClose } = props;
+  const { name, handleClose, handleChangeNickName } = props;
   const {
     confirmModal,
     message,
     handleModifyNickname,
     handleNameConfirmModalDone,
-  } = useNicknameModal();
+  } = useNicknameModal(handleChangeNickName);
 
   const {
     register,

@@ -15,6 +15,7 @@ const useRandomNickname = () => {
   useEffect(() => {
     fetchNicknames();
   }, [fetchNicknames]);
+
   const handleNextNickname = useCallback(
     (setValue) => {
       if (nicknames.length === 0) return;
