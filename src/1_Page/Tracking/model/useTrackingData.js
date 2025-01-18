@@ -6,14 +6,12 @@ const useTrackingData = (mapRef) => {
 
   const throttledSetTrackingData = useThrottle(() => {
     if (mapRef.current) {
-      const center = mapRef.current.getCenter().toJSON();
-
       try {
         const newData = {
           idx: -1,
-          zoom: mapRef.current?.getZoom(),
-          center,
-          heading: mapRef.current?.getHeading(),
+          zoom: mapRef.current.getZoom(),
+          center: mapRef.current.getCenter().toJSON(),
+          heading: mapRef.current.getHeading(),
           searchpoint: "temp",
           sharing: false,
           color: trackingData.color,
