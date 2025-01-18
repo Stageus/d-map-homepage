@@ -1,10 +1,11 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import getRandomNicknames from "../../../../../../../3_Entity/Account/getRandomNickname";
 
 const useRandomNickname = () => {
   const [nicknames, setNicknames] = useState([]);
-  const [type, setType] = useState("현재");
+  const [typeText, setTypeText] = useState("현재");
   const [randState, setRandState] = useState(0);
+  const randStateRef = useRef(0); // randState의 최신 상태를 추적
 
   // 닉네임 목록을 가져오는 함수
   const fetchNicknames = useCallback(async () => {
@@ -13,26 +14,29 @@ const useRandomNickname = () => {
     setRandState(0);
   }, []);
 
-  fetchNicknames();
-
-  const handleType = async (setValue) => {
-    if (nicknames.length === 0) return;
-
-    setValue("nickname", nicknames[randState]);
-    setType("추천된");
-
-    setRandState((prev) => {
-      const nextIndex = prev + 1;
+  useEffect(() => {
+    fetchNicknames();
+  }, [fetchNicknames]);
+  const handleNextNickname = useCallback(
+    (setValue) => {
+      if (nicknames.length === 0) return;
+      const nextIndex = randStateRef.current + 1;
+      setValue("nickname", nicknames[randStateRef.current]);
+      setTypeText("추천된");
 
       if (nextIndex >= nicknames.length) {
         fetchNicknames();
-        return 0;
+        randStateRef.current = 0;
+        setRandState(0);
+      } else {
+        randStateRef.current = nextIndex;
+        setRandState(nextIndex);
       }
-      return nextIndex;
-    });
-  };
+    },
+    [nicknames, fetchNicknames]
+  );
 
-  return { type, handleType };
+  return { typeText, handleNextNickname };
 };
 
 export default useRandomNickname;

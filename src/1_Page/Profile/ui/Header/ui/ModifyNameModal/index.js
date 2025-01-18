@@ -26,7 +26,7 @@ const ModifyNameModal = (props) => {
     defaultValues: { nickname: name },
   });
 
-  const { type, handleType } = useRandomNickname();
+  const { typeText, handleNextNickname } = useRandomNickname();
 
   return (
     <>
@@ -47,7 +47,7 @@ const ModifyNameModal = (props) => {
             />
             <STYLE.SuggestedNickname
               onClick={() => {
-                handleType(setValue);
+                handleNextNickname(setValue);
               }}>
               딴거할래요
             </STYLE.SuggestedNickname>
@@ -55,7 +55,9 @@ const ModifyNameModal = (props) => {
           {errors.nickname ? (
             <STYLE.ErrorText>{errors.nickname?.message}</STYLE.ErrorText>
           ) : (
-            <STYLE.SuggestionText>→ {type} 닉네임이에요!</STYLE.SuggestionText>
+            <STYLE.SuggestionText>
+              → {typeText} 닉네임이에요!
+            </STYLE.SuggestionText>
           )}
         </STYLE.InputContainer>
         <STYLE.SubmitButton
