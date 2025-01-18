@@ -12,7 +12,7 @@ const TrackingImageContainer = (props) => {
   const {
     track,
     modifyMode,
-    lastElementRef,
+
     handle: { handleDeleteAdd, handleToggleTrackType },
   } = props;
 
@@ -30,9 +30,7 @@ const TrackingImageContainer = (props) => {
 
   return (
     <>
-      <STYLE.TrackingContainer
-        {...(!modifyMode && longPressEvents)}
-        ref={lastElementRef ? lastElementRef : null}>
+      <STYLE.TrackingContainer {...(!modifyMode && longPressEvents)}>
         <TrackingImage
           data={{ ...track, height: "100%", draggable: false, background: 0 }}
         />

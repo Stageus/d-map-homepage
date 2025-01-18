@@ -1,35 +1,61 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import useGetTrackingImageList from "../../../3_Entity/Tracking/useGetTrackingImageList";
 import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingImageToShare";
 import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingImageToNotShare";
 import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
 import { useParams } from "react-router-dom";
 
-const useManageTrackData = () => {
+const useManageTrackData = (tabIndex) => {
   const { userIdx } = useParams();
 
-  const [page, setPage] = useState(1);
-  const [trackData, setTrackData] = useState([]);
+  const [page, setPage] = useState({ save: 1, share: 1 });
+
+  const [trackData, setTrackData] = useState({
+    save: [],
+    share: [],
+  });
+
   const [modifyIdxList, setModifyIdxList] = useState([]);
 
-  const { trackingImageList, loading, hasMoreContent } =
-    useGetTrackingImageList(userIdx, page);
+  const paging = tabIndex === 0 ? page?.save : page?.share;
+  const category = tabIndex === 0 ? 1 : 0;
 
-  // 초기 데이터 설정
+  const { trackingImageList, loading, hasMoreContent } =
+    useGetTrackingImageList(userIdx, paging, category);
+
+  useEffect(() => {
+    console.log(hasMoreContent);
+  }, [hasMoreContent]);
+
   useEffect(() => {
     setTrackData(trackingImageList);
   }, [trackingImageList]);
 
-  // 페이지 증가 함수
-  const handleNextPage = () => {
-    if (!hasMoreContent && !loading) return;
-    setPage((prev) => prev + 1);
-  };
+  const hasMoreContentRef = useRef(hasMoreContent);
+
+  useEffect(() => {
+    hasMoreContentRef.current = hasMoreContent;
+  }, [hasMoreContent, loading, tabIndex]);
+  // 페이지 추가함수
+  const handleNextPage = useCallback(() => {
+    const hasMoreContentPaging =
+      tabIndex === 0
+        ? hasMoreContentRef.current.share
+        : hasMoreContentRef.current.save;
+
+    if (!hasMoreContentPaging) return;
+
+    setPage((prev) => ({
+      ...prev,
+      save: tabIndex === 0 ? prev.save + 1 : prev.save,
+      share: tabIndex === 1 ? prev.share + 1 : prev.share,
+    }));
+  }, [hasMoreContent.share, hasMoreContent.save, tabIndex]);
 
   // 수정 및 삭제 시 선택된 데이터 관리
-  const handleDeleteAdd = (track) => {
+  const toggleModifyList = (track) => {
     setModifyIdxList((prev) =>
-      prev.includes(track.idx)
+      prev.some((item) => item.idx === track.idx)
         ? prev.filter((item) => item.idx !== track.idx)
         : [...prev, { idx: track.idx, sharing: track.sharing }]
     );
@@ -43,51 +69,46 @@ const useManageTrackData = () => {
 
   // 데이터 상태 변경 (수정)
   const handleToggleTrackType = (track) => {
-    handleDeleteAdd(track);
+    toggleModifyList(track);
     setTrackData((prevData) =>
       prevData.map((item) =>
-        item.idx === track.idx
-          ? { ...item, sharing: item.sharing === true ? false : true }
-          : item
+        item.idx === track.idx ? { ...item, sharing: !item.sharing } : item
       )
     );
   };
 
   // 삭제 버튼 클릭 처리
-  const handleDeleteTrack = async () => {
+  const handleDeleteTrack = useCallback(async () => {
     try {
-      await deleteTrackingImage(modifyIdxList);
+      await deleteTrackingImage(modifyIdxList.map((item) => item.idx));
       setModifyIdxList([]);
     } catch (error) {
-      console.error("삭제 중 오류 발생:", error);
+      console.error("Error deleting tracking data:", error);
     }
-  };
+  }, [modifyIdxList]);
 
   // 수정 버튼 클릭 처리
-  const handleModifyTrack = async () => {
+  const handleModifyTrack = useCallback(async () => {
     try {
       const groupedBySharing = modifyIdxList.reduce(
         (acc, item) => {
-          if (item.sharing === false) acc.toShare.push(item.idx);
-          if (item.sharing === true) acc.toNotshare.push(item.idx);
+          acc[item.sharing ? "toNotshare" : "toShare"].push(item.idx);
           return acc;
         },
         { toShare: [], toNotshare: [] }
       );
-      console.log(groupedBySharing);
 
-      await putTrackingToShare(groupedBySharing.toShare);
-      await putTrackingToNotShare(groupedBySharing.toNotshare);
+      if (groupedBySharing.toShare.length > 0) {
+        await putTrackingToShare(groupedBySharing.toShare);
+      }
+      if (groupedBySharing.toNotshare.length > 0) {
+        await putTrackingToNotShare(groupedBySharing.toNotshare);
+      }
       setModifyIdxList([]);
     } catch (error) {
-      console.error("수정 중 오류 발생:", error);
+      console.error("Error modifying tracking data:", error);
     }
-  };
-
-  const getTrackLength = (isShared) =>
-    Array.isArray(trackData)
-      ? trackData.filter((track) => track.sharing === isShared).length
-      : 0;
+  }, [modifyIdxList]);
 
   return {
     trackData,
@@ -95,8 +116,7 @@ const useManageTrackData = () => {
     handleSelectCancel,
     handleModifyTrack,
     handleDeleteTrack,
-    handleDeleteAdd, // 삭제 항목 추가 (별칭 처리)
-    getTrackLength,
+    toggleModifyList,
     handleNextPage,
   };
 };

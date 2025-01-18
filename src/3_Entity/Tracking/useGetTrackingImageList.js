@@ -1,47 +1,64 @@
 import { useState, useEffect } from "react";
 import { fetchRequest } from "../../4_Shared/util/apiUtil";
+import { use } from "react";
 
 const ITEMS_PER_PAGE = 20;
-
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
-const useGetTrackingImageList = (userIdx, page) => {
+const useGetTrackingImageList = (userIdx, page, category) => {
   const [loading, setLoading] = useState(true);
-  const [trackingImageList, setTrackingImageList] = useState([]);
-  const [hasMoreContent, setHasMoreContent] = useState(false);
+  const [trackingImageList, setTrackingImageLists] = useState({
+    save: [],
+    share: [],
+  });
+  const [hasMoreContent, setHasMoreContent] = useState({
+    save: false,
+    share: false,
+  });
+
+  const updateListAndState = (data, isSaveCategory) => {
+    const key = isSaveCategory ? "save" : "share";
+
+    setTrackingImageLists((prev) => ({
+      ...prev,
+      [key]: [...prev[key], ...data.tracking_image],
+    }));
+    setHasMoreContent((prev) => ({
+      ...prev,
+      [key]: data.tracking_image.length >= ITEMS_PER_PAGE,
+    }));
+  };
 
   useEffect(() => {
     const fetchTrackingImageList = async () => {
-      setLoading(true); // 로딩 시작
+      setLoading(true);
       try {
-        const response = await fetchRequest(
-          "GET",
-          `${BASE_URL}/tracking/account/${userIdx}?page=${page}`,
-          null,
-          TEST_TOKEN
-        );
-
+        const url = `${BASE_URL}/tracking/account/${userIdx}?page=${page}&category=${category}`;
+        console.log(url);
+        const response = await fetchRequest("GET", url, null, TEST_TOKEN);
         if (!response.ok) {
           const errorData = await response.json();
-          console.error(`Error: ${errorData.message}`);
-          return;
+          throw new Error(`API Error: ${errorData.message}`);
         }
 
         const data = await response.json();
-        setTrackingImageList((prev) => [...prev, ...data.tracking_image]); // 데이터 누적
-        setHasMoreContent(data.tracking_image.length >= ITEMS_PER_PAGE); // 더 많은 데이터 여부
+        updateListAndState(data, category === 0);
       } catch (error) {
-        console.error("Error fetching tracking image list:", error);
+        console.error("Failed to fetch tracking image list:", error);
       } finally {
-        setLoading(false); // 로딩 끝
+        setLoading(false);
       }
     };
 
     fetchTrackingImageList();
-  }, [userIdx, page]);
+  }, [userIdx, page, category]);
 
-  return { trackingImageList, loading, hasMoreContent };
+  return {
+    trackingImageList,
+    loading,
+    hasMoreContent,
+  };
 };
 
 export default useGetTrackingImageList;

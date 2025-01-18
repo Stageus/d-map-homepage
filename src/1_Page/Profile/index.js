@@ -19,19 +19,16 @@ const Profile = () => {
     handleModifyTrack,
     handleDeleteTrack,
     handleDeleteAdd,
-    getTrackLength,
     handleNextPage,
-  } = useManageTrackData(); // API로 호출된 데이터 관리 훅
+  } = useManageTrackData(tabState?.tabIndex); // API로 호출된 데이터 관리 훅
 
-  const [lastSaveElementRef, lastShareElementRef] = useObserver(handleNextPage);
+  const handleScroll = useObserver(handleNextPage);
 
   return (
     <>
       <STYLE.Main>
         <Header
           setMode={{ modifyMode, handleSetMode, handleCloseMode }}
-          trackData={trackData}
-          trackDataLegth={getTrackLength(tabState?.tabIndex)}
           tabState={tabState}
           handleTabClick={handleTabClick}
           handler={{
@@ -43,22 +40,20 @@ const Profile = () => {
         <STYLE.SliderWrapper>
           <STYLE.Slider $tabIndex={tabState?.tabIndex}>
             <TrackingImageTab
-              sharingType={true}
-              trackData={trackData}
-              length={getTrackLength(true)}
+              trackData={trackData?.share}
               modifyMode={modifyMode}
-              lastElementRef={lastShareElementRef}
+              // scrollContainerRef={scrollContainerSaveRef}
+              handleScroll={handleScroll}
               handle={{
                 handleDeleteAdd,
                 handleToggleTrackType,
               }}
             />
             <TrackingImageTab
-              sharingType={false}
-              trackData={trackData}
-              length={getTrackLength(false)}
+              trackData={trackData?.save}
               modifyMode={modifyMode}
-              lastElementRef={lastSaveElementRef}
+              handleScroll={handleScroll}
+              // scrollContainerRef={scrollContainerShareRef}
               handle={{
                 handleDeleteAdd,
                 handleToggleTrackType,

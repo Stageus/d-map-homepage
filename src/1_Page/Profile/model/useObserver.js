@@ -1,37 +1,45 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
 const useObserver = (handleNextPage) => {
-  const lastSaveElementRef = useRef(null);
-  const lastShareElementRef = useRef(null);
+  const scrollContainerShareRef = useRef(null);
+  const scrollContainerSaveRef = useRef(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          handleNextPage();
-        }
-      },
-      { threshold: 1.0 }
-    );
+  const handleScroll = useCallback((event) => {
+    const container = event.target;
+    const isBottom =
+      container.scrollHeight - container.scrollTop - 1 <=
+      container.clientHeight;
 
-    if (lastSaveElementRef.current) {
-      observer.observe(lastSaveElementRef.current);
+    if (isBottom) {
+      handleNextPage();
     }
-    if (lastShareElementRef.current) {
-      observer.observe(lastShareElementRef.current);
-    }
+  }, []);
+  // useEffect(() => {
+  //   const shareContainer = scrollContainerShareRef.current;
+  //   const saveContainer = scrollContainerSaveRef.current;
 
-    return () => {
-      if (lastSaveElementRef.current) {
-        observer.unobserve(lastSaveElementRef.current);
-      }
-      if (lastShareElementRef.current) {
-        observer.unobserve(lastShareElementRef.current);
-      }
-    };
-  }, [handleNextPage]);
+  //   const handleShareScroll = () => handleScroll(shareContainer);
+  //   const handleSaveScroll = () => handleScroll(saveContainer);
 
-  return [lastSaveElementRef, lastShareElementRef];
+  //   // 안전한 null 체크
+  //   if (shareContainer) {
+  //     shareContainer.addEventListener("scroll", handleShareScroll);
+  //   }
+  //   if (saveContainer) {
+  //     saveContainer.addEventListener("scroll", handleSaveScroll);
+  //   }
+
+  //   return () => {
+  //     if (shareContainer) {
+  //       shareContainer.removeEventListener("scroll", handleShareScroll);
+  //     }
+  //     if (saveContainer) {
+  //       saveContainer.removeEventListener("scroll", handleSaveScroll);
+  //     }
+  //   };
+  // }, [handleNextPage]);
+
+  return handleScroll;
 };
 
 export default useObserver;

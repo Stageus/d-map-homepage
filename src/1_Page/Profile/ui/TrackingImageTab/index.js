@@ -2,33 +2,26 @@ import React from "react";
 import STYLE from "./style";
 import TrackContainer from "./ui/TrackingImageContainer";
 
-const TrackingImageTab = ({
-  sharingType,
-  trackData,
-  modifyMode,
-  lastElementRef,
-  handle,
-}) => {
-  if (trackData.length === 0) {
-    return <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>;
-  }
-  const filteredTracks =
-    trackData?.filter((track) => track.sharing === sharingType) || [];
+const TrackingImageTab = ({ trackData, modifyMode, handleScroll, handle }) => {
   return (
-    <STYLE.PostGrid>
-      {filteredTracks.map((track, index) => {
-        const isLast = index === filteredTracks.length - 1;
-        return (
-          <TrackContainer
-            key={track.id}
-            track={track}
-            modifyMode={modifyMode}
-            handle={handle}
-            lastElementRef={isLast ? lastElementRef : null}
-          />
-        );
-      })}
-    </STYLE.PostGrid>
+    <>
+      {trackData.length === 0 ? (
+        <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
+      ) : (
+        <STYLE.PostGrid onScroll={handleScroll}>
+          {trackData.map((track) => {
+            return (
+              <TrackContainer
+                key={track.id}
+                track={track}
+                modifyMode={modifyMode}
+                handle={handle}
+              />
+            );
+          })}
+        </STYLE.PostGrid>
+      )}
+    </>
   );
 };
 
