@@ -173,6 +173,7 @@ const useManageTrackData = (tabIndex) => {
     handleModifyTrack,
     handleDeleteTrack,
     handleScroll,
+    loading,
   };
 };
 

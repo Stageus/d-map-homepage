@@ -1,5 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
+// 로딩 애니메이션 키프레임
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
 const STYLE = {
   Main: styled.div`
     padding: 16px;
@@ -49,6 +58,19 @@ const STYLE = {
     top: 8px;
     right: 8px;
     transition: all 0.2s ease;
+  `,
+  Loading: styled.div`
+    width: 24px;
+    height: 24px;
+    border: 3px solid ${({ theme }) => theme.light_blue};
+    border-top: 3px solid ${({ theme }) => theme.black};
+    border-radius: 50%;
+    animation: ${spin} 1s linear infinite;
+  `,
+  LoadingContainer: styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
   `,
 };
 

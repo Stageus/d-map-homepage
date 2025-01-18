@@ -19,6 +19,7 @@ const Profile = () => {
     handleModifyTrack,
     handleDeleteTrack,
     handleScroll,
+    loading,
   } = useManageTrackData(tabState?.tabIndex); // API로 호출된 데이터 관리 훅
 
   return (
@@ -50,6 +51,11 @@ const Profile = () => {
             />
           </STYLE.Slider>
         </STYLE.SliderWrapper>
+        {loading && (
+          <STYLE.LoadingContainer>
+            <STYLE.Loading />
+          </STYLE.LoadingContainer>
+        )}
       </STYLE.Main>
     </>
   );
