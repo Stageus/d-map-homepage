@@ -8,18 +8,19 @@ import useModifyImageModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyNameModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyMode from "../../../../4_Shared/model/useModalHandler.js";
 import useConfirmModal from "../../../../4_Shared/model/useModalHandler.js";
-import useManageUserInfo from "./model/useManageUserInfo.js";
 
 import ModifyImageModal from "./ui/ModifyImageModal/index.js";
 import ModifyNameModal from "./ui/ModifyNameModal/index.js";
 import ModifyModeModal from "./ui/ModifyModeModal/index.js";
 import ConfirmModal from "../../../../2_Widget/ConfirmModal";
 import Modal from "./ui/Modal";
+import useManageUserInfo from "./model/useManageUserInfo.js";
 
 const Header = (props) => {
   const {
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
+
     tabState,
     handleTabClick,
   } = props;
