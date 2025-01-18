@@ -22,10 +22,6 @@ const Profile = () => {
     handleScroll,
   } = useManageTrackData(tabState?.tabIndex); // API로 호출된 데이터 관리 훅
 
-  useEffect(() => {
-    console.log(shareTrackingImageData);
-  }, [shareTrackingImageData]);
-
   return (
     <>
       <STYLE.Main>

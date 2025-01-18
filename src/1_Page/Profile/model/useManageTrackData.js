@@ -113,7 +113,8 @@ const useManageTrackData = (tabIndex) => {
 
   // 데이터 삭제
   const handleDeleteTrack = useCallback(async () => {
-    const result = await deleteTrackingImage(modifyIdxList);
+    const idxList = modifyIdxList.map((item) => item.idx);
+    const result = await deleteTrackingImage(idxList);
     if (result) {
       setTrackData((prev) =>
         prev.filter(
