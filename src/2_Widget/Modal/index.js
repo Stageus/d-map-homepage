@@ -5,10 +5,12 @@ import useHandleModal from "./model/useHandleModal";
 import postTrackingImage from "../../3_Entity/Tracking/postTrackingImage";
 import putTrackingImage from "../../3_Entity/Tracking/putTrackingImage";
 import MAPTYPE from "../../4_Shared/constant/mapType";
+import useNewTrackingData from "./model/useNewTrackingData";
 
 const Modal = (props) => {
   const { children, onClose, trackData } = props;
-  const [newTrackingData, setNewTrackingData] = React.useState(trackData);
+  const [newTrackingData, throttledSetNewTrackingData] =
+    useNewTrackingData(trackData);
   const sheetRef = React.useRef();
   const mapRef = React.useRef(null);
   const { isVisible, translateY, isDraggingRef, handleClose } = useHandleModal(
@@ -41,6 +43,7 @@ const Modal = (props) => {
               onLoad={(map) => {
                 mapRef.current = map;
               }}
+              
               options={{
                 mapTypeId: MAPTYPE[trackData.background],
                 disableDefaultUI: true,
@@ -78,8 +81,7 @@ const Modal = (props) => {
               value={newTrackingData.thickness}
               onChange={(e) => {
                 console.log(e.target.value);
-                setNewTrackingData({
-                  ...newTrackingData,
+                throttledSetNewTrackingData({
                   thickness: Number(e.target.value),
                 });
               }}
@@ -92,8 +94,7 @@ const Modal = (props) => {
               type="color"
               value={newTrackingData.color}
               onChange={(e) => {
-                setNewTrackingData({
-                  ...newTrackingData,
+                throttledSetNewTrackingData({
                   color: e.target.value,
                 });
               }}
