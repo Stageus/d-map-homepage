@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import STYLE from "./style.js";
+import empty_profie_icon from "./assets/empty_profile_icon.svg";
 
 import useModifyImageModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyNameModal from "../../../../4_Shared/model/useModalHandler.js";
@@ -50,7 +51,11 @@ const Header = (props) => {
         <STYLE.ProfileContainer>
           <STYLE.ProfileWrapper
             onClick={userInfo?.isMine ? handleImageModalOpen : undefined}>
-            <STYLE.ProfileImg src={userInfo?.image_url} alt="Profile" />
+            <STYLE.ProfileImg
+              src={
+                userInfo?.image_url ? userInfo?.image_url : empty_profie_icon
+              }
+            />
           </STYLE.ProfileWrapper>
           <STYLE.UserInfo>
             <STYLE.ProfileBox>
