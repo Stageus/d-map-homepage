@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import getTrackData from "../../../3_Entity/Tracking/getTrackData";
+import useGetTrackingImageList from "../../../3_Entity/Tracking/useGetTrackingImageList";
 import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingImageToShare";
 import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingImageToNotShare";
 import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
@@ -8,29 +8,21 @@ import { useParams } from "react-router-dom";
 const useManageTrackData = () => {
   const { userIdx } = useParams();
 
-  const [hasMoreContent, setHasMoreContent] = useState(true);
   const [page, setPage] = useState(1);
   const [trackData, setTrackData] = useState([]);
   const [modifyIdxList, setModifyIdxList] = useState([]);
 
-  // 데이터 호출 함수
-  const fetchTrackData = useCallback(async () => {
-    const track = await getTrackData(userIdx, page);
-    if (track.length !== 20) setHasMoreContent(false);
-    if (track.length === 0) return;
-    setTrackData((pre) => [...pre, ...track]);
-  }, [userIdx, page]);
+  const { trackingImageList, loading, hasMoreContent } =
+    useGetTrackingImageList(userIdx, page);
 
-  // 페이지 변경 시 데이터 로드
+  // 초기 데이터 설정
   useEffect(() => {
-    if (userIdx) {
-      fetchTrackData();
-    }
-  }, [fetchTrackData, userIdx]);
+    setTrackData(trackingImageList);
+  }, [trackingImageList]);
 
   // 페이지 증가 함수
   const handleNextPage = () => {
-    if (!hasMoreContent) return;
+    if (!hasMoreContent && !loading) return;
     setPage((prev) => prev + 1);
   };
 
@@ -46,7 +38,7 @@ const useManageTrackData = () => {
   // 데이터 상태 초기화
   const handleSelectCancel = () => {
     setModifyIdxList([]);
-    fetchTrackData();
+    setTrackData(trackingImageList);
   };
 
   // 데이터 상태 변경 (수정)
@@ -66,7 +58,6 @@ const useManageTrackData = () => {
     try {
       await deleteTrackingImage(modifyIdxList);
       setModifyIdxList([]);
-      fetchTrackData();
     } catch (error) {
       console.error("삭제 중 오류 발생:", error);
     }
@@ -86,7 +77,6 @@ const useManageTrackData = () => {
       await putTrackingToShare(groupedBySharing.notShare);
       await putTrackingToNotShare(groupedBySharing.share);
       setModifyIdxList([]);
-      fetchTrackData();
     } catch (error) {
       console.error("수정 중 오류 발생:", error);
     }
