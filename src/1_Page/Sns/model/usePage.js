@@ -1,20 +1,20 @@
 import useSnsDefaultPageAtom from "../../../4_Shared/Recoil/useSnsDefaultPageAtom";
-import useSnsRecentPageAtom from "../../../4_Shared/Recoil/useSnsRecentPageAtom";
+import useSnsRecentPageAtom from "../../../4_Shared/Recoil/useSnsTodayHotPageAtom";
 import CATEGORY from "../constant/category";
 
 const usePage = (category) =>{
-  const [defaultPage, setSnsDefaultPage] = useSnsDefaultPageAtom();
-  const [recentPage, setSnsRecentPage] = useSnsRecentPageAtom();
+  const [todayHotPage, setTodayHotPagePage] = useSnsDefaultPageAtom();
+  const [defaultPage, setDefaultPage] = useSnsRecentPageAtom();
 
   let page, setPage;
   switch (category) {
+    case CATEGORY.TODAYHOT:
+      page = todayHotPage;
+      setPage = setTodayHotPagePage;
+      break;
     case CATEGORY.DEFAULT:
       page = defaultPage;
-      setPage = setSnsDefaultPage;
-      break;
-    case CATEGORY.RECENT:
-      page = recentPage;
-      setPage = setSnsRecentPage;
+      setPage = setDefaultPage;
       break;
     default:
       break;
