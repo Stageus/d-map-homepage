@@ -120,7 +120,7 @@ const Header = (props) => {
       )}
 
       {modifyNameModal && (
-        <Modal onClose={{ handleModifyNameModalClose }} snap={[0.2]}>
+        <Modal onClose={handleModifyNameModalClose} snap={[0.2]}>
           {({ handleClose }) => (
             <ModifyNameModal
               handleClose={handleClose}
