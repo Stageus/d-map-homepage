@@ -22,7 +22,7 @@ const putNickname = async (nickname) => {
       const message =
         errorMessages[response.status] || "서버 오류가 발생했습니다.";
       console.error(`Error ${response.status}: ${message}`);
-      throw new Error(message);
+      return message;
     }
     return true;
   } catch (error) {

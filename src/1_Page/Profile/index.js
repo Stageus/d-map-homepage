@@ -6,7 +6,6 @@ import TrackingImageTab from "./ui/TrackingImageTab";
 import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
 import useManageTrackData from "./model/useManageTrackData.js";
-import { useEffect } from "react";
 
 const Profile = () => {
   const { tabState, handleTabClick } = useTabs();

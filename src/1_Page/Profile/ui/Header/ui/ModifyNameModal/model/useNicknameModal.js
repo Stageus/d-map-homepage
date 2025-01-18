@@ -8,9 +8,8 @@ const useNicknameModal = (handleChangeNickName) => {
   const [message, setMessage] = useState("");
 
   const handleModifyNickname = async (nickname, handleClose) => {
-    console.log(nickname);
     const result = await putNickname(nickname);
-    if (result) {
+    if (result === true) {
       setMessage(`닉네임이 변경되었습니다 : ${nickname}`);
       handleChangeNickName(nickname);
       handleConfirmModalOpen();
