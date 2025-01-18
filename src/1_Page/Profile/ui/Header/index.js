@@ -27,8 +27,8 @@ const Header = (props) => {
     useManageUserInfo();
   const trackDataLegth =
     tabState.tabIndex === 1
-      ? userInfo?.share_tracking_length || 0
-      : userInfo?.save_tracking_length || 0;
+      ? userInfo?.share_tracking_length || 1
+      : userInfo?.save_tracking_length || 1;
 
   const [modifyImageModal, handleImageModalOpen, handleImageModalClose] =
     useModifyImageModal(); // 프로필 이미지 모달

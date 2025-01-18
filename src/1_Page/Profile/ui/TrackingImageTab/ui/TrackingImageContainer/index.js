@@ -13,7 +13,7 @@ const TrackingImageContainer = (props) => {
     track,
     modifyMode,
 
-    handle: { handleDeleteAdd, handleToggleTrackType },
+    handle: { handleAddModifyIdxList, handleAddDeleteIdxList },
   } = props;
 
   const [
@@ -37,14 +37,14 @@ const TrackingImageContainer = (props) => {
         {modifyMode === "공유" && (
           <STYLE.TrackingClickBox
             onClick={() => {
-              handleToggleTrackType(track);
+              handleAddModifyIdxList(track);
             }}
           />
         )}
         {modifyMode === "삭제" && (
           <STYLE.TrackingCheckbox
             onChange={() => {
-              handleDeleteAdd(track);
+              handleAddDeleteIdxList(track);
             }}
           />
         )}

@@ -14,11 +14,11 @@ const Profile = () => {
   const {
     shareTrackingImageData,
     saveTrackingImageData,
-    handleToggleTrackType,
+    handleAddModifyIdxList,
+    handleAddDeleteIdxList,
     handleSelectCancel,
     handleModifyTrack,
     handleDeleteTrack,
-    handleDeleteAdd,
     handleScroll,
   } = useManageTrackData(tabState?.tabIndex); // API로 호출된 데이터 관리 훅
 
@@ -42,8 +42,8 @@ const Profile = () => {
               modifyMode={modifyMode}
               handleScroll={handleScroll}
               handle={{
-                handleDeleteAdd,
-                handleToggleTrackType,
+                handleAddModifyIdxList,
+                handleAddDeleteIdxList,
               }}
             />
             <TrackingImageTab
@@ -51,8 +51,8 @@ const Profile = () => {
               modifyMode={modifyMode}
               handleScroll={handleScroll}
               handle={{
-                handleDeleteAdd,
-                handleToggleTrackType,
+                handleAddModifyIdxList,
+                handleAddDeleteIdxList,
               }}
             />
           </STYLE.Slider>

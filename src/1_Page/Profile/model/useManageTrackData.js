@@ -67,6 +67,16 @@ const useManageTrackData = (tabIndex) => {
         : [...prev, { idx: track.idx, sharing: track.sharing }]
     );
   };
+  const handleAddDeleteIdxList = (track) => {
+    setModifyIdxList((pre) => {
+      // 이미 포함되어 있다면 제거
+      if (pre.includes(track)) {
+        return pre.filter((item) => item !== track);
+      }
+      // 포함되어 있지 않다면 추가
+      return [...pre, track];
+    });
+  };
 
   const handleScroll = useCallback((event) => {
     const container = event.target;
@@ -92,7 +102,7 @@ const useManageTrackData = (tabIndex) => {
   };
 
   // 데이터 상태 변경 (수정)
-  const handleToggleTrackType = (track) => {
+  const handleAddModifyIdxList = (track) => {
     toggleModifyList(track);
     handleTrackDataLessCheck(track.sharing);
     setTrackData((prevData) => {
@@ -138,11 +148,11 @@ const useManageTrackData = (tabIndex) => {
   return {
     shareTrackingImageData,
     saveTrackingImageData,
-    handleToggleTrackType,
+    handleAddModifyIdxList,
+    handleAddDeleteIdxList,
     handleSelectCancel,
     handleModifyTrack,
     handleDeleteTrack,
-    toggleModifyList,
     handleScroll,
   };
 };
