@@ -4,13 +4,24 @@ import useHandleModal from "./model/useHandleModal";
 
 const Modal = (props) => {
   const { children, onClose, snap } = props;
-  const { elementRef, isVisible, translateY, isDraggingRef, handleClose } =
-    useHandleModal(onClose, snap);
+  const {
+    elementRef,
+    isVisible,
+    translateY,
+    isDraggingRef,
+    handleClose,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+  } = useHandleModal(onClose, snap);
 
   return (
     <>
       <STYLE.Overlay onClick={handleClose} />
       <STYLE.Sheet
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
         ref={elementRef}
         $isVisible={isVisible}
         $translateY={translateY}
