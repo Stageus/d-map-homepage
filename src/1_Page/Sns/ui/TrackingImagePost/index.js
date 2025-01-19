@@ -13,12 +13,19 @@ const TrackingImagePost = (props) => {
   const { data } = props;
   const { likecount, idx, liked_by_user } = data;
   const [viewDetailModal, toggleDetailModal] = useDetailModal();
-  const [like, toggleLikeTrackingImage] = useToggleLikeTrackingImage(idx, liked_by_user);
+  const [like, toggleLikeTrackingImage] = useToggleLikeTrackingImage(
+    idx,
+    liked_by_user
+  );
   return (
     <STYLE.Container>
       <STYLE.PostInfo>
-        <STYLE.PosterName>{data.nickname}</STYLE.PosterName>
-        <STYLE.PostUpdated>1달전</STYLE.PostUpdated>
+        <STYLE.PosterInfoContainer>
+          <STYLE.ProfileImage src={data.img_url} alt="profile image" />
+          <STYLE.PosterName>{data.nickname}</STYLE.PosterName>
+        </STYLE.PosterInfoContainer>
+
+        <STYLE.SearchPoint>{data.searchpoint}</STYLE.SearchPoint>
       </STYLE.PostInfo>
       <STYLE.TrackingImageWrapper
         onDoubleClick={() => {
