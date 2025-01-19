@@ -92,17 +92,18 @@ const STYLE = {
     line-height: 100%;
   `,
   ProfileIcon: styled.img`
-    width: 30px;
-    height: 30px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    border: 1px solid ${({ theme }) => theme.black};
+    border: 0.5px solid ${({ theme }) => theme.black};
     margin-right: 5px;
     margin-left: 5px;
+    object-fit: cover;
   `,
   NicckNameContainer: styled.div`
     display: flex;
     align-items: center;
-    height: 50px;
+    height: 80px;
     border-radius: 5px;
     border: 1px solid ${({ theme }) => theme.blue};
     padding: 10px;

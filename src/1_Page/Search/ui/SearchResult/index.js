@@ -17,9 +17,6 @@ const SearchResult = () => {
     loading,
     hasMoreContent,
   } = useManageSearchData(page, activeTab);
-  useEffect(() => {
-    console.log(hasMoreContent);
-  }, [hasMoreContent]);
 
   const { handleNavigate } = useNavigateHandler();
 
@@ -43,7 +40,6 @@ const SearchResult = () => {
         </STYLE.TabBox>
       </STYLE.TabContainer>
 
-      {/* 슬라이더 */}
       <STYLE.SliderWrapper>
         <STYLE.Slider $tabIndex={handleGetPresentTab("nickname")}>
           {/* 장소 탭 */}
@@ -59,6 +55,7 @@ const SearchResult = () => {
                     handleNavigate(result.idx);
                   }}>
                   <STYLE.TitleContainer>
+                    {console.log(result)}
                     <STYLE.ProfileIcon src={result.image} />
                     <STYLE.Title>
                       {result.nickname} - {result.searchpoint}
@@ -69,6 +66,11 @@ const SearchResult = () => {
                   />
                 </STYLE.MapPreview>
               ))
+            )}
+            {loading && (
+              <STYLE.LoaderContainer>
+                <STYLE.Loader />
+              </STYLE.LoaderContainer>
             )}
           </STYLE.ResultList>
           {/* 이름 탭 */}
@@ -88,13 +90,13 @@ const SearchResult = () => {
                 </STYLE.NicckNameContainer>
               ))
             )}
+            {loading && (
+              <STYLE.LoaderContainer>
+                <STYLE.Loader />
+              </STYLE.LoaderContainer>
+            )}
           </STYLE.ResultList>
         </STYLE.Slider>
-        {loading && (
-          <STYLE.LoaderContainer>
-            <STYLE.Loader />
-          </STYLE.LoaderContainer>
-        )}
       </STYLE.SliderWrapper>
     </>
   );
