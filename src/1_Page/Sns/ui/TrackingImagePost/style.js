@@ -46,7 +46,12 @@ const STYLE = {
   PostInfo: styled.h3`
     padding: 8px;
     display: flex;
-    gap: 4px;
+    gap: 8px;
+    align-items: end;
+    justify-content: space-between;
+  `,
+  PosterInfoContainer: styled.div`
+    display: flex;
     align-items: end;
   `,
   PosterName: styled.p``,
@@ -54,6 +59,14 @@ const STYLE = {
     font-size: small;
     font-weight: 400;
     color: gray;
+  `,
+  ProfileImage: styled.img`
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+  `,
+  SearchPoint: styled.p`
+    font-size: small;
   `,
 };
 
