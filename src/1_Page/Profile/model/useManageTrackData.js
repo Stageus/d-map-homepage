@@ -1,9 +1,9 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingImageToShare";
 import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingImageToNotShare";
 import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
 
-const useManageTrackData = (trackingImageList) => {
+const useManageTrackData = (trackingImageList, tabIndex, checkLessLength) => {
   const [trackData, setTrackData] = useState([]);
   const [modifyIdxList, setModifyIdxList] = useState([]);
 
@@ -21,6 +21,21 @@ const useManageTrackData = (trackingImageList) => {
     trackData.filter((item) => item.sharing === true),
     trackData.filter((item) => item.sharing === false),
   ];
+
+  const prevLength = useRef(null);
+
+  useEffect(() => {
+    const track =
+      tabIndex === 0 ? shareTrackingImageData : saveTrackingImageData;
+
+    if (track.length === 0) return;
+
+    if (track.length !== prevLength.current) {
+      console.log(track.length);
+      checkLessLength(track.length);
+      prevLength.current = track.length; // 이전 값 저장
+    }
+  }, [shareTrackingImageData, saveTrackingImageData]);
 
   const sortTrackData = useCallback(() => {
     setTrackData((prev) => [...prev].sort((a, b) => b.userIdx - a.userIdx));
