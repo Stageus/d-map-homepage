@@ -2,14 +2,15 @@ import styled from "styled-components";
 
 const STYLE = {
   TrackingContainer: styled.div`
-    background-color: ${({ theme }) => theme.light_blue};
     text-align: center;
-    position: relative; /* 버튼의 절대 위치 기준 */
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     aspect-ratio: 1;
+    width: 100%;
   `,
+
   TrackingClickBox: styled.div`
     appearance: none;
     width: 20px;

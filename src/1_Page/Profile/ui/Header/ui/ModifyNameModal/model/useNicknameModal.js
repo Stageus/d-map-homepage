@@ -1,18 +1,19 @@
 import { useState, useRef } from "react";
-import useModifyNickname from "../../../../../../../3_Entity/Profile/useModifyNickname";
+import putNickname from "../../../../../../../3_Entity/Account/putNickname";
 import useConfirmModal from "../../../../../../../4_Shared/model/useModalHandler";
 
-const useNicknameModal = () => {
+const useNicknameModal = (handleChangeNickName) => {
   const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
     useConfirmModal();
   const [message, setMessage] = useState("");
-  const { modify, loading, error } = useModifyNickname();
 
-  const handleModifyNickname = (nickname, handleClose) => {
-    const result = modify(nickname);
-    if (result) {
+  const handleModifyNickname = async (nickname, handleClose) => {
+    const result = await putNickname(nickname);
+    if (result === true) {
       setMessage(`닉네임이 변경되었습니다 : ${nickname}`);
-      handleNameConfirmModalOpen(handleClose);
+      handleChangeNickName(nickname);
+      handleConfirmModalOpen();
+      closeRef.current = handleClose;
       return;
     }
     setMessage(result);
@@ -20,10 +21,6 @@ const useNicknameModal = () => {
   };
 
   const closeRef = useRef(null);
-  const handleNameConfirmModalOpen = (handleClose) => {
-    handleConfirmModalOpen();
-    closeRef.current = handleClose;
-  };
   const handleNameConfirmModalDone = () => {
     handleConfirmModalClose();
     if (closeRef.current) closeRef.current();

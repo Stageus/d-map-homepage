@@ -1,17 +1,25 @@
 import { useState } from "react";
 
+const TAB_CONFIG = ["공유", "저장"];
+
 const useTabs = (initialTab = "공유") => {
-  const [activeTab, setActiveTab] = useState(initialTab);
-  const [tabIndex, setTabIndex] = useState(initialTab === "공유" ? 0 : 1);
+  const [tabState, setTabState] = useState({
+    activeTabStr: initialTab,
+    tabIndex: TAB_CONFIG.indexOf(initialTab),
+  });
 
   const handleTabClick = (tab) => {
-    setActiveTab(tab);
-    setTabIndex(tab === "공유" ? 0 : 1);
+    if (!TAB_CONFIG.includes(tab)) {
+      return;
+    }
+    setTabState({
+      activeTabStr: tab,
+      tabIndex: TAB_CONFIG.indexOf(tab),
+    });
   };
 
   return {
-    activeTab,
-    tabIndex,
+    tabState,
     handleTabClick,
   };
 };

@@ -1,6 +1,8 @@
 import React from "react";
+import ReactDOM from "react-dom";
+
 import STYLE from "./style.js";
-import { useParams } from "react-router-dom";
+import empty_profie_icon from "./assets/empty_profile_icon.svg";
 
 import useModifyImageModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyNameModal from "../../../../4_Shared/model/useModalHandler.js";
@@ -11,20 +13,25 @@ import ModifyImageModal from "./ui/ModifyImageModal/index.js";
 import ModifyNameModal from "./ui/ModifyNameModal/index.js";
 import ModifyModeModal from "./ui/ModifyModeModal/index.js";
 import ConfirmModal from "../../../../2_Widget/ConfirmModal";
-import useGetUserData from "../../../../3_Entity/Profile/useGetUserData.js";
+import Modal from "./ui/Modal";
+import useManageUserInfo from "./model/useManageUserInfo.js";
 
 const Header = (props) => {
   const {
-    trackData,
-    getTrackLength,
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
-    activeTab,
+
+    tabState,
+    handleTabClick,
   } = props;
 
-  const { userIdx } = useParams();
+  const { userInfo, handleImageChange, handleChangeNickName } =
+    useManageUserInfo();
 
-  const { userData, loading, error } = useGetUserData(userIdx); // 프로필 데이터
+  const trackDataLegth =
+    tabState.tabIndex === 1
+      ? userInfo?.share_tracking_length || 1
+      : userInfo?.save_tracking_length || 1;
 
   const [modifyImageModal, handleImageModalOpen, handleImageModalClose] =
     useModifyImageModal(); // 프로필 이미지 모달
@@ -44,26 +51,30 @@ const Header = (props) => {
     <>
       {!modifyMode ? (
         <STYLE.ProfileContainer>
-          <STYLE.ProfileWrapper onClick={handleImageModalOpen}>
-            <STYLE.ProfileImg src={userData?.image} alt="Profile" />
+          <STYLE.ProfileWrapper
+            onClick={userInfo?.isMine ? handleImageModalOpen : undefined}>
+            <STYLE.ProfileImg
+              src={
+                userInfo?.image_url ? userInfo?.image_url : empty_profie_icon
+              }
+            />
           </STYLE.ProfileWrapper>
           <STYLE.UserInfo>
             <STYLE.ProfileBox>
-              <STYLE.UserName>{userData?.nickname}</STYLE.UserName>
-              {userIdx && (
+              <STYLE.UserName>{userInfo?.nickname}</STYLE.UserName>
+              {userInfo?.isMine && (
                 <STYLE.ProfileButton onClick={handleModifyModeOpen}>
                   •••
                 </STYLE.ProfileButton>
               )}
             </STYLE.ProfileBox>
-            {userIdx && (
+            {userInfo?.isMine && (
               <STYLE.Nickname onClick={handleModifyNameModalOpen}>
                 닉네임 수정
               </STYLE.Nickname>
             )}
             <STYLE.PostCount>
-              {activeTab} 게시물 :{" "}
-              {activeTab === "공유" ? getTrackLength(0) : getTrackLength(1)}개
+              {tabState?.activeTabStr} 게시물 : {trackDataLegth}개
             </STYLE.PostCount>
           </STYLE.UserInfo>
         </STYLE.ProfileContainer>
@@ -85,27 +96,71 @@ const Header = (props) => {
         </STYLE.Container>
       )}
 
+      <STYLE.TabMenu>
+        {userInfo?.isMine ? (
+          <>
+            <STYLE.Tab
+              $active={tabState?.activeTabStr === "공유"}
+              onClick={() => handleTabClick("공유")}>
+              공유
+            </STYLE.Tab>
+            <STYLE.Tab
+              $active={tabState?.activeTabStr === "저장"}
+              onClick={() => handleTabClick("저장")}>
+              저장
+            </STYLE.Tab>
+          </>
+        ) : (
+          <STYLE.TabNone>게시물</STYLE.TabNone>
+        )}
+      </STYLE.TabMenu>
+
       {modifyImageModal && (
-        <ModifyImageModal
-          image={userData?.image}
-          onClose={handleImageModalClose}
-        />
+        <Modal onClose={handleImageModalClose} snap={[0.2]}>
+          {({ handleClose }) => (
+            <ModifyImageModal
+              image={userInfo?.image_url}
+              handleImageChange={handleImageChange}
+              handleClose={handleClose}
+            />
+          )}
+        </Modal>
       )}
+
       {modifyNameModal && (
-        <ModifyNameModal
-          onClose={handleModifyNameModalClose}
-          name={userData?.nickname}
-        />
+        <Modal onClose={handleModifyNameModalClose} snap={[0.2]}>
+          {({ handleClose }) => (
+            <ModifyNameModal
+              handleChangeNickName={handleChangeNickName}
+              handleClose={handleClose}
+              name={userInfo?.nickname}
+            />
+          )}
+        </Modal>
       )}
-      {modifyModeModal && (
-        <>
-          <ModifyModeModal
-            handleModifyModeClose={handleModifyModeClose}
-            handleSetMode={handleSetMode}
-            sumtrackDataLength={trackData.length}
-          />
-        </>
-      )}
+
+      {modifyModeModal &&
+        (trackDataLegth === 0 ? (
+          ReactDOM.createPortal(
+            <ConfirmModal
+              type="one"
+              message="편집할 그림이 없습니다"
+              onClose={handleModifyModeClose}
+            />,
+            document.body
+          )
+        ) : (
+          <Modal onClose={handleModifyModeClose} snap={[0.2]}>
+            {({ handleClose }) => (
+              <ModifyModeModal
+                handleSetMode={handleSetMode}
+                handleClose={handleClose}
+                handleModifyModeClose={handleModifyModeClose}
+                trackDataLegth={trackDataLegth}
+              />
+            )}
+          </Modal>
+        ))}
 
       {confirmModal && (
         <ConfirmModal
