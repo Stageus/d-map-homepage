@@ -23,10 +23,11 @@ const TrackingImageContainer = (props) => {
     setLongPressData(track);
   }, 1000);
 
+  console.log(track);
   return (
     <>
-      <STYLE.TrackingContainer {...(!modifyMode && longPressEvents)}>
-        <p>{track.idx}</p>
+      <STYLE.TrackingContainer
+        {...(!modifyMode && track?.isMine && longPressEvents)}>
         <TrackingImage
           data={{ ...track, height: "100%", draggable: false, background: 0 }}
         />
