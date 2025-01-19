@@ -6,11 +6,11 @@ import postTrackingImage from "../../3_Entity/Tracking/postTrackingImage";
 import putTrackingImage from "../../3_Entity/Tracking/putTrackingImage";
 import MAPTYPE from "../../4_Shared/constant/mapType";
 import useNewTrackingData from "./model/useNewTrackingData";
+import searchpointConverter from "../../4_Shared/lib/searchpointConverter";
 
-const Modal = (props) => {
-  const { children, onClose, trackData } = props;
-  const [newTrackingData, setNewTrackingData, syncNewTrackingData] =
-    useNewTrackingData(trackData);
+const ModifyTrackingImageModal = (props) => {
+  const { onClose, trackData } = props;
+  const [newTrackingData, setNewTrackingData] = useNewTrackingData(trackData);
   const sheetRef = React.useRef();
   const mapRef = React.useRef(null);
   const {
@@ -87,7 +87,6 @@ const Modal = (props) => {
               max="10"
               value={newTrackingData.thickness}
               onChange={(e) => {
-                console.log(mapRef.current.getZoom())
                 setNewTrackingData({
                   thickness: Number(e.target.value),
                   center: mapRef.current.getCenter().toJSON(),
@@ -115,16 +114,36 @@ const Modal = (props) => {
             <STYLE.Button
               onClick={async () => {
                 newTrackingData.idx === -1
-                  ? postTrackingImage(newTrackingData) // tracking image 생성
-                  : putTrackingImage(newTrackingData); // tracking image 수정
+                  ? postTrackingImage({
+                      ...newTrackingData,
+                      center: mapRef.current.getCenter().toJSON(),
+                      zoom: mapRef.current.getZoom(),
+                    }) // tracking image 생성
+                  : putTrackingImage({
+                      ...newTrackingData,
+                      center: mapRef.current.getCenter().toJSON(),
+                      zoom: mapRef.current.getZoom(),
+                    }); // tracking image 수정
                 handleClose();
               }}
             >
               저장하기
             </STYLE.Button>
             <STYLE.Button
-              onClick={() => {
-                // toSharing api
+              onClick={async () => {
+                newTrackingData.idx === -1
+                  ? postTrackingImage({
+                      ...newTrackingData,
+                      center: mapRef.current.getCenter().toJSON(),
+                      zoom: mapRef.current.getZoom(),
+                      sharing: true,
+                    }) // tracking image 생성
+                  : putTrackingImage({
+                      ...newTrackingData,
+                      sharing: true,
+                      center: mapRef.current.getCenter().toJSON(),
+                      zoom: mapRef.current.getZoom(),
+                    }); // tracking image 수정
                 handleClose();
               }}
             >
@@ -132,11 +151,9 @@ const Modal = (props) => {
             </STYLE.Button>
           </STYLE.ButtonContainer>
         </STYLE.Container>
-
-        {children && children({ handleClose })}
       </STYLE.Sheet>
     </>
   );
 };
 
-export default Modal;
+export default ModifyTrackingImageModal;
