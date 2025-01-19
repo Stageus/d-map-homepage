@@ -8,7 +8,7 @@ import MAPTYPE from "../../4_Shared/constant/mapType";
 import useNewTrackingData from "./model/useNewTrackingData";
 import searchpointConverter from "../../4_Shared/lib/searchpointConverter";
 
-const Modal = (props) => {
+const ModifyTrackingImageModal = (props) => {
   const { onClose, trackData } = props;
   const [newTrackingData, setNewTrackingData] = useNewTrackingData(trackData);
   const sheetRef = React.useRef();
@@ -156,4 +156,4 @@ const Modal = (props) => {
   );
 };
 
-export default Modal;
+export default ModifyTrackingImageModal;

@@ -8,7 +8,7 @@ import stop_icon from "./assets/stop-solid.svg";
 import useTrackingLine from "./model/useTrackingLine";
 import useIsTrackingAtom from "../../4_Shared/Recoil/useIsTrackingAtom";
 import useIsModifyingTrackingAtom from "../../4_Shared/Recoil/useIsModifyingTrackingAtom";
-import Modal from "../../2_Widget/Modal";
+import ModifyTrackingImageModal from "../../2_Widget/ModifyTrackingImageModal";
 import MAPTYPE from "../../4_Shared/constant/mapType";
 
 const Tracking = () => {
@@ -98,7 +98,7 @@ const Tracking = () => {
 
       {/* 수정 모달 */}
       {isModifying && (
-        <Modal
+        <ModifyTrackingImageModal
           onClose={() => {
             toggleIsModifying();
           }}
