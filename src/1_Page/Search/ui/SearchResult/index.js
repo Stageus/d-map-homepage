@@ -10,7 +10,6 @@ const SearchResult = () => {
   const { activeTab, handleTabName, handleTabLocation, handleGetPresentTab } =
     useTab(); // 탭 관리
   const { page, handleScroll } = useInfinityScroll(activeTab);
-
   const {
     searchDataNicnkname,
     searchDataSearchpoint,
@@ -55,7 +54,6 @@ const SearchResult = () => {
                     handleNavigate(result.idx);
                   }}>
                   <STYLE.TitleContainer>
-                    {console.log(result)}
                     <STYLE.ProfileIcon src={result.image} />
                     <STYLE.Title>
                       {result.nickname} - {result.searchpoint}

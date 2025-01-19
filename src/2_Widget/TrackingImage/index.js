@@ -27,24 +27,24 @@ const TrackingImage = (props) => {
 
   return (
     <>
-        <GoogleMap
-          mapContainerStyle={{
-            width: "100%",
-            height: height,
-          }}
-          options={{
-            zoom: zoom,
-            center: center,
-            heading: heading, // 지도 회전 각도 설정 (0 ~ 360)
-            disableDefaultUI: true, // UI 요소 비활성화
-            draggable, // 드래그 활성화/비활성화
-            mapTypeId: MAPTYPE[background]
-          }}>
-          {/* 선 그리기 */}
-          {line.map((elem) => {
-            return <Polyline path={elem} options={polylineOptions} />;
-          })}
-        </GoogleMap>
+      <GoogleMap
+        mapContainerStyle={{
+          width: "100%",
+          height: height,
+        }}
+        options={{
+          zoom: zoom,
+          center: center,
+          heading: heading, // 지도 회전 각도 설정 (0 ~ 360)
+          disableDefaultUI: true, // UI 요소 비활성화
+          draggable, // 드래그 활성화/비활성화
+          mapTypeId: MAPTYPE[background],
+        }}>
+        {/* 선 그리기 */}
+        {line.map((elem) => {
+          return <Polyline path={elem} options={polylineOptions} />;
+        })}
+      </GoogleMap>
     </>
   );
 };

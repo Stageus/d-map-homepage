@@ -2,7 +2,7 @@ import React from "react";
 import SEARCH_TYPE from "../../1_Page/Search/constant/SEARCH_TYPE";
 import { fetchRequest } from "../../4_Shared/util/apiUtil";
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
-const ITEMS_PER_PAGE = 20;
+const ITEMS_PER_PAGE = 1;
 
 const data = {
   rows: [
@@ -47,7 +47,7 @@ const data = {
       liked_by_user: false,
       center: {
         lat: 37.440582788331874,
-        lot: 126.66146387071429,
+        lng: 126.66146387071429,
       },
     },
   ],
@@ -117,6 +117,8 @@ const useGetSearchData = (text, page, type) => {
   }, []);
 
   React.useEffect(() => {
+    fetchSearchData(type);
+    fetchSearchData(type);
     fetchSearchData(type);
   }, [text, page]);
 
