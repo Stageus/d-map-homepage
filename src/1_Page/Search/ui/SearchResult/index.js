@@ -90,6 +90,11 @@ const SearchResult = () => {
             )}
           </STYLE.ResultList>
         </STYLE.Slider>
+        {loading && (
+          <STYLE.LoaderContainer>
+            <STYLE.Loader />
+          </STYLE.LoaderContainer>
+        )}
       </STYLE.SliderWrapper>
     </>
   );

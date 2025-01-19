@@ -1,4 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+// 로딩 애니메이션 정의
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
 
 const STYLE = {
   Container: styled.div`
@@ -119,6 +129,21 @@ const STYLE = {
     border-radius: 8px;
     margin: 10px;
     height: 800px;
+  `,
+  LoaderContainer: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* 부모 컨테이너의 전체 높이 */
+  `,
+  Loader: styled.div`
+    border: 4px solid rgba(0, 0, 0, 0.1); /* 바깥쪽 테두리 */
+    border-top: 4px solid #3498db; /* 위쪽 테두리 (색상) */
+    border-radius: 50%; /* 원형 */
+    width: 40px;
+    height: 40px;
+    animation: ${spin} 1s linear infinite; /* 애니메이션 */
+    margin: 20px auto; /* 중앙 정렬 */
   `,
 };
 
