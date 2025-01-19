@@ -1,0 +1,28 @@
+import { useState } from "react";
+
+const useInfinityScroll = () => {
+  const [page, setPage] = useState({
+    nickname: 1,
+    searchpoint: 1,
+  }); // 페이지 상태 초기화
+
+  const handleScroll = (e) => {
+    const { scrollHeight, scrollTop, clientHeight } = e.target;
+
+    console.log("Scroll Details:", scrollHeight, scrollTop, clientHeight);
+
+    // 스크롤이 가장 아래로 갔는지 확인
+    if (scrollTop + clientHeight >= scrollHeight) {
+      console.log("다음 페이지 요청 중...");
+      setPage((prevPage) => ({
+        ...prevPage,
+        nickname: prevPage.nickname + 1,
+        searchpoint: prevPage.searchpoint + 1,
+      }));
+    }
+  };
+
+  return { page, handleScroll }; // 페이지 상태와 스크롤 핸들러 반환
+};
+
+export default useInfinityScroll;

@@ -46,6 +46,7 @@ const STYLE = {
   `,
   ResultList: styled.div`
     display: flex;
+    width: 100%;
     height: 500px;
     flex-direction: column;
     overflow-y: scroll;
@@ -56,6 +57,16 @@ const STYLE = {
     align-items: center;
     border: 1px solid ${({ theme }) => theme.light_gray};
     border-radius: 8px;
+  `,
+  SliderWrapper: styled.div`
+    overflow: hidden; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
+    width: 100%;
+  `,
+  Slider: styled.div`
+    display: flex;
+    width: 200%; /* 두 개의 탭을 모두 포함할 넓이 */
+    transform: translateX(${({ $tabIndex }) => -$tabIndex * 50}%);
+    transition: transform 0.5s ease-in-out;
   `,
   TitleContainer: styled.div`
     display: flex;

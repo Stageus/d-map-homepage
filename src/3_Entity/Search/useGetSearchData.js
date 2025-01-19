@@ -1,67 +1,59 @@
-import { useEffect, useState } from "react";
-import { locationData, nicknameData } from "./data";
+import React from "react";
+import SEARCH_TYPE from "../../1_Page/Search/constant/SEARCH_TYPE";
+import { fetchRequest } from "../../4_Shared/util/apiUtil";
+const BASE_URL = process.env.REACT_APP_SERVER_URL;
+const ITEMS_PER_PAGE = 20;
 
-const getSearchData = async (SearchText, type) => {
-  if (type === "이름") return nicknameData;
-  if (type === "장소") return locationData;
-  try {
-    const response = await fetch(`https://주소/Search/${SearchText}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+const useGetSearchData = (text, page, type) => {
+  const [loading, setLoading] = React.useState(true);
+  const [searchData, setSearchData] = React.useState([]);
+  const [hasMoreContent, setHasMoreContent] = React.useState(() => ({
+    [SEARCH_TYPE.nickname]: false,
+    [SEARCH_TYPE.searchpoint]: false,
+  }));
 
-    const status = response.status;
+  React.useEffect(() => {
+    const fetchSearchData = async () => {
+      let result = [];
+      try {
+        const response = await fetchRequest(
+          "GET",
+          `${BASE_URL}/search/${SEARCH_TYPE[type]}&page=${page}`,
+          { text },
+          null
+        );
 
-    // 상태 코드 처리
-    if (!response.ok) {
-      switch (status) {
-        case 400:
-          console.log("입력 값 오류");
-          break;
-        case 409:
-          console.log("중복 데이터 존재");
-          break;
-        default:
-          console.log("서버 오류 발생");
+        const data = await response.json();
+        // Handle response status
+        switch (response.status) {
+          case 200:
+            result = data.tracking_image;
+            console.log(result, page);
+            break;
+          case 400:
+          case 404:
+          case 500:
+          default:
+            console.log(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
-      return null; // 에러 발생 시 null 반환
-    }
 
-    // 응답 처리
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    console.error("네트워크 또는 서버 오류:", error);
-    throw error; // 에러 재발생
-  }
-};
+      setHasMoreContent((prev) => ({
+        ...prev,
+        [SEARCH_TYPE[type]]: result.length >= ITEMS_PER_PAGE,
+      }));
 
-const useGetSearchData = (searchText, type) => {
-  const [searchData, setSearchData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+      setSearchData((pre) => [...pre, ...result]);
+    };
 
-  const fetchData = async (SearchText, type) => {
-    try {
-      setLoading(true);
-      const data = await getSearchData(SearchText, type);
-      setSearchData(data.message);
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-      setError(err.message);
-    }
-  };
+    fetchSearchData();
+  }, [text, page]);
 
-  useEffect(() => {
-    if (searchText && type) {
-      fetchData(searchText, type);
-    }
-  }, [searchText, type]);
-
-  return { searchData, loading, error };
+  return [searchData, loading, hasMoreContent];
 };
 
 export default useGetSearchData;
