@@ -110,6 +110,7 @@ const STYLE = {
   EmptyMessage: styled.div`
     text-align: center;
     color: ${({ theme }) => theme.gray};
+    margin: 10px;
   `,
   MapPreview: styled.div`
     padding: 10px;

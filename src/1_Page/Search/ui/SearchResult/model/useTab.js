@@ -1,11 +1,11 @@
 import { useState } from "react";
-import TABS from "../constant/TABS";
+import TABS from "../../../constant/SEARCH_TYPE";
 
 const useTab = () => {
-  const [activeTab, setActiveTab] = useState(TABS.LOCATION);
+  const [activeTab, setActiveTab] = useState(TABS.SEARCHPOINT);
 
-  const handleTabName = () => setActiveTab(TABS.NAME);
-  const handleTabLocation = () => setActiveTab(TABS.LOCATION);
+  const handleTabName = () => setActiveTab(TABS.NICKNAME);
+  const handleTabLocation = () => setActiveTab(TABS.SEARCHPOINT);
 
   const handleGetPresentTab = (selectTab) => activeTab === selectTab;
 
