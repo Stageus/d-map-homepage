@@ -16,14 +16,14 @@ const TrackingImageContainer = (props) => {
     handleModifyTrackingOpen,
     handleModifyTrackingClose,
   ] = useConfirmModal();
-  const [longPressData, setLongPressData] = useState(null);
+
+  const [selectLongPressData, setSelectLongPressData] = useState(null);
 
   const longPressEvents = useLongPressEvent(() => {
     handleModifyTrackingOpen();
-    setLongPressData(track);
+    setSelectLongPressData(track);
   }, 1000);
 
-  console.log(track);
   return (
     <>
       <STYLE.TrackingContainer
@@ -47,11 +47,11 @@ const TrackingImageContainer = (props) => {
         )}
       </STYLE.TrackingContainer>
       {modifyTrackingModal &&
-        longPressData &&
+        selectLongPressData &&
         ReactDOM.createPortal(
           <Modal
             onClose={handleModifyTrackingClose}
-            trackData={longPressData}
+            trackData={selectLongPressData}
           />,
           document.body // Portal로 이동
         )}

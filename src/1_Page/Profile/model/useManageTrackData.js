@@ -1,69 +1,29 @@
-import { useEffect, useState, useCallback, useRef, useMemo } from "react";
-import useGetTrackingImageList from "../../../3_Entity/Tracking/useGetTrackingImageList";
+import { useState, useCallback, useEffect } from "react";
 import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingImageToShare";
 import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingImageToNotShare";
 import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
-import { useParams } from "react-router-dom";
 
-const useManageTrackData = (tabIndex) => {
-  const { userIdx } = useParams();
-
-  const [page, setPage] = useState({ save: 1, share: 1 });
+const useManageTrackData = (trackingImageList) => {
   const [trackData, setTrackData] = useState([]);
   const [modifyIdxList, setModifyIdxList] = useState([]);
 
-  const isShareTab = tabIndex === 0; // Boolean으로 처리
-  const category = isShareTab ? 1 : 0;
-  const paging = isShareTab ? page.share : page.save;
-
-  const { trackingImageList, loading, hasMoreContent } =
-    useGetTrackingImageList(userIdx, paging, category);
-
-  // 트래킹 데이터 상태 관리
   useEffect(() => {
-    setTrackData(trackingImageList || []);
+    setTrackData((prev) => {
+      const newItems = trackingImageList.filter(
+        (item) => !prev.some((prevItem) => prevItem.idx === item.idx)
+      );
+      return [...prev, ...newItems];
+    });
+    deleteRepeatData();
   }, [trackingImageList]);
 
-  const trackingImageDataList = useMemo(() => {
-    return trackData.reduce(
-      (acc, item) => {
-        acc[item.sharing ? "share" : "save"].push(item);
-        return acc;
-      },
-      { share: [], save: [] }
-    );
-  }, [trackData]);
+  const [shareTrackingImageData, saveTrackingImageData] = [
+    trackData.filter((item) => item.sharing === true),
+    trackData.filter((item) => item.sharing === false),
+  ];
 
-  // hasMoreContent 상태 업데이트
-  const hasMoreContentRef = useRef(hasMoreContent);
-  useEffect(() => {
-    hasMoreContentRef.current = hasMoreContent;
-  }, [hasMoreContent]);
-
-  const handleNextPage = useCallback(() => {
-    const hasMoreContent = isShareTab
-      ? hasMoreContentRef.current.share
-      : hasMoreContentRef.current.save;
-    if (!hasMoreContent) return;
-    setPage((prev) => ({
-      ...prev,
-      [isShareTab ? "share" : "save"]: prev[isShareTab ? "share" : "save"] + 1,
-    }));
-  }, [isShareTab]);
-
-  // 데이터 길이 확인 후 페이지 추가
-  const checkAndFetchMore = useCallback(() => {
-    const currentData = isShareTab
-      ? trackingImageDataList.share
-      : trackingImageDataList.save;
-    if ((currentData?.length || 0) <= 9) handleNextPage();
-  }, [isShareTab, trackingImageDataList, handleNextPage]);
-
-  // 데이터 정렬
   const sortTrackData = useCallback(() => {
-    setTrackData((prev) =>
-      [...prev].sort((a, b) => new Date(b.userIdx) - new Date(a.userIdx))
-    );
+    setTrackData((prev) => [...prev].sort((a, b) => b.userIdx - a.userIdx));
   }, []);
 
   // 중복 데이터 제거
@@ -103,12 +63,10 @@ const useManageTrackData = (tabIndex) => {
           item.idx === track.idx ? { ...item, sharing: !item.sharing } : item
         )
       );
-
-      checkAndFetchMore();
       sortTrackData();
       deleteRepeatData();
     },
-    [toggleModifyIdxList, checkAndFetchMore, sortTrackData, deleteRepeatData]
+    [toggleModifyIdxList, sortTrackData, deleteRepeatData]
   );
 
   // 데이터 삭제
@@ -122,10 +80,8 @@ const useManageTrackData = (tabIndex) => {
         )
       );
       setModifyIdxList([]);
-      checkAndFetchMore();
-      sortTrackData();
     }
-  }, [modifyIdxList, checkAndFetchMore, sortTrackData]);
+  }, [modifyIdxList]);
 
   // 데이터 수정
   const handleModifyTrack = useCallback(async () => {
@@ -146,34 +102,19 @@ const useManageTrackData = (tabIndex) => {
       }
 
       setModifyIdxList([]);
+      sortTrackData();
     } catch (error) {
       console.error("Error modifying tracking data:", error);
     }
   }, [modifyIdxList]);
 
-  // 스크롤 처리
-  const handleScroll = useCallback(
-    (event) => {
-      const container = event.target;
-      if (
-        container.scrollHeight - container.scrollTop - 1 <=
-        container.clientHeight
-      ) {
-        handleNextPage();
-      }
-    },
-    [handleNextPage]
-  );
-
   return {
-    shareTrackingImageData: trackingImageDataList.share,
-    saveTrackingImageData: trackingImageDataList.save,
+    shareTrackingImageData,
+    saveTrackingImageData,
     handleAddModifyIdxList,
     handleSelectCancel,
     handleModifyTrack,
     handleDeleteTrack,
-    handleScroll,
-    loading,
   };
 };
 

@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { fetchRequest } from "../../4_Shared/util/apiUtil";
-import { use } from "react";
 
 const ITEMS_PER_PAGE = 20;
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
-const useGetTrackingImageList = (userIdx, page, categoryState) => {
+const useGetTrackingImageList = (userIdx, page, sharing) => {
   const [loading, setLoading] = useState(true);
   const [trackingImageList, setTrackingImageLists] = useState([]);
   const [hasMoreContent, setHasMoreContent] = useState({
@@ -14,19 +13,18 @@ const useGetTrackingImageList = (userIdx, page, categoryState) => {
     share: false,
   });
 
-  const updateListAndState = (data, isSaveCategory) => {
-    const key = isSaveCategory ? "save" : "share";
+  const updateListAndState = (data, sharing) => {
+    const key = sharing === 1 ? "share" : "save";
     setTrackingImageLists((prev) => [...prev, ...data]);
     setHasMoreContent((prev) => ({
       ...prev,
       [key]: data.length >= ITEMS_PER_PAGE,
     }));
   };
-  const fetchTrackingImageList = async (category) => {
+  const fetchTrackingImageList = async (sharing) => {
     setLoading(true);
     try {
-      const url = `${BASE_URL}/tracking/account/${userIdx}?page=${page}&category=${category}`;
-      console.log(url);
+      const url = `${BASE_URL}/tracking/account/${userIdx}?page=${page}&category=${sharing}`;
       const response = await fetchRequest("GET", url, null, TEST_TOKEN);
       if (!response.ok) {
         const errorData = await response.json();
@@ -34,18 +32,20 @@ const useGetTrackingImageList = (userIdx, page, categoryState) => {
       }
 
       const data = await response.json();
-      updateListAndState(data.tracking_image, category === 0);
+      updateListAndState(data.tracking_image, sharing);
     } catch (error) {
       console.error("Failed to fetch tracking image list:", error);
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchTrackingImageList(0);
   }, []);
+
   useEffect(() => {
-    fetchTrackingImageList(categoryState);
+    fetchTrackingImageList(sharing);
   }, [userIdx, page]);
 
   return {
