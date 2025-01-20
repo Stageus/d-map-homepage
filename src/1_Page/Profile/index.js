@@ -11,13 +11,10 @@ import useManageUserInfo from "./model/useManageUserInfo.js";
 
 import useGetTrackingImageList from "../../3_Entity/Tracking/useGetTrackingImageList.js";
 import ConfirmModal from "../../2_Widget/ConfirmModal";
-import useModalHandler from "../../4_Shared/model/useModalHandler.js";
-import { useState } from "react";
+import useErrorModal from "./model/useModalHandler.js";
 
 const Profile = () => {
   // 에러 핸들링 모달
-  const [message, setMessage] = useState("");
-  const [confirmModal, comfirmModalToggle] = useModalHandler();
 
   const { tabState, handleTabClick } = useTabs(); // 탭 관리 훅
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
@@ -25,8 +22,11 @@ const Profile = () => {
     tabState.tabIndex
   );
 
+  const { errorMessage, isModalOpen, showErrorModal, errorModalBackPage } =
+    useErrorModal();
+
   // 유저 데이터 조회
-  const { userInfoData } = useManageUserInfo();
+  const { userInfoData } = useManageUserInfo(showErrorModal);
 
   // 데이터 조회 (userIdx , page , category)
   const { trackingImageList, loading, hasMoreContent } =
@@ -44,12 +44,12 @@ const Profile = () => {
     handleSelectCancel,
     handleModifyTrack,
     handleDeleteTrack,
-  } = useManageTrackData({
+  } = useManageTrackData(
     trackingImageList,
-    tabState,
+    tabState.tabIndex,
     checkLessLength,
-    errorModal: { comfirmModalToggle, setMessage },
-  });
+    showErrorModal
+  );
 
   return (
     <>
@@ -90,8 +90,12 @@ const Profile = () => {
           </STYLE.LoadingBox>
         </STYLE.LoadingContainer>
       )}
-      {confirmModal && (
-        <ConfirmModal message={message} onClose={comfirmModalToggle} />
+      {isModalOpen && (
+        <ConfirmModal
+          message={errorMessage}
+          onClose={errorModalBackPage}
+          type="one"
+        />
       )}
     </>
   );

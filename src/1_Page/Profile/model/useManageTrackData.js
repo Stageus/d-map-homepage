@@ -3,12 +3,12 @@ import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingImageToSha
 import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingImageToNotShare";
 import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
 
-const useManageTrackData = ({
+const useManageTrackData = (
   trackingImageList,
-  tabState: { tabIndex },
+  tabIndex,
   checkLessLength,
-  errorModal: { comfirmModalToggle, setMessage },
-}) => {
+  showErrorModal
+) => {
   const [trackData, setTrackData] = useState([]);
   const [modifyIdxList, setModifyIdxList] = useState([]);
   const prevLength = useRef(null);
@@ -90,16 +90,6 @@ const useManageTrackData = ({
     [toggleModifyIdxList, sortTrackData, removeDuplicateData]
   );
 
-  // 삭제 실패 시 처리
-  const handleDeletionFailure = useCallback(
-    (errorMessage) => {
-      setMessage(errorMessage);
-      comfirmModalToggle();
-      handleSelectCancel();
-    },
-    [comfirmModalToggle, setMessage, handleSelectCancel]
-  );
-
   // 데이터 삭제
   const handleDeleteTrack = useCallback(async () => {
     const idxList = modifyIdxList.map((item) => item.idx);
@@ -113,8 +103,9 @@ const useManageTrackData = ({
       return;
     }
     console.log(result);
-    handleDeletionFailure(result);
-  }, [modifyIdxList, handleDeletionFailure]);
+    showErrorModal(result);
+    handleSelectCancel();
+  }, [modifyIdxList, showErrorModal]);
 
   const handleModifyTrack = useCallback(async () => {
     const idxToShare = modifyIdxList
@@ -130,10 +121,9 @@ const useManageTrackData = ({
       sortTrackData();
       return;
     }
-    handleDeletionFailure(
-      resultToShare !== true ? resultToShare : resultToNotShare
-    );
-  }, [modifyIdxList, sortTrackData, handleDeletionFailure]);
+    showErrorModal(resultToShare !== true ? resultToShare : resultToNotShare);
+    handleSelectCancel();
+  }, [modifyIdxList, sortTrackData, showErrorModal]);
 
   return {
     shareTrackingImageData,

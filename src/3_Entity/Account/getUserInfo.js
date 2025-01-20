@@ -12,19 +12,12 @@ const getUserInfo = async (userIdx) => {
     const endpoint = `${BASE_URL}/account/info/${userIdx}`;
 
     const response = await fetchRequest("GET", endpoint, null, TEST_TOKEN);
+    const result = await response.json();
 
     if (!response.ok) {
-      const errorMessages = {
-        500: "예상치 못한 에러입니다.",
-      };
-
-      const message =
-        errorMessages[response.status] || "서버 오류가 발생했습니다.";
-      console.error(`Error ${response.status}: ${message}`);
-      throw new Error(message);
+      throw new Error(result.message);
     }
 
-    const result = await response.json();
     return result;
   } catch (error) {
     console.error("네트워크 또는 서버 오류:", error);
