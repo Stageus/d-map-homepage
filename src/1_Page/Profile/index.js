@@ -10,12 +10,18 @@ import useInfinityScroll from "./model/useInfinityScroll.js";
 
 import useGetTrackingImageList from "../../3_Entity/Tracking/useGetTrackingImageList.js";
 import { useParams } from "react-router-dom";
+import ConfirmModal from "../../2_Widget/ConfirmModal";
+import useModalHandler from "../../4_Shared/model/useModalHandler.js";
+import { useState } from "react";
 
 const Profile = () => {
   const { userIdx } = useParams(); // userIdx 추출
 
-  // state
-  const { tabState, handleTabClick } = useTabs();
+  // 에러 핸들링 모달
+  const [message, setMessage] = useState("");
+  const [confirmModal, comfirmModalToggle] = useModalHandler();
+
+  const { tabState, handleTabClick } = useTabs(); // 탭 관리 훅
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
   const { paging, handleScroll, checkLessLength } = useInfinityScroll(
     tabState.tabIndex
@@ -25,7 +31,7 @@ const Profile = () => {
   const { trackingImageList, loading, hasMoreContent } =
     useGetTrackingImageList(userIdx, paging, tabState.tabIndex === 1 ? 0 : 1);
 
-  // 데이터 관리 훅 (조회 , 수정 , 삭제 , 취소)
+  // 데이터 관리 훅 ( 수정 , 삭제 , 취소)
   const {
     shareTrackingImageData,
     saveTrackingImageData,
@@ -33,7 +39,12 @@ const Profile = () => {
     handleSelectCancel,
     handleModifyTrack,
     handleDeleteTrack,
-  } = useManageTrackData(trackingImageList, tabState.tabIndex, checkLessLength);
+  } = useManageTrackData({
+    trackingImageList,
+    tabState,
+    checkLessLength,
+    errorModal: { comfirmModalToggle, setMessage },
+  });
 
   return (
     <>
@@ -70,6 +81,9 @@ const Profile = () => {
           </STYLE.LoadingContainer>
         )}
       </STYLE.Main>
+      {confirmModal && (
+        <ConfirmModal message={message} onClose={comfirmModalToggle} />
+      )}
     </>
   );
 };

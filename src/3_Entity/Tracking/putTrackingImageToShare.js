@@ -22,10 +22,10 @@ const putTrackingImageToShare = async (idxList) => {
 
     const result = await response.json();
     console.log(result);
-    return result;
+    return true;
   } catch (error) {
     console.error("공유 상태 수정 중 오류 발생:", error.message);
-    throw error;
+    return error;
   }
 };
 
