@@ -18,10 +18,7 @@ const putTrackingImageToNotShare = async (idxList) => {
       handleModifyError(response.status);
       throw new Error(`수정 실패: 상태 코드 ${response.status}`);
     }
-
-    const result = await response.json();
-    console.log("공유 상태가 성공적으로 수정되었습니다.");
-    return result;
+    return true;
   } catch (error) {
     console.error("공유 상태 수정 중 오류 발생:", error.message);
     throw error;

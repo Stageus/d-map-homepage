@@ -32,7 +32,6 @@ const useManageTrackData = ({
     if (currentTrackData.length === 0) return;
 
     if (currentTrackData.length !== prevLength.current) {
-      console.log(currentTrackData.length);
       checkLessLength(currentTrackData.length);
       prevLength.current = currentTrackData.length;
     }
@@ -73,18 +72,18 @@ const useManageTrackData = ({
     setTrackData(trackingImageList || []);
   }, [trackingImageList]);
 
-  // 데이터 추가 및 업데이트
+  // 데이터 선택
   const handleAddModifyIdxList = useCallback(
     (track, isDelete = false) => {
       toggleModifyIdxList(track);
-      if (isDelete) return;
 
+      // 수정인 경우 toggle
+      if (isDelete) return;
       setTrackData((prev) =>
         prev.map((item) =>
           item.idx === track.idx ? { ...item, sharing: !item.sharing } : item
         )
       );
-
       sortTrackData();
       removeDuplicateData();
     },
@@ -113,7 +112,7 @@ const useManageTrackData = ({
       setModifyIdxList([]);
       return;
     }
-
+    console.log(result);
     handleDeletionFailure(result);
   }, [modifyIdxList, handleDeletionFailure]);
 
@@ -131,6 +130,7 @@ const useManageTrackData = ({
       sortTrackData();
       return;
     }
+    console.log(resultToNotShare, resultToShare);
     handleDeletionFailure(
       resultToShare !== true ? resultToShare : resultToNotShare
     );
