@@ -14,8 +14,6 @@ import ConfirmModal from "../../2_Widget/ConfirmModal";
 import useErrorModal from "./model/useModalHandler.js";
 
 const Profile = () => {
-  // 에러 핸들링 모달
-
   const { tabState, handleTabClick } = useTabs(); // 탭 관리 훅
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
   const { paging, handleScroll, checkLessLength } = useInfinityScroll(
@@ -23,7 +21,7 @@ const Profile = () => {
   );
 
   const { errorMessage, isModalOpen, showErrorModal, errorModalBackPage } =
-    useErrorModal();
+    useErrorModal(); // 에러 표시 모달
 
   // 유저 데이터 조회
   const { userInfoData } = useManageUserInfo(showErrorModal);
@@ -33,7 +31,7 @@ const Profile = () => {
     useGetTrackingImageList(
       userInfoData?.idx,
       paging,
-      tabState.tabIndex === 1 ? 0 : 1
+      tabState.tabIndex === 1 ? 0 : 1 // 0 이 공유 , 1이 저장
     );
 
   // 데이터 관리 훅 ( 수정 , 삭제 , 취소)
