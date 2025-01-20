@@ -5,18 +5,17 @@ const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
 // 사용자 데이터 가져오기 함수
 const getUserInfo = async (userIdx) => {
-  if (!userIdx) {
-    throw new Error("유효하지 않은 사용자 ID입니다.");
-  }
   try {
+    if (!userIdx) {
+      throw new Error("유효하지 않은 사용자 ID입니다.");
+    }
     const endpoint = `${BASE_URL}/account/info/${userIdx}`;
 
     const response = await fetchRequest("GET", endpoint, null, TEST_TOKEN);
 
     if (!response.ok) {
       const errorMessages = {
-        400: "입력 값 오류",
-        409: "중복 데이터 존재",
+        500: "예상치 못한 에러입니다.",
       };
 
       const message =
