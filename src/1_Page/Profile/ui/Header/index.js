@@ -4,17 +4,18 @@ import ReactDOM from "react-dom";
 import STYLE from "./style.js";
 import empty_profie_icon from "./assets/empty_profile_icon.svg";
 
+import useManageUserInfo from "./model/useManageUserInfo.js";
+
 import useModifyImageModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyNameModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyMode from "../../../../4_Shared/model/useModalHandler.js";
 import useModalHandler from "../../../../4_Shared/model/useModalHandler.js";
 
-import ModifyImageModal from "./ui/ModifyImageModal/index.js";
-import ModifyNameModal from "./ui/ModifyNameModal/index.js";
-import ModifyModeModal from "./ui/ModifyModeModal/index.js";
+import ModalBase from "./ui/ModalBase";
+import ModifyImageModalContent from "./ui/ModifyImageModalContent";
+import ModifyNameModalContent from "./ui/ModifyNameModalContent";
+import ModifyModeModalContent from "./ui/ModifyModeModalContent";
 import ConfirmModal from "../../../../2_Widget/ConfirmModal";
-import Modal from "./ui/Modal";
-import useManageUserInfo from "./model/useManageUserInfo.js";
 
 const Header = (props) => {
   const {
@@ -107,27 +108,27 @@ const Header = (props) => {
       </STYLE.TabMenu>
 
       {modifyImageModal && (
-        <Modal onClose={modifyImageModalToggle} snap={[0.2]}>
+        <ModalBase onClose={modifyImageModalToggle} snap={[0.2]}>
           {({ handleClose }) => (
-            <ModifyImageModal
+            <ModifyImageModalContent
               image={userInfo?.image_url}
               handleImageChange={handleImageChange}
               handleClose={handleClose}
             />
           )}
-        </Modal>
+        </ModalBase>
       )}
 
       {modifyNameModal && (
-        <Modal onClose={modifyNameModalToggle} snap={[0.2]}>
+        <ModalBase onClose={modifyNameModalToggle} snap={[0.2]}>
           {({ handleClose }) => (
-            <ModifyNameModal
+            <ModifyNameModalContent
               handleChangeNickName={handleChangeNickName}
               handleClose={handleClose}
               name={userInfo?.nickname}
             />
           )}
-        </Modal>
+        </ModalBase>
       )}
 
       {modifyModeModal &&
@@ -141,16 +142,16 @@ const Header = (props) => {
             document.body
           )
         ) : (
-          <Modal onClose={modifyModeModalToggle} snap={[0.2]}>
+          <ModalBase onClose={modifyModeModalToggle} snap={[0.2]}>
             {({ handleClose }) => (
-              <ModifyModeModal
+              <ModifyModeModalContent
                 handleSetMode={handleSetMode}
                 handleClose={handleClose}
                 handleModifyModeClose={modifyModeModalToggle}
                 trackDataLegth={trackDataLegth}
               />
             )}
-          </Modal>
+          </ModalBase>
         ))}
 
       {confirmModal && (

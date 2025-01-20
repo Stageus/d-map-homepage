@@ -1,7 +1,7 @@
 import React from "react";
 import STYLE from "./style";
 
-const ModifyModeModal = ({
+const ModifyModeModalContent = ({
   handleClose,
   handleModifyModeClose,
   handleSetMode,
@@ -30,4 +30,4 @@ const ModifyModeModal = ({
   );
 };
 
-export default ModifyModeModal;
+export default ModifyModeModalContent;

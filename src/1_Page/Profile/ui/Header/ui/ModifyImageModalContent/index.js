@@ -7,7 +7,7 @@ import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 import useFileReader from "./model/useFileReader";
 import useImageModal from "./model/useImageModal";
 
-const ModifyImageModal = (props) => {
+const ModifyImageModalContent = (props) => {
   const { image, handleImageChange, handleClose } = props;
 
   const {
@@ -73,4 +73,4 @@ const ModifyImageModal = (props) => {
   );
 };
 
-export default ModifyImageModal;
+export default ModifyImageModalContent;
