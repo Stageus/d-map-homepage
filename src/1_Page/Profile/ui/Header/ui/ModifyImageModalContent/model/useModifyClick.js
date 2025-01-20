@@ -16,6 +16,7 @@ const useModifyClick = (
   useEffect(() => {
     imageRef.current = image;
   }, [image]);
+
   const handleModifyClick = async (handleClose) => {
     if (errorMessage) {
       setMessage(errorMessage);
