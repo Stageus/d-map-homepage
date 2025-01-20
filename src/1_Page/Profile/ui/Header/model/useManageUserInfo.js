@@ -29,12 +29,12 @@ const useManageUserInfo = (tabIndex) => {
     fetchUserData();
   }, [userIdx]);
 
-  const handleImageChange = (imageFile) => {
+  const handleProfileImageChange = (imageFile) => {
     const objectUrl = URL.createObjectURL(imageFile);
     setUserInfo((prev) => ({ ...prev, image_url: objectUrl }));
   };
 
-  return { userInfo, handleImageChange, handleChangeNickName };
+  return { userInfo, handleProfileImageChange, handleChangeNickName };
 };
 
 export default useManageUserInfo;

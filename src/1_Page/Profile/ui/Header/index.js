@@ -25,7 +25,7 @@ const Header = (props) => {
     handleTabClick,
   } = props;
 
-  const { userInfo, handleImageChange, handleChangeNickName } =
+  const { userInfo, handleProfileImageChange, handleChangeNickName } =
     useManageUserInfo();
 
   // 백엔드에서 수정 필요
@@ -110,7 +110,7 @@ const Header = (props) => {
           {({ handleClose }) => (
             <ModifyImageModalContent
               image={userInfo?.image_url}
-              handleImageChange={handleImageChange}
+              handleProfileImageChange={handleProfileImageChange}
               handleClose={handleClose}
             />
           )}

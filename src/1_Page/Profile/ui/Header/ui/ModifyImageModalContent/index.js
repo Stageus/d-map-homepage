@@ -9,32 +9,32 @@ import useImageModal from "./model/useImageModal";
 import useModifyClick from "./model/useModifyClick";
 
 const ModifyImageModalContent = (props) => {
-  const { image, handleImageChange, handleClose } = props;
-
-  const {
-    imageFile,
-    fileInputRef,
-    imagePreview,
-    errorMessage,
-    handleProfileImageClick,
-    handleFileChange,
-  } = useFileReader(image);
+  const { image, handleProfileImageChange, handleClose } = props;
 
   const {
     message,
-    confirmModal,
     setMessage,
+    confirmModal,
     confirmModalToggle,
     handleImageConfirmModalOpen,
     handleImageConfirmModalDone,
   } = useImageModal();
 
+  const {
+    uploadedImageFile,
+    fileInputRef,
+    imagePreviewURL,
+    errorMessage,
+    handleProfileImageClick,
+    handleFileChange,
+  } = useFileReader(image);
+
   const { handleModifyClick } = useModifyClick(
     image,
     errorMessage,
-    imagePreview,
-    imageFile,
-    handleImageChange,
+    imagePreviewURL,
+    uploadedImageFile,
+    handleProfileImageChange,
     setMessage,
     confirmModalToggle,
     handleImageConfirmModalOpen
@@ -45,7 +45,7 @@ const ModifyImageModalContent = (props) => {
       <STYLE.Container>
         <STYLE.Title>프로필 변경</STYLE.Title>
         <STYLE.ProfileImage
-          src={imagePreview}
+          src={imagePreviewURL}
           alt="프로필 이미지"
           onClick={handleProfileImageClick}
         />

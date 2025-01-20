@@ -2,14 +2,14 @@ import { useEffect, useRef, useState, useCallback } from "react";
 
 const useFileReader = (initialImage) => {
   const fileInputRef = useRef(null);
-  const [imagePreview, setImagePreview] = useState(initialImage);
-  const [imageFile, setImageFile] = useState(null);
+  const [imagePreviewURL, setImagePreviewURL] = useState(initialImage);
+  const [uploadedImageFile, setUploadedImageFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "gif"];
 
   useEffect(() => {
-    setImagePreview(initialImage);
+    setImagePreviewURL(initialImage);
   }, [initialImage]);
 
   const handleProfileImageClick = () => fileInputRef.current?.click();
@@ -32,22 +32,22 @@ const useFileReader = (initialImage) => {
   const handleFileChange = (event) => {
     const selectedFile = event.target.files?.[0];
     if (!selectedFile || !validateFile(selectedFile)) {
-      setImagePreview(null);
-      setImageFile(null);
+      setImagePreviewURL(null);
+      setUploadedImageFile(null);
       return;
     }
 
     const objectUrl = URL.createObjectURL(selectedFile);
-    setImagePreview(objectUrl);
-    setImageFile(selectedFile);
+    setImagePreviewURL(objectUrl);
+    setUploadedImageFile(selectedFile);
 
     return () => URL.revokeObjectURL(objectUrl); // 메모리 누수 방지
   };
 
   return {
-    imageFile,
+    uploadedImageFile,
     fileInputRef,
-    imagePreview,
+    imagePreviewURL,
     errorMessage,
     handleProfileImageClick,
     handleFileChange,
