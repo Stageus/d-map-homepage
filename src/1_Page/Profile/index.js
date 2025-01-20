@@ -75,12 +75,15 @@ const Profile = () => {
             />
           </STYLE.Slider>
         </STYLE.SliderWrapper>
-        {loading && (
-          <STYLE.LoadingContainer>
-            <STYLE.Loading />
-          </STYLE.LoadingContainer>
-        )}
       </STYLE.Main>
+
+      {loading && (
+        <STYLE.LoadingContainer>
+          <STYLE.LoadingBox>
+            <STYLE.Loading />
+          </STYLE.LoadingBox>
+        </STYLE.LoadingContainer>
+      )}
       {confirmModal && (
         <ConfirmModal message={message} onClose={comfirmModalToggle} />
       )}
