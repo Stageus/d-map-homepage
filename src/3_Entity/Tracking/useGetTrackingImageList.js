@@ -40,6 +40,10 @@ const useGetTrackingImageList = (userIdx, page, sharing) => {
   };
 
   useEffect(() => {
+    console.log(trackingImageList.map((item) => item.idx));
+  }, [trackingImageList]);
+
+  useEffect(() => {
     fetchTrackingImageList(0);
   }, []);
 

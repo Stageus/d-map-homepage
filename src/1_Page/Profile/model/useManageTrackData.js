@@ -43,7 +43,7 @@ const useManageTrackData = ({
   ]);
 
   const sortTrackData = useCallback(() => {
-    setTrackData((prev) => [...prev].sort((a, b) => b.userIdx - a.userIdx));
+    setTrackData((prev) => [...prev].sort((a, b) => b.idx - a.idx));
   }, []);
 
   // 중복 데이터 제거
@@ -57,7 +57,7 @@ const useManageTrackData = ({
     });
   }, []);
 
-  // 수정 리스트 토글
+  // 선택된 데이터 한번 클릭시 추가 두번 클릭시 삭제
   const toggleModifyIdxList = useCallback((track) => {
     setModifyIdxList((prev) =>
       prev.some((item) => item.idx === track.idx)
@@ -130,7 +130,6 @@ const useManageTrackData = ({
       sortTrackData();
       return;
     }
-    console.log(resultToNotShare, resultToShare);
     handleDeletionFailure(
       resultToShare !== true ? resultToShare : resultToNotShare
     );
