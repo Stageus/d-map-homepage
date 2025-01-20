@@ -9,8 +9,7 @@ const useImageModal = (
   imageFile,
   handleImageChange
 ) => {
-  const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
-    useConfirmModal();
+  const [confirmModal, confirmModalToggle] = useConfirmModal();
   const [message, setMessage] = useState("");
   const imageRef = useRef(image); // 초기 값 설정
   const closeRef = useRef(null);
@@ -21,29 +20,29 @@ const useImageModal = (
 
   const handleImageConfirmModalOpen = useCallback(
     (handleClose) => {
-      handleConfirmModalOpen();
+      confirmModalToggle();
       closeRef.current = handleClose;
     },
-    [handleConfirmModalOpen]
+    [confirmModalToggle]
   );
 
   const handleImageConfirmModalDone = useCallback(() => {
-    handleConfirmModalClose();
+    confirmModalToggle();
     if (closeRef.current) closeRef.current();
-  }, [handleConfirmModalClose]);
+  }, [confirmModalToggle]);
 
   const handleModifyClick = useCallback(
     async (handleClose) => {
       if (errorMessage) {
         setMessage(errorMessage);
-        handleConfirmModalOpen();
+        confirmModalToggle();
         return;
       }
 
       // 이미지가 변경되지 않은 경우 처리
       if (imageRef.current === imagePreview) {
         setMessage("사진을 변경하세요");
-        handleConfirmModalOpen();
+        confirmModalToggle();
         return;
       }
 
@@ -59,7 +58,7 @@ const useImageModal = (
         }
       } catch (error) {
         setMessage(error.message || "오류가 발생했습니다.");
-        handleConfirmModalOpen();
+        confirmModalToggle();
       }
     },
     [
@@ -67,7 +66,7 @@ const useImageModal = (
       imageFile,
       imagePreview,
       handleImageChange,
-      handleConfirmModalOpen,
+      confirmModalToggle,
       handleImageConfirmModalOpen,
     ]
   );

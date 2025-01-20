@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import getUserInfo from "../../../../../3_Entity/Account/getUserInfo";
 
-const useManageUserInfo = () => {
+const useManageUserInfo = (tabIndex) => {
   const { userIdx } = useParams();
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();

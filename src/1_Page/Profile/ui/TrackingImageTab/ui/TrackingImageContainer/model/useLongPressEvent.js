@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const useLongPressEvent = (onPinchStart, delay = 1000, track) => {
+const useLongPressEvent = (onPinchStart, track) => {
   const timerRef = useRef(null);
   const [selectLongPressData, setSelectLongPressData] = useState(null);
 
@@ -10,7 +10,7 @@ const useLongPressEvent = (onPinchStart, delay = 1000, track) => {
         onPinchStart();
         setSelectLongPressData(track);
       }
-    }, delay);
+    }, 1000);
   };
 
   const handleCancel = () => {

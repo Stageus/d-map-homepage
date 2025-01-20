@@ -7,7 +7,7 @@ import empty_profie_icon from "./assets/empty_profile_icon.svg";
 import useModifyImageModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyNameModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyMode from "../../../../4_Shared/model/useModalHandler.js";
-import useConfirmModal from "../../../../4_Shared/model/useModalHandler.js";
+import useModalHandler from "../../../../4_Shared/model/useModalHandler.js";
 
 import ModifyImageModal from "./ui/ModifyImageModal/index.js";
 import ModifyNameModal from "./ui/ModifyNameModal/index.js";
@@ -20,7 +20,6 @@ const Header = (props) => {
   const {
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
-
     tabState,
     handleTabClick,
   } = props;
@@ -28,31 +27,23 @@ const Header = (props) => {
   const { userInfo, handleImageChange, handleChangeNickName } =
     useManageUserInfo();
 
+  // 백엔드에서 수정 필요
   const trackDataLegth =
     tabState.tabIndex === 1
       ? userInfo?.share_tracking_length || 1
       : userInfo?.save_tracking_length || 1;
 
-  const [modifyImageModal, handleImageModalOpen, handleImageModalClose] =
-    useModifyImageModal(); // 프로필 이미지 모달
-  const [
-    modifyNameModal,
-    handleModifyNameModalOpen,
-    handleModifyNameModalClose,
-  ] = useModifyNameModal(); // 닉네임 수정 모달
-
-  const [modifyModeModal, handleModifyModeOpen, handleModifyModeClose] =
-    useModifyMode(); // 수정 , 삭제 뒤로가기 모달
-
-  const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
-    useConfirmModal(); // 확인 모달
+  const [modifyImageModal, modifyImageModalToggle] = useModifyImageModal(); // 프로필 이미지 모달
+  const [modifyNameModal, modifyNameModalToggle] = useModifyNameModal(); // 닉네임 수정 모달
+  const [modifyModeModal, modifyModeModalToggle] = useModifyMode(); // 수정 , 삭제 뒤로가기 모달
+  const [confirmModal, confirmModalToggle] = useModalHandler(); // 확인 모달
 
   return (
     <>
       {!modifyMode ? (
         <STYLE.ProfileContainer>
           <STYLE.ProfileWrapper
-            onClick={userInfo?.isMine ? handleImageModalOpen : undefined}>
+            onClick={userInfo?.isMine ? modifyImageModalToggle : undefined}>
             <STYLE.ProfileImg
               src={
                 userInfo?.image_url ? userInfo?.image_url : empty_profie_icon
@@ -63,13 +54,13 @@ const Header = (props) => {
             <STYLE.ProfileBox>
               <STYLE.UserName>{userInfo?.nickname}</STYLE.UserName>
               {userInfo?.isMine && (
-                <STYLE.ProfileButton onClick={handleModifyModeOpen}>
+                <STYLE.ProfileButton onClick={modifyModeModalToggle}>
                   •••
                 </STYLE.ProfileButton>
               )}
             </STYLE.ProfileBox>
             {userInfo?.isMine && (
-              <STYLE.Nickname onClick={handleModifyNameModalOpen}>
+              <STYLE.Nickname onClick={modifyNameModalToggle}>
                 닉네임 수정
               </STYLE.Nickname>
             )}
@@ -82,7 +73,7 @@ const Header = (props) => {
         <STYLE.Container>
           <STYLE.Title>{modifyMode} 설정</STYLE.Title>
           <STYLE.ButtonWrapper>
-            <STYLE.Button $primary onClick={handleConfirmModalOpen}>
+            <STYLE.Button $primary onClick={confirmModalToggle}>
               완료
             </STYLE.Button>
             <STYLE.Button
@@ -116,7 +107,7 @@ const Header = (props) => {
       </STYLE.TabMenu>
 
       {modifyImageModal && (
-        <Modal onClose={handleImageModalClose} snap={[0.2]}>
+        <Modal onClose={modifyImageModalToggle} snap={[0.2]}>
           {({ handleClose }) => (
             <ModifyImageModal
               image={userInfo?.image_url}
@@ -128,7 +119,7 @@ const Header = (props) => {
       )}
 
       {modifyNameModal && (
-        <Modal onClose={handleModifyNameModalClose} snap={[0.2]}>
+        <Modal onClose={modifyNameModalToggle} snap={[0.2]}>
           {({ handleClose }) => (
             <ModifyNameModal
               handleChangeNickName={handleChangeNickName}
@@ -145,17 +136,17 @@ const Header = (props) => {
             <ConfirmModal
               type="one"
               message="편집할 그림이 없습니다"
-              onClose={handleModifyModeClose}
+              onClose={modifyModeModalToggle}
             />,
             document.body
           )
         ) : (
-          <Modal onClose={handleModifyModeClose} snap={[0.2]}>
+          <Modal onClose={modifyModeModalToggle} snap={[0.2]}>
             {({ handleClose }) => (
               <ModifyModeModal
                 handleSetMode={handleSetMode}
                 handleClose={handleClose}
-                handleModifyModeClose={handleModifyModeClose}
+                handleModifyModeClose={modifyModeModalToggle}
                 trackDataLegth={trackDataLegth}
               />
             )}
@@ -172,9 +163,9 @@ const Header = (props) => {
           onConfirm={() => {
             modifyMode === "삭제" ? handleDeleteTrack() : handleModifyTrack();
             handleCloseMode();
-            handleConfirmModalClose();
+            confirmModalToggle();
           }}
-          onCancel={handleConfirmModalClose}
+          onCancel={confirmModalToggle}
         />
       )}
     </>

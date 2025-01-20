@@ -3,8 +3,7 @@ import putNickname from "../../../../../../../3_Entity/Account/putNickname";
 import useConfirmModal from "../../../../../../../4_Shared/model/useModalHandler";
 
 const useNicknameModal = (handleChangeNickName) => {
-  const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
-    useConfirmModal();
+  const [confirmModal, confirmModalToggle] = useConfirmModal();
   const [message, setMessage] = useState("");
 
   const handleModifyNickname = async (nickname, handleClose) => {
@@ -12,17 +11,17 @@ const useNicknameModal = (handleChangeNickName) => {
     if (result === true) {
       setMessage(`닉네임이 변경되었습니다 : ${nickname}`);
       handleChangeNickName(nickname);
-      handleConfirmModalOpen();
+      confirmModalToggle();
       closeRef.current = handleClose;
       return;
     }
     setMessage(result);
-    handleConfirmModalOpen();
+    confirmModalToggle();
   };
 
   const closeRef = useRef(null);
   const handleNameConfirmModalDone = () => {
-    handleConfirmModalClose();
+    confirmModalToggle();
     if (closeRef.current) closeRef.current();
   };
 
