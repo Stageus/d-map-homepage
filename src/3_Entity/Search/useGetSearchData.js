@@ -18,20 +18,17 @@ const useGetSearchData = (text, page, type) => {
     let result = [];
     try {
       const endpoint = `${BASE_URL}/search/${type}`;
-      // const endpoint = `${BASE_URL}/search/${type}&page=${page}`;
-      console.log(endpoint);
+      // const endpoint = `${BASE_URL}/search/${type}/text/&page=${page}`;
       const response = await fetchRequest("GET", endpoint, { text }, null);
 
       const data = await response.json();
-      // Handle response status
       switch (response.status) {
         case 200:
           result = data.rows;
-          console.log(result, page);
           break;
         case 400:
-        case 404:
         case 500:
+          console.log("서버오류");
         default:
           console.log(data.message);
       }
