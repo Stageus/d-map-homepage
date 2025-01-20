@@ -12,18 +12,20 @@ import useGetTrackingImageList from "../../3_Entity/Tracking/useGetTrackingImage
 import { useParams } from "react-router-dom";
 
 const Profile = () => {
-  const { tabState, handleTabClick } = useTabs();
-  const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
-
   const { userIdx } = useParams(); // userIdx 추출
 
+  // state
+  const { tabState, handleTabClick } = useTabs();
+  const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
   const { paging, handleScroll, checkLessLength } = useInfinityScroll(
     tabState.tabIndex
   );
 
+  // 데이터 조회 (userIdx , page , category)
   const { trackingImageList, loading, hasMoreContent } =
     useGetTrackingImageList(userIdx, paging, tabState.tabIndex === 1 ? 0 : 1);
 
+  // 데이터 관리 훅 (조회 , 수정 , 삭제 , 취소)
   const {
     shareTrackingImageData,
     saveTrackingImageData,

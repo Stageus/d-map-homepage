@@ -17,12 +17,13 @@ const TrackingImageContainer = (props) => {
     handleModifyTrackingClose,
   ] = useConfirmModal();
 
-  const [selectLongPressData, setSelectLongPressData] = useState(null);
-
-  const longPressEvents = useLongPressEvent(() => {
-    handleModifyTrackingOpen();
-    setSelectLongPressData(track);
-  }, 1000);
+  const { selectLongPressData, longPressEvents } = useLongPressEvent(
+    () => {
+      handleModifyTrackingOpen();
+    },
+    1000,
+    track
+  );
 
   return (
     <>
