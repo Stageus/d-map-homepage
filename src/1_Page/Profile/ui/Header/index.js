@@ -22,11 +22,12 @@ const Header = (props) => {
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
     tabState,
+    userInfoData,
     handleTabClick,
   } = props;
 
   const { userInfo, handleProfileImageChange, handleChangeNickName } =
-    useManageUserInfo();
+    useManageUserInfo(userInfoData);
 
   // 백엔드에서 수정 필요
   const trackDataLegth =

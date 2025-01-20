@@ -13,7 +13,7 @@ const useGetTrackingImageList = (userIdx, page, sharing) => {
     share: false,
   });
 
-  const updateListAndState = (data, sharing) => {
+  const updateDataAndHasMoreContent = (data, sharing) => {
     const key = sharing === 1 ? "share" : "save";
     setTrackingImageLists((prev) => [...prev, ...data]);
     setHasMoreContent((prev) => ({
@@ -31,17 +31,13 @@ const useGetTrackingImageList = (userIdx, page, sharing) => {
         throw new Error(`API Error: ${errorData.message}`);
       }
       const data = await response.json();
-      updateListAndState(data.tracking_image, sharing);
+      updateDataAndHasMoreContent(data.tracking_image, sharing);
     } catch (error) {
-      console.error("Failed to fetch tracking image list:", error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    console.log(trackingImageList.map((item) => item.idx));
-  }, [trackingImageList]);
 
   useEffect(() => {
     fetchTrackingImageList(0);

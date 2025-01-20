@@ -7,16 +7,14 @@ import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
 import useManageTrackData from "./model/useManageTrackData.js";
 import useInfinityScroll from "./model/useInfinityScroll.js";
+import useManageUserInfo from "./model/useManageUserInfo.js";
 
 import useGetTrackingImageList from "../../3_Entity/Tracking/useGetTrackingImageList.js";
-import { useParams } from "react-router-dom";
 import ConfirmModal from "../../2_Widget/ConfirmModal";
 import useModalHandler from "../../4_Shared/model/useModalHandler.js";
 import { useState } from "react";
 
 const Profile = () => {
-  const { userIdx } = useParams(); // userIdx 추출
-
   // 에러 핸들링 모달
   const [message, setMessage] = useState("");
   const [confirmModal, comfirmModalToggle] = useModalHandler();
@@ -27,9 +25,16 @@ const Profile = () => {
     tabState.tabIndex
   );
 
+  // 유저 데이터 조회
+  const { userInfoData } = useManageUserInfo();
+
   // 데이터 조회 (userIdx , page , category)
   const { trackingImageList, loading, hasMoreContent } =
-    useGetTrackingImageList(userIdx, paging, tabState.tabIndex === 1 ? 0 : 1);
+    useGetTrackingImageList(
+      userInfoData?.idx,
+      paging,
+      tabState.tabIndex === 1 ? 0 : 1
+    );
 
   // 데이터 관리 훅 ( 수정 , 삭제 , 취소)
   const {
@@ -53,6 +58,7 @@ const Profile = () => {
           setMode={{ modifyMode, handleSetMode, handleCloseMode }}
           tabState={tabState}
           handleTabClick={handleTabClick}
+          userInfoData={userInfoData}
           handler={{
             handleSelectCancel,
             handleDeleteTrack,
