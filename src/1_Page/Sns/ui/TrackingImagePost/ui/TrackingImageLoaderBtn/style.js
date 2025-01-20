@@ -11,6 +11,7 @@ const STYLE = {
     width: 26px;
   `,
   IconImg: styled.img`
+    width: 24px;
     object-fit: contain; /* 이미지 비율 유지 */
   `,
 };

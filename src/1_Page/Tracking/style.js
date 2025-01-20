@@ -1,30 +1,7 @@
-import { styled, keyframes } from "styled-components";
+import { styled } from "styled-components";
 
-// 아래에서 위로 올라오는 애니메이션
-const slideUp = keyframes`
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-`;
-
-// 위에서 아래로 내려가는 애니메이션
-const slideDown = keyframes`
-  from {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-`;
 const STYLE = {
-  Main: styled.div`
+  TrackingPageContainer: styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
@@ -42,37 +19,56 @@ const STYLE = {
     gap: 16px;
   `,
   TrackingControlBtn: styled.button`
-    width: 36px;
     cursor: pointer;
     background-color: transparent;
     border: none;
     outline: none;
+    border-bottom: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   `,
-  TrackingSaveModal: styled.div`
-    animation: ${(props) => (props.$isModifying ? slideUp : slideDown)} 0.5s ease
-      forwards;
-    display: ${(props) => (props.$isModifying ? "flex" : "none")};
-    flex-direction: column;
+  TrackingControlBtnIconImage: styled.img`
+    width: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `,
+  TrackingToolContainer: styled.div`
+    display: flex;
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 80%;
-    padding-top: 36px;
+    top: 16px;
+    left: 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+  `,
+  TrackingToolBtn: styled.button`
+    width: 30px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `,
+  TrackingToolBtnIConImage: styled.img`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `,
+  TrackingToolDiv: styled.div`
+    width: 60px;
+    height: 24px;
     background-color: white;
-    border-radius: 8px 8px 0 0;
-  `,
-  Filter: styled.div`
-    display: ${(props) => (props.$isModifying ? "block" : "none")};
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0.5;
-    background-color: gray;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+    border-radius: 4px;
+    box-shadow: 1px 1px 2px black;
+    font-size: small;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
   `,
 };
 

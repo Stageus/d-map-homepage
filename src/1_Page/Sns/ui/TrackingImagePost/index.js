@@ -57,6 +57,7 @@ const TrackingImagePost = (props) => {
         >
           X
         </STYLE.Button>
+        <STYLE.DetailModalSearchPoint>{data.searchpoint}</STYLE.DetailModalSearchPoint>
       </STYLE.DetailModal>
     </STYLE.Container>
   );

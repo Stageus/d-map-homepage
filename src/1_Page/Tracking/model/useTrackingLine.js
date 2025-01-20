@@ -1,7 +1,8 @@
 import React from "react";
 import useTrackingLineAtom from "../../../4_Shared/Recoil/useTrackingLineAtom";
+import getCurrentLocation from "../lib/getCurrentLocation";
 
-const useTrackingSpot = (isTracking, isInteractingMapRef) => {
+const useTrackingLine = (isTracking, isInteractingMapRef) => {
   const [trackingLine, setTrackingLine] = useTrackingLineAtom(); // line
   const currentRecordingTrackingLineRef = React.useRef([]);
   const recordedTrackingLineRef = React.useRef(trackingLine);
@@ -9,45 +10,29 @@ const useTrackingSpot = (isTracking, isInteractingMapRef) => {
   React.useEffect(() => {
     const prevLine = recordedTrackingLineRef.current;
 
-    const getLocation = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const newTrackingSpot = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            };
-            if (currentRecordingTrackingLineRef.current) {
-              currentRecordingTrackingLineRef.current = [
-                ...currentRecordingTrackingLineRef.current,
-                newTrackingSpot,
-              ];
-              
-              // recordedTrackingLineRef.current을 업데이트
-              recordedTrackingLineRef.current = [
-                ...prevLine,
-                currentRecordingTrackingLineRef.current,
-              ];
-
-              // isInteractingMapRef.current 값이 false일 때 trackingLine을 설정
-              if (isInteractingMapRef.current === false) {
-                setTrackingLine(recordedTrackingLineRef.current); // 새로운 경로 저장
-                console.log(newTrackingSpot);
-              }
-            }
-          },
-          (error) => {
-            console.error("Error getting location:", error);
-          }
-        );
-      } else {
-        console.log("Geolocation is not supported by this browser.");
+    const updateTrackingLine = async () => {
+      const newTrackingSpot = await getCurrentLocation();
+      if (currentRecordingTrackingLineRef.current) {
+        currentRecordingTrackingLineRef.current = [
+          ...currentRecordingTrackingLineRef.current,
+          newTrackingSpot,
+        ];
+        // recordedTrackingLineRef.current을 업데이트
+        recordedTrackingLineRef.current = [
+          ...prevLine,
+          currentRecordingTrackingLineRef.current,
+        ];
+        // isInteractingMapRef.current 값이 false일 때 trackingLine을 설정
+        if (isInteractingMapRef.current === false) {
+          setTrackingLine(recordedTrackingLineRef.current); // 새로운 경로 저장
+          console.log(newTrackingSpot);
+        }
       }
     };
 
     let intervalId;
     if (isTracking) {
-      intervalId = setInterval(getLocation, 1500); // 1.5초마다 위치 업데이트
+      intervalId = setInterval(updateTrackingLine, 1500); // 1.5초마다 위치 업데이트
     } else {
       currentRecordingTrackingLineRef.current = []; // 추적이 중지되면 기록 초기화
     }
@@ -65,4 +50,4 @@ const useTrackingSpot = (isTracking, isInteractingMapRef) => {
   return [trackingLine, resetTrackingLine];
 };
 
-export default useTrackingSpot;
+export default useTrackingLine;

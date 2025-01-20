@@ -1,5 +1,7 @@
+import React from "react";
 import useThrottle from "../../../4_Shared/util/useThrottle";
 import useTrackingDataAtom from "../../../4_Shared/Recoil/useTrackingDataAtom";
+import getCurrentLocation from "../lib/getCurrentLocation";
 
 const useTrackingData = (mapRef) => {
   const [trackingData, setTrackingData] = useTrackingDataAtom();
@@ -20,16 +22,28 @@ const useTrackingData = (mapRef) => {
         };
 
         // 상태 업데이트
-        if (JSON.stringify(newData) !== JSON.stringify(trackingData)) {
-          setTrackingData(newData);
-        }
+        setTrackingData(newData);
       } catch (error) {
-        console.error("searchpointConverter 실패:", error);
+        console.error(error);
       }
     }
   }, 100);
 
-  return [trackingData, throttledSetTrackingData];
+
+  React.useEffect(() => {
+    const initializeLocation = async () => {
+      try {
+        const currentLocation = await getCurrentLocation();
+        setTrackingData({ ...trackingData, center: currentLocation });
+      } catch (error) {
+        console.error("Error initializing location:", error);
+      }
+    };
+
+    initializeLocation();
+  }, []); // 최초 mount 시 위치 초기화
+
+  return [trackingData, throttledSetTrackingData, setTrackingData];
 };
 
 export default useTrackingData;
