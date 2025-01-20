@@ -22,11 +22,16 @@ const Sns = () => {
     hasMoreContent,
     snsPageContainerRef
   );
+  const currentDate = new Date();
 
   return (
     <STYLE.SnsPageContainer ref={snsPageContainerRef}>
       <STYLE.Header>
-        <STYLE.Date>2024.11.09 목</STYLE.Date>
+        <STYLE.Date>
+          {currentDate.getFullYear()}년{" "}
+          {currentDate.getMonth() + 1}월{" "}
+          {currentDate.getDate()}일
+        </STYLE.Date>
         <STYLE.SortingSelect
           onChange={(e) => {
             setCategory(e.target.value);
