@@ -30,7 +30,6 @@ const useGetTrackingImageList = (userIdx, page, sharing) => {
         const errorData = await response.json();
         throw new Error(`API Error: ${errorData.message}`);
       }
-
       const data = await response.json();
       updateListAndState(data.tracking_image, sharing);
     } catch (error) {
