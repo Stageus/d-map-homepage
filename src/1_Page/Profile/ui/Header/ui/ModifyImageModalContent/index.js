@@ -6,6 +6,7 @@ import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 
 import useFileReader from "./model/useFileReader";
 import useImageModal from "./model/useImageModal";
+import useModifyClick from "./model/useModifyClick";
 
 const ModifyImageModalContent = (props) => {
   const { image, handleImageChange, handleClose } = props;
@@ -22,14 +23,21 @@ const ModifyImageModalContent = (props) => {
   const {
     message,
     confirmModal,
-    handleModifyClick,
+    setMessage,
+    confirmModalToggle,
+    handleImageConfirmModalOpen,
     handleImageConfirmModalDone,
-  } = useImageModal(
+  } = useImageModal();
+
+  const { handleModifyClick } = useModifyClick(
     image,
     errorMessage,
     imagePreview,
     imageFile,
-    handleImageChange
+    handleImageChange,
+    setMessage,
+    confirmModalToggle,
+    handleImageConfirmModalOpen
   );
 
   return (

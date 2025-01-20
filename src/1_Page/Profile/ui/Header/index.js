@@ -87,7 +87,6 @@ const Header = (props) => {
           </STYLE.ButtonWrapper>
         </STYLE.Container>
       )}
-
       <STYLE.TabMenu>
         {userInfo?.isMine ? (
           <>
@@ -106,7 +105,6 @@ const Header = (props) => {
           <STYLE.TabNone>게시물</STYLE.TabNone>
         )}
       </STYLE.TabMenu>
-
       {modifyImageModal && (
         <ModalBase onClose={modifyImageModalToggle} snap={[0.2]}>
           {({ handleClose }) => (
