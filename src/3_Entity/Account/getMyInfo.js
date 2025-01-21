@@ -12,7 +12,7 @@ const getMyInfo = async () => {
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.message);
+      throw new Error(`서버 오류 : ${result.message}`);
     }
 
     return result;
