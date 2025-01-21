@@ -1,11 +1,10 @@
 import React from "react";
 import STYLE from "./style";
 
-const ModifyModeModal = ({
+const ModifyModeModalContent = ({
   handleClose,
   handleModifyModeClose,
   handleSetMode,
-  trackDataLegth,
 }) => {
   const handleAction = (mode) => {
     handleSetMode(mode);
@@ -30,4 +29,4 @@ const ModifyModeModal = ({
   );
 };
 
-export default ModifyModeModal;
+export default ModifyModeModalContent;

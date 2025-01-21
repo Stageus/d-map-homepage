@@ -6,30 +6,38 @@ import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 
 import useFileReader from "./model/useFileReader";
 import useImageModal from "./model/useImageModal";
+import useModifyClick from "./model/useModifyClick";
 
-const ModifyImageModal = (props) => {
-  const { image, handleImageChange, handleClose } = props;
+const ModifyImageModalContent = (props) => {
+  const { image, handleProfileImageChange, handleClose } = props;
 
   const {
-    imageFile,
+    message,
+    setMessage,
+    confirmModal,
+    confirmModalToggle,
+    handleImageConfirmModalOpen,
+    handleImageConfirmModalDone,
+  } = useImageModal();
+
+  const {
+    uploadedImageFile,
     fileInputRef,
-    imagePreview,
+    imagePreviewURL,
     errorMessage,
     handleProfileImageClick,
     handleFileChange,
   } = useFileReader(image);
 
-  const {
-    message,
-    confirmModal,
-    handleModifyClick,
-    handleImageConfirmModalDone,
-  } = useImageModal(
+  const { handleModifyClick } = useModifyClick(
     image,
     errorMessage,
-    imagePreview,
-    imageFile,
-    handleImageChange
+    imagePreviewURL,
+    uploadedImageFile,
+    handleProfileImageChange,
+    setMessage,
+    confirmModalToggle,
+    handleImageConfirmModalOpen
   );
 
   return (
@@ -37,7 +45,7 @@ const ModifyImageModal = (props) => {
       <STYLE.Container>
         <STYLE.Title>프로필 변경</STYLE.Title>
         <STYLE.ProfileImage
-          src={imagePreview}
+          src={imagePreviewURL}
           alt="프로필 이미지"
           onClick={handleProfileImageClick}
         />
@@ -73,4 +81,4 @@ const ModifyImageModal = (props) => {
   );
 };
 
-export default ModifyImageModal;
+export default ModifyImageModalContent;

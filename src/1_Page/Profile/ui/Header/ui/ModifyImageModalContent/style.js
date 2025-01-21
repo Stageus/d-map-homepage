@@ -21,6 +21,10 @@ const STYLE = {
     height: 100px;
     border-radius: 50%;
     background-color: ${({ theme }) => theme.profile_background};
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    aspect-ratio: 1 / 1;
   `,
   PhotoButton: styled.button`
     width: 150px;

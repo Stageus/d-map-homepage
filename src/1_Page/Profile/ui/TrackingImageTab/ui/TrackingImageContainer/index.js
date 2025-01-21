@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import STYLE from "./style";
 
@@ -11,22 +11,17 @@ import useConfirmModal from "../../../../../../4_Shared/model/useModalHandler";
 const TrackingImageContainer = (props) => {
   const { track, modifyMode, handleAddModifyIdxList } = props;
 
-  const [
-    modifyTrackingModal,
-    handleModifyTrackingOpen,
-    handleModifyTrackingClose,
-  ] = useConfirmModal();
-  const [longPressData, setLongPressData] = useState(null);
+  const [modifyTrackingModal, modifyTrackingModalToggle] = useConfirmModal();
 
-  const longPressEvents = useLongPressEvent(() => {
-    handleModifyTrackingOpen();
-    setLongPressData(track);
-  }, 1000);
+  const { selectLongPressData, longPressEvents } = useLongPressEvent(
+    modifyTrackingModalToggle,
+    track
+  );
 
   return (
     <>
-      <STYLE.TrackingContainer {...(!modifyMode && longPressEvents)}>
-        <p>{track.idx}</p>
+      <STYLE.TrackingContainer
+        {...(!modifyMode && track?.isMine && longPressEvents)}>
         <TrackingImage
           data={{ ...track, height: "100%", draggable: false, background: 0 }}
         />
@@ -46,11 +41,11 @@ const TrackingImageContainer = (props) => {
         )}
       </STYLE.TrackingContainer>
       {modifyTrackingModal &&
-        longPressData &&
+        selectLongPressData &&
         ReactDOM.createPortal(
           <ModifyTrackingImageModal
-            onClose={handleModifyTrackingClose}
-            trackData={longPressData}
+            onClose={modifyTrackingModalToggle}
+            trackData={selectLongPressData}
           />,
           document.body // Portal로 이동
         )}

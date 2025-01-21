@@ -19,13 +19,10 @@ const putTrackingImageToShare = async (idxList) => {
       console.log(response.status);
       throw new Error(`수정 실패: 상태 코드 ${response.status}`);
     }
-
-    const result = await response.json();
-    console.log(result);
-    return result;
+    return true;
   } catch (error) {
     console.error("공유 상태 수정 중 오류 발생:", error.message);
-    throw error;
+    return error;
   }
 };
 

@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import STYLE from "./style";
 import useHandleModal from "./model/useHandleModal";
 
-const Modal = (props) => {
+const ModalBase = (props) => {
   const { children, onClose, snap } = props;
   const {
     elementRef,
@@ -33,4 +33,4 @@ const Modal = (props) => {
   );
 };
 
-export default Modal;
+export default ModalBase;

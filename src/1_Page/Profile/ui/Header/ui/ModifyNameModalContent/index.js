@@ -8,7 +8,7 @@ import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 import useRandomNickname from "./model/useRandomNickname";
 import useNicknameModal from "./model/useNicknameModal";
 
-const ModifyNameModal = (props) => {
+const ModifyNameModalContent = (props) => {
   const { name, handleClose, handleChangeNickName } = props;
   const {
     confirmModal,
@@ -80,4 +80,4 @@ const ModifyNameModal = (props) => {
   );
 };
 
-export default ModifyNameModal;
+export default ModifyNameModalContent;

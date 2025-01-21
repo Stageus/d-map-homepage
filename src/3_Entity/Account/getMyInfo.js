@@ -4,18 +4,14 @@ const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
 // 사용자 데이터 가져오기 함수
-const getUserInfo = async (userIdx) => {
+const getMyInfo = async () => {
   try {
-    if (!userIdx) {
-      throw new Error("유효하지 않은 사용자 ID입니다.");
-    }
-    const endpoint = `${BASE_URL}/account/info/${userIdx}`;
-
+    const endpoint = `${BASE_URL}/account/me`;
     const response = await fetchRequest("GET", endpoint, null, TEST_TOKEN);
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.message);
+      throw new Error(`서버 오류 : ${result.message}`);
     }
 
     return result;
@@ -25,4 +21,4 @@ const getUserInfo = async (userIdx) => {
   }
 };
 
-export default getUserInfo;
+export default getMyInfo;

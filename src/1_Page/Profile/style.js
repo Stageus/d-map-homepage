@@ -67,10 +67,21 @@ const STYLE = {
     border-radius: 50%;
     animation: ${spin} 1s linear infinite;
   `,
-  LoadingContainer: styled.div`
+  LoadingBox: styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
+  `,
+  LoadingContainer: styled.div`
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
   `,
 };
 

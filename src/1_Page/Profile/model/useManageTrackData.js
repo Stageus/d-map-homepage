@@ -1,84 +1,63 @@
-import { useEffect, useState, useCallback, useRef, useMemo } from "react";
-import useGetTrackingImageList from "../../../3_Entity/Tracking/useGetTrackingImageList";
+import { useState, useCallback, useEffect, useRef } from "react";
 import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingImageToShare";
 import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingImageToNotShare";
 import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
-import { useParams } from "react-router-dom";
 
-const useManageTrackData = (tabIndex) => {
-  const { userIdx } = useParams();
-
-  const [page, setPage] = useState({ save: 1, share: 1 });
+const useManageTrackData = (
+  trackingImageList,
+  tabIndex,
+  checkLessLength,
+  showErrorModal
+) => {
   const [trackData, setTrackData] = useState([]);
   const [modifyIdxList, setModifyIdxList] = useState([]);
+  const prevLength = useRef(null);
 
-  const isShareTab = tabIndex === 0; // Boolean으로 처리
-  const category = isShareTab ? 1 : 0;
-  const paging = isShareTab ? page.share : page.save;
-
-  const { trackingImageList, loading, hasMoreContent } =
-    useGetTrackingImageList(userIdx, paging, category);
-
-  // 트래킹 데이터 상태 관리
   useEffect(() => {
-    setTrackData(trackingImageList || []);
+    setTrackData((prev) => {
+      const newItems = trackingImageList.filter(
+        (item) => !prev.some((prevItem) => prevItem.idx === item.idx)
+      );
+      return [...prev, ...newItems];
+    });
+    removeDuplicateData();
   }, [trackingImageList]);
 
-  const trackingImageDataList = useMemo(() => {
-    return trackData.reduce(
-      (acc, item) => {
-        acc[item.sharing ? "share" : "save"].push(item);
-        return acc;
-      },
-      { share: [], save: [] }
-    );
-  }, [trackData]);
+  const shareTrackingImageData = trackData.filter((item) => item.sharing);
+  const saveTrackingImageData = trackData.filter((item) => !item.sharing);
 
-  // hasMoreContent 상태 업데이트
-  const hasMoreContentRef = useRef(hasMoreContent);
   useEffect(() => {
-    hasMoreContentRef.current = hasMoreContent;
-  }, [hasMoreContent]);
+    const currentTrackData =
+      tabIndex === 0 ? shareTrackingImageData : saveTrackingImageData;
+    if (currentTrackData.length === 0) return;
 
-  const handleNextPage = useCallback(() => {
-    const hasMoreContent = isShareTab
-      ? hasMoreContentRef.current.share
-      : hasMoreContentRef.current.save;
-    if (!hasMoreContent) return;
-    setPage((prev) => ({
-      ...prev,
-      [isShareTab ? "share" : "save"]: prev[isShareTab ? "share" : "save"] + 1,
-    }));
-  }, [isShareTab]);
+    if (currentTrackData.length !== prevLength.current) {
+      checkLessLength(currentTrackData.length);
+      prevLength.current = currentTrackData.length;
+    }
+  }, [
+    shareTrackingImageData,
+    saveTrackingImageData,
+    tabIndex,
+    checkLessLength,
+  ]);
 
-  // 데이터 길이 확인 후 페이지 추가
-  const checkAndFetchMore = useCallback(() => {
-    const currentData = isShareTab
-      ? trackingImageDataList.share
-      : trackingImageDataList.save;
-    if ((currentData?.length || 0) <= 9) handleNextPage();
-  }, [isShareTab, trackingImageDataList, handleNextPage]);
-
-  // 데이터 정렬
   const sortTrackData = useCallback(() => {
-    setTrackData((prev) =>
-      [...prev].sort((a, b) => new Date(b.userIdx) - new Date(a.userIdx))
-    );
+    setTrackData((prev) => [...prev].sort((a, b) => b.idx - a.idx));
   }, []);
 
   // 중복 데이터 제거
-  const deleteRepeatData = useCallback(() => {
+  const removeDuplicateData = useCallback(() => {
     setTrackData((prev) => {
-      const uniqueData = prev.reduce((acc, current) => {
-        const isDuplicate = acc.some((item) => item.idx === current.idx);
-        if (!isDuplicate) acc.push(current);
-        return acc;
-      }, []);
+      const uniqueData = prev.filter(
+        (item, index, self) =>
+          index === self.findIndex((t) => t.idx === item.idx)
+      );
       return uniqueData;
     });
   }, []);
 
-  // 수정 리스트 토글
+  // 선택된 데이터 한번 클릭시 추가 두번 클릭시 삭제
   const toggleModifyIdxList = useCallback((track) => {
     setModifyIdxList((prev) =>
       prev.some((item) => item.idx === track.idx)
@@ -93,87 +72,66 @@ const useManageTrackData = (tabIndex) => {
     setTrackData(trackingImageList || []);
   }, [trackingImageList]);
 
-  // 데이터 추가 및 업데이트
+  // 데이터 선택
   const handleAddModifyIdxList = useCallback(
     (track, isDelete = false) => {
       toggleModifyIdxList(track);
+
+      // 수정인 경우 toggle
       if (isDelete) return;
       setTrackData((prev) =>
         prev.map((item) =>
           item.idx === track.idx ? { ...item, sharing: !item.sharing } : item
         )
       );
-
-      checkAndFetchMore();
       sortTrackData();
-      deleteRepeatData();
+      removeDuplicateData();
     },
-    [toggleModifyIdxList, checkAndFetchMore, sortTrackData, deleteRepeatData]
+    [toggleModifyIdxList, sortTrackData, removeDuplicateData]
   );
 
   // 데이터 삭제
   const handleDeleteTrack = useCallback(async () => {
     const idxList = modifyIdxList.map((item) => item.idx);
     const result = await deleteTrackingImage(idxList);
-    if (result) {
+
+    if (result === true) {
       setTrackData((prev) =>
-        prev.filter(
-          (item) => !modifyIdxList.some((mod) => mod.idx === item.idx)
-        )
+        prev.filter(({ idx }) => !modifyIdxList.some((mod) => mod.idx === idx))
       );
       setModifyIdxList([]);
-      checkAndFetchMore();
-      sortTrackData();
+      return;
     }
-  }, [modifyIdxList, checkAndFetchMore, sortTrackData]);
+    console.log(result);
+    showErrorModal(result);
+    handleSelectCancel();
+  }, [modifyIdxList, showErrorModal]);
 
-  // 데이터 수정
   const handleModifyTrack = useCallback(async () => {
-    try {
-      const groupedBySharing = modifyIdxList.reduce(
-        (acc, item) => {
-          acc[item.sharing ? "toNotshare" : "toShare"].push(item.idx);
-          return acc;
-        },
-        { toShare: [], toNotshare: [] }
-      );
-
-      if (groupedBySharing.toShare.length) {
-        await putTrackingToShare(groupedBySharing.toShare);
-      }
-      if (groupedBySharing.toNotshare.length) {
-        await putTrackingToNotShare(groupedBySharing.toNotshare);
-      }
-
+    const idxToShare = modifyIdxList
+      .filter((item) => !item.sharing)
+      .map((item) => item.idx);
+    const idxToNotShare = modifyIdxList
+      .filter((item) => item.sharing)
+      .map((item) => item.idx);
+    const resultToShare = await putTrackingToShare(idxToShare);
+    const resultToNotShare = await putTrackingToNotShare(idxToNotShare);
+    if (resultToShare === true && resultToNotShare === true) {
       setModifyIdxList([]);
-    } catch (error) {
-      console.error("Error modifying tracking data:", error);
+      sortTrackData();
+      return;
     }
-  }, [modifyIdxList]);
-
-  // 스크롤 처리
-  const handleScroll = useCallback(
-    (event) => {
-      const container = event.target;
-      if (
-        container.scrollHeight - container.scrollTop - 1 <=
-        container.clientHeight
-      ) {
-        handleNextPage();
-      }
-    },
-    [handleNextPage]
-  );
+    showErrorModal(resultToShare !== true ? resultToShare : resultToNotShare);
+    handleSelectCancel();
+  }, [modifyIdxList, sortTrackData, showErrorModal]);
 
   return {
-    shareTrackingImageData: trackingImageDataList.share,
-    saveTrackingImageData: trackingImageDataList.save,
+    shareTrackingImageData,
+    saveTrackingImageData,
     handleAddModifyIdxList,
     handleSelectCancel,
     handleModifyTrack,
     handleDeleteTrack,
-    handleScroll,
-    loading,
   };
 };
 
