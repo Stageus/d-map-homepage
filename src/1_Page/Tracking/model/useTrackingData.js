@@ -1,37 +1,24 @@
-import useThrottle from "../../../4_Shared/util/useThrottle";
+import React from "react";
 import useTrackingDataAtom from "../../../4_Shared/Recoil/useTrackingDataAtom";
+import getCurrentLocation from "../lib/getCurrentLocation";
 
-const useTrackingData = (mapRef) => {
+const useTrackingData = () => {
   const [trackingData, setTrackingData] = useTrackingDataAtom();
 
-  const throttledSetTrackingData = useThrottle(() => {
-    if (mapRef.current) {
-      const center = mapRef.current.getCenter().toJSON();
-
+  React.useEffect(() => {
+    const initializeLocation = async () => {
       try {
-        const newData = {
-          idx: -1,
-          zoom: mapRef.current?.getZoom(),
-          center,
-          heading: mapRef.current?.getHeading(),
-          searchpoint: "temp",
-          sharing: false,
-          color: trackingData.color,
-          thickness: trackingData.thickness,
-          background: trackingData.background,
-        };
-
-        // 상태 업데이트
-        if (JSON.stringify(newData) !== JSON.stringify(trackingData)) {
-          setTrackingData(newData);
-        }
+        const currentLocation = await getCurrentLocation();
+        setTrackingData({ ...trackingData, center: currentLocation });
       } catch (error) {
-        console.error("searchpointConverter 실패:", error);
+        console.error("Error initializing location:", error);
       }
-    }
-  }, 100);
+    };
 
-  return [trackingData, throttledSetTrackingData];
+    initializeLocation();
+  }, []); // 최초 mount 시 위치 초기화
+
+  return [trackingData, setTrackingData];
 };
 
 export default useTrackingData;

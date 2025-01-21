@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import STYLE from "./style";
 
 import TrackingImage from "../../../../../../2_Widget/TrackingImage";
-import Modal from "../../../../../../2_Widget/Modal";
+import ModifyTrackingImageModal from "../../../../../../2_Widget/ModifyTrackingImageModal";
 
 import useLongPressEvent from "./model/useLongPressEvent";
 import useConfirmModal from "../../../../../../4_Shared/model/useModalHandler";
@@ -43,9 +43,15 @@ const TrackingImageContainer = (props) => {
       {modifyTrackingModal &&
         selectLongPressData &&
         ReactDOM.createPortal(
+<<<<<<< HEAD
           <Modal
             onClose={modifyTrackingModalToggle}
             trackData={selectLongPressData}
+=======
+          <ModifyTrackingImageModal
+            onClose={handleModifyTrackingClose}
+            trackData={longPressData}
+>>>>>>> develop
           />,
           document.body // Portal로 이동
         )}

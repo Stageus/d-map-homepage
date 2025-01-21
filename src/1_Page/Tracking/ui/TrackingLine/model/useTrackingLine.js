@@ -1,8 +1,10 @@
 import React from "react";
-import useTrackingLineAtom from "../../../4_Shared/Recoil/useTrackingLineAtom";
-import getCurrentLocation from "../lib/getCurrentLocation";
+import useTrackingLineAtom from "../../../../../4_Shared/Recoil/useTrackingLineAtom";
+import getCurrentLocation from "../../../lib/getCurrentLocation";
+import useIsTrackingAtom from "../../../../../4_Shared/Recoil/useIsTrackingAtom";
 
-const useTrackingLine = (isTracking, isInteractingMapRef) => {
+const useTrackingLine = () => {
+  const [isTracking] = useIsTrackingAtom();
   const [trackingLine, setTrackingLine] = useTrackingLineAtom(); // line
   const currentRecordingTrackingLineRef = React.useRef([]);
   const recordedTrackingLineRef = React.useRef(trackingLine);
@@ -22,11 +24,8 @@ const useTrackingLine = (isTracking, isInteractingMapRef) => {
           ...prevLine,
           currentRecordingTrackingLineRef.current,
         ];
-        // isInteractingMapRef.current 값이 false일 때 trackingLine을 설정
-        if (isInteractingMapRef.current === false) {
-          setTrackingLine(recordedTrackingLineRef.current); // 새로운 경로 저장
-          console.log(newTrackingSpot);
-        }
+
+        setTrackingLine(recordedTrackingLineRef.current);
       }
     };
 
@@ -39,7 +38,7 @@ const useTrackingLine = (isTracking, isInteractingMapRef) => {
 
     // 컴포넌트가 unmount될 때 타이머 정리
     return () => clearInterval(intervalId);
-  }, [isTracking, isInteractingMapRef]); // isTracking이나 isInteractingMapRef가 바뀔 때마다 실행
+  }, [isTracking, setTrackingLine]); // isTracking이나 isInteractingMapRef가 바뀔 때마다 실행
 
   const resetTrackingLine = () => {
     setTrackingLine([]); // trackingLine 초기화

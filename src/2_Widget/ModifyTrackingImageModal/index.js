@@ -5,16 +5,22 @@ import useHandleModal from "./model/useHandleModal";
 import postTrackingImage from "../../3_Entity/Tracking/postTrackingImage";
 import putTrackingImage from "../../3_Entity/Tracking/putTrackingImage";
 import MAPTYPE from "../../4_Shared/constant/mapType";
+import useNewTrackingData from "./model/useNewTrackingData";
 
-const Modal = (props) => {
-  const { children, onClose, trackData } = props;
-  const [newTrackingData, setNewTrackingData] = React.useState(trackData);
+const ModifyTrackingImageModal = (props) => {
+  const { onClose, trackData } = props;
+  const [newTrackingData, setNewTrackingData] = useNewTrackingData(trackData);
   const sheetRef = React.useRef();
   const mapRef = React.useRef(null);
-  const { isVisible, translateY, isDraggingRef, handleClose } = useHandleModal(
-    onClose,
-    sheetRef
-  );
+  const {
+    isVisible,
+    translateY,
+    isDraggingRef,
+    handleClose,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+  } = useHandleModal(onClose, sheetRef);
 
   return (
     <>
@@ -24,6 +30,9 @@ const Modal = (props) => {
         $isVisible={isVisible}
         $translateY={translateY}
         $isDragging={isDraggingRef.current}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         <STYLE.Handle />
         <STYLE.Container>
@@ -42,14 +51,14 @@ const Modal = (props) => {
                 mapRef.current = map;
               }}
               options={{
-                mapTypeId: MAPTYPE[trackData.background],
+                mapTypeId: MAPTYPE[newTrackingData.background],
                 disableDefaultUI: true,
-                zoom: trackData.zoom,
-                center: trackData.center,
-                heading: trackData.heading,
+                zoom: newTrackingData.zoom,
+                center: newTrackingData.center,
+                heading: newTrackingData.heading,
               }}
             >
-              {trackData.line?.map((elem, idx) => (
+              {newTrackingData.line?.map((elem, idx) => (
                 <Polyline
                   key={idx}
                   path={elem}
@@ -77,10 +86,10 @@ const Modal = (props) => {
               max="10"
               value={newTrackingData.thickness}
               onChange={(e) => {
-                console.log(e.target.value);
                 setNewTrackingData({
-                  ...newTrackingData,
                   thickness: Number(e.target.value),
+                  center: mapRef.current.getCenter().toJSON(),
+                  zoom: mapRef.current.getZoom(),
                 });
               }}
             />
@@ -93,26 +102,47 @@ const Modal = (props) => {
               value={newTrackingData.color}
               onChange={(e) => {
                 setNewTrackingData({
-                  ...newTrackingData,
                   color: e.target.value,
+                  center: mapRef.current.getCenter().toJSON(),
+                  zoom: mapRef.current.getZoom(),
                 });
               }}
             />
           </STYLE.SliderContainer>
           <STYLE.ButtonContainer>
             <STYLE.Button
-              onClick={() => {
+              onClick={async () => {
                 newTrackingData.idx === -1
-                  ? postTrackingImage(newTrackingData)
-                  : putTrackingImage(newTrackingData);
+                  ? postTrackingImage({
+                      ...newTrackingData,
+                      center: mapRef.current.getCenter().toJSON(),
+                      zoom: mapRef.current.getZoom(),
+                    }) // tracking image 생성
+                  : putTrackingImage({
+                      ...newTrackingData,
+                      center: mapRef.current.getCenter().toJSON(),
+                      zoom: mapRef.current.getZoom(),
+                    }); // tracking image 수정
                 handleClose();
               }}
             >
               저장하기
             </STYLE.Button>
             <STYLE.Button
-              onClick={() => {
-                // toSharing api
+              onClick={async () => {
+                newTrackingData.idx === -1
+                  ? postTrackingImage({
+                      ...newTrackingData,
+                      center: mapRef.current.getCenter().toJSON(),
+                      zoom: mapRef.current.getZoom(),
+                      sharing: true,
+                    }) // tracking image 생성
+                  : putTrackingImage({
+                      ...newTrackingData,
+                      sharing: true,
+                      center: mapRef.current.getCenter().toJSON(),
+                      zoom: mapRef.current.getZoom(),
+                    }); // tracking image 수정
                 handleClose();
               }}
             >
@@ -120,11 +150,9 @@ const Modal = (props) => {
             </STYLE.Button>
           </STYLE.ButtonContainer>
         </STYLE.Container>
-
-        {children && children({ handleClose })}
       </STYLE.Sheet>
     </>
   );
 };
 
-export default Modal;
+export default ModifyTrackingImageModal;

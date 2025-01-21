@@ -8,24 +8,32 @@ import EventBtn from "./ui/EventBtn";
 import useToggleLikeTrackingImage from "./model/useToggleLikeTrackingImage";
 import STYLE from "./style";
 import TrackingImageLoaderBtn from "./ui/TrackingImageLoaderBtn";
+import StaticTrackingImage from "../../../../2_Widget/StaticTrackingImage";
 
 const TrackingImagePost = (props) => {
   const { data } = props;
   const { likecount, idx, liked_by_user } = data;
   const [viewDetailModal, toggleDetailModal] = useDetailModal();
-  const [like, toggleLikeTrackingImage] = useToggleLikeTrackingImage(idx, liked_by_user);
+  const [like, toggleLikeTrackingImage] = useToggleLikeTrackingImage(
+    idx,
+    liked_by_user
+  );
   return (
     <STYLE.Container>
       <STYLE.PostInfo>
-        <STYLE.PosterName>{data.nickname}</STYLE.PosterName>
-        <STYLE.PostUpdated>1달전</STYLE.PostUpdated>
+        <STYLE.PosterInfoContainer>
+          <STYLE.ProfileImage src={data.img_url} alt="profile image" />
+          <STYLE.PosterName>{data.nickname}</STYLE.PosterName>
+        </STYLE.PosterInfoContainer>
+
+        <STYLE.SearchPoint>{data.searchpoint}</STYLE.SearchPoint>
       </STYLE.PostInfo>
       <STYLE.TrackingImageWrapper
         onDoubleClick={() => {
           toggleLikeTrackingImage();
         }}
       >
-        <TrackingImage data={{ ...data, height: "70vh" }} />
+        <StaticTrackingImage mapInfo={data} height="70vh" />
       </STYLE.TrackingImageWrapper>
 
       <STYLE.InfoContainer>
@@ -40,7 +48,7 @@ const TrackingImagePost = (props) => {
         </STYLE.BtnContainer>
       </STYLE.InfoContainer>
 
-      <STYLE.DetailModal isOpen={viewDetailModal}>
+      <STYLE.DetailModal $isOpen={viewDetailModal}>
         <TrackingImage data={{ ...data, height: "100%", draggable: true }} />
         {/* 상세보기 모달에 z-index 1 */}
         <STYLE.Button
@@ -50,6 +58,9 @@ const TrackingImagePost = (props) => {
         >
           X
         </STYLE.Button>
+        <STYLE.DetailModalSearchPoint>
+          {data.searchpoint}
+        </STYLE.DetailModalSearchPoint>
       </STYLE.DetailModal>
     </STYLE.Container>
   );

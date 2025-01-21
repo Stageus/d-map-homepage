@@ -5,6 +5,7 @@ const STYLE = {
     padding-top: 50px;
     height: 100%;
     overflow-y: scroll;
+    scroll-snap-type: y mandatory;
   `,
   TrackingImageWrapper: styled.div`
     display: flex;
@@ -44,6 +45,7 @@ const STYLE = {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    scroll-snap-align: end;
   `,
 };
 

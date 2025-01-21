@@ -1,17 +1,17 @@
 import STYLE from "./style";
 import { useNavigate } from "react-router-dom";
-import house_icon from "./assets/house-solid.svg";
+import home_icon from "./assets/home.svg";
 import search_icon from "./assets/magnifying-glass-solid.svg";
-import map_icon from "./assets/map-solid.svg";
-import profile_icon from "./assets/user-solid.svg";
-import setting_icon from "./assets/gear-solid.svg";
+import map_icon from "./assets/map.svg";
+import profile_icon from "./assets/user.svg";
+import setting_icon from "./assets/setting.svg";
 
 const Footer = () => {
   const navigate = useNavigate();
   return (
     <STYLE.Container>
       <STYLE.Tab>
-        <img src={house_icon} alt="home"  onClick={() => {
+        <img src={home_icon} alt="home"  onClick={() => {
           navigate("/");
         }}/>
       </STYLE.Tab>

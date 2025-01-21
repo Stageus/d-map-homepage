@@ -22,7 +22,7 @@ const STYLE = {
     gap: 4px;
   `,
   DetailModal: styled.div`
-    display: ${(props) => (props.isOpen ? "block" : "none")};
+    display: ${(props) => (props.$isOpen ? "block" : "none")};
     overflow: hidden;
     position: fixed;
     top: 0;
@@ -46,15 +46,42 @@ const STYLE = {
   PostInfo: styled.h3`
     padding: 8px;
     display: flex;
-    gap: 4px;
+    gap: 8px;
     align-items: end;
+    justify-content: space-between;
   `,
-  PosterName: styled.p``,
-  PostUpdated: styled.p`
+  PosterInfoContainer: styled.div`
+    display: flex;
+    align-items: end;
+    gap: 8px;
+  `,
+  PosterName: styled.p`
     font-size: small;
+  `,
+  PostUpdated: styled.p`
+    font-size: x-small;
     font-weight: 400;
     color: gray;
   `,
+  ProfileImage: styled.img`
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+  `,
+  SearchPoint: styled.p`
+    font-size: small;
+    white-space: nowrap; /* 줄 바꿈 방지 */
+    overflow: hidden; /* 넘치는 부분 숨김 */
+    text-overflow: ellipsis; /* 넘친 텍스트를 ...으로 표시 */
+    width: 200px;
+    text-align: end;
+  `,
+  DetailModalSearchPoint: styled.p`
+    font-size: small;
+    position: absolute;
+    top: 4px;
+    right: 16px;
+  `
 };
 
 export default STYLE;

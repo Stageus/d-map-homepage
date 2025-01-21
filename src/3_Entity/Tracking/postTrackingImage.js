@@ -5,8 +5,19 @@ const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
 const postTrackingImage = async (trackingData) => {
   try {
-    console.log("Test")
-    const searchpoint = await searchpointConverter(trackingData.center);
+    //const searchpoint = await searchpointConverter(trackingData.center);
+    const searchpoint = "temp"
+    console.log({
+      line: trackingData?.line,
+      searchpoint,
+      center: trackingData?.center,
+      zoom: trackingData?.zoom,
+      heading: trackingData?.heading,
+      sharing: trackingData?.sharing,
+      color: trackingData?.color,
+      thickness: trackingData?.thickness,
+      background: trackingData?.background,
+    })
     const response = await fetchRequest(
       "POST",
       `${BASE_URL}/tracking`,
