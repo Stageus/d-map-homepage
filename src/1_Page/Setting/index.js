@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import STYLE from "./style";
 
-import ConfirmModal from "../../2_Widget/ConfirmModal";
+import ConfirmTwoBtnModal from "../../2_Widget/ConfirmModal";
+import ErrorModal from "../../2_Widget/ConfirmModal";
 import useModalHandler from "../../4_Shared/model/useModalHandler";
 
 import useTab from "./model/useTab";
 import useActionModalMessageSet from "./model/useActionModalMessageSet";
 import useManageUser from "./model/useManageUser";
 import useChangeTheme from "./model/useChangeTheme";
+import useErrorModalHandler from "./model/useErrorModalHandler";
 
 import ACTION_MESSAGES from "./constant/actionMessagesType";
 import TABS from "./constant/tabs";
@@ -16,7 +18,10 @@ const UserProfile = () => {
   const { selectedAction, handleMessageSetDelete, handleMessageSetLogout } =
     useActionModalMessageSet();
 
-  const [confirmModal, handleConfirmModalToggle] = useModalHandler();
+  const [confirmTwoBtnModal, confimTwoBtnToggle] = useModalHandler();
+
+  const { errorModal, errorMessage, errorModalOpen, errorModalToggle } =
+    useErrorModalHandler();
 
   const { activeTab, handleTabWhite, handleTabDark, isPresentTab } = useTab();
 
@@ -26,9 +31,9 @@ const UserProfile = () => {
     handleDeleteAccount,
     handleBack,
     handleLogout,
-  } = useManageUser(handleConfirmModalToggle);
+  } = useManageUser(confimTwoBtnToggle, errorModalOpen);
 
-  const { theme } = useChangeTheme(activeTab);
+  useChangeTheme(activeTab);
 
   return (
     <>
@@ -61,14 +66,14 @@ const UserProfile = () => {
                   danger
                   onClick={() => {
                     handleMessageSetDelete();
-                    handleConfirmModalToggle();
+                    confimTwoBtnToggle();
                   }}>
                   회원탈퇴
                 </STYLE.Button>
                 <STYLE.Button
                   onClick={() => {
                     handleMessageSetLogout();
-                    handleConfirmModalToggle();
+                    confimTwoBtnToggle();
                   }}>
                   로그아웃
                 </STYLE.Button>
@@ -98,15 +103,22 @@ const UserProfile = () => {
           </STYLE.ButtonBox>
         </STYLE.ButtonContainer>
       </STYLE.Container>
-      {confirmModal && (
-        <ConfirmModal
+      {confirmTwoBtnModal && (
+        <ConfirmTwoBtnModal
           message={`정말로 ${selectedAction} 하시겠습니까?`}
           onConfirm={
             selectedAction === ACTION_MESSAGES.delete
               ? handleDeleteAccount
               : handleLogout
           }
-          onCancel={handleConfirmModalToggle}
+          onCancel={confimTwoBtnToggle}
+        />
+      )}
+      {errorModal && (
+        <ErrorModal
+          message={errorMessage}
+          type="one"
+          onClose={errorModalToggle}
         />
       )}
     </>
