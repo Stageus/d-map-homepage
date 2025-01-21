@@ -17,9 +17,9 @@ const useGetSearchData = (text, page, type) => {
   const fetchSearchData = async (type) => {
     let result = [];
     try {
-      const endpoint = `${BASE_URL}/search/${type}`;
-      // const endpoint = `${BASE_URL}/search/${type}/text/&page=${page}`;
-      const response = await fetchRequest("GET", endpoint, { text }, null);
+      const endpoint = `${BASE_URL}/search/${type}/${text}/${page[type]}`;
+      console.log(endpoint);
+      const response = await fetchRequest("GET", endpoint, null, null);
 
       const data = await response.json();
       switch (response.status) {
