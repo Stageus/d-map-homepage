@@ -5,7 +5,6 @@ const ModifyModeModalContent = ({
   handleClose,
   handleModifyModeClose,
   handleSetMode,
-  trackDataLegth,
 }) => {
   const handleAction = (mode) => {
     handleSetMode(mode);

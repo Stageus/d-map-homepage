@@ -26,6 +26,9 @@ const useManageUserInfo = (showErrorModal) => {
     } finally {
     }
   }, [userIdx]);
+  useEffect(() => {
+    console.log(userInfoData);
+  }, [userInfoData]);
 
   useEffect(() => {
     fetchUserInfo();

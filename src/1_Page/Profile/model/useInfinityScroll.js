@@ -8,7 +8,6 @@ const useInfinityScroll = (tabIndex) => {
   // 최신 page 상태를 유지
   useEffect(() => {
     pageRef.current = page;
-    console.log(page);
   }, [page]);
 
   // 최신 currentKey 상태를 유지

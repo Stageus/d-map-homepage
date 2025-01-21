@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 
 import STYLE from "./style.js";
@@ -29,11 +29,20 @@ const Header = (props) => {
   const { userInfo, handleProfileImageChange, handleChangeNickName } =
     useManageUserInfo(userInfoData);
 
-  // 백엔드에서 수정 필요
-  const trackDataLegth =
-    tabState.tabIndex === 1
-      ? userInfo?.share_tracking_length || 1
-      : userInfo?.save_tracking_length || 1;
+  const saveDataLength = userInfo
+    ? userInfo.share_tracking_length - userInfo.share_tracking_length
+    : 0;
+
+  const trackDataLength =
+    userInfo && tabState.tabIndex === 1
+      ? userInfo.share_tracking_length
+      : saveDataLength;
+
+  useEffect(() => {
+    console.log(trackDataLength);
+    console.log(userInfo?.total_tracking_length);
+    console.log(userInfo?.share_tracking_length);
+  }, []);
 
   const [modifyImageModal, modifyImageModalToggle] = useModifyImageModal(); // 프로필 이미지 모달
   const [modifyNameModal, modifyNameModalToggle] = useModifyNameModal(); // 닉네임 수정 모달
@@ -67,7 +76,7 @@ const Header = (props) => {
               </STYLE.Nickname>
             )}
             <STYLE.PostCount>
-              {tabState?.activeTabStr} 게시물 : {trackDataLegth}개
+              {tabState?.activeTabStr} 게시물 : {trackDataLength}개
             </STYLE.PostCount>
           </STYLE.UserInfo>
         </STYLE.ProfileContainer>
@@ -131,7 +140,7 @@ const Header = (props) => {
       )}
 
       {modifyModeModal &&
-        (trackDataLegth === 0 ? (
+        (trackDataLength === 0 ? (
           ReactDOM.createPortal(
             <ConfirmModal
               type="one"
@@ -147,7 +156,7 @@ const Header = (props) => {
                 handleSetMode={handleSetMode}
                 handleClose={handleClose}
                 handleModifyModeClose={modifyModeModalToggle}
-                trackDataLegth={trackDataLegth}
+                trackDataLength={trackDataLength}
               />
             )}
           </ModalBase>

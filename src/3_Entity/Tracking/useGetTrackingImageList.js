@@ -9,10 +9,6 @@ const useGetTrackingImageList = (userIdx, page, sharing) => {
   const [loading, setLoading] = useState(true);
   const [trackingImageList, setTrackingImageLists] = useState([]);
 
-  useEffect(() => {
-    console.log(trackingImageList);
-  }, [trackingImageList]);
-
   const [hasMoreContent, setHasMoreContent] = useState({
     save: false,
     share: false,
@@ -30,14 +26,12 @@ const useGetTrackingImageList = (userIdx, page, sharing) => {
     setLoading(true);
     try {
       const endpoint = `${BASE_URL}/tracking/account/${userIdx}?page=${page}&category=${sharing}`;
-      console.log(endpoint);
       const response = await fetchRequest("GET", endpoint, null, TEST_TOKEN);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(`API Error: ${errorData.message}`);
       }
       const data = await response.json();
-      console.log(data);
       updateDataAndHasMoreContent(data.tracking_image, sharing);
     } catch (error) {
       console.log(error);
@@ -47,13 +41,15 @@ const useGetTrackingImageList = (userIdx, page, sharing) => {
   };
 
   useEffect(() => {
+    if (!userIdx) return;
     fetchTrackingImageList(sharing);
   }, [userIdx, page]);
 
   // 저장된 데이터 , 공유된 데이터 불러오기
   useEffect(() => {
+    if (!userIdx) return;
     fetchTrackingImageList(0);
-  }, []);
+  }, [userIdx]);
 
   return {
     trackingImageList,
