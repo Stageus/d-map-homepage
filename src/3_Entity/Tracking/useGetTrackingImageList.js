@@ -39,6 +39,7 @@ const useGetTrackingImageList = (userIdx, page, sharing) => {
     }
   };
 
+  // 저장된 데이터 , 공유된 데이터 불러오기
   useEffect(() => {
     fetchTrackingImageList(0);
   }, []);

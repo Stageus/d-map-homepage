@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import getUserInfo from "../../../3_Entity/Account/getUserInfo";
+import getMyInfo from "../../../3_Entity/Account/getMyInfo";
 
 const useManageUserInfo = (showErrorModal) => {
   const { userIdx } = useParams();
@@ -14,8 +15,9 @@ const useManageUserInfo = (showErrorModal) => {
     }
     try {
       if (userIdx === "me") {
-        const userInfoData = await getUserInfo("me");
+        const userInfoData = await getMyInfo();
         setUserInfoData(userInfoData);
+        return;
       }
       const userInfoData = await getUserInfo(userIdx);
       setUserInfoData(userInfoData);
@@ -23,7 +25,7 @@ const useManageUserInfo = (showErrorModal) => {
       showErrorModal(err.message);
     } finally {
     }
-  }, [userIdx, navigate]);
+  }, [userIdx]);
 
   useEffect(() => {
     fetchUserInfo();
