@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 
 const useManageUser = (handleConfirmModalClose) => {
   const [userInfo, setUserInfo] = useState(null);
+  const navigate = useNavigate();
 
   const fetchUserData = async () => {
     try {
-      const data = await getUserInfo(2);
+      const data = await getUserInfo("me");
       setUserInfo(data);
     } catch (error) {
       setUserInfo(null);
@@ -30,10 +31,8 @@ const useManageUser = (handleConfirmModalClose) => {
 
   const handleLogin = () => {
     // 백엔드 로그인 URL
-    const backendLoginUrl = "https://example.com/api/login";
-    window.location.href = backendLoginUrl;
+    navigate("/login");
   };
-  const navigate = useNavigate(); // React Router의 navigate 함수
 
   const handleBack = () => {
     navigate(-1); // 이전 큐로 이동
