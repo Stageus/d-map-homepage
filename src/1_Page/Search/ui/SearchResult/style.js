@@ -1,4 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+// 로딩 애니메이션 정의
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
 
 const STYLE = {
   Container: styled.div`
@@ -46,6 +56,7 @@ const STYLE = {
   `,
   ResultList: styled.div`
     display: flex;
+    width: 100%;
     height: 500px;
     flex-direction: column;
     overflow-y: scroll;
@@ -56,6 +67,16 @@ const STYLE = {
     align-items: center;
     border: 1px solid ${({ theme }) => theme.light_gray};
     border-radius: 8px;
+  `,
+  SliderWrapper: styled.div`
+    overflow: hidden; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
+    width: 100%;
+  `,
+  Slider: styled.div`
+    display: flex;
+    width: 200%; /* 두 개의 탭을 모두 포함할 넓이 */
+    transform: translateX(${({ $tabIndex }) => -$tabIndex * 50}%);
+    transition: transform 0.5s ease-in-out;
   `,
   TitleContainer: styled.div`
     display: flex;
@@ -71,17 +92,18 @@ const STYLE = {
     line-height: 100%;
   `,
   ProfileIcon: styled.img`
-    width: 30px;
-    height: 30px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    border: 1px solid ${({ theme }) => theme.black};
+    border: 0.5px solid ${({ theme }) => theme.black};
     margin-right: 5px;
     margin-left: 5px;
+    object-fit: cover;
   `,
   NicckNameContainer: styled.div`
     display: flex;
     align-items: center;
-    height: 50px;
+    height: 80px;
     border-radius: 5px;
     border: 1px solid ${({ theme }) => theme.blue};
     padding: 10px;
@@ -99,6 +121,7 @@ const STYLE = {
   EmptyMessage: styled.div`
     text-align: center;
     color: ${({ theme }) => theme.gray};
+    margin: 10px;
   `,
   MapPreview: styled.div`
     padding: 10px;
@@ -107,6 +130,27 @@ const STYLE = {
     border-radius: 8px;
     margin: 10px;
     height: 800px;
+  `,
+  LoaderContainer: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    bottom: 60px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 100%;
+    height: 100vh;
+  `,
+  Loader: styled.div`
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: ${spin} 1s linear infinite;
+    margin: 20px auto;
   `,
 };
 

@@ -24,7 +24,7 @@ const SearchInput = (props) => {
           {...register("searchInputText", {
             required: "값을 입력해주세요.",
             pattern: {
-              value: /^[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ0-9,]{2,100}$/,
+              value: /^[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ0-9,\s]{2,100}$/,
               message:
                 "2~100글자, 영문/한글/숫자/특수문자 ','만 입력 가능합니다.",
             },
