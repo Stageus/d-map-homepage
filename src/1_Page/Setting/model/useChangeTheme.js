@@ -5,9 +5,8 @@ const useChangeTheme = (type) => {
 
   useEffect(() => {
     setTheme(type === "다크" ? "다크" : "화이트");
+    console.log(`테마 변경 ${theme}`);
   }, [type]);
-
-  return { theme };
 };
 
 export default useChangeTheme;
