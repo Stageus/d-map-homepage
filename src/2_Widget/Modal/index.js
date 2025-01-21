@@ -23,14 +23,16 @@ const Modal = (props) => {
         ref={sheetRef}
         $isVisible={isVisible}
         $translateY={translateY}
-        $isDragging={isDraggingRef.current}>
+        $isDragging={isDraggingRef.current}
+      >
         <STYLE.Handle />
         <STYLE.Container>
           {/* google map */}
           <STYLE.MapWrapper
             onTouchStart={(e) => {
               e.stopPropagation();
-            }}>
+            }}
+          >
             <GoogleMap
               mapContainerStyle={{
                 width: "100%",
@@ -45,7 +47,8 @@ const Modal = (props) => {
                 zoom: trackData.zoom,
                 center: trackData.center,
                 heading: trackData.heading,
-              }}>
+              }}
+            >
               {trackData.line?.map((elem, idx) => (
                 <Polyline
                   key={idx}
@@ -64,7 +67,8 @@ const Modal = (props) => {
           <STYLE.SliderContainer
             onTouchStart={(e) => {
               e.stopPropagation();
-            }}>
+            }}
+          >
             <label htmlFor="lineWidth">선 굵기</label>
             <STYLE.SliderModify
               id="lineWidth"
@@ -102,14 +106,16 @@ const Modal = (props) => {
                   ? postTrackingImage(newTrackingData)
                   : putTrackingImage(newTrackingData);
                 handleClose();
-              }}>
+              }}
+            >
               저장하기
             </STYLE.Button>
             <STYLE.Button
               onClick={() => {
                 // toSharing api
                 handleClose();
-              }}>
+              }}
+            >
               공유하기
             </STYLE.Button>
           </STYLE.ButtonContainer>

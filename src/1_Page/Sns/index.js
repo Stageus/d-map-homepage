@@ -11,27 +11,16 @@ const Sns = () => {
   const snsPageContainerRef = React.useRef();
   const [category, setCategory] = React.useState(CATEGORY.DEFAULT);
   const [page, setPage] = usePage(category);
-  const [trackingImageList, trackingImageListLoading, hasMoreContent] =
-    useTrackingImageList(category, page);
-  const [paging] = usePullToPaging(
-    page,
-    setPage,
-    trackingImageListLoading,
-    hasMoreContent,
-    snsPageContainerRef
-  );
+  const [trackingImageList, trackingImageListLoading, hasMoreContent] = useTrackingImageList(category, page);
+  const [paging] = usePullToPaging(page, setPage, trackingImageListLoading, hasMoreContent, snsPageContainerRef);
 
   return (
     <STYLE.SnsPageContainer ref={snsPageContainerRef}>
       <STYLE.Header>
         <STYLE.Date>2024.11.09 목</STYLE.Date>
-        <STYLE.SortingSelect
-          onChange={(e) => {
-            setCategory(e.target.value);
-            console.log("asd");
-          }}>
-          <option value={CATEGORY.DEFAULT}>좋아요순</option>
-          <option value={CATEGORY.RECENT}>최신순</option>
+        <STYLE.SortingSelect onChange={(e)=>{setCategory(e.target.value); console.log("asd")}}>
+          <option value={CATEGORY.DEFAULT} >좋아요순</option>
+          <option value={CATEGORY.RECENT} >최신순</option>
         </STYLE.SortingSelect>
       </STYLE.Header>
       <STYLE.TrackingList>
@@ -43,6 +32,7 @@ const Sns = () => {
           );
         })}
       </STYLE.TrackingList>
+      
     </STYLE.SnsPageContainer>
   );
 };
