@@ -8,6 +8,7 @@ import EventBtn from "./ui/EventBtn";
 import useToggleLikeTrackingImage from "./model/useToggleLikeTrackingImage";
 import STYLE from "./style";
 import TrackingImageLoaderBtn from "./ui/TrackingImageLoaderBtn";
+import StaticTrackingImage from "../../../../2_Widget/StaticTrackingImage";
 
 const TrackingImagePost = (props) => {
   const { data } = props;
@@ -32,7 +33,7 @@ const TrackingImagePost = (props) => {
           toggleLikeTrackingImage();
         }}
       >
-        <TrackingImage data={{ ...data, height: "70vh" }} />
+        <StaticTrackingImage mapInfo={data} height="70vh" />
       </STYLE.TrackingImageWrapper>
 
       <STYLE.InfoContainer>
@@ -57,7 +58,9 @@ const TrackingImagePost = (props) => {
         >
           X
         </STYLE.Button>
-        <STYLE.DetailModalSearchPoint>{data.searchpoint}</STYLE.DetailModalSearchPoint>
+        <STYLE.DetailModalSearchPoint>
+          {data.searchpoint}
+        </STYLE.DetailModalSearchPoint>
       </STYLE.DetailModal>
     </STYLE.Container>
   );
