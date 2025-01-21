@@ -57,7 +57,7 @@ const Sns = () => {
                       : null
                   }
                 >
-                  <TrackingImagePost data={{ ...elem, draggable: false }} />
+                  <TrackingImagePost data={elem} />
                 </STYLE.TrackingContainer>
               );
             })
@@ -72,7 +72,7 @@ const Sns = () => {
                       : null
                   }
                 >
-                  <TrackingImagePost data={{ ...elem, draggable: false }} />
+                  <TrackingImagePost data={elem} />
                 </STYLE.TrackingContainer>
               );
             })}
