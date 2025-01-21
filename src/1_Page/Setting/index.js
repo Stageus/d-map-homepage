@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import STYLE from "./style";
 
 import ConfirmModal from "../../2_Widget/ConfirmModal";
-import useConfirmModal from "../../4_Shared/model/useModalHandler";
+import useModalHandler from "../../4_Shared/model/useModalHandler";
 
 import useTab from "./model/useTab";
 import useActionModalMessageSet from "./model/useActionModalMessageSet";
@@ -16,8 +16,7 @@ const UserProfile = () => {
   const { selectedAction, handleMessageSetDelete, handleMessageSetLogout } =
     useActionModalMessageSet();
 
-  const [confirmModal, handleConfirmModalOpen, handleConfirmModalClose] =
-    useConfirmModal();
+  const [confirmModal, handleConfirmModalToggle] = useModalHandler();
 
   const { activeTab, handleTabWhite, handleTabDark, isPresentTab } = useTab();
 
@@ -27,11 +26,7 @@ const UserProfile = () => {
     handleDeleteAccount,
     handleBack,
     handleLogout,
-  } = useManageUser(handleConfirmModalClose);
-
-  useEffect(() => {
-    console.log(userInfo);
-  }, [userInfo]);
+  } = useManageUser(handleConfirmModalToggle);
 
   const { theme } = useChangeTheme(activeTab);
 
@@ -66,14 +61,14 @@ const UserProfile = () => {
                   danger
                   onClick={() => {
                     handleMessageSetDelete();
-                    handleConfirmModalOpen();
+                    handleConfirmModalToggle();
                   }}>
                   회원탈퇴
                 </STYLE.Button>
                 <STYLE.Button
                   onClick={() => {
                     handleMessageSetLogout();
-                    handleConfirmModalOpen();
+                    handleConfirmModalToggle();
                   }}>
                   로그아웃
                 </STYLE.Button>
@@ -111,7 +106,7 @@ const UserProfile = () => {
               ? handleDeleteAccount
               : handleLogout
           }
-          onCancel={handleConfirmModalClose}
+          onCancel={handleConfirmModalToggle}
         />
       )}
     </>

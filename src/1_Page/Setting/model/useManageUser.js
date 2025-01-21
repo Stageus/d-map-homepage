@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import getUserInfo from "../../../3_Entity/Account/getUserInfo";
 import { useEffect, useState } from "react";
 
-const useManageUser = (handleConfirmModalClose) => {
+const useManageUser = (handleConfirmModalToggle) => {
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
 
@@ -20,12 +20,12 @@ const useManageUser = (handleConfirmModalClose) => {
   }, []);
 
   const handleLogout = () => {
-    handleConfirmModalClose();
+    handleConfirmModalToggle();
     console.log("로그아웃 실행");
   };
 
   const handleDeleteAccount = () => {
-    handleConfirmModalClose();
+    handleConfirmModalToggle();
     console.log("회원 탈퇴 실행");
   };
 
