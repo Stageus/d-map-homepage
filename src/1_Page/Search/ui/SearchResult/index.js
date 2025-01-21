@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import STYLE from "./style";
 import TrackingImage from "../../../../2_Widget/TrackingImage";
 import useTab from "./model/useTab";
@@ -13,8 +13,10 @@ const SearchResult = () => {
   const {
     searchDataNicnkname,
     searchDataSearchpoint,
-    loading,
-    hasMoreContent,
+    nickNameLoading,
+    searchPointLoading,
+    nicknameHasMoreContent,
+    searchPointHasMoreContent,
   } = useManageSearchData(page, activeTab);
 
   const { handleNavigate } = useNavigateHandler();
@@ -43,7 +45,7 @@ const SearchResult = () => {
         <STYLE.Slider $tabIndex={handleGetPresentTab("nickname")}>
           {/* 장소 탭 */}
           <STYLE.ResultList
-            onScroll={hasMoreContent.nickname ? handleScroll : null}>
+            onScroll={searchPointHasMoreContent.nickname ? handleScroll : null}>
             {searchDataSearchpoint?.length === 0 ? (
               <STYLE.EmptyMessage>없는 장소입니다.</STYLE.EmptyMessage>
             ) : (
@@ -65,7 +67,7 @@ const SearchResult = () => {
                 </STYLE.MapPreview>
               ))
             )}
-            {loading && (
+            {searchPointLoading && (
               <STYLE.LoaderContainer>
                 <STYLE.Loader />
               </STYLE.LoaderContainer>
@@ -73,7 +75,7 @@ const SearchResult = () => {
           </STYLE.ResultList>
           {/* 이름 탭 */}
           <STYLE.ResultList
-            onScroll={hasMoreContent.searchpoint ? handleScroll : null}>
+            onScroll={nicknameHasMoreContent.searchpoint ? handleScroll : null}>
             {searchDataNicnkname?.length === 0 ? (
               <STYLE.EmptyMessage>없는 이름입니다.</STYLE.EmptyMessage>
             ) : (
@@ -88,7 +90,7 @@ const SearchResult = () => {
                 </STYLE.NicckNameContainer>
               ))
             )}
-            {loading && (
+            {nickNameLoading && (
               <STYLE.LoaderContainer>
                 <STYLE.Loader />
               </STYLE.LoaderContainer>

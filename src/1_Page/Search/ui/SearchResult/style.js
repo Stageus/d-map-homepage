@@ -134,17 +134,23 @@ const STYLE = {
   LoaderContainer: styled.div`
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100%; /* 부모 컨테이너의 전체 높이 */
+    align-items: end;
+    bottom: 60px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 100%;
+    height: 100vh;
   `,
   Loader: styled.div`
-    border: 4px solid rgba(0, 0, 0, 0.1); /* 바깥쪽 테두리 */
-    border-top: 4px solid #3498db; /* 위쪽 테두리 (색상) */
-    border-radius: 50%; /* 원형 */
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
     width: 40px;
     height: 40px;
-    animation: ${spin} 1s linear infinite; /* 애니메이션 */
-    margin: 20px auto; /* 중앙 정렬 */
+    animation: ${spin} 1s linear infinite;
+    margin: 20px auto;
   `,
 };
 
