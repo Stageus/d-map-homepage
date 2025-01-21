@@ -7,7 +7,7 @@ import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
 import useManageTrackData from "./model/useManageTrackData.js";
 import useInfinityScroll from "./model/useInfinityScroll.js";
-import useManageUserInfo from "./model/useManageUserInfo.js";
+import useGetUserInfo from "./model/useGetUserInfo";
 
 import useGetTrackingImageList from "./model/useGetTrackingImageList.js";
 import ConfirmModal from "../../2_Widget/ConfirmModal";
@@ -24,7 +24,7 @@ const Profile = () => {
     useErrorModal(); // 에러 표시 모달
 
   // 유저 데이터 조회
-  const { userInfoData } = useManageUserInfo(showErrorModal);
+  const { userInfoData } = useGetUserInfo(showErrorModal);
 
   // 데이터 조회 (userIdx , page , category)
   const { trackingImageList, loading, hasMoreContent } =

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import getUserInfo from "../../../3_Entity/Account/getUserInfo";
 import getMyInfo from "../../../3_Entity/Account/getMyInfo";
 
-const useManageUserInfo = (showErrorModal) => {
+const useGetUserInfo = (showErrorModal) => {
   const { userIdx } = useParams();
   const navigate = useNavigate();
   const [userInfoData, setUserInfoData] = useState(null);
@@ -26,9 +26,6 @@ const useManageUserInfo = (showErrorModal) => {
     } finally {
     }
   }, [userIdx]);
-  useEffect(() => {
-    console.log(userInfoData);
-  }, [userInfoData]);
 
   useEffect(() => {
     fetchUserInfo();
@@ -37,4 +34,4 @@ const useManageUserInfo = (showErrorModal) => {
   return { userInfoData };
 };
 
-export default useManageUserInfo;
+export default useGetUserInfo;
