@@ -9,7 +9,7 @@ import useManageTrackData from "./model/useManageTrackData.js";
 import useInfinityScroll from "./model/useInfinityScroll.js";
 import useManageUserInfo from "./model/useManageUserInfo.js";
 
-import useGetTrackingImageList from "../../3_Entity/Tracking/useGetTrackingImageList.js";
+import useGetTrackingImageList from "./model/useGetTrackingImageList.js";
 import ConfirmModal from "../../2_Widget/ConfirmModal";
 import useErrorModal from "./model/useModalHandler.js";
 
