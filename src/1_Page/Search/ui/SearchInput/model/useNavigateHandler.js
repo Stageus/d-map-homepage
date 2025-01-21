@@ -5,7 +5,7 @@ const useNavigateHandler = (addSearchHistory) => {
   // 검색 수행 함수
   const navigateToSearch = (data) => {
     addSearchHistory(data);
-    navigate(`/search?text=${encodeURIComponent(data.searchInputText)}`);
+    navigate(`/search?text=${encodeURIComponent(data.searchInputText)}`); // 공백과 특수문자 인코딩
   };
   return { navigateToSearch };
 };

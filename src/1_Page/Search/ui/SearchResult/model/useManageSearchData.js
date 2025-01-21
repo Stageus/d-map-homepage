@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const useManageSearchData = (page, activeTab) => {
   const [searchParams] = useSearchParams();
-  const searchInputText = searchParams.get("text"); // 쿼리 값 가져오기
+  const searchInputText = searchParams.get("text");
 
   const [searchData, loading, hasMoreContent] = useGetSearchData(
     searchInputText,

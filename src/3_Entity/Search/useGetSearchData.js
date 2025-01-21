@@ -33,7 +33,6 @@ const useGetSearchData = (text, page, type) => {
           console.log(data.message);
       }
     } catch (error) {
-      console.log(error);
     } finally {
       setLoading(false);
     }
