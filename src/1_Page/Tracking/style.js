@@ -69,7 +69,25 @@ const STYLE = {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    white-space: nowrap;
   `,
+  TrackingToolModal: styled.div`
+    display: flex;
+    gap: 16px;
+    width: ${(props)=>props.$isOpen ? "136px" : "0px"};
+    transition: all 0.7s;
+  `,
+  TrackingToolModalOpenBtn: styled.button`
+    width: 36px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 1px 1px 2px black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `,
+  TrackingToolModalOpenIconImage: styled.img``,
+
 };
 
 export default STYLE;

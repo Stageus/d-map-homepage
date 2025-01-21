@@ -5,7 +5,7 @@ import useTrackingData from "./model/useTrackingData";
 import play_icon from "./assets/play.svg";
 import pause_icon from "./assets/pause.svg";
 import stop_icon from "./assets/stop.svg";
-import toggle_icon from "./assets/toggle.svg"
+import toggle_icon from "./assets/toggle.svg";
 import location_icon from "./assets/location.svg";
 import useTrackingLine from "./model/useTrackingLine";
 import useIsTrackingAtom from "../../4_Shared/Recoil/useIsTrackingAtom";
@@ -135,6 +135,7 @@ const Tracking = () => {
             {isTrackingToolModalOpen && "위성"}
           </STYLE.TrackingToolDiv>
         </STYLE.TrackingToolModal>
+
         <STYLE.TrackingToolModalOpenBtn
           onClick={() => {
             toggleIsTrackingToolModalOpen();
