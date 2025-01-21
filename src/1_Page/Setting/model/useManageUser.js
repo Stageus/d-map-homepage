@@ -1,16 +1,21 @@
 import { useNavigate } from "react-router-dom";
+import getUserInfo from "../../../3_Entity/Account/getUserInfo";
 import { useEffect, useState } from "react";
-import { getCookie } from "../../../4_Shared/model/cookie";
-import useGetUserData from "../../../3_Entity/Setting/useGetUserData";
 
 const useManageUser = (handleConfirmModalClose) => {
-  const [token, setToken] = useState(null);
-  const { userData } = useGetUserData(token);
-  useEffect(() => {
-    const token = getCookie("token");
-    if (token) {
-      setToken(token);
+  const [userInfo, setUserInfo] = useState(null);
+
+  const fetchUserData = async () => {
+    try {
+      const data = await getUserInfo(2);
+      setUserInfo(data);
+    } catch (error) {
+      setUserInfo(null);
     }
+  };
+
+  useEffect(() => {
+    fetchUserData();
   }, []);
 
   const handleLogout = () => {
@@ -35,7 +40,7 @@ const useManageUser = (handleConfirmModalClose) => {
   };
 
   return {
-    userData,
+    userInfo,
     handleLogin,
     handleDeleteAccount,
     handleBack,

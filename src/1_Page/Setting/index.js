@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import STYLE from "./style";
 
 import ConfirmModal from "../../2_Widget/ConfirmModal";
@@ -22,12 +22,16 @@ const UserProfile = () => {
   const { activeTab, handleTabWhite, handleTabDark, isPresentTab } = useTab();
 
   const {
-    userData,
+    userInfo,
     handleLogin,
     handleDeleteAccount,
     handleBack,
     handleLogout,
   } = useManageUser(handleConfirmModalClose);
+
+  useEffect(() => {
+    console.log(userInfo);
+  }, [userInfo]);
 
   const { theme } = useChangeTheme(activeTab);
 
@@ -36,7 +40,7 @@ const UserProfile = () => {
       <STYLE.Container>
         <STYLE.Header>
           <STYLE.HeaderTitle>
-            {userData ? userData.nickname : "로그인이 필요합니다"}
+            {userInfo ? userInfo.nickname : "로그인이 필요합니다"}
           </STYLE.HeaderTitle>
         </STYLE.Header>
         <STYLE.TabContainer>
@@ -56,7 +60,7 @@ const UserProfile = () => {
         </STYLE.TabContainer>
         <STYLE.ButtonContainer>
           <STYLE.ButtonBox>
-            {userData ? (
+            {userInfo ? (
               <>
                 <STYLE.Button
                   danger
