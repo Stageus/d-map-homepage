@@ -7,7 +7,6 @@ const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 const getMyInfo = async () => {
   try {
     const endpoint = `${BASE_URL}/account/me`;
-    console.log(endpoint);
     const response = await fetchRequest("GET", endpoint, null, TEST_TOKEN);
     const result = await response.json();
 
