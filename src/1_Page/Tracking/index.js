@@ -1,33 +1,17 @@
 import React from "react";
-import { GoogleMap, Polyline } from "@react-google-maps/api";
+import { GoogleMap } from "@react-google-maps/api";
 import STYLE from "./style";
 import useTrackingData from "./model/useTrackingData";
-import play_icon from "./assets/play.svg";
-import pause_icon from "./assets/pause.svg";
-import stop_icon from "./assets/stop.svg";
-import toggle_icon from "./assets/toggle.svg";
-import location_icon from "./assets/location.svg";
-import useTrackingLine from "./model/useTrackingLine";
-import useIsTrackingAtom from "../../4_Shared/Recoil/useIsTrackingAtom";
-import useIsModifyingTrackingAtom from "../../4_Shared/Recoil/useIsModifyingTrackingAtom";
-import ModifyTrackingImageModal from "../../2_Widget/ModifyTrackingImageModal";
 import MAPTYPE from "../../4_Shared/constant/mapType";
-import getCurrentLocation from "./lib/getCurrentLocation";
-import useTrackingToolModal from "./model/useTrackingToolModal";
+import TrackingLine from "./ui/TrackingLine";
+import TrackingController from "./ui/TrackingController";
+import TrackingTools from "./ui/TrackingTools";
 
 const Tracking = () => {
   const mapRef = React.useRef(null); // google map instance
-  const isInteractingMap = React.useRef(false);
-  const [isTracking, toggleTracking] = useIsTrackingAtom();
-  const [isModifying, toggleIsModifying] = useIsModifyingTrackingAtom();
-  const [trackingData, throttledSetTrackingData, setTrackingData] =
-    useTrackingData(mapRef); // zoom / center / heading
-  const [trackingLine, resetTrackingLine] = useTrackingLine(
-    isTracking,
-    isInteractingMap
-  );
-  const [isTrackingToolModalOpen, toggleIsTrackingToolModalOpen] =
-    useTrackingToolModal();
+  const [trackingData, setTrackingData] = useTrackingData(); // zoom / center / heading
+
+  console.log("map render");
   return (
     <STYLE.TrackingPageContainer>
       {/* map instance */}
@@ -39,16 +23,6 @@ const Tracking = () => {
         onLoad={(map) => {
           mapRef.current = map;
         }}
-        onIdle={() => {
-          throttledSetTrackingData();
-          isInteractingMap.current = false;
-        }}
-        onDragStart={() => {
-          isInteractingMap.current = true;
-        }}
-        onZoomChanged={() => {
-          isInteractingMap.current = true;
-        }}
         options={{
           disableDefaultUI: true,
           heading: trackingData.heading,
@@ -57,103 +31,25 @@ const Tracking = () => {
           mapTypeId: MAPTYPE[trackingData.background],
         }}
       >
-        {/* 선 그리기 */}
-        {trackingLine.map((elem, index) => {
-          return (
-            <Polyline
-              key={index}
-              path={elem}
-              options={{
-                strokeColor: trackingData.color,
-                strokeOpacity: 0.8,
-                strokeWeight: trackingData.thickness,
-              }}
-            />
-          );
-        })}
+        {/* Tracking Line*/}
+        <TrackingLine
+          color={trackingData.color}
+          thickness={trackingData.thickness}
+        />
       </GoogleMap>
 
-      {/* Tracking Control Panel*/}
-      <STYLE.TrackingControlBtnContainer>
-        {!isTracking ? (
-          <STYLE.TrackingControlBtn
-            onClick={() => {
-              toggleTracking();
-            }}
-          >
-            <STYLE.TrackingControlBtnIconImage src={play_icon} alt="play" />
-          </STYLE.TrackingControlBtn>
-        ) : (
-          <>
-            <STYLE.TrackingControlBtn
-              onClick={() => {
-                toggleTracking();
-              }}
-            >
-              <STYLE.TrackingControlBtnIconImage src={pause_icon} alt="pause" />
-            </STYLE.TrackingControlBtn>
-            <STYLE.TrackingControlBtn
-              onClick={() => {
-                toggleTracking();
-                toggleIsModifying();
-              }}
-            >
-              <STYLE.TrackingControlBtnIconImage src={stop_icon} alt="stop" />
-            </STYLE.TrackingControlBtn>
-          </>
-        )}
-      </STYLE.TrackingControlBtnContainer>
-
-      <STYLE.TrackingToolContainer>
-        <STYLE.TrackingToolBtn>
-          <STYLE.TrackingToolBtnIConImage
-            src={location_icon}
-            alt="location"
-            onClick={async () => {
-              mapRef.current?.setCenter(await getCurrentLocation());
-            }}
-          />
-        </STYLE.TrackingToolBtn>
-
-        <STYLE.TrackingToolModal $isOpen={isTrackingToolModalOpen}>
-          <STYLE.TrackingToolDiv
-            onClick={() => {
-              setTrackingData({ ...trackingData, background: 0 });
-              console.log(trackingData.background);
-            }}
-            $isOpen={isTrackingToolModalOpen}
-          >
-            {isTrackingToolModalOpen && "기본"}
-          </STYLE.TrackingToolDiv>
-          <STYLE.TrackingToolDiv
-            onClick={() => {
-              setTrackingData({ ...trackingData, background: 1 });
-              console.log(trackingData.background);
-            }}
-            $isOpen={isTrackingToolModalOpen}
-          >
-            {isTrackingToolModalOpen && "위성"}
-          </STYLE.TrackingToolDiv>
-        </STYLE.TrackingToolModal>
-
-        <STYLE.TrackingToolModalOpenBtn
-          onClick={() => {
-            toggleIsTrackingToolModalOpen();
-          }}
-        >
-          <STYLE.TrackingToolModalOpenIconImage src={toggle_icon} />
-        </STYLE.TrackingToolModalOpenBtn>
-      </STYLE.TrackingToolContainer>
-
-      {/* 수정 모달 */}
-      {isModifying && (
-        <ModifyTrackingImageModal
-          onClose={() => {
-            toggleIsModifying();
-          }}
-          trackData={{ ...trackingData, line: trackingLine }}
-        />
-      )}
+      {/* Tracking 시작/정지 버튼 & 수정/저장 모달 */}
+      <TrackingController
+        trackingData={trackingData}
+        setTrackingData={setTrackingData}
+        mapRef={mapRef}
+      />
+      {/* 현위치 버튼 & 지도 모드 변경 버튼 & line reset/undo 버튼튼  */}
+      <TrackingTools
+        trackingData={trackingData}
+        setTrackingData={setTrackingData}
+        mapRef={mapRef}
+      />
     </STYLE.TrackingPageContainer>
   );
 };

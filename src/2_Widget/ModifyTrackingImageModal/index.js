@@ -6,7 +6,6 @@ import postTrackingImage from "../../3_Entity/Tracking/postTrackingImage";
 import putTrackingImage from "../../3_Entity/Tracking/putTrackingImage";
 import MAPTYPE from "../../4_Shared/constant/mapType";
 import useNewTrackingData from "./model/useNewTrackingData";
-import searchpointConverter from "../../4_Shared/lib/searchpointConverter";
 
 const ModifyTrackingImageModal = (props) => {
   const { onClose, trackData } = props;
@@ -59,7 +58,7 @@ const ModifyTrackingImageModal = (props) => {
                 heading: newTrackingData.heading,
               }}
             >
-              {trackData.line?.map((elem, idx) => (
+              {newTrackingData.line?.map((elem, idx) => (
                 <Polyline
                   key={idx}
                   path={elem}
