@@ -43,15 +43,9 @@ const TrackingImageContainer = (props) => {
       {modifyTrackingModal &&
         selectLongPressData &&
         ReactDOM.createPortal(
-<<<<<<< HEAD
-          <Modal
+          <ModifyTrackingImageModal
             onClose={modifyTrackingModalToggle}
             trackData={selectLongPressData}
-=======
-          <ModifyTrackingImageModal
-            onClose={handleModifyTrackingClose}
-            trackData={longPressData}
->>>>>>> develop
           />,
           document.body // Portal로 이동
         )}
