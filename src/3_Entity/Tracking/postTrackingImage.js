@@ -5,7 +5,8 @@ const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
 const postTrackingImage = async (trackingData) => {
   try {
-    const searchpoint = await searchpointConverter(trackingData.center);
+    //const searchpoint = await searchpointConverter(trackingData.center);
+    const searchpoint = "temp"
     console.log({
       line: trackingData?.line,
       searchpoint,

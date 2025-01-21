@@ -5,6 +5,7 @@ import useTrackingData from "./model/useTrackingData";
 import play_icon from "./assets/play.svg";
 import pause_icon from "./assets/pause.svg";
 import stop_icon from "./assets/stop.svg";
+import toggle_icon from "./assets/toggle.svg"
 import location_icon from "./assets/location.svg";
 import useTrackingLine from "./model/useTrackingLine";
 import useIsTrackingAtom from "../../4_Shared/Recoil/useIsTrackingAtom";
@@ -12,6 +13,7 @@ import useIsModifyingTrackingAtom from "../../4_Shared/Recoil/useIsModifyingTrac
 import ModifyTrackingImageModal from "../../2_Widget/ModifyTrackingImageModal";
 import MAPTYPE from "../../4_Shared/constant/mapType";
 import getCurrentLocation from "./lib/getCurrentLocation";
+import useTrackingToolModal from "./model/useTrackingToolModal";
 
 const Tracking = () => {
   const mapRef = React.useRef(null); // google map instance
@@ -24,6 +26,8 @@ const Tracking = () => {
     isTracking,
     isInteractingMap
   );
+  const [isTrackingToolModalOpen, toggleIsTrackingToolModalOpen] =
+    useTrackingToolModal();
   return (
     <STYLE.TrackingPageContainer>
       {/* map instance */}
@@ -110,20 +114,34 @@ const Tracking = () => {
             }}
           />
         </STYLE.TrackingToolBtn>
-        <STYLE.TrackingToolDiv
+
+        <STYLE.TrackingToolModal $isOpen={isTrackingToolModalOpen}>
+          <STYLE.TrackingToolDiv
+            onClick={() => {
+              setTrackingData({ ...trackingData, background: 0 });
+              console.log(trackingData.background);
+            }}
+            $isOpen={isTrackingToolModalOpen}
+          >
+            {isTrackingToolModalOpen && "기본"}
+          </STYLE.TrackingToolDiv>
+          <STYLE.TrackingToolDiv
+            onClick={() => {
+              setTrackingData({ ...trackingData, background: 1 });
+              console.log(trackingData.background);
+            }}
+            $isOpen={isTrackingToolModalOpen}
+          >
+            {isTrackingToolModalOpen && "위성"}
+          </STYLE.TrackingToolDiv>
+        </STYLE.TrackingToolModal>
+        <STYLE.TrackingToolModalOpenBtn
           onClick={() => {
-            setTrackingData({ ...trackingData, background: MAPTYPE[0] });
+            toggleIsTrackingToolModalOpen();
           }}
         >
-          기본
-        </STYLE.TrackingToolDiv>
-        <STYLE.TrackingToolDiv
-          onClick={() => {
-            setTrackingData({ ...trackingData, background: MAPTYPE[1] });
-          }}
-        >
-          위성
-        </STYLE.TrackingToolDiv>
+          <STYLE.TrackingToolModalOpenIconImage src={toggle_icon} />
+        </STYLE.TrackingToolModalOpenBtn>
       </STYLE.TrackingToolContainer>
 
       {/* 수정 모달 */}
