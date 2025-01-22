@@ -2,6 +2,7 @@ import React from "react";
 import STYLE from "./style";
 import TrackContainer from "./ui/TrackingImageContainer";
 import TrackingImagePostListModal from "./ui/TrackingImagePostListModal";
+import useModalHandler from "../../../../4_Shared/model/useModalHandler";
 
 const TrackingImageTab = (props) => {
   const {
@@ -12,6 +13,9 @@ const TrackingImageTab = (props) => {
     hasMoreContent,
     handleNextPage,
   } = props;
+
+  const [isTrackingPost, handleTrackingPost] = useModalHandler();
+
   return (
     <>
       {trackingImageList.length === 0 ? (
@@ -25,16 +29,20 @@ const TrackingImageTab = (props) => {
                 track={track}
                 modifyMode={modifyMode}
                 handleAddModifyIdxList={handleAddModifyIdxList}
+                handleTrackingPost={handleTrackingPost}
               />
             );
           })}
         </STYLE.PostGrid>
       )}
-      <TrackingImagePostListModal
-        trackingImageList={trackingImageList}
-        handleNextPage={handleNextPage}
-        hasMoreContent={hasMoreContent}
-      />
+      {isTrackingPost && (
+        <TrackingImagePostListModal
+          trackingImageList={trackingImageList}
+          handleNextPage={handleNextPage}
+          hasMoreContent={hasMoreContent}
+          onClose={handleTrackingPost}
+        />
+      )}
     </>
   );
 };
