@@ -34,6 +34,7 @@ const Header = (props) => {
       ? userInfo?.share_tracking_length
       : userInfo?.share_tracking_length - userInfo?.share_tracking_length
     : 0;
+
   const [modifyImageModal, modifyImageModalToggle] = useModifyImageModal(); // 프로필 이미지 모달
   const [modifyNameModal, modifyNameModalToggle] = useModifyNameModal(); // 닉네임 수정 모달
   const [modifyModeModal, modifyModeModalToggle] = useModifyMode(); // 수정 , 삭제 뒤로가기 모달

@@ -20,6 +20,7 @@ const useInfinityScroll = (tabIndex) => {
   const handleNextPage = useCallback(() => {
     const currentKey = currentKeyRef.current;
     const currentPage = pageRef.current[currentKey];
+    console.log(currentKey, currentPage + 1);
     setPage((prev) => ({
       ...prev,
       [currentKey]: currentPage + 1,
@@ -45,7 +46,7 @@ const useInfinityScroll = (tabIndex) => {
     [handleNextPage]
   );
 
-  return { paging, handleScroll, checkLessLength };
+  return { paging, handleScroll, checkLessLength, handleNextPage };
 };
 
 export default useInfinityScroll;
