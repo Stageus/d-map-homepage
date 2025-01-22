@@ -22,7 +22,6 @@ const STYLE = {
     gap: 4px;
   `,
   DetailModal: styled.div`
-    display: ${(props) => (props.$isOpen ? "block" : "none")};
     overflow: hidden;
     position: fixed;
     top: 0;
@@ -81,7 +80,14 @@ const STYLE = {
     position: absolute;
     top: 4px;
     right: 16px;
-  `
+  `,
+  StaticMapWrapper: styled.div`
+    width: 100%;
+  `,
+  StaticMapImage: styled.img`
+    width: 100%;
+    height: 100%;
+  `,
 };
 
 export default STYLE;

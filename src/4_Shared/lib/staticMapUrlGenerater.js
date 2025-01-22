@@ -26,7 +26,7 @@ const staticMapUrlGenerater = (mapInfo) => {
     path: `color:0x${color.replace(
       "#",
       ""
-    )}|weight:${thickness}|${polylinePath}`,
+    )}FF|weight:${thickness}|${polylinePath}`,
     key: GOOGLE_MAP_API_KEY, // 여기에 API 키를 입력
   });
 
