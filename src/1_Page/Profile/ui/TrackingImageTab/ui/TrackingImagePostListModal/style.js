@@ -28,8 +28,8 @@ const STYLE = {
   `,
   ModalContent: styled.div`
     background: white;
-    width: 80%;
-    height: 100vh;
+    width: 90%;
+    height: 95vh;
     max-width: 400px;
     overflow-y: auto;
     padding: 20px;
