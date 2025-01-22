@@ -88,6 +88,7 @@ const Profile = () => {
           </STYLE.LoadingBox>
         </STYLE.LoadingContainer>
       )}
+
       {isModalOpen && (
         <ConfirmModal
           message={errorMessage}

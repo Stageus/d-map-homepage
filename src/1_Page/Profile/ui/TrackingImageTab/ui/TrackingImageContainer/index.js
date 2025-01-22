@@ -7,6 +7,7 @@ import ModifyTrackingImageModal from "../../../../../../2_Widget/ModifyTrackingI
 
 import useLongPressEvent from "./model/useLongPressEvent";
 import useConfirmModal from "../../../../../../4_Shared/model/useModalHandler";
+import { useNavigate } from "react-router-dom";
 
 const TrackingImageContainer = (props) => {
   const { track, modifyMode, handleAddModifyIdxList } = props;
@@ -17,10 +18,14 @@ const TrackingImageContainer = (props) => {
     modifyTrackingModalToggle,
     track
   );
+  const navigate = useNavigate();
 
   return (
     <>
       <STYLE.TrackingContainer
+        onClick={() => {
+          navigate(`/sns/${track.idx}`);
+        }}
         {...(!modifyMode && track?.isMine && longPressEvents)}>
         <TrackingImage
           data={{ ...track, height: "100%", draggable: false, background: 0 }}
