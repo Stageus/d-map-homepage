@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import useTrackingDataAtom from "../../../../../../../../../4_Shared/Recoil/useTrackingDataAtom";
-import useTrackingLineAtom from "../../../../../../../../../4_Shared/Recoil/useTrackingLineAtom";
+import useTrackingDataAtom from "../../../../../../../4_Shared/Recoil/useTrackingDataAtom";
+import useTrackingLineAtom from "../../../../../../../4_Shared/Recoil/useTrackingLineAtom";
 
 const useLoadTrackingImage = (trackingImageData) => {
   const { center, zoom, heading, line, background, color, thickness, searchpoint } = trackingImageData;

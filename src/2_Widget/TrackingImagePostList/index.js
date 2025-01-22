@@ -1,7 +1,7 @@
 import STYLE from "./style";
 import TrackingImagePost from "./ui/TrackingImagePost";
 const TrackingImagePostList = (props) => {
-  const { trackingImageList, hasMoreContent, observeRef } = props;
+  const { trackingImageList = [], hasMoreContent = false, observeRef = null } = props;
   return (
     <STYLE.TrackingList>
       {trackingImageList.map((elem, index) => {
