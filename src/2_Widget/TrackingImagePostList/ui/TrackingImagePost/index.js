@@ -8,8 +8,8 @@ import EventBtn from "./ui/EventBtn";
 import useToggleLikeTrackingImage from "./model/useToggleLikeTrackingImage";
 import STYLE from "./style";
 import TrackingImageLoaderBtn from "./ui/TrackingImageLoaderBtn";
-import StaticTrackingImage from "../../../../../../2_Widget/StaticTrackingImage";
-import MAPTYPE from "../../../../../../4_Shared/constant/mapType";
+import MAPTYPE from "../../../../4_Shared/constant/mapType";
+import staticMapUrlGenerater from "../../../../4_Shared/lib/staticMapUrlGenerater";
 
 const TrackingImagePost = (props) => {
   const { data } = props;
@@ -48,7 +48,16 @@ const TrackingImagePost = (props) => {
           toggleLikeTrackingImage();
         }}
       >
-        <StaticTrackingImage mapInfo={data} height="70vh" />
+        <STYLE.StaticMapWrapper>
+          <STYLE.StaticMapImage
+            src={staticMapUrlGenerater({
+              ...data,
+              mapWidth: "500",
+              mapHeight: "700",
+            })}
+            alt="Tracking Map"
+          />
+        </STYLE.StaticMapWrapper>
       </STYLE.TrackingImageWrapper>
 
       <STYLE.InfoContainer>

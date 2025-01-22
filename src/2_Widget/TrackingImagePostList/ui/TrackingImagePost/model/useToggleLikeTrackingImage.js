@@ -1,6 +1,6 @@
 import React from "react";
-import postLikeTrackingImage from "../../../../../../../3_Entity/SNS/postLikeTrackingImage";
-import deleteLikeTrackingImage from "../../../../../../../3_Entity/SNS/deleteLikeTrackingImage";
+import postLikeTrackingImage from "../../../../../3_Entity/SNS/postLikeTrackingImage";
+import deleteLikeTrackingImage from "../../../../../3_Entity/SNS/deleteLikeTrackingImage";
 
 const useToggleLikeTrackingImage = (trackingImageIdx, liked_by_user) => {
   const [like, setLike] = React.useState(liked_by_user);
