@@ -12,6 +12,7 @@ const useGetSearchPointData = (text, page) => {
   const fetchSearchPointData = async () => {
     try {
       const endpoint = `${BASE_URL}/search/${SEARCH_TYPE.SEARCHPOINT}?=${text}&=${page}`;
+      console.log(endpoint);
       const response = await fetchRequest("GET", endpoint, null, null);
       const data = await response.json();
 

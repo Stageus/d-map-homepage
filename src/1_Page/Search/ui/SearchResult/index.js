@@ -1,15 +1,19 @@
 import React from "react";
 import STYLE from "./style";
-import TrackingImage from "../../../../2_Widget/TrackingImage";
+
+import StaticTrackingImage from "../../../../2_Widget/StaticTrackingImage";
+
 import useTab from "./model/useTab";
 import useNavigateHandler from "./model/useNavigateHandler";
 import useInfinityScroll from "./model/useInfinityScroll";
 import useManageSearchData from "./model/useManageSearchData";
+import useModalHandler from "../../../../4_Shared/model/useModalHandler";
+import TrackingImagePostListModal from "./ui/TrackingImagePostListModal";
 
 const SearchResult = () => {
   const { activeTab, handleTabName, handleTabLocation, handleGetPresentTab } =
     useTab(); // 탭 관리
-  const { page, handleScroll } = useInfinityScroll(activeTab);
+  const { page, handleScroll, handleNextPage } = useInfinityScroll(activeTab);
   const {
     searchDataNicnkname,
     searchDataSearchpoint,
@@ -17,7 +21,10 @@ const SearchResult = () => {
     searchPointLoading,
     nicknameHasMoreContent,
     searchPointHasMoreContent,
-  } = useManageSearchData(page, activeTab);
+  } = useManageSearchData(page);
+
+  const [isTrackingImageModalOpen, IsTrackingImageModalToggle] =
+    useModalHandler();
 
   const { handleNavigate } = useNavigateHandler();
 
@@ -52,16 +59,14 @@ const SearchResult = () => {
               searchDataSearchpoint?.map((result) => (
                 <STYLE.MapPreview
                   key={result.idx}
-                  onClick={() => {
-                    handleNavigate(result.idx);
-                  }}>
+                  onClick={IsTrackingImageModalToggle}>
                   <STYLE.TitleContainer>
                     <STYLE.ProfileIcon src={result.image} />
                     <STYLE.Title>
                       {result.nickname} - {result.searchpoint}
                     </STYLE.Title>
                   </STYLE.TitleContainer>
-                  <TrackingImage
+                  <StaticTrackingImage
                     data={{ ...result, draggable: false, height: "300px" }}
                   />
                 </STYLE.MapPreview>
@@ -98,6 +103,14 @@ const SearchResult = () => {
           </STYLE.ResultList>
         </STYLE.Slider>
       </STYLE.SliderWrapper>
+      {isTrackingImageModalOpen && (
+        <TrackingImagePostListModal
+          trackingImageList={searchDataSearchpoint}
+          onClose={IsTrackingImageModalToggle}
+          handleNextPage={handleNextPage}
+          hasMoreContent={searchPointHasMoreContent}
+        />
+      )}
     </>
   );
 };
