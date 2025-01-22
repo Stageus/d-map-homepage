@@ -1,6 +1,8 @@
 import React from "react";
 import STYLE from "./style";
-import TrackingImage from "../../../../2_Widget/TrackingImage";
+
+import StaticTrackingImage from "../../../../2_Widget/StaticTrackingImage";
+
 import useTab from "./model/useTab";
 import useNavigateHandler from "./model/useNavigateHandler";
 import useInfinityScroll from "./model/useInfinityScroll";
@@ -17,7 +19,7 @@ const SearchResult = () => {
     searchPointLoading,
     nicknameHasMoreContent,
     searchPointHasMoreContent,
-  } = useManageSearchData(page, activeTab);
+  } = useManageSearchData(page);
 
   const { handleNavigate } = useNavigateHandler();
 
@@ -61,7 +63,7 @@ const SearchResult = () => {
                       {result.nickname} - {result.searchpoint}
                     </STYLE.Title>
                   </STYLE.TitleContainer>
-                  <TrackingImage
+                  <StaticTrackingImage
                     data={{ ...result, draggable: false, height: "300px" }}
                   />
                 </STYLE.MapPreview>
