@@ -9,6 +9,7 @@ const useInfiniteScrollPaging = (setPage, loading, hasMoreContent) => {
   React.useEffect(() => {
     if (inView && !loading && hasMoreContent) {
       setPage((prev) => prev + 1);
+      console.log("observe!")
     }
   }, [inView, loading, hasMoreContent, setPage]);
 

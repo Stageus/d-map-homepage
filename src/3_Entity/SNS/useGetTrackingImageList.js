@@ -5,12 +5,9 @@ const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 const ITEMS_PER_PAGE = 20;
 
-const useTrackingImageList = (category = CATEGORY.DEFAULT, page) => {
+const useGetTrackingImageList = (category = CATEGORY.DEFAULT, page) => {
   const [loading, setLoading] = React.useState(true);
-  const [defaultTrackingImageList, setDefaultTrackingImageList] =
-    React.useState([]);
-  const [todayHotTrackingImageList, setTodayHotTrackingImageList] =
-    React.useState([]);
+  const [trackingImageList, setTrackingImageList] = React.useState([]);
   const [hasMoreContent, setHasMoreContent] = React.useState(false);
 
   React.useEffect(() => {
@@ -48,15 +45,10 @@ const useTrackingImageList = (category = CATEGORY.DEFAULT, page) => {
       setHasMoreContent(result.length >= ITEMS_PER_PAGE);
 
       // data processing
-      switch (category) {
-        case CATEGORY.DEFAULT:
-          setDefaultTrackingImageList((prev) => [...prev, ...result]);
-          break;
-        case CATEGORY.TODAYHOT:
-          setTodayHotTrackingImageList((prev) => [...prev, ...result]);
-          break;
-        default:
-          break;
+      if (page === 1) {
+        setTrackingImageList(result);
+      } else {
+        setTrackingImageList((prev) => [...prev, ...result]);
       }
 
       // 4. handle loading
@@ -65,6 +57,7 @@ const useTrackingImageList = (category = CATEGORY.DEFAULT, page) => {
     fetchTrackingImageList();
   }, [category, page]);
 
-  return [defaultTrackingImageList, todayHotTrackingImageList, loading, hasMoreContent];
+  return [trackingImageList, loading, hasMoreContent];
 };
-export default useTrackingImageList;
+
+export default useGetTrackingImageList;
