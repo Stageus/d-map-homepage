@@ -45,7 +45,7 @@ const useInfinityScroll = (tabIndex) => {
     [handleNextPage]
   );
 
-  return { paging, handleScroll, checkLessLength };
+  return { paging, handleScroll, checkLessLength, handleNextPage };
 };
 
 export default useInfinityScroll;

@@ -16,9 +16,8 @@ import useErrorModal from "./model/useModalHandler.js";
 const Profile = () => {
   const { tabState, handleTabClick } = useTabs(); // 탭 관리 훅
   const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
-  const { paging, handleScroll, checkLessLength } = useInfinityScroll(
-    tabState.tabIndex
-  );
+  const { paging, handleScroll, checkLessLength, handleNextPage } =
+    useInfinityScroll(tabState.tabIndex);
 
   const { errorMessage, isModalOpen, showErrorModal, errorModalBackPage } =
     useErrorModal(); // 에러 표시 모달
@@ -66,14 +65,18 @@ const Profile = () => {
         <STYLE.SliderWrapper>
           <STYLE.Slider $tabIndex={tabState?.tabIndex}>
             <TrackingImageTab
-              trackData={shareTrackingImageData}
+              trackingImageList={shareTrackingImageData}
               modifyMode={modifyMode}
+              hasMoreContent={hasMoreContent.share}
+              handleNextPage={handleNextPage}
               handleScroll={hasMoreContent.share ? handleScroll : null}
               handleAddModifyIdxList={handleAddModifyIdxList}
             />
             <TrackingImageTab
-              trackData={saveTrackingImageData}
+              trackingImageList={saveTrackingImageData}
               modifyMode={modifyMode}
+              handleNextPage={handleNextPage}
+              hasMoreContent={hasMoreContent.save}
               handleScroll={hasMoreContent.save ? handleScroll : null}
               handleAddModifyIdxList={handleAddModifyIdxList}
             />
