@@ -2,7 +2,7 @@ import React from "react";
 import open_in_tracking_page_icon from "../../assets/openInTrackingPage.svg";
 import STYLE from "./style";
 import useLoadTrackingImage from "./model/useLoadTrackingImage";
-import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
+import ConfirmModal from "../../../../../../../../2_Widget/ConfirmModal";
 import useIsModalOpen from "./model/useIsModalOpen";
 
 const TrackingImageLoaderBtn = (props) => {

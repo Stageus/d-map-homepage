@@ -1,7 +1,7 @@
 import React from "react";
 import STYLE from "./style";
 import useStaticMapSize from "./model/useStaticMapSize";
-import staticMapUrlGenerater from "./lib/staticMapUrlGenerater";
+import staticMapUrlGenerater from "../../4_Shared/lib/staticMapUrlGenerater";
 
 const StaticTrackingImage = (props) => {
   const { mapInfo, height } = props;
