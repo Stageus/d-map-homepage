@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import STYLE from "./style";
 
-import TrackingImage from "../../../../../../2_Widget/TrackingImage";
+import StaticTrackingImage from "../../../../../../2_Widget/StaticTrackingImage";
 import ModifyTrackingImageModal from "../../../../../../2_Widget/ModifyTrackingImageModal";
 
 import useLongPressEvent from "./model/useLongPressEvent";
@@ -27,7 +27,7 @@ const TrackingImageContainer = (props) => {
           navigate(`/sns/${track.idx}`);
         }}
         {...(!modifyMode && track?.isMine && longPressEvents)}>
-        <TrackingImage
+        <StaticTrackingImage
           data={{ ...track, height: "100%", draggable: false, background: 0 }}
         />
         {modifyMode === "공유" && (
