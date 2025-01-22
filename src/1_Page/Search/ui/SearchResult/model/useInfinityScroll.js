@@ -7,7 +7,6 @@ const useInfinityScroll = (activeTab) => {
   }); // 페이지 상태 초기화
 
   const handleNextPage = () => {
-    console.log("다음 페이지 요청 중...");
     setPage((prevPage) => ({
       ...prevPage,
       [activeTab]: prevPage[activeTab] + 1,
@@ -22,7 +21,7 @@ const useInfinityScroll = (activeTab) => {
     }
   };
 
-  return { page, handleScroll }; // 페이지 상태와 스크롤 핸들러 반환
+  return { page, handleScroll, handleNextPage }; // 페이지 상태와 스크롤 핸들러 반환
 };
 
 export default useInfinityScroll;
