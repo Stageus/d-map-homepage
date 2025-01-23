@@ -17,7 +17,7 @@ const Footer = () => {
       </STYLE.Tab>
       <STYLE.Tab>
         <img src={search_icon} alt="search" onClick={() => {
-          navigate("/search/:category?text=");
+          navigate("/search");
         }}/>
       </STYLE.Tab>
       <STYLE.Tab>
@@ -27,7 +27,7 @@ const Footer = () => {
       </STYLE.Tab>
       <STYLE.Tab>
         <img src={profile_icon} alt="profile" onClick={() => {
-          navigate("/profile/:userIdx");
+          navigate("/profile/2");
         }}/>
       </STYLE.Tab>
       <STYLE.Tab>
