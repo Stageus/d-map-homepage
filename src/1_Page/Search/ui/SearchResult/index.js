@@ -1,6 +1,5 @@
 import React from "react";
 import STYLE from "./style";
-
 import StaticTrackingImage from "../../../../2_Widget/StaticTrackingImage";
 
 import useTab from "./model/useTab";
@@ -8,12 +7,13 @@ import useNavigateHandler from "./model/useNavigateHandler";
 import useInfinityScroll from "./model/useInfinityScroll";
 import useManageSearchData from "./model/useManageSearchData";
 import useModalHandler from "../../../../4_Shared/model/useModalHandler";
-import TrackingImagePostListModal from "./ui/TrackingImagePostListModal";
+import TrackingImagePostList from "../../../../2_Widget/TrackingImagePostList";
 
 const SearchResult = () => {
   const { activeTab, handleTabName, handleTabLocation, handleGetPresentTab } =
     useTab(); // 탭 관리
-  const { page, handleScroll, handleNextPage } = useInfinityScroll(activeTab);
+  const { page, handleScroll, observeRef } = useInfinityScroll(activeTab);
+
   const {
     searchDataNicnkname,
     searchDataSearchpoint,
@@ -30,24 +30,7 @@ const SearchResult = () => {
 
   return (
     <>
-      <STYLE.TabContainer>
-        <STYLE.TabBox>
-          <STYLE.TabBackground
-            $activeTabName={handleGetPresentTab("searchpoint")}
-          />
-          <STYLE.Tab
-            $active={handleGetPresentTab("searchpoint")}
-            onClick={handleTabLocation}>
-            장소
-          </STYLE.Tab>
-          <STYLE.Tab
-            $active={handleGetPresentTab("nickname")}
-            onClick={handleTabName}>
-            이름
-          </STYLE.Tab>
-        </STYLE.TabBox>
-      </STYLE.TabContainer>
-
+      {/* 탭 */}
       <STYLE.SliderWrapper>
         <STYLE.Slider $tabIndex={handleGetPresentTab("nickname")}>
           {/* 장소 탭 */}
@@ -78,6 +61,7 @@ const SearchResult = () => {
               </STYLE.LoaderContainer>
             )}
           </STYLE.ResultList>
+
           {/* 이름 탭 */}
           <STYLE.ResultList
             onScroll={nicknameHasMoreContent.searchpoint ? handleScroll : null}>
@@ -103,13 +87,42 @@ const SearchResult = () => {
           </STYLE.ResultList>
         </STYLE.Slider>
       </STYLE.SliderWrapper>
+
+      {/* 탭 버튼 */}
+      <STYLE.TabContainer>
+        <STYLE.TabBox>
+          <STYLE.TabBackground
+            $activeTabName={handleGetPresentTab("searchpoint")}
+          />
+          <STYLE.Tab
+            $active={handleGetPresentTab("searchpoint")}
+            onClick={handleTabLocation}>
+            장소
+          </STYLE.Tab>
+          <STYLE.Tab
+            $active={handleGetPresentTab("nickname")}
+            onClick={handleTabName}>
+            이름
+          </STYLE.Tab>
+        </STYLE.TabBox>
+      </STYLE.TabContainer>
+
+      {/* 트래킹 이미지 클릭 모달 */}
       {isTrackingImageModalOpen && (
-        <TrackingImagePostListModal
-          trackingImageList={searchDataSearchpoint}
-          onClose={IsTrackingImageModalToggle}
-          handleNextPage={handleNextPage}
-          hasMoreContent={searchPointHasMoreContent}
-        />
+        <STYLE.ModalOverlay onClick={IsTrackingImageModalToggle}>
+          <STYLE.ModalContent onClick={(e) => e.stopPropagation()}>
+            <STYLE.CloseButton onClick={IsTrackingImageModalToggle}>
+              &times;
+            </STYLE.CloseButton>
+            <STYLE.TrackingModalList>
+              <TrackingImagePostList
+                trackingImageList={searchDataSearchpoint}
+                hasMoreContent={searchPointHasMoreContent}
+                observeRef={observeRef}
+              />
+            </STYLE.TrackingModalList>
+          </STYLE.ModalContent>
+        </STYLE.ModalOverlay>
       )}
     </>
   );

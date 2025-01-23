@@ -65,18 +65,20 @@ const SearchInput = ({ searchInputText, addSearchHistory }) => {
 
   return (
     <>
-      <STYLE.InputContainer $isError={errors?.searchInputText}>
-        <STYLE.Input
-          placeholder="검색할 내용을 입력하세요"
-          {...register("searchInputText")}
-          $isError={errors?.searchInputText}
-          onKeyDown={handleKeyDown}
-        />
-        <STYLE.Icon onClick={onSubmit}>🔍</STYLE.Icon>
-      </STYLE.InputContainer>
-      <STYLE.ErrorMessage>
-        {errors?.searchInputText?.message}
-      </STYLE.ErrorMessage>
+      <STYLE.Container>
+        <STYLE.InputContainer $isError={errors?.searchInputText}>
+          <STYLE.Input
+            placeholder="검색할 내용을 입력하세요"
+            {...register("searchInputText")}
+            $isError={errors?.searchInputText}
+            onKeyDown={handleKeyDown}
+          />
+          <STYLE.Icon onClick={onSubmit}>🔍</STYLE.Icon>
+        </STYLE.InputContainer>
+        <STYLE.ErrorMessage>
+          {errors?.searchInputText?.message}
+        </STYLE.ErrorMessage>
+      </STYLE.Container>
     </>
   );
 };
