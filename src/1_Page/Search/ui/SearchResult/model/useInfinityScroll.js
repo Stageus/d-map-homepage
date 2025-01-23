@@ -7,7 +7,7 @@ const useInfinityScroll = (activeTab) => {
     searchpoint: 1,
   }); // 페이지 상태 초기화
 
-  const { observeRef, inView } = useInView({
+  const { searchPointModalObserveRef, inView } = useInView({
     threshold: 0,
   });
 
@@ -24,7 +24,7 @@ const useInfinityScroll = (activeTab) => {
     }
   }, [inView]);
 
-  const handleScroll = (e) => {
+  const handleScrollToEnd = (e) => {
     const { scrollHeight, scrollTop, clientHeight } = e.target;
     // 스크롤이 가장 아래로 갔는지 확인
     if (scrollTop + clientHeight >= scrollHeight - 1) {
@@ -32,7 +32,7 @@ const useInfinityScroll = (activeTab) => {
     }
   };
 
-  return { page, handleScroll, observeRef }; // 페이지 상태와 스크롤 핸들러 반환
+  return { page, handleScrollToEnd, searchPointModalObserveRef }; // 페이지 상태와 스크롤 핸들러 반환
 };
 
 export default useInfinityScroll;

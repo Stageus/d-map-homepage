@@ -12,7 +12,8 @@ import TrackingImagePostList from "../../../../2_Widget/TrackingImagePostList";
 const SearchResult = () => {
   const { activeTab, handleTabName, handleTabLocation, handleGetPresentTab } =
     useTab(); // 탭 관리
-  const { page, handleScroll, observeRef } = useInfinityScroll(activeTab);
+  const { page, handleScrollToEnd, searchPointModalObserveRef } =
+    useInfinityScroll(activeTab);
 
   const {
     searchDataNicnkname,
@@ -35,7 +36,7 @@ const SearchResult = () => {
         <STYLE.Slider $tabIndex={handleGetPresentTab("nickname")}>
           {/* 장소 탭 */}
           <STYLE.ResultList
-            onScroll={searchPointHasMoreContent ? handleScroll : null}>
+            onScroll={searchPointHasMoreContent ? handleScrollToEnd : null}>
             {searchDataSearchpoint?.length === 0 ? (
               <STYLE.EmptyMessage>없는 장소입니다.</STYLE.EmptyMessage>
             ) : (
@@ -67,7 +68,7 @@ const SearchResult = () => {
 
           {/* 이름 탭 */}
           <STYLE.ResultList
-            onScroll={nicknameHasMoreContent ? handleScroll : null}>
+            onScroll={nicknameHasMoreContent ? handleScrollToEnd : null}>
             {searchDataNicnkname?.length === 0 ? (
               <STYLE.EmptyMessage>없는 이름입니다.</STYLE.EmptyMessage>
             ) : (
@@ -121,7 +122,7 @@ const SearchResult = () => {
               <TrackingImagePostList
                 trackingImageList={searchDataSearchpoint}
                 hasMoreContent={searchPointHasMoreContent}
-                observeRef={observeRef}
+                observeRef={searchPointModalObserveRef}
               />
             </STYLE.TrackingModalList>
           </STYLE.ModalContent>
