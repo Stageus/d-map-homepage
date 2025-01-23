@@ -8,6 +8,7 @@ const useTrackingLine = () => {
   const [trackingLine, setTrackingLine] = useTrackingLineAtom(); // line
   const currentRecordingTrackingLineRef = React.useRef([]);
   const recordedTrackingLineRef = React.useRef(trackingLine);
+  const undoStackRef = React.useRef([]);
 
   React.useEffect(() => {
     const prevLine = recordedTrackingLineRef.current;
@@ -45,8 +46,40 @@ const useTrackingLine = () => {
     currentRecordingTrackingLineRef.current = [];
     recordedTrackingLineRef.current = [];
   };
+  const undoTrackingLine = () => {
+    console.log("Before Undo:", recordedTrackingLineRef.current, currentRecordingTrackingLineRef.current);
+  
+    // recordedTrackingLineRef에서 처리
+    if (currentRecordingTrackingLineRef.current.length === 0) {
+      if (recordedTrackingLineRef.current.length === 0) {
+        console.warn("Nothing to undo");
+        return; // 아무것도 없으면 리턴
+      }
+  
+      const lastLine = recordedTrackingLineRef.current[recordedTrackingLineRef.current.length - 1];
+  
+      if (lastLine.length === 1) {
+        // 마지막 라인이 1개만 있으면 pop
+        undoStackRef.current.push(lastLine[0]);
+        recordedTrackingLineRef.current.pop();
+      } else {
+        // 마지막 배열의 마지막 요소 제거
+        undoStackRef.current.push(lastLine.pop());
+      }
+    } else {
+      // currentRecordingTrackingLineRef 처리
+      const lastPoint = currentRecordingTrackingLineRef.current.pop();
+      undoStackRef.current.push(lastPoint);
+    }
+  
+    // 상태 업데이트
+    setTrackingLine([...recordedTrackingLineRef.current]);
+    console.log("After Undo:", recordedTrackingLineRef.current, currentRecordingTrackingLineRef.current);
+  };
+  
+  const redoTrackingLine = () => {};
 
-  return [trackingLine, resetTrackingLine];
+  return [trackingLine, resetTrackingLine, undoTrackingLine];
 };
 
 export default useTrackingLine;
