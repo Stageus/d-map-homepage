@@ -25,7 +25,8 @@ const TrackingImageContainer = (props) => {
         onClick={handleTrackingPost}
         {...(!modifyMode && track?.isMine && longPressEvents)}>
         <StaticTrackingImage
-          data={{ ...track, height: "100%", draggable: false, background: 0 }}
+          height="100%"
+          mapInfo={{ ...track, draggable: false, background: 0 }}
         />
         {modifyMode === "공유" && (
           <STYLE.TrackingClickBox
