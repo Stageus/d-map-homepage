@@ -32,7 +32,7 @@ const Header = (props) => {
   const trackDataLength = userInfo?.share_tracking_length
     ? tabState.tabIndex === 0
       ? userInfo?.share_tracking_length
-      : userInfo?.share_tracking_length - userInfo?.share_tracking_length
+      : userInfo?.total_tracking_length - userInfo?.share_tracking_length
     : 0;
 
   const [modifyImageModal, modifyImageModalToggle] = useModifyImageModal(); // 프로필 이미지 모달
