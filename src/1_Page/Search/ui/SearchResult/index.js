@@ -30,6 +30,7 @@ const SearchResult = () => {
 
   return (
     <>
+      {/* 탭 */}
       <STYLE.TabContainer>
         <STYLE.TabBox>
           <STYLE.TabBackground
@@ -51,56 +52,65 @@ const SearchResult = () => {
       <STYLE.SliderWrapper>
         <STYLE.Slider $tabIndex={handleGetPresentTab("nickname")}>
           {/* 장소 탭 */}
-          <STYLE.ResultList
-            onScroll={searchPointHasMoreContent.nickname ? handleScroll : null}>
-            {searchDataSearchpoint?.length === 0 ? (
-              <STYLE.EmptyMessage>없는 장소입니다.</STYLE.EmptyMessage>
-            ) : (
-              searchDataSearchpoint?.map((result) => (
-                <STYLE.MapPreview
-                  key={result.idx}
-                  onClick={IsTrackingImageModalToggle}>
-                  <STYLE.TitleContainer>
-                    <STYLE.ProfileIcon src={result.image} />
-                    <STYLE.Title>
-                      {result.nickname} - {result.searchpoint}
-                    </STYLE.Title>
-                  </STYLE.TitleContainer>
-                  <StaticTrackingImage
+          <STYLE.ResultContainer>
+            <STYLE.ResultList
+              onScroll={
+                searchPointHasMoreContent.nickname ? handleScroll : null
+              }>
+              {searchDataSearchpoint?.length === 0 ? (
+                <STYLE.EmptyMessage>없는 장소입니다.</STYLE.EmptyMessage>
+              ) : (
+                searchDataSearchpoint?.map((result) => (
+                  <STYLE.MapPreview
+                    key={result.idx}
+                    onClick={IsTrackingImageModalToggle}>
+                    <STYLE.TitleContainer>
+                      <STYLE.ProfileIcon src={result.image} />
+                      <STYLE.Title>
+                        {result.nickname} - {result.searchpoint}
+                      </STYLE.Title>
+                    </STYLE.TitleContainer>
+                    {/* <StaticTrackingImage
                     data={{ ...result, draggable: false, height: "300px" }}
-                  />
-                </STYLE.MapPreview>
-              ))
-            )}
-            {searchPointLoading && (
-              <STYLE.LoaderContainer>
-                <STYLE.Loader />
-              </STYLE.LoaderContainer>
-            )}
-          </STYLE.ResultList>
+                  /> */}
+                  </STYLE.MapPreview>
+                ))
+              )}
+              {searchPointLoading && (
+                <STYLE.LoaderContainer>
+                  <STYLE.Loader />
+                </STYLE.LoaderContainer>
+              )}
+            </STYLE.ResultList>
+          </STYLE.ResultContainer>
+
           {/* 이름 탭 */}
-          <STYLE.ResultList
-            onScroll={nicknameHasMoreContent.searchpoint ? handleScroll : null}>
-            {searchDataNicnkname?.length === 0 ? (
-              <STYLE.EmptyMessage>없는 이름입니다.</STYLE.EmptyMessage>
-            ) : (
-              searchDataNicnkname?.map((result) => (
-                <STYLE.NicckNameContainer
-                  key={result.idx}
-                  onClick={() => {
-                    handleNavigate(result.idx);
-                  }}>
-                  <STYLE.ProfileIcon src={result.image} />
-                  <STYLE.NickNameText>{result.nickname}</STYLE.NickNameText>
-                </STYLE.NicckNameContainer>
-              ))
-            )}
-            {nickNameLoading && (
-              <STYLE.LoaderContainer>
-                <STYLE.Loader />
-              </STYLE.LoaderContainer>
-            )}
-          </STYLE.ResultList>
+          <STYLE.ResultContainer>
+            <STYLE.ResultList
+              onScroll={
+                nicknameHasMoreContent.searchpoint ? handleScroll : null
+              }>
+              {searchDataNicnkname?.length === 0 ? (
+                <STYLE.EmptyMessage>없는 이름입니다.</STYLE.EmptyMessage>
+              ) : (
+                searchDataNicnkname?.map((result) => (
+                  <STYLE.NicckNameContainer
+                    key={result.idx}
+                    onClick={() => {
+                      handleNavigate(result.idx);
+                    }}>
+                    <STYLE.ProfileIcon src={result.image} />
+                    <STYLE.NickNameText>{result.nickname}</STYLE.NickNameText>
+                  </STYLE.NicckNameContainer>
+                ))
+              )}
+              {nickNameLoading && (
+                <STYLE.LoaderContainer>
+                  <STYLE.Loader />
+                </STYLE.LoaderContainer>
+              )}
+            </STYLE.ResultList>
+          </STYLE.ResultContainer>
         </STYLE.Slider>
       </STYLE.SliderWrapper>
 
@@ -111,6 +121,7 @@ const SearchResult = () => {
             <STYLE.CloseButton onClick={IsTrackingImageModalToggle}>
               &times;
             </STYLE.CloseButton>
+            {console.log(searchDataSearchpoint)}
             <TrackingImagePostList
               trackingImageList={searchDataSearchpoint}
               hasMoreContent={searchPointHasMoreContent}

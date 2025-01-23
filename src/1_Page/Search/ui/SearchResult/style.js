@@ -9,16 +9,6 @@ const spin = keyframes`
     transform: rotate(360deg);
   }
 `;
-const growCenter = keyframes`
-  from {
-    transform: scale(0);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-`;
 
 const STYLE = {
   Container: styled.div`
@@ -26,10 +16,7 @@ const STYLE = {
   `,
   TabContainer: styled.div`
     display: flex;
-    position: relative;
     width: 100%;
-    height: 5vh;
-    top: 5vh;
     justify-content: center;
   `,
   TabBox: styled.div`
@@ -67,25 +54,32 @@ const STYLE = {
     font-weight: bold;
     cursor: pointer;
   `,
+  ResultContainer: styled.div`
+    width: 100%;
+    flex-grow: 1;
+    position: relative;
+  `,
   ResultList: styled.div`
     display: flex;
     width: 100%;
-    height: 90vh;
-    position: relative;
-    top: 5vh;
-    flex-direction: column;
+    height: 100%;
     overflow-y: scroll;
-    -webkit-overflow-scrolling: touch; // 모바일 터치 스크롤 활성화
+    flex-direction: column;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
   `,
   ResultItem: styled.div`
     display: flex;
+    position: absolute;
+    height: 100%;
     align-items: center;
     border: 1px solid ${({ theme }) => theme.light_gray};
     border-radius: 8px;
   `,
   SliderWrapper: styled.div`
-    overflow: hidden; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
+    overflow-x: hidden; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
     width: 100%;
+    flex-grow: 1;
   `,
   Slider: styled.div`
     display: flex;
@@ -144,7 +138,7 @@ const STYLE = {
     border: 1px solid ${({ theme }) => theme.blue};
     border-radius: 8px;
     margin: 10px;
-    height: 800px;
+    height: 400px;
   `,
   LoaderContainer: styled.div`
     display: flex;
@@ -188,8 +182,6 @@ const STYLE = {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    animation: ${growCenter} 0.3s ease-out forwards;
-    transform-origin: center;
   `,
   CloseButton: styled.button`
     background: none;

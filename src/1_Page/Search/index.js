@@ -12,30 +12,32 @@ const Search = () => {
 
   return (
     <>
-      <SearchInput
-        addSearchHistory={addSearchHistory}
-        searchInputText={searchInputText}
-      />
-      {searchInputText ? (
-        <SearchResult />
-      ) : (
-        <STYLE.Container>
-          <STYLE.List>
-            {listItems.length > 0 ? (
-              listItems.map((item) => (
-                <STYLE.ListItem
-                  onClick={() => {
-                    handleListClick(item.searchInputText);
-                  }}>
-                  {item.searchInputText}
-                </STYLE.ListItem>
-              ))
-            ) : (
-              <STYLE.ListItem>검색 결과가 없습니다</STYLE.ListItem>
-            )}
-          </STYLE.List>
-        </STYLE.Container>
-      )}
+      <STYLE.PageContainer>
+        <SearchInput
+          addSearchHistory={addSearchHistory}
+          searchInputText={searchInputText}
+        />
+        {searchInputText ? (
+          <SearchResult />
+        ) : (
+          <STYLE.Container>
+            <STYLE.List>
+              {listItems.length > 0 ? (
+                listItems.map((item) => (
+                  <STYLE.ListItem
+                    onClick={() => {
+                      handleListClick(item.searchInputText);
+                    }}>
+                    {item.searchInputText}
+                  </STYLE.ListItem>
+                ))
+              ) : (
+                <STYLE.ListItem>검색 결과가 없습니다</STYLE.ListItem>
+              )}
+            </STYLE.List>
+          </STYLE.Container>
+        )}
+      </STYLE.PageContainer>
     </>
   );
 };

@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
 const STYLE = {
+  PageContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  `,
   Container: styled.div`
     display: flex;
     flex-direction: column;
