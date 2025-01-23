@@ -11,9 +11,6 @@ const spin = keyframes`
 `;
 
 const STYLE = {
-  Container: styled.div`
-    padding: 16px;
-  `,
   TabContainer: styled.div`
     display: flex;
     position: fixed;

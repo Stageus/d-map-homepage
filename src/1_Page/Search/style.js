@@ -5,7 +5,7 @@ const STYLE = {
     display: flex;
     position: relative;
     flex-direction: column;
-    top: 8vh;
+    top: 10vh;
   `,
   Container: styled.div`
     display: flex;

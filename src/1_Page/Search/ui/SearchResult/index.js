@@ -50,9 +50,9 @@ const SearchResult = () => {
                       {result.nickname} - {result.searchpoint}
                     </STYLE.Title>
                   </STYLE.TitleContainer>
-                  {/* <StaticTrackingImage
+                  <StaticTrackingImage
                     data={{ ...result, draggable: false, height: "300px" }}
-                  /> */}
+                  />
                 </STYLE.MapPreview>
               ))
             )}
