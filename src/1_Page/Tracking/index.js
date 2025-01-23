@@ -11,7 +11,6 @@ const Tracking = () => {
   const mapRef = React.useRef(null); // google map instance
   const [trackingData, setTrackingData] = useTrackingData(); // zoom / center / heading
 
-  console.log("map render");
   return (
     <STYLE.TrackingPageContainer>
       {/* map instance */}
@@ -37,15 +36,14 @@ const Tracking = () => {
           thickness={trackingData.thickness}
         />
       </GoogleMap>
-
-      {/* Tracking 시작/정지 버튼 & 수정/저장 모달 */}
-      <TrackingController
+      {/* 현위치 버튼 & 지도 모드 변경 버튼 & line reset/undo 버튼  */}
+      <TrackingTools
         trackingData={trackingData}
         setTrackingData={setTrackingData}
         mapRef={mapRef}
       />
-      {/* 현위치 버튼 & 지도 모드 변경 버튼 & line reset/undo 버튼튼  */}
-      <TrackingTools
+      {/* Tracking 시작/정지 버튼 & 수정/저장 모달 */}
+      <TrackingController
         trackingData={trackingData}
         setTrackingData={setTrackingData}
         mapRef={mapRef}
