@@ -16,7 +16,6 @@ const STYLE = {
     position: fixed;
     width: 100%;
     height: 5vh;
-    margin: 5px;
     justify-content: center;
     background-color: ${({ theme }) => theme.background};
   `,
