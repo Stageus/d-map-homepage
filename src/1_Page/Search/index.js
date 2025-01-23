@@ -34,7 +34,6 @@ const Search = () => {
           </STYLE.Container>
         )}
       </STYLE.BodyContainer>
-
       <SearchInput
         addSearchHistory={addSearchHistory}
         searchInputText={searchInputText}

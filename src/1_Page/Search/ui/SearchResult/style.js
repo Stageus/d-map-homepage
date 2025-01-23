@@ -16,6 +16,7 @@ const STYLE = {
     position: fixed;
     width: 100%;
     height: 5vh;
+    margin: 5px;
     justify-content: center;
     background-color: ${({ theme }) => theme.background};
   `,
@@ -89,30 +90,21 @@ const STYLE = {
     padding: 10px;
     font-size: 20px;
     font-weight: bold;
-    line-height: 100%;
   `,
   ProfileIcon: styled.img`
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    border: 0.5px solid ${({ theme }) => theme.black};
-    margin-right: 5px;
-    margin-left: 5px;
     object-fit: cover;
   `,
   NicckNameContainer: styled.div`
     display: flex;
     align-items: center;
     height: 80px;
-    border-radius: 5px;
-    border: 1px solid ${({ theme }) => theme.blue};
-    padding: 10px;
-    margin: 10px;
   `,
   NickNameIcon: styled.img`
     width: 30px;
     height: 30px;
-    margin: 10px;
   `,
   NickNameText: styled.div`
     font-weight: bold;
@@ -168,7 +160,6 @@ const STYLE = {
     background: white;
     width: 90%;
     height: 95%;
-    max-width: 400px;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
