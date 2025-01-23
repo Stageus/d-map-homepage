@@ -3,14 +3,14 @@ import styled from "styled-components";
 const STYLE = {
   Container: styled.div`
     position: fixed;
-    width: 90vw;
+    width: 100vw;
     height: 8vh;
     top: 0;
     background-color: ${({ theme }) => theme.background};
   `,
   InputContainer: styled.div`
     display: flex;
-    width: 100%;
+    width: 90%;
     align-items: center;
     margin: 10px;
     border-bottom: 1px solid
