@@ -50,7 +50,7 @@ const SearchResult = () => {
                     </STYLE.Title>
                   </STYLE.TitleContainer>
                   <StaticTrackingImage
-                    data={{ ...result, draggable: false, height: "200px" }}
+                    data={{ ...result, draggable: false, height: "100%" }}
                   />
                 </STYLE.MapPreview>
               ))
