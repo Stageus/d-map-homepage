@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 const useInfinityScroll = (activeTab) => {
   const [page, setPage] = useState({
@@ -6,12 +7,22 @@ const useInfinityScroll = (activeTab) => {
     searchpoint: 1,
   }); // 페이지 상태 초기화
 
+  const { observeRef, inView } = useInView({
+    threshold: 0,
+  });
+
   const handleNextPage = () => {
     setPage((prevPage) => ({
       ...prevPage,
       [activeTab]: prevPage[activeTab] + 1,
     }));
   };
+
+  useEffect(() => {
+    if (inView) {
+      handleNextPage();
+    }
+  }, [inView]);
 
   const handleScroll = (e) => {
     const { scrollHeight, scrollTop, clientHeight } = e.target;
@@ -21,7 +32,7 @@ const useInfinityScroll = (activeTab) => {
     }
   };
 
-  return { page, handleScroll, handleNextPage }; // 페이지 상태와 스크롤 핸들러 반환
+  return { page, handleScroll, observeRef }; // 페이지 상태와 스크롤 핸들러 반환
 };
 
 export default useInfinityScroll;

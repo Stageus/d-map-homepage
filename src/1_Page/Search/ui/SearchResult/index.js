@@ -13,7 +13,7 @@ import TrackingImagePostListModal from "./ui/TrackingImagePostListModal";
 const SearchResult = () => {
   const { activeTab, handleTabName, handleTabLocation, handleGetPresentTab } =
     useTab(); // 탭 관리
-  const { page, handleScroll, handleNextPage } = useInfinityScroll(activeTab);
+  const { page, handleScroll, observeRef } = useInfinityScroll(activeTab);
   const {
     searchDataNicnkname,
     searchDataSearchpoint,
@@ -103,11 +103,12 @@ const SearchResult = () => {
           </STYLE.ResultList>
         </STYLE.Slider>
       </STYLE.SliderWrapper>
+
       {isTrackingImageModalOpen && (
         <TrackingImagePostListModal
           trackingImageList={searchDataSearchpoint}
           onClose={IsTrackingImageModalToggle}
-          handleNextPage={handleNextPage}
+          observeRef={observeRef}
           hasMoreContent={searchPointHasMoreContent}
         />
       )}

@@ -1,11 +1,9 @@
 import ReactDOM from "react-dom";
 import STYLE from "./style";
 import TrackingImagePostList from "../../../../../../2_Widget/TrackingImagePostList";
-import useInfiniteScrollPaging from "./model/useInfiniteScrollPaging";
 
 const TrackingImagePostListModal = (props) => {
-  const { onClose, handleNextPage, hasMoreContent, trackingImageList } = props;
-  const [ref] = useInfiniteScrollPaging(handleNextPage, hasMoreContent);
+  const { observeRef, onClose, hasMoreContent, trackingImageList } = props;
 
   return ReactDOM.createPortal(
     <STYLE.ModalOverlay onClick={onClose}>
@@ -14,7 +12,7 @@ const TrackingImagePostListModal = (props) => {
         <TrackingImagePostList
           trackingImageList={trackingImageList}
           hasMoreContent={hasMoreContent}
-          observeRef={ref}
+          observeRef={observeRef}
         />
       </STYLE.ModalContent>
     </STYLE.ModalOverlay>,
