@@ -3,7 +3,7 @@ import { GoogleMap } from "@react-google-maps/api";
 import STYLE from "./style";
 import useTrackingData from "./model/useTrackingData";
 import MAPTYPE from "../../4_Shared/constant/mapType";
-import TrackingLine from "./ui/TrackingLine";
+import TrackingLineController from "./ui/TrackingLineController";
 import TrackingController from "./ui/TrackingController";
 import TrackingTools from "./ui/TrackingTools";
 
@@ -32,7 +32,7 @@ const Tracking = () => {
         }}
       >
         {/* Tracking Line*/}
-        <TrackingLine
+        <TrackingLineController
           color={trackingData.color}
           thickness={trackingData.thickness}
         />
