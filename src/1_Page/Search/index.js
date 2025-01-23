@@ -12,11 +12,7 @@ const Search = () => {
 
   return (
     <>
-      <STYLE.PageContainer>
-        <SearchInput
-          addSearchHistory={addSearchHistory}
-          searchInputText={searchInputText}
-        />
+      <STYLE.BodyContainer>
         {searchInputText ? (
           <SearchResult />
         ) : (
@@ -37,7 +33,12 @@ const Search = () => {
             </STYLE.List>
           </STYLE.Container>
         )}
-      </STYLE.PageContainer>
+      </STYLE.BodyContainer>
+
+      <SearchInput
+        addSearchHistory={addSearchHistory}
+        searchInputText={searchInputText}
+      />
     </>
   );
 };

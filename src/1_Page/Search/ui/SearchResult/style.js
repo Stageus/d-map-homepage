@@ -16,8 +16,11 @@ const STYLE = {
   `,
   TabContainer: styled.div`
     display: flex;
+    position: fixed;
     width: 100%;
+    height: 5vh;
     justify-content: center;
+    background-color: ${({ theme }) => theme.background};
   `,
   TabBox: styled.div`
     position: relative;
@@ -31,7 +34,6 @@ const STYLE = {
     align-items: center;
     padding: 10px;
   `,
-
   TabBackground: styled.div`
     position: absolute;
     top: 5px;
@@ -52,31 +54,23 @@ const STYLE = {
     border: none;
     font-size: 16px;
     font-weight: bold;
-    cursor: pointer;
   `,
-  ResultContainer: styled.div`
-    width: 100%;
-    flex-grow: 1;
-    position: relative;
-  `,
+
   ResultList: styled.div`
     display: flex;
     width: 100%;
     height: 100%;
-    overflow-y: scroll;
     flex-direction: column;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
   `,
   ResultItem: styled.div`
     display: flex;
-    position: absolute;
     height: 100%;
     align-items: center;
     border: 1px solid ${({ theme }) => theme.light_gray};
     border-radius: 8px;
   `,
   SliderWrapper: styled.div`
+    margin-top: 5vh;
     overflow-x: hidden; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
     width: 100%;
     flex-grow: 1;
@@ -199,7 +193,6 @@ const STYLE = {
     border: none;
     border-radius: 5px;
     font-size: 1rem;
-    cursor: pointer;
   `,
 };
 
