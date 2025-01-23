@@ -18,6 +18,7 @@ const STYLE = {
     display: flex;
     width: 100%;
     justify-content: center;
+    margin-top: 5vh;
   `,
   TabBox: styled.div`
     position: relative;
@@ -57,7 +58,7 @@ const STYLE = {
   ResultList: styled.div`
     display: flex;
     width: 100%;
-    height: 500px;
+    height: 90vh;
     flex-direction: column;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch; // 모바일 터치 스크롤 활성화

@@ -2,10 +2,12 @@ import styled from "styled-components";
 
 const STYLE = {
   InputContainer: styled.div`
+    position: fixed;
+    width: 90vw;
+    height: 5vh;
     display: flex;
     align-items: center;
     margin: 10px;
-    margin-bottom: 0px;
     border-bottom: 1px solid
       ${({ theme, $isError }) => ($isError ? theme.red : theme.grey)};
   `,
