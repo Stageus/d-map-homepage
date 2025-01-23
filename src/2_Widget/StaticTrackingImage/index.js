@@ -7,7 +7,11 @@ const StaticTrackingImage = (props) => {
   const { mapInfo, height } = props;
   const mapWrapperRef = React.useRef();
   const [mapWidth, mapHeight] = useStaticMapSize(mapWrapperRef);
-  const staticMapUrl = staticMapUrlGenerater({...mapInfo, mapWidth, mapHeight})
+  const staticMapUrl = staticMapUrlGenerater({
+    ...mapInfo,
+    mapWidth,
+    mapHeight,
+  });
 
   return (
     <STYLE.StaticMapWrapper ref={mapWrapperRef} $height={height}>

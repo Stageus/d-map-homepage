@@ -120,7 +120,7 @@ const STYLE = {
     border: 1px solid ${({ theme }) => theme.blue};
     border-radius: 8px;
     margin: 10px;
-    height: 400px;
+    height: 100%;
   `,
   LoaderContainer: styled.div`
     display: flex;
@@ -142,6 +142,10 @@ const STYLE = {
     height: 40px;
     animation: ${spin} 1s linear infinite;
     margin: 20px auto;
+  `,
+  TrackingImageWrapper: styled.div`
+    aspect-ratio: 1 / 1;
+    flex-grow: 1;
   `,
   ModalOverlay: styled.div`
     position: fixed;
