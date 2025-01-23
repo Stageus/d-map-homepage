@@ -1,6 +1,5 @@
 import React from "react";
 import STYLE from "./style";
-
 import StaticTrackingImage from "../../../../2_Widget/StaticTrackingImage";
 
 import useTab from "./model/useTab";
@@ -8,12 +7,13 @@ import useNavigateHandler from "./model/useNavigateHandler";
 import useInfinityScroll from "./model/useInfinityScroll";
 import useManageSearchData from "./model/useManageSearchData";
 import useModalHandler from "../../../../4_Shared/model/useModalHandler";
-import TrackingImagePostListModal from "./ui/TrackingImagePostListModal";
+import TrackingImagePostList from "../../../../2_Widget/TrackingImagePostList";
 
 const SearchResult = () => {
   const { activeTab, handleTabName, handleTabLocation, handleGetPresentTab } =
     useTab(); // 탭 관리
   const { page, handleScroll, observeRef } = useInfinityScroll(activeTab);
+
   const {
     searchDataNicnkname,
     searchDataSearchpoint,
@@ -104,13 +104,20 @@ const SearchResult = () => {
         </STYLE.Slider>
       </STYLE.SliderWrapper>
 
+      {/* 트래킹 이미지 클릭 모달 */}
       {isTrackingImageModalOpen && (
-        <TrackingImagePostListModal
-          trackingImageList={searchDataSearchpoint}
-          onClose={IsTrackingImageModalToggle}
-          observeRef={observeRef}
-          hasMoreContent={searchPointHasMoreContent}
-        />
+        <STYLE.ModalOverlay onClick={IsTrackingImageModalToggle}>
+          <STYLE.ModalContent onClick={(e) => e.stopPropagation()}>
+            <STYLE.CloseButton onClick={IsTrackingImageModalToggle}>
+              &times;
+            </STYLE.CloseButton>
+            <TrackingImagePostList
+              trackingImageList={searchDataSearchpoint}
+              hasMoreContent={searchPointHasMoreContent}
+              observeRef={observeRef}
+            />
+          </STYLE.ModalContent>
+        </STYLE.ModalOverlay>
       )}
     </>
   );

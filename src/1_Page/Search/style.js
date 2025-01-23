@@ -3,9 +3,10 @@ import styled from "styled-components";
 const STYLE = {
   Container: styled.div`
     display: flex;
-    top: 5vh;
     flex-direction: column;
     width: 100%;
+    position: relative;
+    top: 5vh;
     height: 90vh;
     margin: 0 auto;
     padding-left: 10px;
