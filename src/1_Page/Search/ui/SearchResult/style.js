@@ -120,7 +120,10 @@ const STYLE = {
     border: 1px solid ${({ theme }) => theme.blue};
     border-radius: 8px;
     margin: 10px;
-    height: 100%;
+  `,
+  TrackingImageWrapper: styled.div`
+    width: 100%;
+    aspect-ratio: 1 / 1;
   `,
   LoaderContainer: styled.div`
     display: flex;
