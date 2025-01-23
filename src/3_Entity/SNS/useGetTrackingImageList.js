@@ -27,7 +27,6 @@ const useGetTrackingImageList = (category = CATEGORY.DEFAULT, page) => {
         switch (response.status) {
           case 200:
             result = data.tracking_image;
-            console.log(result, page);
             break;
           case 400:
           case 404:

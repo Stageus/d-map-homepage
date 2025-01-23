@@ -27,6 +27,7 @@ const Sns = () => {
         </STYLE.Date>
         <STYLE.SortingSelect
           onChange={(e) => {
+            setPage(1);
             setCategory(e.target.value);
           }}
         >

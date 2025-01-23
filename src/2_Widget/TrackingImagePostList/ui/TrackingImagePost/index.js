@@ -11,7 +11,7 @@ import TrackingImageLoaderBtn from "./ui/TrackingImageLoaderBtn";
 import MAPTYPE from "../../../../4_Shared/constant/mapType";
 import staticMapUrlGenerater from "../../../../4_Shared/lib/staticMapUrlGenerater";
 
-const TrackingImagePost = (props) => {
+const TrackingImagePost = React.memo((props) => {
   const { data } = props;
   const {
     likecount,
@@ -118,6 +118,6 @@ const TrackingImagePost = (props) => {
       )}
     </STYLE.Container>
   );
-};
+});
 
 export default TrackingImagePost;
