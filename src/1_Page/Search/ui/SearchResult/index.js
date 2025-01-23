@@ -115,7 +115,6 @@ const SearchResult = () => {
               &times;
             </STYLE.CloseButton>
             <STYLE.TrackingModalList>
-              {console.log(searchDataSearchpoint)}
               <TrackingImagePostList
                 trackingImageList={searchDataSearchpoint}
                 hasMoreContent={searchPointHasMoreContent}
