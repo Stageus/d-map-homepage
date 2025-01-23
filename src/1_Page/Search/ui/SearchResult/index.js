@@ -49,9 +49,12 @@ const SearchResult = () => {
                       {result.nickname} - {result.searchpoint}
                     </STYLE.Title>
                   </STYLE.TitleContainer>
-                  <StaticTrackingImage
-                    data={{ ...result, draggable: false, height: "300px" }}
-                  />
+                  <STYLE.TrackingImageWrapper>
+                    <StaticTrackingImage
+                      height=" 100%"
+                      mapInfo={{ ...result, draggable: false }}
+                    />
+                  </STYLE.TrackingImageWrapper>
                 </STYLE.MapPreview>
               ))
             )}
