@@ -10,8 +10,7 @@ import useModalHandler from "../../../../4_Shared/model/useModalHandler";
 import TrackingImagePostList from "../../../../2_Widget/TrackingImagePostList";
 
 const SearchResult = () => {
-  const { activeTab, handleTabName, handleTabLocation, handleGetPresentTab } =
-    useTab(); // 탭 관리
+  const { activeTab, handleTabName, handleTabLocation } = useTab(); // 탭 관리
   const { page, handleScrollToEnd, searchPointModalObserveRef } =
     useInfinityScroll(activeTab);
 
@@ -33,7 +32,7 @@ const SearchResult = () => {
     <>
       {/* 탭 */}
       <STYLE.SliderWrapper>
-        <STYLE.Slider $tabIndex={handleGetPresentTab("nickname")}>
+        <STYLE.Slider $tabIndex={activeTab === "nickname"}>
           {/* 장소 탭 */}
           <STYLE.ResultList
             onScroll={searchPointHasMoreContent ? handleScrollToEnd : null}>
@@ -95,17 +94,13 @@ const SearchResult = () => {
       {/* 탭 버튼 */}
       <STYLE.TabContainer>
         <STYLE.TabBox>
-          <STYLE.TabBackground
-            $activeTabName={handleGetPresentTab("searchpoint")}
-          />
+          <STYLE.TabBackground $activeTabName={activeTab === "searchpoint"} />
           <STYLE.Tab
-            $active={handleGetPresentTab("searchpoint")}
+            $active={activeTab === "searchpoint"}
             onClick={handleTabLocation}>
             장소
           </STYLE.Tab>
-          <STYLE.Tab
-            $active={handleGetPresentTab("nickname")}
-            onClick={handleTabName}>
+          <STYLE.Tab $active={activeTab === "nickname"} onClick={handleTabName}>
             이름
           </STYLE.Tab>
         </STYLE.TabBox>
