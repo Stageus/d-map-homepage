@@ -11,7 +11,6 @@ const STYLE = {
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    z-index: 10000;
   `,
   Sheet: styled.div`
     position: fixed;
@@ -21,7 +20,6 @@ const STYLE = {
     width: 100%;
     border-radius: 20px 20px 0 0;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 10000;
     transition: ${({ $isDragging }) =>
       $isDragging ? "none" : "transform 0.3s ease-out"};
     transform: ${({ $isVisible, $translateY }) =>
