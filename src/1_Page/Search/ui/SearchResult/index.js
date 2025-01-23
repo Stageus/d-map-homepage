@@ -35,7 +35,7 @@ const SearchResult = () => {
         <STYLE.Slider $tabIndex={handleGetPresentTab("nickname")}>
           {/* 장소 탭 */}
           <STYLE.ResultList
-            onScroll={searchPointHasMoreContent.nickname ? handleScroll : null}>
+            onScroll={searchPointHasMoreContent ? handleScroll : null}>
             {searchDataSearchpoint?.length === 0 ? (
               <STYLE.EmptyMessage>없는 장소입니다.</STYLE.EmptyMessage>
             ) : (
@@ -67,7 +67,7 @@ const SearchResult = () => {
 
           {/* 이름 탭 */}
           <STYLE.ResultList
-            onScroll={nicknameHasMoreContent.searchpoint ? handleScroll : null}>
+            onScroll={nicknameHasMoreContent ? handleScroll : null}>
             {searchDataNicnkname?.length === 0 ? (
               <STYLE.EmptyMessage>없는 이름입니다.</STYLE.EmptyMessage>
             ) : (

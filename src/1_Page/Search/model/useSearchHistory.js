@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 
-const MAX_ITEMS = 10; // 로컬 스토리지 아이템 수 제한
+const MAX_ITEMS = 20; // 로컬 스토리지 아이템 수 제한
 
 const useSearchHistory = () => {
   const [listItems, setListItems] = useState([]);
@@ -14,7 +14,7 @@ const useSearchHistory = () => {
     }
   }, []);
 
-  // 검색 기록 추가 (최대 10개 제한)
+  // 검색 기록 추가
   const addSearchHistory = useCallback((item) => {
     if (!item) return;
     setListItems((prevItems) => {
@@ -28,6 +28,7 @@ const useSearchHistory = () => {
 
   // 검색 기록 삭제
   const deleteSearchHistory = useCallback((itemToDelete) => {
+    console.log(itemToDelete);
     setListItems((prevItems) => {
       return prevItems.filter((item) => item !== itemToDelete);
     });
