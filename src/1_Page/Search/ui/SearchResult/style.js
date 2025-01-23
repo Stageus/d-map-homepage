@@ -143,10 +143,7 @@ const STYLE = {
     animation: ${spin} 1s linear infinite;
     margin: 20px auto;
   `,
-  TrackingImageWrapper: styled.div`
-    aspect-ratio: 1 / 1;
-    flex-grow: 1;
-  `,
+
   ModalOverlay: styled.div`
     position: fixed;
     top: 0;
