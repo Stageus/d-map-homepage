@@ -31,7 +31,6 @@ const SearchResult = () => {
   return (
     <>
       {/* 탭 */}
-
       <STYLE.SliderWrapper>
         <STYLE.Slider $tabIndex={handleGetPresentTab("nickname")}>
           {/* 장소 탭 */}
@@ -89,6 +88,7 @@ const SearchResult = () => {
         </STYLE.Slider>
       </STYLE.SliderWrapper>
 
+      {/* 탭 버튼 */}
       <STYLE.TabContainer>
         <STYLE.TabBox>
           <STYLE.TabBackground
