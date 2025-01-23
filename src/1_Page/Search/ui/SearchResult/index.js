@@ -121,12 +121,14 @@ const SearchResult = () => {
             <STYLE.CloseButton onClick={IsTrackingImageModalToggle}>
               &times;
             </STYLE.CloseButton>
-            {console.log(searchDataSearchpoint)}
-            <TrackingImagePostList
-              trackingImageList={searchDataSearchpoint}
-              hasMoreContent={searchPointHasMoreContent}
-              observeRef={observeRef}
-            />
+            <STYLE.TrackingModalList>
+              {console.log(searchDataSearchpoint)}
+              <TrackingImagePostList
+                trackingImageList={searchDataSearchpoint}
+                hasMoreContent={searchPointHasMoreContent}
+                observeRef={observeRef}
+              />
+            </STYLE.TrackingModalList>
           </STYLE.ModalContent>
         </STYLE.ModalOverlay>
       )}
