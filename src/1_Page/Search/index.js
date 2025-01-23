@@ -7,7 +7,7 @@ import useSearchHistory from "./model/useSearchHistory";
 
 const Search = () => {
   const { searchInputText, handleListClick } = useNavigateHandler();
-  const { listItems, addSearchHistory, clearSearchHistory } =
+  const { listItems, addSearchHistory, deleteSearchHistory } =
     useSearchHistory();
 
   return (
@@ -20,12 +20,21 @@ const Search = () => {
             <STYLE.List>
               {listItems.length > 0 ? (
                 listItems.map((item) => (
-                  <STYLE.ListItem
-                    onClick={() => {
-                      handleListClick(item.searchInputText);
-                    }}>
-                    {item.searchInputText}
-                  </STYLE.ListItem>
+                  <STYLE.ListBox>
+                    <STYLE.ListItem
+                      onClick={() => {
+                        handleListClick(item);
+                        addSearchHistory(item);
+                      }}>
+                      {item.searchInputText}
+                    </STYLE.ListItem>
+                    <STYLE.ListDeleteButton
+                      onClick={() => {
+                        deleteSearchHistory(item);
+                      }}>
+                      &times;
+                    </STYLE.ListDeleteButton>
+                  </STYLE.ListBox>
                 ))
               ) : (
                 <STYLE.ListItem>검색 결과가 없습니다</STYLE.ListItem>

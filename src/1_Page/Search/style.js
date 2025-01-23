@@ -19,7 +19,7 @@ const STYLE = {
   `,
   List: styled.ul`
     position: absolute;
-    overflow-y: scroll;
+    width: 90%;
     background-color: ${({ theme }) => theme.background};
   `,
   ListItem: styled.li`
@@ -27,6 +27,14 @@ const STYLE = {
     margin-bottom: 8px;
     color: ${({ theme }) => theme.gray};
     padding: 3px;
+  `,
+  ListBox: styled.div`
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  `,
+  ListDeleteButton: styled.button`
+    height: 100%;
   `,
 };
 
