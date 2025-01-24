@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import getUserInfo from "../../../3_Entity/Account/getUserInfo";
 import getMyInfo from "../../../3_Entity/Account/getMyInfo";
@@ -27,11 +27,13 @@ const useGetUserInfo = (showErrorModal) => {
     }
   }, [userIdx]);
 
+  const memoizedUserInfoData = useMemo(() => userInfoData, [userInfoData]);
+
   useEffect(() => {
     fetchUserInfo();
   }, [fetchUserInfo]);
 
-  return { userInfoData };
+  return { memoizedUserInfoData };
 };
 
 export default useGetUserInfo;

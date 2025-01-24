@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 
 import STYLE from "./style.js";
 import empty_profie_icon from "./assets/empty_profile_icon.svg";
+
+import shallowEqual from "./lib/shallowEqual.js";
 
 import useManageUserInfo from "./model/useManageUserInfo.js";
 
@@ -20,20 +22,26 @@ import ConfirmModal from "../../../../2_Widget/ConfirmModal";
 const Header = (props) => {
   const {
     setMode: { modifyMode, handleSetMode, handleCloseMode },
-    handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
-    tabState,
+    handleSelectCancel,
+    deleteClick,
+    modifyClick,
+    activeTabStr,
     userInfoData,
     isModifyListEmpty,
     handleTabClick,
+    changeShareTrackingLength,
+    changeSaveTrackingLength,
   } = props;
 
   const { userInfo, handleProfileImageChange, handleChangeNickName } =
     useManageUserInfo(userInfoData);
 
   const trackDataLength = userInfo?.share_tracking_length
-    ? tabState.tabIndex === 0
-      ? userInfo?.share_tracking_length
-      : userInfo?.total_tracking_length - userInfo?.share_tracking_length
+    ? activeTabStr === "공유"
+      ? userInfo?.share_tracking_length - changeShareTrackingLength
+      : userInfo?.total_tracking_length -
+        userInfo?.share_tracking_length -
+        changeSaveTrackingLength
     : 0;
 
   const [modifyImageModal, modifyImageModalToggle] = useModifyImageModal(); // 프로필 이미지 모달
@@ -68,7 +76,7 @@ const Header = (props) => {
               </STYLE.Nickname>
             )}
             <STYLE.PostCount>
-              {tabState?.activeTabStr} 게시물 : {trackDataLength}개
+              {activeTabStr} 게시물 : {trackDataLength}개
             </STYLE.PostCount>
           </STYLE.UserInfo>
         </STYLE.ProfileContainer>
@@ -93,12 +101,12 @@ const Header = (props) => {
         {userInfo?.isMine ? (
           <>
             <STYLE.Tab
-              $active={tabState?.activeTabStr === "공유"}
+              $active={activeTabStr === "공유"}
               onClick={() => handleTabClick("공유")}>
               공유
             </STYLE.Tab>
             <STYLE.Tab
-              $active={tabState?.activeTabStr === "저장"}
+              $active={activeTabStr === "저장"}
               onClick={() => handleTabClick("저장")}>
               저장
             </STYLE.Tab>
@@ -167,7 +175,7 @@ const Header = (props) => {
           type={isModifyListEmpty && "one"}
           onClose={confirmModalToggle}
           onConfirm={() => {
-            modifyMode === "삭제" ? handleDeleteTrack() : handleModifyTrack();
+            modifyMode === "삭제" ? deleteClick() : modifyClick();
             handleCloseMode();
             confirmModalToggle();
           }}
@@ -177,7 +185,4 @@ const Header = (props) => {
     </>
   );
 };
-
-export default React.memo(Header, (prevProps, nextProps) => {
-  return prevProps.isModifyListEmpty === nextProps.isModifyListEmpty;
-});
+export default React.memo(Header, shallowEqual);

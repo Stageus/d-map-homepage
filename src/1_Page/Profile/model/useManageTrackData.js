@@ -1,14 +1,6 @@
-import { useState, useCallback, useEffect, useRef, useMemo } from "react";
-import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingImageToShare";
-import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingImageToNotShare";
-import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
+import { useState, useCallback, useEffect, useRef } from "react";
 
-const useManageTrackData = (
-  trackingImageList,
-  tabIndex,
-  checkLessLength,
-  showErrorModal
-) => {
+const useManageTrackData = (trackingImageList, tabIndex, checkLessLength) => {
   const [trackData, setTrackData] = useState([]);
   const [modifyIdxList, setModifyIdxList] = useState([]);
   const prevLength = useRef(null);
@@ -90,55 +82,15 @@ const useManageTrackData = (
     [toggleModifyIdxList, sortTrackData, removeDuplicateData]
   );
 
-  // 데이터 삭제
-  const handleDeleteTrack = useCallback(async () => {
-    const idxList = modifyIdxList.map((item) => item.idx);
-    const result = await deleteTrackingImage(idxList);
-
-    if (result === true) {
-      setTrackData((prev) =>
-        prev.filter(({ idx }) => !modifyIdxList.some((mod) => mod.idx === idx))
-      );
-      setModifyIdxList([]);
-      return;
-    }
-    showErrorModal(result);
-    handleSelectCancel();
-  }, [modifyIdxList, showErrorModal]);
-
-  const handleModifyTrack = useCallback(async () => {
-    const idxToShare = modifyIdxList
-      .filter((item) => !item.sharing)
-      .map((item) => item.idx);
-    const idxToNotShare = modifyIdxList
-      .filter((item) => item.sharing)
-      .map((item) => item.idx);
-    const resultToShare = await putTrackingToShare(idxToShare);
-    const resultToNotShare = await putTrackingToNotShare(idxToNotShare);
-    if (resultToShare === true && resultToNotShare === true) {
-      setModifyIdxList([]);
-      sortTrackData();
-      return;
-    }
-    showErrorModal(resultToShare !== true ? resultToShare : resultToNotShare);
-    handleSelectCancel();
-  }, [modifyIdxList, sortTrackData, showErrorModal]);
-
-  const memoizedHandlers = useMemo(
-    () => ({
-      handleSelectCancel,
-      handleDeleteTrack,
-      handleModifyTrack,
-    }),
-    [handleSelectCancel, handleDeleteTrack, handleModifyTrack]
-  );
-
   return {
+    setTrackData,
     modifyIdxList,
+    setModifyIdxList,
     shareTrackingImageData,
     saveTrackingImageData,
     handleAddModifyIdxList,
-    memoizedHandlers,
+    handleSelectCancel,
+    sortTrackData,
   };
 };
 

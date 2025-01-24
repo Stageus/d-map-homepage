@@ -12,6 +12,8 @@ import useGetUserInfo from "./model/useGetUserInfo";
 import useGetTrackingImageList from "./model/useGetTrackingImageList.js";
 import ConfirmModal from "../../2_Widget/ConfirmModal";
 import useErrorModal from "./model/useModalHandler.js";
+import useDeleteTrackData from "./model/useDeleteTrackData.js";
+import useModifyTrackData from "./model/useModifyTrackData.js";
 
 const Profile = () => {
   const { tabState, handleTabClick } = useTabs(); // 탭 관리 훅
@@ -23,39 +25,58 @@ const Profile = () => {
     useErrorModal(); // 에러 표시 모달
 
   // 유저 데이터 조회
-  const { userInfoData } = useGetUserInfo(showErrorModal);
+  const { memoizedUserInfoData } = useGetUserInfo(showErrorModal);
 
   // 데이터 조회 (userIdx , page , category)
   const { trackingImageList, loading, hasMoreContent } =
     useGetTrackingImageList(
-      userInfoData?.idx,
+      memoizedUserInfoData?.idx,
       paging,
       tabState.tabIndex === 1 ? 0 : 1 // 0 이 공유 , 1이 저장
     );
 
   // 데이터 관리 훅 ( 수정 , 삭제 , 취소)
   const {
+    setTrackData,
     modifyIdxList,
+    setModifyIdxList,
     shareTrackingImageData,
     saveTrackingImageData,
     handleAddModifyIdxList,
-    memoizedHandlers,
-  } = useManageTrackData(
-    trackingImageList,
-    tabState.tabIndex,
-    checkLessLength,
+    handleSelectCancel,
+    sortTrackData,
+  } = useManageTrackData(trackingImageList, tabState.tabIndex, checkLessLength);
+
+  const { deleteClick } = useDeleteTrackData(
+    modifyIdxList,
+    setModifyIdxList,
+    setTrackData,
+    handleSelectCancel,
     showErrorModal
   );
+
+  const { modifyClick, changeSaveTrackingLength, changeShareTrackingLength } =
+    useModifyTrackData(
+      modifyIdxList,
+      setModifyIdxList,
+      showErrorModal,
+      handleSelectCancel,
+      sortTrackData
+    );
 
   return (
     <>
       <STYLE.Main>
         <Header
           setMode={memoizedSetMode}
-          handler={memoizedHandlers}
-          tabState={tabState}
+          deleteClick={deleteClick}
+          modifyClick={modifyClick}
+          activeTabStr={tabState?.activeTabStr}
           handleTabClick={handleTabClick}
-          userInfoData={userInfoData}
+          handleSelectCancel={handleSelectCancel}
+          userInfoData={memoizedUserInfoData}
+          changeShareTrackingLength={changeShareTrackingLength}
+          changeSaveTrackingLength={changeSaveTrackingLength}
           isModifyListEmpty={modifyIdxList.length === 0}
         />
         <STYLE.SliderWrapper>
