@@ -157,8 +157,8 @@ const Header = (props) => {
         <ConfirmModal
           message={
             modifyMode === "삭제"
-              ? "저장 목록에서 삭제하시겠습니까?"
-              : "저장하시겠습니까?"
+              ? "선택한 그림을 모두 삭제하시겠습니까?"
+              : "변경사항을 저장하시겠습니까?"
           }
           onConfirm={() => {
             modifyMode === "삭제" ? handleDeleteTrack() : handleModifyTrack();
