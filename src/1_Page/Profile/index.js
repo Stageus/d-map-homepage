@@ -37,34 +37,16 @@ const Profile = () => {
 
   // 데이터 관리 훅 ( 수정 , 삭제 , 취소)
   const {
-    setTrackData,
+    deleteClick,
+    modifyClick,
     modifyIdxList,
-    setModifyIdxList,
     shareTrackingImageData,
     saveTrackingImageData,
     handleAddModifyIdxList,
     handleSelectCancel,
-    sortTrackData,
+    changeShareTrackingLength,
+    changeSaveTrackingLength,
   } = useManageTrackData(trackingImageList, tabState.tabIndex, checkLessLength);
-
-  // 데이터 관리 훅 ( 삭제 )
-  const { deleteClick } = useDeleteTrackData(
-    modifyIdxList,
-    setModifyIdxList,
-    setTrackData,
-    handleSelectCancel,
-    showErrorModal
-  );
-
-  // 데이터 관리 훅 ( 수정 )
-  const { modifyClick, changeSaveTrackingLength, changeShareTrackingLength } =
-    useModifyTrackData(
-      modifyIdxList,
-      setModifyIdxList,
-      showErrorModal,
-      handleSelectCancel,
-      sortTrackData
-    );
 
   return (
     <>

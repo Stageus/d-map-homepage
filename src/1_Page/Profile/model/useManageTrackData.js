@@ -1,6 +1,14 @@
 import { useState, useCallback, useEffect, useRef } from "react";
+import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
+import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingImageToShare";
+import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingImageToNotShare";
 
-const useManageTrackData = (trackingImageList, tabIndex, checkLessLength) => {
+const useManageTrackData = (
+  trackingImageList,
+  tabIndex,
+  checkLessLength,
+  showErrorModal
+) => {
   const [trackData, setTrackData] = useState([]);
   const [modifyIdxList, setModifyIdxList] = useState([]);
   const prevLength = useRef(null);
@@ -82,15 +90,84 @@ const useManageTrackData = (trackingImageList, tabIndex, checkLessLength) => {
     [toggleModifyIdxList, sortTrackData, removeDuplicateData]
   );
 
+  // 데이터 삭제
+  const [clickDelete, setClickDelete] = useState(false);
+
+  const deleteClick = useCallback(() => {
+    setClickDelete(true);
+  }, []);
+
+  useEffect(() => {
+    if (!clickDelete) return;
+    const deleteAction = async () => {
+      await handleDeleteTrack();
+      setClickDelete(false); // 실행 후 상태 초기화
+    };
+    deleteAction();
+  }, [clickDelete]);
+
+  // 데이터 삭제
+  const handleDeleteTrack = useCallback(async () => {
+    const idxList = modifyIdxList.map((item) => item.idx);
+    const result = await deleteTrackingImage(idxList);
+
+    if (result === true) {
+      setTrackData((prev) =>
+        prev.filter(({ idx }) => !modifyIdxList.some((mod) => mod.idx === idx))
+      );
+      setModifyIdxList([]);
+      return;
+    }
+    showErrorModal(result);
+    handleSelectCancel();
+  }, [modifyIdxList, handleSelectCancel]);
+
+  const [clickModify, setClickModify] = useState(false);
+  const modifyClick = useCallback(() => {
+    setClickModify(true);
+  }, []);
+  useEffect(() => {
+    if (!clickModify) return;
+    const deleteAction = async () => {
+      await handleModifyTrack();
+      setClickModify(false); // 실행 후 상태 초기화
+    };
+    deleteAction();
+  }, [clickModify]);
+
+  const [changeSaveTrackingLength, setChangeSaveTrackingLength] = useState(0);
+  const [changeShareTrackingLength, setChangeShareTrackingLength] = useState(0);
+
+  const handleModifyTrack = useCallback(async () => {
+    const idxToShare = modifyIdxList
+      .filter((item) => !item.sharing)
+      .map((item) => item.idx);
+    const idxToNotShare = modifyIdxList
+      .filter((item) => item.sharing)
+      .map((item) => item.idx);
+    const resultToShare = await putTrackingToShare(idxToShare);
+    const resultToNotShare = await putTrackingToNotShare(idxToNotShare);
+    if (resultToShare === true && resultToNotShare === true) {
+      setModifyIdxList([]);
+      setChangeShareTrackingLength((pre) => pre + idxToNotShare.length);
+      setChangeSaveTrackingLength((pre) => pre + idxToShare.length);
+      sortTrackData();
+      return;
+    }
+    showErrorModal(resultToShare !== true ? resultToShare : resultToNotShare);
+    handleSelectCancel();
+  }, [modifyIdxList, sortTrackData, handleSelectCancel]);
+
   return {
-    setTrackData,
+    deleteClick,
+    modifyClick,
     modifyIdxList,
-    setModifyIdxList,
     shareTrackingImageData,
     saveTrackingImageData,
     handleAddModifyIdxList,
     handleSelectCancel,
-    sortTrackData,
+    changeShareTrackingLength,
+    changeSaveTrackingLength,
   };
 };
 
