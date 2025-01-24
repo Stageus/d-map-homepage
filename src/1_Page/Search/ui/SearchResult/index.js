@@ -11,8 +11,12 @@ import TrackingImagePostList from "../../../../2_Widget/TrackingImagePostList";
 
 const SearchResult = () => {
   const { activeTab, handleTabName, handleTabLocation } = useTab(); // 탭 관리
-  const { page, handleScrollToEnd, searchPointModalObserveRef } =
-    useInfinityScroll(activeTab);
+  const {
+    page,
+    searchPointObserveRef,
+    nicknameObserveRef,
+    searchPointModalObserveRef,
+  } = useInfinityScroll(activeTab);
 
   const {
     searchDataNicnkname,
@@ -34,14 +38,18 @@ const SearchResult = () => {
       <STYLE.SliderWrapper>
         <STYLE.Slider $tabIndex={activeTab === "nickname"}>
           {/* 장소 탭 */}
-          <STYLE.ResultList
-            // 다음 데이터가 있으면 스크롤 이벤트 부여
-            onScroll={searchPointHasMoreContent ? handleScrollToEnd : null}>
+          <STYLE.ResultList>
             {searchDataSearchpoint?.length === 0 ? (
               <STYLE.EmptyMessage>없는 장소입니다.</STYLE.EmptyMessage>
             ) : (
-              searchDataSearchpoint?.map((result) => (
+              searchDataSearchpoint?.map((result, index) => (
                 <STYLE.MapPreview
+                  ref={
+                    searchPointHasMoreContent &&
+                    index - 1 === searchDataNicnkname.length
+                      ? searchPointObserveRef
+                      : null
+                  }
                   key={result.idx}
                   onClick={IsTrackingImageModalToggle}>
                   <STYLE.TitleContainer>
@@ -67,15 +75,19 @@ const SearchResult = () => {
           </STYLE.ResultList>
 
           {/* 이름 탭 */}
-          <STYLE.ResultList
-            // 다음 데이터가 있으면 스크롤 이벤트 부여
-            onScroll={nicknameHasMoreContent ? handleScrollToEnd : null}>
+          <STYLE.ResultList>
             {searchDataNicnkname?.length === 0 ? (
               <STYLE.EmptyMessage>없는 이름입니다.</STYLE.EmptyMessage>
             ) : (
-              searchDataNicnkname?.map((result) => (
+              searchDataNicnkname?.map((result, index) => (
                 <STYLE.NicckNameContainer
                   key={result.idx}
+                  ref={
+                    nicknameHasMoreContent &&
+                    index - 1 === searchDataNicnkname.length
+                      ? nicknameObserveRef
+                      : null
+                  }
                   onClick={() => {
                     handleNavigate(result.idx);
                   }}>

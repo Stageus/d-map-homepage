@@ -5,11 +5,16 @@ const useInfinityScroll = (activeTab) => {
   const [page, setPage] = useState({
     nickname: 1,
     searchpoint: 1,
-  }); // 페이지 상태 초기화
-
-  const { searchPointModalObserveRef, inView } = useInView({
+  });
+  const { ref: searchPointObserveRef, inView: searchPointInView } = useInView({
     threshold: 0,
-  }); // 검색 모달의 다음 페이지 확인
+  });
+  const { ref: nicknameObserveRef, inView: nicknameInView } = useInView({
+    threshold: 0,
+  });
+  const { ref: searchPointModalObserveRef, inView: anotherInView } = useInView({
+    threshold: 0,
+  });
 
   // 현재 탭의 다음 페이지 불러오기
   const handleNextPage = () => {
@@ -20,20 +25,17 @@ const useInfinityScroll = (activeTab) => {
   };
 
   useEffect(() => {
-    if (inView) {
+    if (searchPointInView || nicknameInView || anotherInView) {
       handleNextPage();
     }
-  }, [inView]);
+  }, [searchPointInView, nicknameInView, anotherInView]);
 
-  const handleScrollToEnd = (e) => {
-    const { scrollHeight, scrollTop, clientHeight } = e.target;
-    // 스크롤이 가장 아래로 갔는지 확인
-    if (scrollTop + clientHeight >= scrollHeight - 1) {
-      handleNextPage();
-    }
-  };
-
-  return { page, handleScrollToEnd, searchPointModalObserveRef }; // 페이지 상태와 스크롤 핸들러 반환
+  return {
+    page,
+    searchPointObserveRef,
+    nicknameObserveRef,
+    searchPointModalObserveRef,
+  }; // 페이지 상태와 스크롤 핸들러 반환
 };
 
 export default useInfinityScroll;
