@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 
 import STYLE from "./style.js";
 import empty_profie_icon from "./assets/empty_profile_icon.svg";
 
+import shallowEqual from "./lib/shallowEqual.js";
+
 import useManageUserInfo from "./model/useManageUserInfo.js";
+import useTrackDataLength from "./model/useTrackDataLength.js";
 
 import useModifyImageModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyNameModal from "../../../../4_Shared/model/useModalHandler.js";
@@ -20,20 +23,26 @@ import ConfirmModal from "../../../../2_Widget/ConfirmModal";
 const Header = (props) => {
   const {
     setMode: { modifyMode, handleSetMode, handleCloseMode },
-    handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
-    tabState,
+    handleSelectCancel,
+    deleteClick,
+    modifyClick,
+    activeTabStr,
     userInfoData,
+    isModifyListEmpty,
     handleTabClick,
+    changeShareTrackingLength,
+    changeSaveTrackingLength,
   } = props;
 
   const { userInfo, handleProfileImageChange, handleChangeNickName } =
     useManageUserInfo(userInfoData);
 
-  const trackDataLength = userInfo?.share_tracking_length
-    ? tabState.tabIndex === 0
-      ? userInfo?.share_tracking_length
-      : userInfo?.share_tracking_length - userInfo?.share_tracking_length
-    : 0;
+  const trackDataLength = useTrackDataLength(
+    userInfo,
+    activeTabStr,
+    changeShareTrackingLength,
+    changeSaveTrackingLength
+  );
 
   const [modifyImageModal, modifyImageModalToggle] = useModifyImageModal(); // 프로필 이미지 모달
   const [modifyNameModal, modifyNameModalToggle] = useModifyNameModal(); // 닉네임 수정 모달
@@ -67,7 +76,7 @@ const Header = (props) => {
               </STYLE.Nickname>
             )}
             <STYLE.PostCount>
-              {tabState?.activeTabStr} 게시물 : {trackDataLength}개
+              {activeTabStr} 게시물 : {trackDataLength}개
             </STYLE.PostCount>
           </STYLE.UserInfo>
         </STYLE.ProfileContainer>
@@ -92,12 +101,12 @@ const Header = (props) => {
         {userInfo?.isMine ? (
           <>
             <STYLE.Tab
-              $active={tabState?.activeTabStr === "공유"}
+              $active={activeTabStr === "공유"}
               onClick={() => handleTabClick("공유")}>
               공유
             </STYLE.Tab>
             <STYLE.Tab
-              $active={tabState?.activeTabStr === "저장"}
+              $active={activeTabStr === "저장"}
               onClick={() => handleTabClick("저장")}>
               저장
             </STYLE.Tab>
@@ -106,6 +115,7 @@ const Header = (props) => {
           <STYLE.TabNone>게시물</STYLE.TabNone>
         )}
       </STYLE.TabMenu>
+
       {modifyImageModal && (
         <ModalBase onClose={modifyImageModalToggle} snap={[0.2]}>
           {({ handleClose }) => (
@@ -156,12 +166,16 @@ const Header = (props) => {
       {confirmModal && (
         <ConfirmModal
           message={
-            modifyMode === "삭제"
-              ? "저장 목록에서 삭제하시겠습니까?"
-              : "저장하시겠습니까?"
+            isModifyListEmpty
+              ? "선택된 데이터가 없습니다"
+              : modifyMode === "삭제"
+              ? "선택한 그림을 모두 삭제하시겠습니까?"
+              : "변경사항을 저장하시겠습니까?"
           }
+          type={isModifyListEmpty && "one"}
+          onClose={confirmModalToggle}
           onConfirm={() => {
-            modifyMode === "삭제" ? handleDeleteTrack() : handleModifyTrack();
+            modifyMode === "삭제" ? deleteClick() : modifyClick();
             handleCloseMode();
             confirmModalToggle();
           }}
@@ -171,5 +185,4 @@ const Header = (props) => {
     </>
   );
 };
-
-export default Header;
+export default React.memo(Header, shallowEqual); // 얕은 복사 비교해서 props변동이 있을때만 렌더링

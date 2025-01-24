@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
+import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
 import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingImageToShare";
 import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingImageToNotShare";
-import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
 
 const useManageTrackData = (
   trackingImageList,
@@ -11,6 +11,11 @@ const useManageTrackData = (
 ) => {
   const [trackData, setTrackData] = useState([]);
   const [modifyIdxList, setModifyIdxList] = useState([]);
+  const [changeSaveTrackingLength, setChangeSaveTrackingLength] = useState(0);
+  const [changeShareTrackingLength, setChangeShareTrackingLength] = useState(0);
+  useEffect(() => {
+    console.log(changeSaveTrackingLength);
+  }, [changeSaveTrackingLength]);
   const prevLength = useRef(null);
 
   useEffect(() => {
@@ -91,21 +96,57 @@ const useManageTrackData = (
   );
 
   // 데이터 삭제
+  const [clickDelete, setClickDelete] = useState(false);
+
+  const deleteClick = useCallback(() => {
+    setClickDelete(true);
+  }, []);
+
+  useEffect(() => {
+    if (!clickDelete) return;
+    const deleteAction = async () => {
+      await handleDeleteTrack();
+      setClickDelete(false); // 실행 후 상태 초기화
+    };
+    deleteAction();
+  }, [clickDelete]);
+
+  // 데이터 삭제
   const handleDeleteTrack = useCallback(async () => {
     const idxList = modifyIdxList.map((item) => item.idx);
     const result = await deleteTrackingImage(idxList);
 
+    const shareToDeleteCount = modifyIdxList.filter(
+      (item) => item.sharing === true
+    ).length;
+    const saveToDeleteCount = modifyIdxList.filter(
+      (item) => item.sharing === true
+    ).length;
     if (result === true) {
+      setChangeShareTrackingLength((pre) => pre + shareToDeleteCount);
+      setChangeSaveTrackingLength((pre) => pre + saveToDeleteCount);
       setTrackData((prev) =>
         prev.filter(({ idx }) => !modifyIdxList.some((mod) => mod.idx === idx))
       );
       setModifyIdxList([]);
       return;
     }
-    console.log(result);
     showErrorModal(result);
     handleSelectCancel();
-  }, [modifyIdxList, showErrorModal]);
+  }, [modifyIdxList, handleSelectCancel]);
+
+  const [clickModify, setClickModify] = useState(false);
+  const modifyClick = useCallback(() => {
+    setClickModify(true);
+  }, []);
+  useEffect(() => {
+    if (!clickModify) return;
+    const deleteAction = async () => {
+      await handleModifyTrack();
+      setClickModify(false); // 실행 후 상태 초기화
+    };
+    deleteAction();
+  }, [clickModify]);
 
   const handleModifyTrack = useCallback(async () => {
     const idxToShare = modifyIdxList
@@ -118,20 +159,29 @@ const useManageTrackData = (
     const resultToNotShare = await putTrackingToNotShare(idxToNotShare);
     if (resultToShare === true && resultToNotShare === true) {
       setModifyIdxList([]);
+      setChangeShareTrackingLength(
+        (pre) => pre + idxToNotShare.length - idxToShare.length
+      );
+      setChangeSaveTrackingLength(
+        (pre) => pre + idxToShare.length - idxToNotShare.length
+      );
       sortTrackData();
       return;
     }
     showErrorModal(resultToShare !== true ? resultToShare : resultToNotShare);
     handleSelectCancel();
-  }, [modifyIdxList, sortTrackData, showErrorModal]);
+  }, [modifyIdxList, sortTrackData, handleSelectCancel]);
 
   return {
+    deleteClick,
+    modifyClick,
+    modifyIdxList,
     shareTrackingImageData,
     saveTrackingImageData,
     handleAddModifyIdxList,
     handleSelectCancel,
-    handleModifyTrack,
-    handleDeleteTrack,
+    changeShareTrackingLength,
+    changeSaveTrackingLength,
   };
 };
 

@@ -1,9 +1,23 @@
 import { useEffect, useState, useCallback, useRef } from "react";
+import { useInView } from "react-intersection-observer";
 
 const useInfinityScroll = (tabIndex) => {
   const [page, setPage] = useState({ save: 1, share: 1 });
   const pageRef = useRef(page);
   const currentKeyRef = useRef(tabIndex === 0 ? "share" : "save");
+  const { ref: shareObserveRef, inView: searchPointInView } = useInView({
+    threshold: 0,
+  });
+  const { ref: saveObserveRef, inView: nicknameInView } = useInView({
+    threshold: 0,
+  });
+
+  useEffect(() => {
+    console.log(searchPointInView);
+    if (searchPointInView || nicknameInView) {
+      handleNextPage();
+    }
+  }, [searchPointInView, nicknameInView]);
 
   // 최신 page 상태를 유지
   useEffect(() => {
@@ -20,7 +34,6 @@ const useInfinityScroll = (tabIndex) => {
   const handleNextPage = useCallback(() => {
     const currentKey = currentKeyRef.current;
     const currentPage = pageRef.current[currentKey];
-    console.log(currentKey, currentPage + 1);
     setPage((prev) => ({
       ...prev,
       [currentKey]: currentPage + 1,
@@ -36,17 +49,7 @@ const useInfinityScroll = (tabIndex) => {
     [handleNextPage]
   );
 
-  const handleScroll = useCallback(
-    (event) => {
-      const { scrollHeight, scrollTop, clientHeight } = event.target;
-      if (scrollHeight - scrollTop - 1 <= clientHeight) {
-        handleNextPage();
-      }
-    },
-    [handleNextPage]
-  );
-
-  return { paging, handleScroll, checkLessLength, handleNextPage };
+  return { paging, checkLessLength, shareObserveRef, saveObserveRef };
 };
 
 export default useInfinityScroll;

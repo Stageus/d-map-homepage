@@ -15,32 +15,35 @@ import useErrorModal from "./model/useModalHandler.js";
 
 const Profile = () => {
   const { tabState, handleTabClick } = useTabs(); // 탭 관리 훅
-  const { modifyMode, handleSetMode, handleCloseMode } = useSettingMode(); // 수정 , 삭제 상태 관리
-  const { paging, handleScroll, checkLessLength, handleNextPage } =
+  const { modifyMode, memoizedSetMode } = useSettingMode(); // 수정 , 삭제 상태 관리
+  const { paging, checkLessLength, shareObserveRef, saveObserveRef } =
     useInfinityScroll(tabState.tabIndex);
 
   const { errorMessage, isModalOpen, showErrorModal, errorModalBackPage } =
     useErrorModal(); // 에러 표시 모달
 
   // 유저 데이터 조회
-  const { userInfoData } = useGetUserInfo(showErrorModal);
+  const { memoizedUserInfoData } = useGetUserInfo(showErrorModal);
 
   // 데이터 조회 (userIdx , page , category)
   const { trackingImageList, loading, hasMoreContent } =
     useGetTrackingImageList(
-      userInfoData?.idx,
+      memoizedUserInfoData?.idx,
       paging,
       tabState.tabIndex === 1 ? 0 : 1 // 0 이 공유 , 1이 저장
     );
 
   // 데이터 관리 훅 ( 수정 , 삭제 , 취소)
   const {
+    deleteClick,
+    modifyClick,
+    modifyIdxList,
     shareTrackingImageData,
     saveTrackingImageData,
     handleAddModifyIdxList,
     handleSelectCancel,
-    handleModifyTrack,
-    handleDeleteTrack,
+    changeShareTrackingLength,
+    changeSaveTrackingLength,
   } = useManageTrackData(
     trackingImageList,
     tabState.tabIndex,
@@ -52,32 +55,29 @@ const Profile = () => {
     <>
       <STYLE.Main>
         <Header
-          setMode={{ modifyMode, handleSetMode, handleCloseMode }}
-          tabState={tabState}
+          setMode={memoizedSetMode}
+          deleteClick={deleteClick}
+          modifyClick={modifyClick}
+          activeTabStr={tabState?.activeTabStr}
           handleTabClick={handleTabClick}
-          userInfoData={userInfoData}
-          handler={{
-            handleSelectCancel,
-            handleDeleteTrack,
-            handleModifyTrack,
-          }}
+          handleSelectCancel={handleSelectCancel}
+          userInfoData={memoizedUserInfoData}
+          changeShareTrackingLength={changeShareTrackingLength}
+          changeSaveTrackingLength={changeSaveTrackingLength}
+          isModifyListEmpty={modifyIdxList.length === 0}
         />
         <STYLE.SliderWrapper>
           <STYLE.Slider $tabIndex={tabState?.tabIndex}>
             <TrackingImageTab
               trackingImageList={shareTrackingImageData}
               modifyMode={modifyMode}
-              hasMoreContent={hasMoreContent.share}
-              handleNextPage={handleNextPage}
-              handleScroll={hasMoreContent.share ? handleScroll : null}
+              obServeRef={hasMoreContent.share ? shareObserveRef : null}
               handleAddModifyIdxList={handleAddModifyIdxList}
             />
             <TrackingImageTab
               trackingImageList={saveTrackingImageData}
               modifyMode={modifyMode}
-              handleNextPage={handleNextPage}
-              hasMoreContent={hasMoreContent.save}
-              handleScroll={hasMoreContent.save ? handleScroll : null}
+              obServeRef={hasMoreContent.save ? saveObserveRef : null}
               handleAddModifyIdxList={handleAddModifyIdxList}
             />
           </STYLE.Slider>
