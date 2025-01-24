@@ -12,8 +12,6 @@ import useGetUserInfo from "./model/useGetUserInfo";
 import useGetTrackingImageList from "./model/useGetTrackingImageList.js";
 import ConfirmModal from "../../2_Widget/ConfirmModal";
 import useErrorModal from "./model/useModalHandler.js";
-import useDeleteTrackData from "./model/useDeleteTrackData.js";
-import useModifyTrackData from "./model/useModifyTrackData.js";
 
 const Profile = () => {
   const { tabState, handleTabClick } = useTabs(); // 탭 관리 훅
