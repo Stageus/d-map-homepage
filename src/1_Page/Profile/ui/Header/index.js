@@ -7,6 +7,7 @@ import empty_profie_icon from "./assets/empty_profile_icon.svg";
 import shallowEqual from "./lib/shallowEqual.js";
 
 import useManageUserInfo from "./model/useManageUserInfo.js";
+import useTrackDataLength from "./model/getTrackDataLength.js";
 
 import useModifyImageModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyNameModal from "../../../../4_Shared/model/useModalHandler.js";
@@ -36,13 +37,12 @@ const Header = (props) => {
   const { userInfo, handleProfileImageChange, handleChangeNickName } =
     useManageUserInfo(userInfoData);
 
-  const trackDataLength = userInfo?.share_tracking_length
-    ? activeTabStr === "공유"
-      ? userInfo?.share_tracking_length - changeShareTrackingLength
-      : userInfo?.total_tracking_length -
-        userInfo?.share_tracking_length -
-        changeSaveTrackingLength
-    : 0;
+  const trackDataLength = useTrackDataLength(
+    userInfo,
+    activeTabStr,
+    changeShareTrackingLength,
+    changeSaveTrackingLength
+  );
 
   const [modifyImageModal, modifyImageModalToggle] = useModifyImageModal(); // 프로필 이미지 모달
   const [modifyNameModal, modifyNameModalToggle] = useModifyNameModal(); // 닉네임 수정 모달
@@ -185,4 +185,4 @@ const Header = (props) => {
     </>
   );
 };
-export default React.memo(Header, shallowEqual);
+export default React.memo(Header, shallowEqual); // 얕은 복사 비교해서 props변동이 있을때만 렌더링

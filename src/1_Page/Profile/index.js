@@ -47,6 +47,7 @@ const Profile = () => {
     sortTrackData,
   } = useManageTrackData(trackingImageList, tabState.tabIndex, checkLessLength);
 
+  // 데이터 관리 훅 ( 삭제 )
   const { deleteClick } = useDeleteTrackData(
     modifyIdxList,
     setModifyIdxList,
@@ -55,6 +56,7 @@ const Profile = () => {
     showErrorModal
   );
 
+  // 데이터 관리 훅 ( 수정 )
   const { modifyClick, changeSaveTrackingLength, changeShareTrackingLength } =
     useModifyTrackData(
       modifyIdxList,
