@@ -39,13 +39,15 @@ const ModifyNameModalContent = (props) => {
               placeholder="닉네임 입력"
               {...register("nickname", {
                 required: "닉네임은 필수입니다!",
+                setValueAs: (value) => value.trim(),
                 pattern: {
-                  value: /^[^\s]{2,20}$/,
+                  value: /^[^\s][\s\S]{0,18}[^\s]$/,
                   message: "닉네임은 2글자 이상, 20자 이하로 입력해야 합니다!",
                 },
                 validate: (value) =>
-                  value !== name ||
-                  "현재 닉네임과 동일합니다. 새로운 닉네임을 입력해 주세요!",
+                  value === name
+                    ? "현재 닉네임과 동일합니다. 새로운 닉네임을 입력해 주세요!"
+                    : true,
               })}
             />
             <STYLE.SuggestedNickname
