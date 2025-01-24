@@ -43,6 +43,9 @@ const ModifyNameModalContent = (props) => {
                   value: /^[^\s]{2,20}$/,
                   message: "닉네임은 2글자 이상, 20자 이하로 입력해야 합니다!",
                 },
+                validate: (value) =>
+                  value !== name ||
+                  "현재 닉네임과 동일합니다. 새로운 닉네임을 입력해 주세요!",
               })}
             />
             <STYLE.SuggestedNickname
