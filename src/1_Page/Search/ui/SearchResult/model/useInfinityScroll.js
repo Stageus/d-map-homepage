@@ -9,8 +9,9 @@ const useInfinityScroll = (activeTab) => {
 
   const { searchPointModalObserveRef, inView } = useInView({
     threshold: 0,
-  });
+  }); // 검색 모달의 다음 페이지 확인
 
+  // 현재 탭의 다음 페이지 불러오기
   const handleNextPage = () => {
     setPage((prevPage) => ({
       ...prevPage,
