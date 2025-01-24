@@ -179,9 +179,5 @@ const Header = (props) => {
 };
 
 export default React.memo(Header, (prevProps, nextProps) => {
-  return (
-    prevProps.setMode.modifyMode === nextProps.setMode.modifyMode &&
-    prevProps.userInfoData === nextProps.userInfoData &&
-    prevProps.isModifyListEmpty === nextProps.isModifyListEmpty
-  );
+  return prevProps.isModifyListEmpty === nextProps.isModifyListEmpty;
 });
