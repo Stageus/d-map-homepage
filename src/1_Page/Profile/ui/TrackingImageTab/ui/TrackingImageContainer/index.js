@@ -13,22 +13,28 @@ import TrackingImagePostList from "../../../../../../2_Widget/TrackingImagePostL
 const TrackingImageContainer = (props) => {
   const { trackingImageData, modifyMode, handleAddModifyIdxList } = props;
 
-  const [modifyTrackingModal, modifyTrackingModalToggle] = useConfirmModal();
+  const [isModifyTrackingModalOpen, modifyTrackingModalToggle] =
+    useConfirmModal();
+  const [isTrackingPost, handleTrackingPost] = useModalHandler();
 
   const { selectLongPressData, longPressEvents } = useLongPressEvent(
     modifyTrackingModalToggle,
     trackingImageData
   );
-  const [isTrackingPost, handleTrackingPost] = useModalHandler();
 
   return (
     <>
       <STYLE.TrackingContainer
-        onClick={handleTrackingPost}
+        onClick={modifyMode ? undefined : handleTrackingPost}
         {...(!modifyMode && trackingImageData?.isMine && longPressEvents)}>
         <StaticTrackingImage
           height="100%"
-          mapInfo={{ ...trackingImageData, draggable: false, background: 0 }}
+          mapInfo={{
+            ...trackingImageData,
+            draggable: false,
+            background: 0,
+            zoom: trackingImageData.zoom / 1.5,
+          }}
         />
         {modifyMode === "공유" && (
           <STYLE.TrackingClickBox
@@ -45,7 +51,8 @@ const TrackingImageContainer = (props) => {
           />
         )}
       </STYLE.TrackingContainer>
-      {modifyTrackingModal &&
+
+      {isModifyTrackingModalOpen &&
         selectLongPressData &&
         ReactDOM.createPortal(
           <ModifyTrackingImageModal
@@ -54,6 +61,7 @@ const TrackingImageContainer = (props) => {
           />,
           document.body // Portal로 이동
         )}
+
       {isTrackingPost &&
         ReactDOM.createPortal(
           <STYLE.ModalOverlay onClick={handleTrackingPost}>
@@ -61,10 +69,11 @@ const TrackingImageContainer = (props) => {
               <STYLE.CloseButton onClick={handleTrackingPost}>
                 &times;
               </STYLE.CloseButton>
+              {console.log(trackingImageData)}
               <TrackingImagePostList trackingImageList={[trackingImageData]} />
             </STYLE.ModalContent>
           </STYLE.ModalOverlay>,
-          document.body
+          document.body // Portal로 이동
         )}
     </>
   );

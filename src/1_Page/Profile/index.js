@@ -35,6 +35,7 @@ const Profile = () => {
 
   // 데이터 관리 훅 ( 수정 , 삭제 , 취소)
   const {
+    modifyIdxList,
     shareTrackingImageData,
     saveTrackingImageData,
     handleAddModifyIdxList,
@@ -56,6 +57,7 @@ const Profile = () => {
           tabState={tabState}
           handleTabClick={handleTabClick}
           userInfoData={userInfoData}
+          modifyIdxList={modifyIdxList}
           handler={{
             handleSelectCancel,
             handleDeleteTrack,

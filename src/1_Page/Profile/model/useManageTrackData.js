@@ -102,7 +102,6 @@ const useManageTrackData = (
       setModifyIdxList([]);
       return;
     }
-    console.log(result);
     showErrorModal(result);
     handleSelectCancel();
   }, [modifyIdxList, showErrorModal]);
@@ -126,6 +125,7 @@ const useManageTrackData = (
   }, [modifyIdxList, sortTrackData, showErrorModal]);
 
   return {
+    modifyIdxList,
     shareTrackingImageData,
     saveTrackingImageData,
     handleAddModifyIdxList,

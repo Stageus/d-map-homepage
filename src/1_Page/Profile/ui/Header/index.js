@@ -23,6 +23,7 @@ const Header = (props) => {
     handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
     tabState,
     userInfoData,
+    modifyIdxList,
     handleTabClick,
   } = props;
 
@@ -156,10 +157,14 @@ const Header = (props) => {
       {confirmModal && (
         <ConfirmModal
           message={
-            modifyMode === "삭제"
+            modifyIdxList.length === 0
+              ? "선택된 데이터가 없습니다"
+              : modifyMode === "삭제"
               ? "선택한 그림을 모두 삭제하시겠습니까?"
               : "변경사항을 저장하시겠습니까?"
           }
+          type={modifyIdxList.length === 0 && "one"}
+          onClose={confirmModalToggle}
           onConfirm={() => {
             modifyMode === "삭제" ? handleDeleteTrack() : handleModifyTrack();
             handleCloseMode();
