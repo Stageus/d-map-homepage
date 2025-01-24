@@ -16,7 +16,8 @@ const searchInputSchema = yup.object().shape({
     ),
 });
 
-const SearchInput = ({ searchInputText, addSearchHistory }) => {
+const SearchInput = (props) => {
+  const { searchInputText, addSearchHistory } = props;
   const { navigateToSearch } = useNavigateHandler(addSearchHistory);
 
   const {
