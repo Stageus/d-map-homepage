@@ -46,7 +46,7 @@ const SearchResult = () => {
                 <STYLE.MapPreview
                   ref={
                     searchPointHasMoreContent &&
-                    index - 1 === searchDataNicnkname.length
+                    index === searchDataNicnkname.length - 1
                       ? searchPointObserveRef
                       : null
                   }
@@ -84,7 +84,7 @@ const SearchResult = () => {
                   key={result.idx}
                   ref={
                     nicknameHasMoreContent &&
-                    index - 1 === searchDataNicnkname.length
+                    index === searchDataNicnkname.length - 1
                       ? nicknameObserveRef
                       : null
                   }
