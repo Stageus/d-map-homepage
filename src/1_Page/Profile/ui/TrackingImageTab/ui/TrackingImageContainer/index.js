@@ -11,7 +11,8 @@ import useModalHandler from "../../../../../../4_Shared/model/useModalHandler";
 import TrackingImagePostList from "../../../../../../2_Widget/TrackingImagePostList";
 
 const TrackingImageContainer = (props) => {
-  const { trackingImageData, modifyMode, handleAddModifyIdxList } = props;
+  const { trackingImageData, modifyMode, handleAddModifyIdxList, obServeRef } =
+    props;
 
   const [isModifyTrackingModalOpen, modifyTrackingModalToggle] =
     useConfirmModal();
@@ -25,6 +26,7 @@ const TrackingImageContainer = (props) => {
   return (
     <>
       <STYLE.TrackingContainer
+        ref={obServeRef}
         onClick={modifyMode ? undefined : handleTrackingPost}
         {...(!modifyMode && trackingImageData?.isMine && longPressEvents)}>
         <StaticTrackingImage
@@ -70,7 +72,6 @@ const TrackingImageContainer = (props) => {
               <STYLE.CloseButton onClick={handleTrackingPost}>
                 &times;
               </STYLE.CloseButton>
-              {console.log(trackingImageData)}
               <TrackingImagePostList trackingImageList={[trackingImageData]} />
             </STYLE.ModalContent>
           </STYLE.ModalOverlay>,

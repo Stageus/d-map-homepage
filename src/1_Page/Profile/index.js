@@ -18,7 +18,7 @@ import useModifyTrackData from "./model/useModifyTrackData.js";
 const Profile = () => {
   const { tabState, handleTabClick } = useTabs(); // 탭 관리 훅
   const { modifyMode, memoizedSetMode } = useSettingMode(); // 수정 , 삭제 상태 관리
-  const { paging, handleScroll, checkLessLength, handleNextPage } =
+  const { paging, checkLessLength, shareObserveRef, saveObserveRef } =
     useInfinityScroll(tabState.tabIndex);
 
   const { errorMessage, isModalOpen, showErrorModal, errorModalBackPage } =
@@ -86,17 +86,13 @@ const Profile = () => {
             <TrackingImageTab
               trackingImageList={shareTrackingImageData}
               modifyMode={modifyMode}
-              hasMoreContent={hasMoreContent.share}
-              handleNextPage={handleNextPage}
-              handleScroll={hasMoreContent.share ? handleScroll : null}
+              obServeRef={hasMoreContent.share ? shareObserveRef : null}
               handleAddModifyIdxList={handleAddModifyIdxList}
             />
             <TrackingImageTab
               trackingImageList={saveTrackingImageData}
               modifyMode={modifyMode}
-              handleNextPage={handleNextPage}
-              hasMoreContent={hasMoreContent.save}
-              handleScroll={hasMoreContent.save ? handleScroll : null}
+              obServeRef={hasMoreContent.save ? saveObserveRef : null}
               handleAddModifyIdxList={handleAddModifyIdxList}
             />
           </STYLE.Slider>
