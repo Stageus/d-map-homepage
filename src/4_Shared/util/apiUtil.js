@@ -16,3 +16,14 @@ export const fetchRequest = async (method, url, body = null, token = null) => {
 
   return response;
 };
+
+// const useFetch = () => {
+//   const [state, setState] = React.useState(null);
+//   const request () =>{
+//     // fetch
+
+//     // setState(fetch)
+//   }
+
+//   return [state, request];
+// }
