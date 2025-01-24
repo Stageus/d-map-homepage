@@ -7,12 +7,15 @@ const STYLE = {
     height: 10vh;
     top: 0;
     background-color: ${({ theme }) => theme.background};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   `,
   InputContainer: styled.div`
     display: flex;
     width: 90%;
     align-items: center;
-    margin: 10px;
     border-bottom: 1px solid
       ${({ theme, $isError }) => ($isError ? theme.red : theme.grey)};
   `,
