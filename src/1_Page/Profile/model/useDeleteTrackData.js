@@ -13,6 +13,7 @@ const useDeleteTrackData = (
   const deleteClick = useCallback(() => {
     setClickDelete(true);
   }, []);
+
   useEffect(() => {
     if (!clickDelete) return;
     const deleteAction = async () => {
@@ -37,6 +38,7 @@ const useDeleteTrackData = (
     showErrorModal(result);
     handleSelectCancel();
   }, [modifyIdxList, handleSelectCancel]);
+
   return { deleteClick };
 };
 
