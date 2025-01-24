@@ -11,6 +11,11 @@ const useManageTrackData = (
 ) => {
   const [trackData, setTrackData] = useState([]);
   const [modifyIdxList, setModifyIdxList] = useState([]);
+  const [changeSaveTrackingLength, setChangeSaveTrackingLength] = useState(0);
+  const [changeShareTrackingLength, setChangeShareTrackingLength] = useState(0);
+  useEffect(() => {
+    console.log(changeSaveTrackingLength);
+  }, [changeSaveTrackingLength]);
   const prevLength = useRef(null);
 
   useEffect(() => {
@@ -111,7 +116,15 @@ const useManageTrackData = (
     const idxList = modifyIdxList.map((item) => item.idx);
     const result = await deleteTrackingImage(idxList);
 
+    const shareToDeleteCount = modifyIdxList.filter(
+      (item) => item.sharing === true
+    ).length;
+    const saveToDeleteCount = modifyIdxList.filter(
+      (item) => item.sharing === true
+    ).length;
     if (result === true) {
+      setChangeShareTrackingLength((pre) => pre + shareToDeleteCount);
+      setChangeSaveTrackingLength((pre) => pre + saveToDeleteCount);
       setTrackData((prev) =>
         prev.filter(({ idx }) => !modifyIdxList.some((mod) => mod.idx === idx))
       );
@@ -135,9 +148,6 @@ const useManageTrackData = (
     deleteAction();
   }, [clickModify]);
 
-  const [changeSaveTrackingLength, setChangeSaveTrackingLength] = useState(0);
-  const [changeShareTrackingLength, setChangeShareTrackingLength] = useState(0);
-
   const handleModifyTrack = useCallback(async () => {
     const idxToShare = modifyIdxList
       .filter((item) => !item.sharing)
@@ -149,8 +159,12 @@ const useManageTrackData = (
     const resultToNotShare = await putTrackingToNotShare(idxToNotShare);
     if (resultToShare === true && resultToNotShare === true) {
       setModifyIdxList([]);
-      setChangeShareTrackingLength((pre) => pre + idxToNotShare.length);
-      setChangeSaveTrackingLength((pre) => pre + idxToShare.length);
+      setChangeShareTrackingLength(
+        (pre) => pre + idxToNotShare.length - idxToShare.length
+      );
+      setChangeSaveTrackingLength(
+        (pre) => pre + idxToShare.length - idxToNotShare.length
+      );
       sortTrackData();
       return;
     }

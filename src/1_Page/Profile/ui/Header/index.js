@@ -7,7 +7,7 @@ import empty_profie_icon from "./assets/empty_profile_icon.svg";
 import shallowEqual from "./lib/shallowEqual.js";
 
 import useManageUserInfo from "./model/useManageUserInfo.js";
-import useTrackDataLength from "./model/getTrackDataLength.js";
+import useTrackDataLength from "./model/useTrackDataLength.js";
 
 import useModifyImageModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyNameModal from "../../../../4_Shared/model/useModalHandler.js";

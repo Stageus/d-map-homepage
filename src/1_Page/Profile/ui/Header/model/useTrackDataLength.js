@@ -11,14 +11,9 @@ const useTrackDataLength = (
       userInfo || {};
 
     const adjustedShareTracking =
-      share_tracking_length -
-      changeShareTrackingLength +
-      changeSaveTrackingLength;
+      share_tracking_length - changeShareTrackingLength;
     const adjustedSaveTracking =
-      total_tracking_length -
-      share_tracking_length -
-      changeSaveTrackingLength +
-      changeShareTrackingLength;
+      total_tracking_length - share_tracking_length - changeSaveTrackingLength;
 
     return activeTabStr === "공유"
       ? adjustedShareTracking

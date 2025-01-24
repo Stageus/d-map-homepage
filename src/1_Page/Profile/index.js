@@ -44,7 +44,12 @@ const Profile = () => {
     handleSelectCancel,
     changeShareTrackingLength,
     changeSaveTrackingLength,
-  } = useManageTrackData(trackingImageList, tabState.tabIndex, checkLessLength);
+  } = useManageTrackData(
+    trackingImageList,
+    tabState.tabIndex,
+    checkLessLength,
+    showErrorModal
+  );
 
   return (
     <>
