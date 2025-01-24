@@ -57,8 +57,6 @@ const SearchResult = () => {
                     <STYLE.ProfileIcon
                       src={result.img_url ? result.img_url : empty_profile_icon}
                     />
-                    {console.log(result)}
-
                     <STYLE.Title>
                       {result.nickname} - {result.searchpoint}
                     </STYLE.Title>

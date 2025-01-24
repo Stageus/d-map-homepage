@@ -17,7 +17,6 @@ const useGetNicknameSearchData = (text, page) => {
       const endpoint = `${BASE_URL}/search/${SEARCH_TYPE.NICKNAME}?text=${text}&page=${page}`;
       const response = await fetchRequest("GET", endpoint, null, null);
       const data = await response.json();
-      console.log(data);
 
       if (response.status === 200) {
         // 검색어가 변경되었을 경우 데이터 초기화
