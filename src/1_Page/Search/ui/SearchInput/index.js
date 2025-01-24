@@ -16,7 +16,8 @@ const searchInputSchema = yup.object().shape({
     ),
 });
 
-const SearchInput = ({ searchInputText, addSearchHistory }) => {
+const SearchInput = (props) => {
+  const { searchInputText, addSearchHistory } = props;
   const { navigateToSearch } = useNavigateHandler(addSearchHistory);
 
   const {
@@ -75,9 +76,11 @@ const SearchInput = ({ searchInputText, addSearchHistory }) => {
           />
           <STYLE.Icon onClick={onSubmit}>🔍</STYLE.Icon>
         </STYLE.InputContainer>
-        <STYLE.ErrorMessage>
-          {errors?.searchInputText?.message}
-        </STYLE.ErrorMessage>
+        <STYLE.ErrorContainer>
+          <STYLE.ErrorMessage>
+            {errors?.searchInputText?.message}
+          </STYLE.ErrorMessage>
+        </STYLE.ErrorContainer>
       </STYLE.Container>
     </>
   );

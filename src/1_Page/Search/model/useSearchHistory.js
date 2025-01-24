@@ -1,34 +1,62 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+
+const MAX_ITEMS = 20; // 로컬 스토리지 아이템 수 제한
 
 const useSearchHistory = () => {
   const [listItems, setListItems] = useState([]);
 
-  // 로컬 스토리지에서 데이터 가져오기
+  // 로컬 스토리지에서 데이터 가져오기 (렌더링 시)
   useEffect(() => {
     const storedData = localStorage.getItem("searchHistory");
-    if (storedData) {
-      setListItems(JSON.parse(storedData));
+    const parsedData = storedData ? JSON.parse(storedData) : [];
+    if (parsedData) {
+      setListItems(parsedData);
     }
   }, []);
 
-  // 검색 기록 추가 함수
-  const addSearchHistory = (item) => {
-    if (!item) return; // 빈 입력 방지
-
+  // 검색 기록 추가
+  const addSearchHistory = useCallback((item) => {
+    if (!item) return;
     setListItems((prevItems) => {
-      const updatedItems = [item, ...prevItems.filter((i) => i !== item)];
-      localStorage.setItem("searchHistory", JSON.stringify(updatedItems));
+      const updatedItems = [item, ...prevItems.filter((i) => i !== item)].slice(
+        0,
+        MAX_ITEMS
+      );
       return updatedItems;
     });
-  };
+  }, []);
 
-  // 검색 기록 삭제 함수
-  const clearSearchHistory = () => {
+  // 검색 기록 삭제
+  const deleteSearchHistory = useCallback((itemToDelete) => {
+    console.log(itemToDelete);
+    setListItems((prevItems) => {
+      return prevItems.filter((item) => item !== itemToDelete);
+    });
+  }, []);
+
+  // 검색 기록 초기화
+  const clearSearchHistory = useCallback(() => {
     setListItems([]);
-    localStorage.removeItem("searchHistory");
-  };
+  }, []);
 
-  return { listItems, addSearchHistory, clearSearchHistory };
+  // 컴포넌트 언마운트 시 로컬 스토리지에 저장
+  useEffect(() => {
+    const saveToLocalStorage = () => {
+      localStorage.setItem("searchHistory", JSON.stringify(listItems));
+    };
+    window.addEventListener("beforeunload", saveToLocalStorage);
+    return () => {
+      saveToLocalStorage();
+      window.removeEventListener("beforeunload", saveToLocalStorage);
+    };
+  }, [listItems]);
+
+  return {
+    listItems,
+    addSearchHistory,
+    deleteSearchHistory,
+    clearSearchHistory,
+  };
 };
 
 export default useSearchHistory;

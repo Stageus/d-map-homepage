@@ -100,6 +100,9 @@ const STYLE = {
     display: flex;
     align-items: center;
     height: 80px;
+    border: 1px solid ${({ theme }) => theme.blue};
+    margin: 10px;
+    border-radius: 8px;
   `,
   NickNameIcon: styled.img`
     width: 30px;
