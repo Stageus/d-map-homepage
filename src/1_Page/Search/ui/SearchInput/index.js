@@ -76,9 +76,11 @@ const SearchInput = (props) => {
           />
           <STYLE.Icon onClick={onSubmit}>🔍</STYLE.Icon>
         </STYLE.InputContainer>
-        <STYLE.ErrorMessage>
-          {errors?.searchInputText?.message}
-        </STYLE.ErrorMessage>
+        <STYLE.ErrorContainer>
+          <STYLE.ErrorMessage>
+            {errors?.searchInputText?.message}
+          </STYLE.ErrorMessage>
+        </STYLE.ErrorContainer>
       </STYLE.Container>
     </>
   );

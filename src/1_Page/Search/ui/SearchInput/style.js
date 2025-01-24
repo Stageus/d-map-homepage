@@ -32,10 +32,15 @@ const STYLE = {
     margin-left: 8px;
   `,
   ErrorMessage: styled.div`
-    height: 10px;
     color: ${({ theme }) => theme.red};
     font-size: 12px;
     margin-left: 10px;
+  `,
+  ErrorContainer: styled.div`
+    width: 90%;
+    display: flex;
+    justify-self: start;
+    align-items: center;
   `,
 };
 
