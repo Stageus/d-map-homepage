@@ -45,8 +45,8 @@ const SearchResult = () => {
               searchDataSearchpoint?.map((result, index) => (
                 <STYLE.MapPreview
                   ref={
-                    searchPointHasMoreContent &&
-                    index === searchDataNicnkname.length - 1
+                    index === searchDataNicnkname.length - 1 &&
+                    searchPointHasMoreContent
                       ? searchPointObserveRef
                       : null
                   }
@@ -83,8 +83,8 @@ const SearchResult = () => {
                 <STYLE.NicckNameContainer
                   key={result.idx}
                   ref={
-                    nicknameHasMoreContent &&
-                    index === searchDataNicnkname.length - 1
+                    index === searchDataNicnkname.length - 1 &&
+                    nicknameHasMoreContent
                       ? nicknameObserveRef
                       : null
                   }
