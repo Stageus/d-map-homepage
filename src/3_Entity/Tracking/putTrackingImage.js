@@ -4,8 +4,12 @@ const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
 const putTrackingImage = async (trackingData) => {
-  const searchpoint = await searchpointConverter(trackingData.center);
   try {
+    if (trackingData.line.length <= 0) {
+      alert("트래킹 데이터가 없습니다!");
+      return;
+    }
+    const searchpoint = await searchpointConverter(trackingData.center);
     const response = await fetchRequest(
       "PUT",
       `${BASE_URL}/tracking/${trackingData.idx}`,
