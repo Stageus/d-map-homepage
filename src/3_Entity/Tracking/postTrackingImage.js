@@ -5,19 +5,12 @@ const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
 const postTrackingImage = async (trackingData) => {
   try {
-    //const searchpoint = await searchpointConverter(trackingData.center);
-    const searchpoint = "temp"
-    console.log({
-      line: trackingData?.line,
-      searchpoint,
-      center: trackingData?.center,
-      zoom: trackingData?.zoom,
-      heading: trackingData?.heading,
-      sharing: trackingData?.sharing,
-      color: trackingData?.color,
-      thickness: trackingData?.thickness,
-      background: trackingData?.background,
-    })
+    if (trackingData.line.length <= 0) {
+      alert("트래킹 데이터가 없습니다!");
+      return;
+    }
+    const searchpoint = await searchpointConverter(trackingData.center);
+    //const searchpoint = "temp"
     const response = await fetchRequest(
       "POST",
       `${BASE_URL}/tracking`,
