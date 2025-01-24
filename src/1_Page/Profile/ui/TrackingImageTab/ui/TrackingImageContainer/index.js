@@ -36,6 +36,7 @@ const TrackingImageContainer = (props) => {
             zoom: trackingImageData.zoom / 1.5,
           }}
         />
+
         {modifyMode === "공유" && (
           <STYLE.TrackingClickBox
             onClick={() => {

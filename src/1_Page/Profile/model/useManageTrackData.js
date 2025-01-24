@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingImageToShare";
 import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingImageToNotShare";
 import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
@@ -124,14 +124,21 @@ const useManageTrackData = (
     handleSelectCancel();
   }, [modifyIdxList, sortTrackData, showErrorModal]);
 
+  const memoizedHandlers = useMemo(
+    () => ({
+      handleSelectCancel,
+      handleDeleteTrack,
+      handleModifyTrack,
+    }),
+    [handleSelectCancel, handleDeleteTrack, handleModifyTrack]
+  );
+
   return {
     modifyIdxList,
     shareTrackingImageData,
     saveTrackingImageData,
     handleAddModifyIdxList,
-    handleSelectCancel,
-    handleModifyTrack,
-    handleDeleteTrack,
+    memoizedHandlers,
   };
 };
 

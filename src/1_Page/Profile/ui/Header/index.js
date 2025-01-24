@@ -23,7 +23,7 @@ const Header = (props) => {
     handler: { handleSelectCancel, handleDeleteTrack, handleModifyTrack },
     tabState,
     userInfoData,
-    modifyIdxList,
+    isModifyListEmpty,
     handleTabClick,
   } = props;
 
@@ -107,6 +107,7 @@ const Header = (props) => {
           <STYLE.TabNone>게시물</STYLE.TabNone>
         )}
       </STYLE.TabMenu>
+
       {modifyImageModal && (
         <ModalBase onClose={modifyImageModalToggle} snap={[0.2]}>
           {({ handleClose }) => (
@@ -157,13 +158,13 @@ const Header = (props) => {
       {confirmModal && (
         <ConfirmModal
           message={
-            modifyIdxList.length === 0
+            isModifyListEmpty
               ? "선택된 데이터가 없습니다"
               : modifyMode === "삭제"
               ? "선택한 그림을 모두 삭제하시겠습니까?"
               : "변경사항을 저장하시겠습니까?"
           }
-          type={modifyIdxList.length === 0 && "one"}
+          type={isModifyListEmpty && "one"}
           onClose={confirmModalToggle}
           onConfirm={() => {
             modifyMode === "삭제" ? handleDeleteTrack() : handleModifyTrack();
@@ -177,4 +178,10 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default React.memo(Header, (prevProps, nextProps) => {
+  return (
+    prevProps.setMode.modifyMode === nextProps.setMode.modifyMode &&
+    prevProps.userInfoData === nextProps.userInfoData &&
+    prevProps.isModifyListEmpty === nextProps.isModifyListEmpty
+  );
+});
