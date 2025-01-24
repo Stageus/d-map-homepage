@@ -1,6 +1,7 @@
 import React from "react";
 import STYLE from "./style";
 import StaticTrackingImage from "../../../../2_Widget/StaticTrackingImage";
+import empty_profile_icon from "./assets/empty_profile_icon.svg";
 
 import useTab from "./model/useTab";
 import useNavigateHandler from "./model/useNavigateHandler";
@@ -53,7 +54,9 @@ const SearchResult = () => {
                   key={result.idx}
                   onClick={IsTrackingImageModalToggle}>
                   <STYLE.TitleContainer>
-                    <STYLE.ProfileIcon src={result.image} />
+                    <STYLE.ProfileIcon
+                      src={result.img_url ? result.img_url : empty_profile_icon}
+                    />
                     <STYLE.Title>
                       {result.nickname} - {result.searchpoint}
                     </STYLE.Title>
@@ -91,7 +94,9 @@ const SearchResult = () => {
                   onClick={() => {
                     handleNavigate(result.idx);
                   }}>
-                  <STYLE.ProfileIcon src={result.image} />
+                  <STYLE.ProfileIcon
+                    src={result.img_url ? result.img_url : empty_profile_icon}
+                  />
                   <STYLE.NickNameText>{result.nickname}</STYLE.NickNameText>
                 </STYLE.NicckNameContainer>
               ))
