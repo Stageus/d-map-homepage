@@ -23,7 +23,7 @@ const Search = () => {
                   <STYLE.ListBox>
                     <STYLE.ListItem
                       onClick={() => {
-                        handleListClick(item);
+                        handleListClick(item.searchInputText);
                         addSearchHistory(item);
                       }}>
                       {item.searchInputText}
