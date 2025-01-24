@@ -28,6 +28,11 @@ const SearchResult = () => {
     searchPointHasMoreContent,
   } = useManageSearchData(page);
 
+  const filteredImgSearchData = searchDataSearchpoint.map((item) => ({
+    ...item,
+    img_url: item.img_url ? item.img_url : empty_profile_icon,
+  }));
+
   const [isTrackingImageModalOpen, IsTrackingImageModalToggle] =
     useModalHandler();
 
@@ -134,7 +139,7 @@ const SearchResult = () => {
             </STYLE.CloseButton>
             <STYLE.TrackingModalList>
               <TrackingImagePostList
-                trackingImageList={searchDataSearchpoint}
+                trackingImageList={filteredImgSearchData}
                 hasMoreContent={searchPointHasMoreContent}
                 observeRef={searchPointModalObserveRef}
               />
