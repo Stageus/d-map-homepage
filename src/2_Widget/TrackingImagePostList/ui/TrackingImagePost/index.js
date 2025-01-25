@@ -12,7 +12,7 @@ import staticMapUrlGenerater from "../../../../4_Shared/lib/staticMapUrlGenerate
 import usePostLikeTrackingImage from "../../../../3_Entity/SNS/usePostLikeTrackingImage";
 import useDeleteLikeTrackingImage from "../../../../3_Entity/SNS/useDeleteLikeTrackingImage";
 
-const TrackingImagePost = (props) => {
+const TrackingImagePost = React.memo((props) => {
   const { data } = props;
   const {
     likecount,
@@ -138,6 +138,6 @@ const TrackingImagePost = (props) => {
       )}
     </STYLE.Container>
   );
-};
+});
 
 export default TrackingImagePost;
