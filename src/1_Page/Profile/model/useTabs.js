@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const TAB_CONFIG = ["공유", "저장"];
 
@@ -8,7 +8,7 @@ const useTabs = (initialTab = "공유") => {
     tabIndex: TAB_CONFIG.indexOf(initialTab),
   });
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = useCallback((tab) => {
     if (!TAB_CONFIG.includes(tab)) {
       return;
     }
@@ -16,7 +16,7 @@ const useTabs = (initialTab = "공유") => {
       activeTabStr: tab,
       tabIndex: TAB_CONFIG.indexOf(tab),
     });
-  };
+  }, []);
 
   return {
     tabState,

@@ -21,7 +21,6 @@ const getRandomNicknames = async () => {
     }
 
     const result = await response.json();
-    return ["허허잇", "허허잇2", "허허잇3"]; // 개발용
     return result.nickname || [];
   } catch (error) {
     console.error("네트워크 또는 서버 오류:", error);
