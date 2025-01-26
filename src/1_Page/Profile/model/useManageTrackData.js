@@ -4,7 +4,7 @@ import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingImageToSha
 import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingImageToNotShare";
 
 const useManageTrackData = (
-  trackingImageList,
+  trackingImageData,
   tabIndex,
   checkLessLength,
   showErrorModal
@@ -20,13 +20,13 @@ const useManageTrackData = (
 
   useEffect(() => {
     setTrackData((prev) => {
-      const newItems = trackingImageList.filter(
+      const newItems = trackingImageData.filter(
         (item) => !prev.some((prevItem) => prevItem.idx === item.idx)
       );
       return [...prev, ...newItems];
     });
     removeDuplicateData();
-  }, [trackingImageList]);
+  }, [trackingImageData]);
 
   const shareTrackingImageData = trackData.filter((item) => item.sharing);
   const saveTrackingImageData = trackData.filter((item) => !item.sharing);
@@ -74,8 +74,8 @@ const useManageTrackData = (
   // 선택 초기화
   const handleSelectCancel = useCallback(() => {
     setModifyIdxList([]);
-    setTrackData(trackingImageList || []);
-  }, [trackingImageList]);
+    setTrackData(trackingImageData || []);
+  }, [trackingImageData]);
 
   // 데이터 선택
   const handleAddModifyIdxList = useCallback(

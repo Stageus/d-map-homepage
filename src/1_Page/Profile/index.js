@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import STYLE from "./style";
 
 import Header from "./ui/Header";
@@ -5,13 +7,14 @@ import TrackingImageTab from "./ui/TrackingImageTab";
 
 import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
-import useManageTrackData from "./model/useManageTrackData.js";
 import useInfinityScroll from "./model/useInfinityScroll.js";
-import useGetUserInfo from "./model/useGetUserInfo";
-
-import useGetTrackingImageList from "./model/useGetTrackingImageList.js";
-import ConfirmModal from "../../2_Widget/ConfirmModal";
+import useManageData from "./model/useManageData.js";
+import useGetMyInfo from "../../3_Entity/Account/useGetMyInfo.js";
+import useGetUserInfo from "../../3_Entity/Account/useGetUserInfo.js";
 import useErrorModal from "./model/useModalHandler.js";
+
+import useGetTrackingImageList from "../../3_Entity/Tracking/useGetTrackingImageList.js";
+import ConfirmModal from "../../2_Widget/ConfirmModal";
 
 const Profile = () => {
   const { tabState, handleTabClick } = useTabs(); // 탭 관리 훅
@@ -21,31 +24,40 @@ const Profile = () => {
 
   const { errorMessage, isModalOpen, showErrorModal, errorModalBackPage } =
     useErrorModal(); // 에러 표시 모달
+  const { userIdx } = useParams();
 
+  const [userInfo, setUserInfo] = useState(null);
   // 유저 데이터 조회
-  const { memoizedUserInfoData } = useGetUserInfo(showErrorModal);
+  const [myInfo, fetchMyInfo] = useGetMyInfo();
+  const [anotherUserInfo, fetchAnotherUserInfo] = useGetUserInfo(userIdx);
+
+  useEffect(() => {
+    if (userIdx === "me") {
+      setUserInfo(myInfo);
+      return;
+    }
+    setUserInfo(anotherUserInfo);
+  }, []);
 
   // 데이터 조회 (userIdx , page , category)
-  const { trackingImageList, loading, hasMoreContent } =
+  const { trackingImageData, loading, hasMoreContent } =
     useGetTrackingImageList(
-      memoizedUserInfoData?.idx,
+      userInfo?.idx,
       paging,
       tabState.tabIndex === 1 ? 0 : 1 // 0 이 공유 , 1이 저장
     );
 
-  // 데이터 관리 훅 ( 수정 , 삭제 , 취소)
   const {
-    deleteClick,
-    modifyClick,
+    trackData,
     modifyIdxList,
-    shareTrackingImageData,
-    saveTrackingImageData,
-    handleAddModifyIdxList,
+    handleModifyTrack,
+    handleDeleteTrack,
+    toggleModifyIdxList,
     handleSelectCancel,
     changeShareTrackingLength,
     changeSaveTrackingLength,
-  } = useManageTrackData(
-    trackingImageList,
+  } = useManageData(
+    trackingImageData, // { save: [], share: [] }
     tabState.tabIndex,
     checkLessLength,
     showErrorModal
@@ -56,12 +68,12 @@ const Profile = () => {
       <STYLE.Main>
         <Header
           setMode={memoizedSetMode}
-          deleteClick={deleteClick}
-          modifyClick={modifyClick}
+          deleteClick={handleDeleteTrack}
+          modifyClick={handleModifyTrack}
           activeTabStr={tabState?.activeTabStr}
           handleTabClick={handleTabClick}
           handleSelectCancel={handleSelectCancel}
-          userInfoData={memoizedUserInfoData}
+          userInfoData={userInfo}
           changeShareTrackingLength={changeShareTrackingLength}
           changeSaveTrackingLength={changeSaveTrackingLength}
           isModifyListEmpty={modifyIdxList.length === 0}
@@ -69,16 +81,16 @@ const Profile = () => {
         <STYLE.SliderWrapper>
           <STYLE.Slider $tabIndex={tabState?.tabIndex}>
             <TrackingImageTab
-              trackingImageList={shareTrackingImageData}
+              trackingImageList={trackData.save}
               modifyMode={modifyMode}
               obServeRef={hasMoreContent.share ? shareObserveRef : null}
-              handleAddModifyIdxList={handleAddModifyIdxList}
+              handleAddModifyIdxList={toggleModifyIdxList}
             />
             <TrackingImageTab
-              trackingImageList={saveTrackingImageData}
+              trackingImageList={trackData.share}
               modifyMode={modifyMode}
               obServeRef={hasMoreContent.save ? saveObserveRef : null}
-              handleAddModifyIdxList={handleAddModifyIdxList}
+              handleAddModifyIdxList={toggleModifyIdxList}
             />
           </STYLE.Slider>
         </STYLE.SliderWrapper>

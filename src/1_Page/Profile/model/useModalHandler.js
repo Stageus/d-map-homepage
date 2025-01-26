@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
-import useModalHandler from "../../../4_Shared/model/useModalHandler";
 import { useNavigate } from "react-router-dom";
+
+import useModalHandler from "../../../4_Shared/model/useModalHandler";
 
 const useErrorModal = () => {
   const [errorMessage, setErrorMessage] = useState("");
