@@ -26,16 +26,10 @@ const useModifyClick = (
       setMessage("사진을 변경하세요");
       return confirmModalToggle();
     }
-    try {
-      const result = await putProfileImage(uploadedImageFile);
-      if (!result) throw new Error("이미지 업로드 실패");
-      setMessage("변경되었습니다");
-      handleProfileImageChange(uploadedImageFile);
-      handleImageConfirmModalOpen(handleClose);
-    } catch (error) {
-      setMessage(error.message || "오류가 발생했습니다.");
-      confirmModalToggle();
-    }
+    await putProfileImage(uploadedImageFile);
+    setMessage("변경되었습니다");
+    handleProfileImageChange(uploadedImageFile);
+    handleImageConfirmModalOpen(handleClose);
   };
 
   return { handleModifyClick };

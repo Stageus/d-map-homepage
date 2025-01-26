@@ -6,16 +6,11 @@ const useNicknameModal = (putNickname, handleChangeNickName) => {
   const [message, setMessage] = useState("");
 
   const handleModifyNickname = async (nickname, handleClose) => {
-    const result = await putNickname(nickname);
-    if (result === true) {
-      setMessage(`닉네임이 변경되었습니다 : ${nickname}`);
-      handleChangeNickName(nickname);
-      confirmModalToggle();
-      closeRef.current = handleClose;
-      return;
-    }
-    setMessage(result);
+    await putNickname(nickname);
+    setMessage(`닉네임이 변경되었습니다 : ${nickname}`);
+    handleChangeNickName(nickname);
     confirmModalToggle();
+    closeRef.current = handleClose;
   };
 
   const closeRef = useRef(null);
