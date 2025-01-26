@@ -1,11 +1,14 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const useDeleteLikeTrackingImage = (trackingImageIdx) => {
+const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
+
+const usePutTrackingImageToNotShare = (idxList) => {
   const [serverState, request, loading] = useFetch();
 
-  const deleteLikeTrackingImage = async () => {
-    await request("DELETE", "/sns/like", { tracking_idx: trackingImageIdx });
+  const putTrackingImageToNotShare = async () => {
+    console.log(idxList);
+    await request("PUT", `/tracking/toNotSharing`, { idxList }, TEST_TOKEN);
   };
 
   React.useEffect(() => {
@@ -23,6 +26,7 @@ const useDeleteLikeTrackingImage = (trackingImageIdx) => {
     }
   }, [loading, serverState]);
 
-  return [deleteLikeTrackingImage];
+  return [putTrackingImageToNotShare];
 };
-export default useDeleteLikeTrackingImage;
+
+export default usePutTrackingImageToNotShare;

@@ -1,11 +1,13 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const usePostLikeTrackingImage = (trackingImageIdx) => {
+const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
+
+const useDeleteTrackingImage = (idxList) => {
   const [serverState, request, loading] = useFetch();
 
-  const postLikeTrackingImage = async () => {
-    await request("POST", "/sns/like", { tracking_idx: trackingImageIdx });
+  const deleteTrackingImage = async () => {
+    await request("DELETE", `/tracking`, { idxList }, TEST_TOKEN);
   };
 
   React.useEffect(() => {
@@ -23,6 +25,7 @@ const usePostLikeTrackingImage = (trackingImageIdx) => {
     }
   }, [loading, serverState]);
 
-  return [postLikeTrackingImage];
+  return [deleteTrackingImage];
 };
-export default usePostLikeTrackingImage;
+
+export default useDeleteTrackingImage;
