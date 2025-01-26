@@ -7,17 +7,19 @@ const useGetUserInfo = (userIdx) => {
   const [serverState, request, loading] = useFetch();
   const [userInfo, setUserInfo] = React.useState(null);
 
-  const isValidUserIdx = (idx) => {
-    return idx && !isNaN(Number(idx)) && Number.isInteger(Number(idx));
+  const isValidInteger = (value) => {
+    return (
+      typeof value === "string" &&
+      value.trim() !== "" &&
+      Number.isInteger(Number(value))
+    );
   };
 
   React.useEffect(() => {
-    if (isValidUserIdx(userIdx)) {
-      request("GET", `/account/info/${userIdx}`, null, TEST_TOKEN);
-    } else {
-      console.error("유효하지 않은 사용자 ID입니다.");
-    }
-  }, [userIdx, request]);
+    console.log("another 호출");
+    if (!isValidInteger(userIdx)) return;
+    request("GET", `/account/info/${userIdx}`, null, TEST_TOKEN);
+  }, [userIdx]);
 
   React.useEffect(() => {
     if (!loading && serverState) {

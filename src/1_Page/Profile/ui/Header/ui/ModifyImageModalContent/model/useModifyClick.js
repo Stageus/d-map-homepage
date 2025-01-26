@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import putImage from "../../../../../../../3_Entity/Account/putImage";
 
 const useModifyClick = (
   image,
@@ -9,7 +8,8 @@ const useModifyClick = (
   handleProfileImageChange,
   setMessage,
   confirmModalToggle,
-  handleImageConfirmModalOpen
+  handleImageConfirmModalOpen,
+  putProfileImage
 ) => {
   const imageRef = useRef(image);
 
@@ -27,7 +27,7 @@ const useModifyClick = (
       return confirmModalToggle();
     }
     try {
-      const result = await putImage(uploadedImageFile);
+      const result = await putProfileImage(uploadedImageFile);
       if (!result) throw new Error("이미지 업로드 실패");
       setMessage("변경되었습니다");
       handleProfileImageChange(uploadedImageFile);

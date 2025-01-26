@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import useDeleteTrackingImage from "../../../3_Entity/Tracking/useDeleteTrackingImage.js";
 import usePutTrackingImageToNotShare from "../../../3_Entity/Tracking/usePutTrackingImageToNotShare.js";
-import usePutTrackingImageToShare from "../../3_Entity/Tracking/usePutTrackingImageToShare.js";
+import usePutTrackingImageToShare from "../../../3_Entity/Tracking/usePutTrackingImageToShare.js";
 
 const useManageTrackData = (trackingImageData = []) => {
   const [deleteTrackingImage] = useDeleteTrackingImage();
@@ -50,6 +50,14 @@ const useManageTrackData = (trackingImageData = []) => {
     );
   };
 
+  const sortTrackData = () => {
+    console.log("srot");
+    setTrackData((prev) => ({
+      save: [...prev.save].sort((a, b) => b.idx - a.idx),
+      share: [...prev.share].sort((a, b) => b.idx - a.idx),
+    }));
+  };
+
   // 삭제 트리거 감지 및 처리
   useEffect(() => {
     if (deleteTrigger) {
@@ -66,13 +74,38 @@ const useManageTrackData = (trackingImageData = []) => {
     }
   }, [modifyTrigger]);
 
-  // 선택된 데이터 토글
-  const updateSelectedTracks = useCallback((track) => {
-    setModifyIdxList((prev) =>
-      prev.some((item) => item.idx === track.idx)
+  const updateSelectedTracks = useCallback((track, isDelete) => {
+    if (!isDelete) toggleTrackData(track);
+    setModifyIdxList((prev) => {
+      const trackExists = prev.some((item) => item.idx === track.idx);
+      return trackExists
         ? prev.filter((item) => item.idx !== track.idx)
-        : [...prev, { idx: track.idx, sharing: track.sharing }]
-    );
+        : [...prev, { idx: track.idx, sharing: track.sharing }];
+    });
+  }, []);
+
+  const toggleTrackData = useCallback((target) => {
+    setTrackData((prev) => {
+      // 현재 대상 트랙이 있는 배열 찾기
+      const isInSave = prev.save.some((track) => track.idx === target.idx);
+      const isInShare = prev.share.some((track) => track.idx === target.idx);
+      let updatedSave = [...prev.save];
+      let updatedShare = [...prev.share];
+      if (isInSave) {
+        // save에서 share로 이동 (sharing 값 true로 변경)
+        updatedSave = prev.save.filter((track) => track.idx !== target.idx);
+        updatedShare = [...prev.share, { ...target, sharing: true }];
+      } else if (isInShare) {
+        // share에서 save로 이동 (sharing 값 false로 변경)
+        updatedShare = prev.share.filter((track) => track.idx !== target.idx);
+        updatedSave = [...prev.save, { ...target, sharing: false }];
+      }
+      return {
+        save: updatedSave,
+        share: updatedShare,
+      };
+    });
+    sortTrackData();
   }, []);
 
   // 선택 초기화
@@ -94,33 +127,21 @@ const useManageTrackData = (trackingImageData = []) => {
     await putTrackingImageToNotShare(idxToNotShare);
 
     setModifyIdxList([]);
-    setTrackData((prev) => ({
-      save: prev.save
-        .filter(({ idx }) => !idxToShare.includes(idx))
-        .concat(prev.share.filter(({ idx }) => idxToNotShare.includes(idx))),
-      share: prev.share
-        .filter(({ idx }) => !idxToNotShare.includes(idx))
-        .concat(prev.save.filter(({ idx }) => idxToShare.includes(idx))),
-    }));
 
     setChangeTrackingLength((prev) => ({
       share: prev.share + idxToNotShare.length - idxToShare.length,
       save: prev.save + idxToShare.length - idxToNotShare.length,
     }));
-
-    handleSelectCancel();
-  }, [modifyIdxList, handleSelectCancel]);
+  }, [modifyIdxList]);
 
   // 트래킹 데이터 삭제 로직
   const handleDeleteTrack = useCallback(async () => {
     const idxList = modifyIdxList.map((item) => item.idx);
     await deleteTrackingImage(idxList);
-
     setChangeTrackingLength((prev) => ({
       share: prev.share + modifyIdxList.filter((item) => item.sharing).length,
       save: prev.save + modifyIdxList.filter((item) => !item.sharing).length,
     }));
-
     setTrackData((prev) => ({
       save: prev.save.filter(
         ({ idx }) => !modifyIdxList.some((mod) => mod.idx === idx)
@@ -129,10 +150,8 @@ const useManageTrackData = (trackingImageData = []) => {
         ({ idx }) => !modifyIdxList.some((mod) => mod.idx === idx)
       ),
     }));
-
     setModifyIdxList([]);
-    handleSelectCancel();
-  }, [modifyIdxList, handleSelectCancel]);
+  }, [modifyIdxList]);
 
   return [
     trackData,

@@ -3,10 +3,10 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
-const usePutTrackingImageToNotShare = (idxList) => {
+const usePutTrackingImageToNotShare = () => {
   const [serverState, request, loading] = useFetch();
 
-  const putTrackingImageToNotShare = async () => {
+  const putTrackingImageToNotShare = async (idxList) => {
     console.log(idxList);
     await request("PUT", `/tracking/toNotSharing`, { idxList }, TEST_TOKEN);
   };

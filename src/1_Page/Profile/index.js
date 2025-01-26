@@ -18,11 +18,13 @@ const Profile = () => {
   // 유저 데이터 조회
   const { userIdx } = useParams();
   const [userInfo, setUserInfo] = useState(null);
-  const [myInfo] = useGetMyInfo(userIdx); // userIdx에 int가 들어가면 호출 X
-  const [anotherUserInfo] = useGetUserInfo(userIdx); // userIdx가 int면 호출
+  const [myInfo] = useGetMyInfo(userIdx); // userIdx에 me 또는 공백시 호출
+  const [anotherUserInfo] = useGetUserInfo(userIdx); // userIdx가 me가 아니면 호출
+
   useEffect(() => {
+    if (userInfo && !userIdx) return;
     setUserInfo(userIdx === "me" ? myInfo : anotherUserInfo);
-  }, [userIdx]);
+  }, [userIdx, myInfo, anotherUserInfo]);
 
   const [tabState, handleTabClick] = useTabs(); // 탭 관리 훅
   const [modifyMode, memoizedSetMode] = useSettingMode(); // 수정 , 삭제 상태 관리
@@ -40,7 +42,7 @@ const Profile = () => {
     );
 
   const [
-    trackingImageObj,
+    trackData,
     changeTrackingLength,
     modifyIdxList,
     setDeleteTrigger, // 삭제 트리거 핸들러 제공
@@ -66,13 +68,13 @@ const Profile = () => {
         <STYLE.SliderWrapper>
           <STYLE.Slider $tabIndex={tabState?.tabIndex}>
             <TrackingImageTab
-              trackingImageList={trackingImageObj.save}
+              trackingImageList={trackData.share}
               modifyMode={modifyMode}
               obServeRef={hasMoreContent.share ? shareObserveRef : null}
               updateSelectedTracks={updateSelectedTracks}
             />
             <TrackingImageTab
-              trackingImageList={trackingImageObj.share}
+              trackingImageList={trackData.save}
               modifyMode={modifyMode}
               obServeRef={hasMoreContent.save ? saveObserveRef : null}
               updateSelectedTracks={updateSelectedTracks}

@@ -29,6 +29,7 @@ const TrackingImageContainer = (props) => {
         ref={obServeRef}
         onClick={modifyMode ? undefined : handleTrackingPost}
         {...(!modifyMode && trackingImageData?.isMine && longPressEvents)}>
+        {trackingImageData.idx}
         <StaticTrackingImage
           height="100%"
           mapInfo={{

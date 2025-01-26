@@ -8,9 +8,10 @@ const useGetMyInfo = (userIdx = "me") => {
   const [userInfo, setUserInfo] = React.useState(null);
 
   React.useEffect(() => {
+    console.log("me 호출");
     if (userIdx !== "me") return;
     request("GET", `/account/me`, null, TEST_TOKEN);
-  }, [userIdx, request]);
+  }, [userIdx]);
 
   React.useEffect(() => {
     if (!loading && serverState) {

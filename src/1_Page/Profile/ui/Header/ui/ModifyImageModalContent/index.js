@@ -7,6 +7,7 @@ import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 import useFileReader from "./model/useFileReader";
 import useImageModal from "./model/useImageModal";
 import useModifyClick from "./model/useModifyClick";
+import usePutProfileImage from "../../../../../../3_Entity/Account/usePutProfileImage";
 
 const ModifyImageModalContent = (props) => {
   const { image, handleProfileImageChange, handleClose } = props;
@@ -29,6 +30,8 @@ const ModifyImageModalContent = (props) => {
     handleFileChange,
   } = useFileReader(image);
 
+  const [putProfileImage] = usePutProfileImage();
+
   const { handleModifyClick } = useModifyClick(
     image,
     errorMessage,
@@ -37,7 +40,8 @@ const ModifyImageModalContent = (props) => {
     handleProfileImageChange,
     setMessage,
     confirmModalToggle,
-    handleImageConfirmModalOpen
+    handleImageConfirmModalOpen,
+    putProfileImage
   );
 
   return (
