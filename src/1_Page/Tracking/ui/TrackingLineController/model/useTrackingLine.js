@@ -42,44 +42,66 @@ const useTrackingLine = () => {
   }, [isTracking, setTrackingLine]); // isTracking이나 isInteractingMapRef가 바뀔 때마다 실행
 
   const resetTrackingLine = () => {
+    undoStackRef.current = [];
     setTrackingLine([]); // trackingLine 초기화
     currentRecordingTrackingLineRef.current = [];
     recordedTrackingLineRef.current = [];
   };
   const undoTrackingLine = () => {
-    console.log("Before Undo:", recordedTrackingLineRef.current, currentRecordingTrackingLineRef.current);
-  
-    // recordedTrackingLineRef에서 처리
-    if (currentRecordingTrackingLineRef.current.length === 0) {
-      if (recordedTrackingLineRef.current.length === 0) {
-        console.warn("Nothing to undo");
-        return; // 아무것도 없으면 리턴
-      }
-  
-      const lastLine = recordedTrackingLineRef.current[recordedTrackingLineRef.current.length - 1];
-  
-      if (lastLine.length === 1) {
-        // 마지막 라인이 1개만 있으면 pop
-        undoStackRef.current.push(lastLine[0]);
-        recordedTrackingLineRef.current.pop();
-      } else {
-        // 마지막 배열의 마지막 요소 제거
-        undoStackRef.current.push(lastLine.pop());
+    console.log(recordedTrackingLineRef.current);
+    let length = recordedTrackingLineRef.current.length;
+    if (length <= 0) return;
+    let recorded = [...recordedTrackingLineRef.current];
+    console.log(recorded[length - 1])
+    let lastRecorded;
+
+    console.log(recorded[length - 1])
+    if(recorded[length - 1].length > 1){
+      lastRecorded = [...recorded[length - 1]];
+    } else if(recorded[length - 1].length === 1){
+      lastRecorded = [recorded[length - 1]];
+    }
+    console.log(lastRecorded)
+
+    if (lastRecorded.length > 0) {
+      undoStackRef.current.push(lastRecorded.pop());
+      recorded.pop();
+      recorded = [...recorded, lastRecorded];
+    } else {
+      recorded.pop();
+    }
+
+    recordedTrackingLineRef.current = recorded;
+    setTrackingLine(recordedTrackingLineRef.current);
+  };
+
+  let redoTrackingLine = () => {
+    let undoStack = [...undoStackRef.current];
+    if (undoStack.length <= 0) return;
+    let length = recordedTrackingLineRef.current.length;
+    let recorded = [...recordedTrackingLineRef.current];
+    console.log(length, recorded);
+    if (length > 0) {
+      if (recorded[length - 1].length > 1) {
+        recorded[length - 1] = [...recorded[length - 1], undoStack.pop()];
+        recordedTrackingLineRef.current = recorded;
+        setTrackingLine(recordedTrackingLineRef.current);
+      } else if (recorded[length - 1].length === 1) {
+        recorded[0] = [undoStack.pop()];
+        recordedTrackingLineRef.current = recorded;
+        setTrackingLine(recordedTrackingLineRef.current);
       }
     } else {
-      // currentRecordingTrackingLineRef 처리
-      const lastPoint = currentRecordingTrackingLineRef.current.pop();
-      undoStackRef.current.push(lastPoint);
+      recorded = [undoStack.pop()];
+      recordedTrackingLineRef.current = recorded;
+      setTrackingLine(recordedTrackingLineRef.current);
     }
-  
-    // 상태 업데이트
-    setTrackingLine([...recordedTrackingLineRef.current]);
-    console.log("After Undo:", recordedTrackingLineRef.current, currentRecordingTrackingLineRef.current);
-  };
-  
-  const redoTrackingLine = () => {};
 
-  return [trackingLine, resetTrackingLine, undoTrackingLine];
+    undoStackRef.current = undoStack;
+    console.log(undoStackRef.current);
+  };
+
+  return [trackingLine, resetTrackingLine, undoTrackingLine, redoTrackingLine];
 };
 
 export default useTrackingLine;

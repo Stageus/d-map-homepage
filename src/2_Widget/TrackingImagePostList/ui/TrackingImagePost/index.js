@@ -5,13 +5,14 @@ import detail_icon from "./assets/detail.svg";
 import like_icon from "./assets/like.svg";
 import unlike_icon from "./assets/unlike.svg";
 import EventBtn from "./ui/EventBtn";
-import useToggleLikeTrackingImage from "./model/useToggleLikeTrackingImage";
 import STYLE from "./style";
 import TrackingImageLoaderBtn from "./ui/TrackingImageLoaderBtn";
 import MAPTYPE from "../../../../4_Shared/constant/mapType";
 import staticMapUrlGenerater from "../../../../4_Shared/lib/staticMapUrlGenerater";
+import usePostLikeTrackingImage from "../../../../3_Entity/SNS/usePostLikeTrackingImage";
+import useDeleteLikeTrackingImage from "../../../../3_Entity/SNS/useDeleteLikeTrackingImage";
 
-const TrackingImagePost = (props) => {
+const TrackingImagePost = React.memo((props) => {
   const { data } = props;
   const {
     likecount,
@@ -29,10 +30,10 @@ const TrackingImagePost = (props) => {
     thickness,
   } = data;
   const [viewDetailModal, toggleDetailModal] = useDetailModal();
-  const [like, toggleLikeTrackingImage] = useToggleLikeTrackingImage(
-    idx,
-    liked_by_user
-  );
+  const [like, setLike] = React.useState(liked_by_user);
+  const [postLikeTrackingImage] = usePostLikeTrackingImage(idx);
+  const [deleteLikeTrackingImage] = useDeleteLikeTrackingImage(idx);
+  const [currentLikeCount, setCurrentLikeCount] = React.useState(likecount);
   return (
     <STYLE.Container>
       <STYLE.PostInfo>
@@ -45,7 +46,10 @@ const TrackingImagePost = (props) => {
       </STYLE.PostInfo>
       <STYLE.TrackingImageWrapper
         onDoubleClick={() => {
-          toggleLikeTrackingImage();
+          if (!like) {
+            postLikeTrackingImage();
+            setLike(!like);
+          }
         }}
       >
         <STYLE.StaticMapWrapper>
@@ -61,12 +65,28 @@ const TrackingImagePost = (props) => {
       </STYLE.TrackingImageWrapper>
 
       <STYLE.InfoContainer>
-        <p>좋아요: {likecount}</p>
+        <p>좋아요: {currentLikeCount}</p>
         <STYLE.BtnContainer>
-          <EventBtn
-            icon={like ? like_icon : unlike_icon}
-            clickEvent={toggleLikeTrackingImage}
-          />
+          {like ? (
+            <EventBtn
+              icon={like_icon}
+              clickEvent={() => {
+                deleteLikeTrackingImage();
+                setLike(!like);
+                setCurrentLikeCount(currentLikeCount - 1);
+              }}
+            />
+          ) : (
+            <EventBtn
+              icon={unlike_icon}
+              clickEvent={() => {
+                postLikeTrackingImage();
+                setLike(!like);
+                setCurrentLikeCount(currentLikeCount + 1);
+              }}
+            />
+          )}
+
           <EventBtn icon={detail_icon} clickEvent={toggleDetailModal} />
           <TrackingImageLoaderBtn data={data} />
         </STYLE.BtnContainer>
@@ -118,6 +138,6 @@ const TrackingImagePost = (props) => {
       )}
     </STYLE.Container>
   );
-};
+});
 
 export default TrackingImagePost;
