@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
 import STYLE from "./style";
@@ -7,17 +7,27 @@ import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 
 import useRandomNickname from "./model/useRandomNickname";
 import useNicknameModal from "./model/useNicknameModal";
+import usePutNickname from "../../../../../../3_Entity/Account/usePutNickname";
+import useGetRandomNicknames from "../../../../../../3_Entity/Account/useGetRandomNicknames";
 
 const ModifyNameModalContent = (props) => {
   const { name, handleClose, handleChangeNickName } = props;
-  const {
+
+  const [page, setPage] = useState(1);
+  const [nicknames, loading] = useGetRandomNicknames(page);
+  const { typeText, handleNextNickname } = useRandomNickname(
+    nicknames,
+    loading,
+    setPage
+  );
+
+  const [putNickname] = usePutNickname();
+  const [
     confirmModal,
     message,
     handleModifyNickname,
     handleNameConfirmModalDone,
-  } = useNicknameModal(handleChangeNickName);
-
-  const { typeText, handleNextNickname } = useRandomNickname();
+  ] = useNicknameModal(putNickname, handleChangeNickName);
 
   const {
     register,

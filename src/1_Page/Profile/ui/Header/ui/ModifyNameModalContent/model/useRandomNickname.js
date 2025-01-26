@@ -1,39 +1,35 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import getRandomNicknames from "../../../../../../../3_Entity/Account/getRandomNickname";
 
-const useRandomNickname = () => {
-  const [nicknames, setNicknames] = useState([]);
+const useRandomNickname = (nicknames, loading, setPage) => {
   const [typeText, setTypeText] = useState("현재");
-  const randStateRef = useRef(0); // randState의 최신 상태를 추적
+  const randStateRef = useRef(0); // 닉네임 인덱스 추적
 
-  // 닉네임 목록을 가져오는 함수
-  const fetchNicknames = useCallback(async () => {
-    const randNicknames = await getRandomNicknames();
-    setNicknames(randNicknames);
-  }, []);
-
+  // 닉네임 리스트가 바뀔 때마다 인덱스 초기화
   useEffect(() => {
-    fetchNicknames();
-  }, [fetchNicknames]);
+    randStateRef.current = 0;
+  }, [nicknames]);
 
+  // 닉네임 가져오기
   const handleNextNickname = useCallback(
     (setValue) => {
-      if (nicknames.length === 0) return;
-      const nextIndex = randStateRef.current + 1;
+      if (loading || nicknames.length === 0) return;
+
+      // 현재 인덱스의 닉네임 적용
       setValue("nickname", nicknames[randStateRef.current]);
       setTypeText("추천된");
 
+      const nextIndex = randStateRef.current + 1;
       if (nextIndex >= nicknames.length) {
-        fetchNicknames();
-        randStateRef.current = 0;
+        setPage((prevPage) => prevPage + 1); // 새로운 닉네임 요청
+        randStateRef.current = 0; // 페이지 변경 시 인덱스 초기화
       } else {
         randStateRef.current = nextIndex;
       }
     },
-    [nicknames, fetchNicknames]
+    [nicknames, loading]
   );
 
-  return { typeText, handleNextNickname };
+  return { typeText, handleNextNickname, loading };
 };
 
 export default useRandomNickname;

@@ -1,8 +1,7 @@
 import { useState, useRef } from "react";
-import putNickname from "../../../../../../../3_Entity/Account/putNickname";
 import useConfirmModal from "../../../../../../../4_Shared/model/useModalHandler";
 
-const useNicknameModal = (handleChangeNickName) => {
+const useNicknameModal = (putNickname, handleChangeNickName) => {
   const [confirmModal, confirmModalToggle] = useConfirmModal();
   const [message, setMessage] = useState("");
 
@@ -25,12 +24,12 @@ const useNicknameModal = (handleChangeNickName) => {
     if (closeRef.current) closeRef.current();
   };
 
-  return {
+  return [
     confirmModal,
     message,
     handleModifyNickname,
     handleNameConfirmModalDone,
-  };
+  ];
 };
 
 export default useNicknameModal;
