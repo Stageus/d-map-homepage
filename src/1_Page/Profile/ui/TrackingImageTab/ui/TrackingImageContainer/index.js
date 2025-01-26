@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import STYLE from "./style";
 
@@ -22,6 +22,10 @@ const TrackingImageContainer = (props) => {
     modifyTrackingModalToggle,
     trackingImageData
   );
+
+  useEffect(() => {
+    console.log(trackingImageData.idx, "렌더링");
+  }, []);
 
   return (
     <>

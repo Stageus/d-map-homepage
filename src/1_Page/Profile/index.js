@@ -8,7 +8,7 @@ import TrackingImageTab from "./ui/TrackingImageTab";
 import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
 import useInfinityScroll from "./model/useInfinityScroll.js";
-import useManageData from "./model/useManageData.js";
+import useManageTrackData from "./model/useManageTrackData.js";
 import useGetMyInfo from "../../3_Entity/Account/useGetMyInfo.js";
 import useGetUserInfo from "../../3_Entity/Account/useGetUserInfo.js";
 
@@ -49,7 +49,7 @@ const Profile = () => {
     setModifyTrigger, // 수정 트리거 핸들러 제공
     updateSelectedTracks,
     handleSelectCancel,
-  ] = useManageData(trackingImageData);
+  ] = useManageTrackData(trackingImageData);
 
   return (
     <>
