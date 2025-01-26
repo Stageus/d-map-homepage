@@ -5,25 +5,33 @@ const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
 const useGetUserInfo = (userIdx) => {
   const [serverState, request, loading] = useFetch();
+  const [userInfo, setUserInfo] = React.useState(null);
 
-  const getUserInfo = async () => {
-    if (!userIdx) {
+  // userIdx가 숫자인 경우 API 호출 방지
+  const isValidUserIdx = (idx) => idx && isNaN(idx);
+
+  React.useEffect(() => {
+    if (isValidUserIdx(userIdx)) {
+      request("GET", `/account/info/${userIdx}`, null, TEST_TOKEN);
+    } else {
       console.error("유효하지 않은 사용자 ID입니다.");
-      return;
     }
-
-    await request("GET", `/account/info/${userIdx}`, null, TEST_TOKEN);
-  };
+  }, [userIdx]);
 
   React.useEffect(() => {
     if (!loading && serverState) {
-      if (!serverState.ok) {
-        console.error(`서버 오류: ${serverState.message || "알 수 없는 오류"}`);
+      switch (serverState.status) {
+        case 400:
+          console.log(serverState.message);
+          break;
+        default:
+          break;
       }
     }
+    setUserInfo(serverState);
   }, [loading, serverState]);
 
-  return [getUserInfo, serverState, loading];
+  return [userInfo, loading];
 };
 
 export default useGetUserInfo;

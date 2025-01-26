@@ -17,19 +17,11 @@ import useGetTrackingImageList from "../../3_Entity/Tracking/useGetTrackingImage
 import ConfirmModal from "../../2_Widget/ConfirmModal";
 
 const Profile = () => {
-  const { tabState, handleTabClick } = useTabs(); // 탭 관리 훅
-  const { modifyMode, memoizedSetMode } = useSettingMode(); // 수정 , 삭제 상태 관리
-  const { paging, checkLessLength, shareObserveRef, saveObserveRef } =
-    useInfinityScroll(tabState.tabIndex);
-
-  const { errorMessage, isModalOpen, showErrorModal, errorModalBackPage } =
-    useErrorModal(); // 에러 표시 모달
   const { userIdx } = useParams();
-
   const [userInfo, setUserInfo] = useState(null);
   // 유저 데이터 조회
-  const [myInfo, fetchMyInfo] = useGetMyInfo();
-  const [anotherUserInfo, fetchAnotherUserInfo] = useGetUserInfo(userIdx);
+  const [myInfo] = useGetMyInfo();
+  const [anotherUserInfo] = useGetUserInfo(userIdx);
 
   useEffect(() => {
     if (userIdx === "me") {
@@ -37,7 +29,15 @@ const Profile = () => {
       return;
     }
     setUserInfo(anotherUserInfo);
-  }, []);
+  }, [userIdx]);
+
+  const { tabState, handleTabClick } = useTabs(); // 탭 관리 훅
+  const { modifyMode, memoizedSetMode } = useSettingMode(); // 수정 , 삭제 상태 관리
+  const { paging, checkLessLength, shareObserveRef, saveObserveRef } =
+    useInfinityScroll(tabState.tabIndex);
+
+  const { errorMessage, isModalOpen, showErrorModal, errorModalBackPage } =
+    useErrorModal(); // 에러 표시 모달
 
   // 데이터 조회 (userIdx , page , category)
   const { trackingImageData, loading, hasMoreContent } =
