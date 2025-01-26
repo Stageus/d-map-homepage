@@ -15,6 +15,7 @@ const ModifyNameModalContent = (props) => {
 
   const [page, setPage] = useState(1);
   const [nicknames, loading] = useGetRandomNicknames(page);
+
   const { typeText, handleNextNickname } = useRandomNickname(
     nicknames,
     loading,
