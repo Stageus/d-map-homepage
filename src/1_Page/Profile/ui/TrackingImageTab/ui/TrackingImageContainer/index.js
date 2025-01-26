@@ -11,7 +11,7 @@ import useModalHandler from "../../../../../../4_Shared/model/useModalHandler";
 import TrackingImagePostList from "../../../../../../2_Widget/TrackingImagePostList";
 
 const TrackingImageContainer = (props) => {
-  const { trackingImageData, modifyMode, handleAddModifyIdxList, obServeRef } =
+  const { trackingImageData, modifyMode, updateSelectedTracks, obServeRef } =
     props;
 
   const [isModifyTrackingModalOpen, modifyTrackingModalToggle] =
@@ -42,14 +42,14 @@ const TrackingImageContainer = (props) => {
         {modifyMode === "공유" && (
           <STYLE.TrackingClickBox
             onClick={() => {
-              handleAddModifyIdxList(trackingImageData, false);
+              updateSelectedTracks(trackingImageData, false);
             }}
           />
         )}
         {modifyMode === "삭제" && (
           <STYLE.TrackingCheckbox
             onChange={() => {
-              handleAddModifyIdxList(trackingImageData, true);
+              updateSelectedTracks(trackingImageData, true);
             }}
           />
         )}

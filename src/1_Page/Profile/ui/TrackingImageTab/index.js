@@ -3,7 +3,7 @@ import STYLE from "./style";
 import TrackContainer from "./ui/TrackingImageContainer";
 
 const TrackingImageTab = (props) => {
-  const { trackingImageList, modifyMode, handleAddModifyIdxList, obServeRef } =
+  const { trackingImageList, modifyMode, updateSelectedTracks, obServeRef } =
     props;
 
   return (
@@ -20,7 +20,7 @@ const TrackingImageTab = (props) => {
                 }
                 trackingImageData={trackingImageData}
                 modifyMode={modifyMode}
-                handleAddModifyIdxList={handleAddModifyIdxList}
+                updateSelectedTracks={updateSelectedTracks}
               />
             );
           })}

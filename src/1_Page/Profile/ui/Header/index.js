@@ -24,14 +24,13 @@ const Header = (props) => {
   const {
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     handleSelectCancel,
-    deleteClick,
-    modifyClick,
+    setDeleteTrigger,
+    setModifyTrigger,
     activeTabStr,
     userInfoData,
     isModifyListEmpty,
     handleTabClick,
-    changeShareTrackingLength,
-    changeSaveTrackingLength,
+    changeTrackingLength,
   } = props;
 
   const { userInfo, handleProfileImageChange, handleChangeNickName } =
@@ -40,8 +39,8 @@ const Header = (props) => {
   const trackDataLength = useTrackDataLength(
     userInfo,
     activeTabStr,
-    changeShareTrackingLength,
-    changeSaveTrackingLength
+    changeTrackingLength.share,
+    changeTrackingLength.save
   );
 
   const [modifyImageModal, modifyImageModalToggle] = useModifyImageModal(); // 프로필 이미지 모달
@@ -175,7 +174,9 @@ const Header = (props) => {
           type={isModifyListEmpty && "one"}
           onClose={confirmModalToggle}
           onConfirm={() => {
-            modifyMode === "삭제" ? deleteClick() : modifyClick();
+            modifyMode === "삭제"
+              ? setDeleteTrigger(true)
+              : setModifyTrigger(true);
             handleCloseMode();
             confirmModalToggle();
           }}
