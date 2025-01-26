@@ -11,43 +11,41 @@ import useInfinityScroll from "./model/useInfinityScroll.js";
 import useManageData from "./model/useManageData.js";
 import useGetMyInfo from "../../3_Entity/Account/useGetMyInfo.js";
 import useGetUserInfo from "../../3_Entity/Account/useGetUserInfo.js";
-import useErrorModal from "./model/useModalHandler.js";
+import useDeleteTrackingImage from "../../3_Entity/Tracking/useDeleteTrackingImage.js";
+import usePutTrackingImageToNotShare from "../../3_Entity/Tracking/usePutTrackingImageToNotShare.js";
+import usePutTrackingImageToShare from "../../3_Entity/Tracking/usePutTrackingImageToShare.js";
 
-import useGetTrackingImageList from "../../3_Entity/Tracking/useGetTrackingImageList.js";
-import ConfirmModal from "../../2_Widget/ConfirmModal";
+import useGetProfileTrackingImageList from "../../3_Entity/Tracking/useGetProfileTrackingImageList.js";
 
 const Profile = () => {
+  // 유저 데이터 조회
   const { userIdx } = useParams();
   const [userInfo, setUserInfo] = useState(null);
-  // 유저 데이터 조회
-  const [myInfo] = useGetMyInfo();
-  const [anotherUserInfo] = useGetUserInfo(userIdx);
-
+  const [myInfo] = useGetMyInfo(userIdx); // userIdx에 int가 들어가면 호출 X
+  const [anotherUserInfo] = useGetUserInfo(userIdx); // userIdx가 int면 호출
   useEffect(() => {
-    if (userIdx === "me") {
-      setUserInfo(myInfo);
-      return;
-    }
-    setUserInfo(anotherUserInfo);
+    setUserInfo(userIdx === "me" ? myInfo : anotherUserInfo);
   }, [userIdx]);
 
-  const { tabState, handleTabClick } = useTabs(); // 탭 관리 훅
-  const { modifyMode, memoizedSetMode } = useSettingMode(); // 수정 , 삭제 상태 관리
-  const { paging, checkLessLength, shareObserveRef, saveObserveRef } =
-    useInfinityScroll(tabState.tabIndex);
+  const [tabState, handleTabClick] = useTabs(); // 탭 관리 훅
+  const [modifyMode, memoizedSetMode] = useSettingMode(); // 수정 , 삭제 상태 관리
 
-  const { errorMessage, isModalOpen, showErrorModal, errorModalBackPage } =
-    useErrorModal(); // 에러 표시 모달
+  const [paging, shareObserveRef, saveObserveRef] = useInfinityScroll(
+    tabState.tabIndex
+  );
 
   // 데이터 조회 (userIdx , page , category)
   const { trackingImageData, loading, hasMoreContent } =
-    useGetTrackingImageList(
+    useGetProfileTrackingImageList(
       userInfo?.idx,
       paging,
       tabState.tabIndex === 1 ? 0 : 1 // 0 이 공유 , 1이 저장
     );
+  const [deleteTrackingImage] = useDeleteTrackingImage();
+  const [putTrackingImageToNotShare] = usePutTrackingImageToNotShare();
+  const [putTrackingImageToShare] = usePutTrackingImageToShare();
 
-  const {
+  const [
     trackData,
     modifyIdxList,
     handleModifyTrack,
@@ -56,11 +54,11 @@ const Profile = () => {
     handleSelectCancel,
     changeShareTrackingLength,
     changeSaveTrackingLength,
-  } = useManageData(
+  ] = useManageData(
     trackingImageData, // { save: [], share: [] }
-    tabState.tabIndex,
-    checkLessLength,
-    showErrorModal
+    deleteTrackingImage,
+    putTrackingImageToNotShare,
+    putTrackingImageToShare
   );
 
   return (
@@ -102,14 +100,6 @@ const Profile = () => {
             <STYLE.Loading />
           </STYLE.LoadingBox>
         </STYLE.LoadingContainer>
-      )}
-
-      {isModalOpen && (
-        <ConfirmModal
-          message={errorMessage}
-          onClose={errorModalBackPage}
-          type="one"
-        />
       )}
     </>
   );

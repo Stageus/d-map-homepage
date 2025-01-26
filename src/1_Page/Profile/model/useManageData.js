@@ -1,13 +1,10 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-import deleteTrackingImage from "../../../3_Entity/Tracking/deleteTrackingImage";
-import putTrackingToShare from "../../../3_Entity/Tracking/putTrackingImageToShare";
-import putTrackingToNotShare from "../../../3_Entity/Tracking/putTrackingImageToNotShare";
+import { useState, useEffect, useCallback } from "react";
 
 const useManageTrackData = (
   trackingImageData,
-  tabIndex,
-  checkLessLength,
-  showErrorModal
+  deleteTrackingImage,
+  putTrackingImageToNotShare,
+  putTrackingImageToShare
 ) => {
   const [trackData, setTrackData] = useState({ save: [], share: [] });
   const [modifyIdxList, setModifyIdxList] = useState([]);
@@ -17,8 +14,6 @@ const useManageTrackData = (
   // 트리거 state
   const [deleteTrigger, setDeleteTrigger] = useState(false);
   const [modifyTrigger, setModifyTrigger] = useState(false);
-
-  const prevLength = useRef(null);
 
   // 트래킹 데이터 업데이트 및 중복 제거
   useEffect(() => {
@@ -30,15 +25,6 @@ const useManageTrackData = (
       ]),
     });
   }, [trackingImageData]);
-
-  // 현재 탭의 데이터 길이 체크
-  useEffect(() => {
-    const currentTrackData = tabIndex === 0 ? trackData.share : trackData.save;
-    if (currentTrackData.length !== prevLength.current) {
-      checkLessLength(currentTrackData.length);
-      prevLength.current = currentTrackData.length;
-    }
-  }, [trackData, tabIndex, checkLessLength]);
 
   // 삭제 트리거 감지 및 처리
   useEffect(() => {
@@ -86,76 +72,50 @@ const useManageTrackData = (
     const idxToNotShare = modifyIdxList
       .filter((item) => item.sharing)
       .map((item) => item.idx);
+    await putTrackingImageToShare(idxToShare);
+    await putTrackingImageToNotShare(idxToNotShare);
+    setModifyIdxList([]);
+    setTrackData((prev) => ({
+      save: prev.save
+        .filter(({ idx }) => !idxToShare.includes(idx))
+        .concat(prev.share.filter(({ idx }) => idxToNotShare.includes(idx))),
+      share: prev.share
+        .filter(({ idx }) => !idxToNotShare.includes(idx))
+        .concat(prev.save.filter(({ idx }) => idxToShare.includes(idx))),
+    }));
 
-    try {
-      const resultToShare = await putTrackingToShare(idxToShare);
-      const resultToNotShare = await putTrackingToNotShare(idxToNotShare);
-
-      if (resultToShare === true && resultToNotShare === true) {
-        setModifyIdxList([]);
-        setTrackData((prev) => ({
-          save: prev.save
-            .filter(({ idx }) => !idxToShare.includes(idx))
-            .concat(
-              prev.share.filter(({ idx }) => idxToNotShare.includes(idx))
-            ),
-          share: prev.share
-            .filter(({ idx }) => !idxToNotShare.includes(idx))
-            .concat(prev.save.filter(({ idx }) => idxToShare.includes(idx))),
-        }));
-
-        setChangeShareTrackingLength(
-          (prev) => prev + idxToNotShare.length - idxToShare.length
-        );
-        setChangeSaveTrackingLength(
-          (prev) => prev + idxToShare.length - idxToNotShare.length
-        );
-      } else {
-        showErrorModal(
-          resultToShare !== true ? resultToShare : resultToNotShare
-        );
-      }
-    } catch (error) {
-      showErrorModal("트래킹 상태 변경 중 오류가 발생했습니다.");
-    } finally {
-      handleSelectCancel();
-    }
-  }, [modifyIdxList, showErrorModal, handleSelectCancel]);
+    setChangeShareTrackingLength(
+      (prev) => prev + idxToNotShare.length - idxToShare.length
+    );
+    setChangeSaveTrackingLength(
+      (prev) => prev + idxToShare.length - idxToNotShare.length
+    );
+    handleSelectCancel();
+  }, [modifyIdxList, handleSelectCancel]);
 
   // 트래킹 데이터 삭제 로직
   const handleDeleteTrack = useCallback(async () => {
     const idxList = modifyIdxList.map((item) => item.idx);
+    await deleteTrackingImage(idxList);
+    setChangeShareTrackingLength(
+      (prev) => prev + modifyIdxList.filter((item) => item.sharing).length
+    );
+    setChangeSaveTrackingLength(
+      (prev) => prev + modifyIdxList.filter((item) => !item.sharing).length
+    );
+    setTrackData((prev) => ({
+      save: prev.save.filter(
+        ({ idx }) => !modifyIdxList.some((mod) => mod.idx === idx)
+      ),
+      share: prev.share.filter(
+        ({ idx }) => !modifyIdxList.some((mod) => mod.idx === idx)
+      ),
+    }));
+    setModifyIdxList([]);
+    handleSelectCancel();
+  }, [modifyIdxList, handleSelectCancel]);
 
-    try {
-      const result = await deleteTrackingImage(idxList);
-      if (result === true) {
-        setChangeShareTrackingLength(
-          (prev) => prev + modifyIdxList.filter((item) => item.sharing).length
-        );
-        setChangeSaveTrackingLength(
-          (prev) => prev + modifyIdxList.filter((item) => !item.sharing).length
-        );
-
-        setTrackData((prev) => ({
-          save: prev.save.filter(
-            ({ idx }) => !modifyIdxList.some((mod) => mod.idx === idx)
-          ),
-          share: prev.share.filter(
-            ({ idx }) => !modifyIdxList.some((mod) => mod.idx === idx)
-          ),
-        }));
-        setModifyIdxList([]);
-      } else {
-        showErrorModal(result);
-      }
-    } catch (error) {
-      showErrorModal("트래킹 데이터 삭제 중 오류가 발생했습니다.");
-    } finally {
-      handleSelectCancel();
-    }
-  }, [modifyIdxList, showErrorModal, handleSelectCancel]);
-
-  return {
+  return [
     trackData,
     modifyIdxList,
     setDeleteTrigger, // 삭제 트리거 핸들러 제공
@@ -164,7 +124,7 @@ const useManageTrackData = (
     handleSelectCancel,
     changeShareTrackingLength,
     changeSaveTrackingLength,
-  };
+  ];
 };
 
 export default useManageTrackData;

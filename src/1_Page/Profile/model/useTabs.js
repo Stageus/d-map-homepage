@@ -18,10 +18,7 @@ const useTabs = (initialTab = "공유") => {
     });
   }, []);
 
-  return {
-    tabState,
-    handleTabClick,
-  };
+  return [tabState, handleTabClick];
 };
 
 export default useTabs;

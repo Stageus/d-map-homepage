@@ -7,8 +7,9 @@ const useGetUserInfo = (userIdx) => {
   const [serverState, request, loading] = useFetch();
   const [userInfo, setUserInfo] = React.useState(null);
 
-  // userIdx가 숫자인 경우 API 호출 방지
-  const isValidUserIdx = (idx) => idx && isNaN(idx);
+  const isValidUserIdx = (idx) => {
+    return idx && !isNaN(Number(idx)) && Number.isInteger(Number(idx));
+  };
 
   React.useEffect(() => {
     if (isValidUserIdx(userIdx)) {
@@ -16,7 +17,7 @@ const useGetUserInfo = (userIdx) => {
     } else {
       console.error("유효하지 않은 사용자 ID입니다.");
     }
-  }, [userIdx]);
+  }, [userIdx, request]);
 
   React.useEffect(() => {
     if (!loading && serverState) {

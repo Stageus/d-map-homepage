@@ -24,10 +24,7 @@ const useSettingMode = () => {
     [modifyMode]
   );
 
-  return {
-    modifyMode,
-    memoizedSetMode,
-  };
+  return [modifyMode, memoizedSetMode];
 };
 
 export default useSettingMode;
