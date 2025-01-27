@@ -16,7 +16,6 @@ const ModifyImageModalContent = (props) => {
     handleImageConfirmModalOpen,
     handleImageConfirmModalDone,
   ] = useImageModal();
-
   const {
     uploadedImageFile,
     fileInputRef,
@@ -32,7 +31,6 @@ const ModifyImageModalContent = (props) => {
 
   const handleImageUpdate = () => {
     if (!validateImageChange()) {
-      confirmModalToggle();
       return;
     }
     putProfileImage(uploadedImageFile, () => {
