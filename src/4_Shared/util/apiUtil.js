@@ -40,8 +40,8 @@ export const useFetch = () => {
       const response = await fetch(`${BASE_URL}${endPoint}`, config);
 
       const data = await response.json();
-      setServerState(data);
       const status = response.status;
+      setServerState({...data, status});
 
       switch (status) {
         case 401:
