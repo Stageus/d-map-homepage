@@ -26,15 +26,6 @@ const useInfinityScroll = (tabIndex) => {
     }));
   }, [tabIndex]);
 
-  const checkLessLength = useCallback(
-    (length) => {
-      if (length <= 9) {
-        handleNextPage();
-      }
-    },
-    [handleNextPage]
-  );
-
   return [page[getCurrentKey()], shareObserveRef, saveObserveRef];
 };
 

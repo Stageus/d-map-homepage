@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import STYLE from "./style";
 
@@ -39,7 +38,6 @@ const Profile = () => {
       paging,
       tabState.tabIndex === 1 ? 0 : 1 // 0 이 공유 , 1이 저장
     );
-
   const [deleteTrackingImage] = useDeleteTrackingImage();
   const [putTrackingImageToNotShare] = usePutTrackingImageToNotShare();
   const [putTrackingImageToShare] = usePutTrackingImageToShare();
@@ -48,8 +46,8 @@ const Profile = () => {
     trackData,
     changeTrackingLength,
     modifyIdxList,
-    setDeleteTrigger, // 삭제 트리거 핸들러 제공
-    setModifyTrigger, // 수정 트리거 핸들러 제공
+    setDeleteTrigger,
+    setModifyTrigger,
     updateSelectedTracks,
     handleSelectCancel,
   ] = useManageTrackData(
