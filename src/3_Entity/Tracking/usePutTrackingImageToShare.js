@@ -1,13 +1,11 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
-
 const usePutTrackingImageToShare = () => {
   const [serverState, request, loading] = useFetch();
 
   const putTrackingImageToShare = (idxList) => {
-    request("PUT", `/tracking/toSharing`, { idxList }, TEST_TOKEN);
+    request("PUT", `/tracking/toSharing`, { idxList });
   };
 
   React.useEffect(() => {

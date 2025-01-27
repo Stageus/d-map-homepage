@@ -1,13 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
-
-const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
 const useDeleteTrackingImage = (idxList) => {
   const [serverState, request, loading] = useFetch();
 
   const deleteTrackingImage = () => {
-    request("DELETE", `/tracking`, { idxList }, TEST_TOKEN);
+    request("DELETE", `/tracking`, { idxList });
   };
 
   React.useEffect(() => {

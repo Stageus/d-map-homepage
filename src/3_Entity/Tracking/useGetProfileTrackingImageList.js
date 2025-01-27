@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 const ITEMS_PER_PAGE = 20;
 
 const useGetProfileTrackingImageList = (userIdx, page, sharing) => {
@@ -24,7 +23,7 @@ const useGetProfileTrackingImageList = (userIdx, page, sharing) => {
     // 요청 키를 저장하고 API 호출 수행
     previousRequests.current.add(requestKey);
     const endpoint = `/tracking/account/${userIdx}?page=${page}&category=${sharing}`;
-    request("GET", endpoint, null, TEST_TOKEN);
+    request("GET", endpoint, null);
   }, [userIdx, page, sharing]);
 
   useEffect(() => {

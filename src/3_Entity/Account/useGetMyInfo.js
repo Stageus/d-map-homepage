@@ -1,8 +1,6 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
-
 const useGetMyInfo = (userIdx = "me") => {
   const [serverState, request, loading] = useFetch();
   const [userInfo, setUserInfo] = React.useState(null);
@@ -10,7 +8,7 @@ const useGetMyInfo = (userIdx = "me") => {
   React.useEffect(() => {
     console.log("me 호출");
     if (userIdx !== "me") return;
-    request("GET", `/account/me`, null, TEST_TOKEN);
+    request("GET", `/account/me`, null);
   }, [userIdx]);
 
   React.useEffect(() => {

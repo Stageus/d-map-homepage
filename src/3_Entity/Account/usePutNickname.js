@@ -1,13 +1,11 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
-
 const usePutNickname = () => {
   const [serverState, request, loading] = useFetch();
 
   const putNickname = async (nickname) => {
-    await request("PUT", `/account/nickname`, { nickname }, TEST_TOKEN);
+    await request("PUT", `/account/nickname`, { nickname });
   };
 
   React.useEffect(() => {
