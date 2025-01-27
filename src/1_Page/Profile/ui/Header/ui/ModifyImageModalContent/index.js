@@ -17,8 +17,6 @@ const ModifyImageModalContent = (props) => {
     handleImageConfirmModalDone,
   ] = useImageModal();
 
-  const [message, setMessage] = useState(null);
-
   const {
     uploadedImageFile,
     fileInputRef,
@@ -26,9 +24,23 @@ const ModifyImageModalContent = (props) => {
     handleProfileImageClick,
     handleFileChange,
     validateImageChange,
-  } = useFileReader(image, message, setMessage);
+    message,
+    setMessage,
+  } = useFileReader(image, confirmModalToggle);
 
   const [putProfileImage] = usePutProfileImage();
+
+  const handleImageUpdate = () => {
+    if (!validateImageChange()) {
+      confirmModalToggle();
+      return;
+    }
+    putProfileImage(uploadedImageFile, () => {
+      setMessage("변경되었습니다");
+      handleProfileImageChange(uploadedImageFile);
+      handleImageConfirmModalOpen(handleClose);
+    });
+  };
 
   return (
     <>
@@ -49,17 +61,7 @@ const ModifyImageModalContent = (props) => {
         <STYLE.PhotoButton onClick={handleProfileImageClick}>
           사진선택
         </STYLE.PhotoButton>
-        <STYLE.EditButton
-          onClick={() => {
-            if (!validateImageChange()) {
-              confirmModalToggle();
-              return;
-            }
-            putProfileImage(uploadedImageFile);
-            setMessage("변경되었습니다");
-            handleProfileImageChange(uploadedImageFile);
-            handleImageConfirmModalOpen(handleClose);
-          }}>
+        <STYLE.EditButton onClick={handleImageUpdate}>
           수정하기
         </STYLE.EditButton>
       </STYLE.Container>

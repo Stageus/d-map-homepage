@@ -1,7 +1,5 @@
 import React from "react";
 
-import { useNavigate } from "react-router-dom";
-
 const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 
@@ -41,7 +39,7 @@ export const useFormDataFetch = () => {
 const usePutProfileImage = () => {
   const [serverState, request, loading] = useFormDataFetch();
 
-  const putProfileImage = async ({ imageFile }) => {
+  const putProfileImage = async (imageFile, changeEvent) => {
     const formData = new FormData();
     formData.append("image", imageFile);
 
@@ -57,7 +55,7 @@ const usePutProfileImage = () => {
         };
         return;
       }
-
+      changeEvent();
       console.log("이미지 업로드 성공:", serverState);
       return serverState;
     } catch (error) {
