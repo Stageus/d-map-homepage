@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import STYLE from "./style";
 
 import Header from "./ui/Header";
@@ -56,6 +56,25 @@ const Profile = () => {
     putTrackingImageToNotShare,
     putTrackingImageToShare
   );
+
+  const navigate = useNavigate();
+  if (!userInfo) {
+    return (
+      <STYLE.ErrorContainer>
+        <STYLE.EmptyMessage>
+          죄송합니다. 존재하지 않는 유저입니다.
+        </STYLE.EmptyMessage>
+        <STYLE.ErrorMessageBox>
+          <STYLE.EmptyMessage>
+            링크가 잘못되었거나 삭제되었습니다.
+          </STYLE.EmptyMessage>
+          <STYLE.BackButton onClick={() => navigate("/")}>
+            처음으로 돌아가기
+          </STYLE.BackButton>
+        </STYLE.ErrorMessageBox>
+      </STYLE.ErrorContainer>
+    );
+  }
 
   return (
     <>

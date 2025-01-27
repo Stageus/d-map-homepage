@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import STYLE from "./style";
 
@@ -6,43 +6,29 @@ import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
 
 import useFileReader from "./model/useFileReader";
 import useImageModal from "./model/useImageModal";
-import useModifyClick from "./model/useModifyClick";
 import usePutProfileImage from "../../../../../../3_Entity/Account/usePutProfileImage";
 
 const ModifyImageModalContent = (props) => {
   const { image, handleProfileImageChange, handleClose } = props;
-
-  const {
-    message,
-    setMessage,
+  const [
     confirmModal,
     confirmModalToggle,
     handleImageConfirmModalOpen,
     handleImageConfirmModalDone,
-  } = useImageModal();
+  ] = useImageModal();
+
+  const [message, setMessage] = useState(null);
 
   const {
     uploadedImageFile,
     fileInputRef,
     imagePreviewURL,
-    errorMessage,
     handleProfileImageClick,
     handleFileChange,
-  } = useFileReader(image);
+    validateImageChange,
+  } = useFileReader(image, message, setMessage);
 
   const [putProfileImage] = usePutProfileImage();
-
-  const { handleModifyClick } = useModifyClick(
-    image,
-    errorMessage,
-    imagePreviewURL,
-    uploadedImageFile,
-    handleProfileImageChange,
-    setMessage,
-    confirmModalToggle,
-    handleImageConfirmModalOpen,
-    putProfileImage
-  );
 
   return (
     <>
@@ -65,7 +51,14 @@ const ModifyImageModalContent = (props) => {
         </STYLE.PhotoButton>
         <STYLE.EditButton
           onClick={() => {
-            handleModifyClick(handleClose);
+            if (!validateImageChange()) {
+              confirmModalToggle();
+              return;
+            }
+            putProfileImage(uploadedImageFile);
+            setMessage("변경되었습니다");
+            handleProfileImageChange(uploadedImageFile);
+            handleImageConfirmModalOpen(handleClose);
           }}>
           수정하기
         </STYLE.EditButton>

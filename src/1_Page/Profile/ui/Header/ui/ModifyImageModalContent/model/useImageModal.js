@@ -1,9 +1,8 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import useConfirmModal from "../../../../../../../4_Shared/model/useModalHandler";
 
 const useImageModal = () => {
   const [confirmModal, confirmModalToggle] = useConfirmModal();
-  const [message, setMessage] = useState("");
   const closeRef = useRef(null);
 
   const handleImageConfirmModalOpen = (handleClose) => {
@@ -16,14 +15,12 @@ const useImageModal = () => {
     closeRef.current?.();
   };
 
-  return {
-    message,
-    setMessage,
+  return [
     confirmModal,
     confirmModalToggle,
     handleImageConfirmModalOpen,
     handleImageConfirmModalDone,
-  };
+  ];
 };
 
 export default useImageModal;

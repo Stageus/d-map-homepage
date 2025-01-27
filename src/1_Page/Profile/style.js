@@ -9,9 +9,28 @@ const spin = keyframes`
     transform: rotate(360deg);
   }
 `;
+
 const STYLE = {
+  ErrorContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 40vh;
+    text-align: center;
+  `,
+  BackButton: styled.button`
+    color: ${({ theme }) => theme.blue};
+  `,
+
+  ErrorMessageBox: styled.div`
+    display: flex;
+    margin-top: 10px;
+  `,
+  EmptyMessage: styled.div`
+    text-align: center;
+  `,
   Main: styled.div`
-    padding: 16px;
     display: flex;
     flex-direction: column;
     background-color: ${({ theme }) => theme.background};
