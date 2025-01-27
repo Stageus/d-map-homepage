@@ -1,13 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import useDeleteTrackingImage from "../../../3_Entity/Tracking/useDeleteTrackingImage.js";
-import usePutTrackingImageToNotShare from "../../../3_Entity/Tracking/usePutTrackingImageToNotShare.js";
-import usePutTrackingImageToShare from "../../../3_Entity/Tracking/usePutTrackingImageToShare.js";
 
-const useManageTrackData = (trackingImageData = []) => {
-  const [deleteTrackingImage] = useDeleteTrackingImage();
-  const [putTrackingImageToNotShare] = usePutTrackingImageToNotShare();
-  const [putTrackingImageToShare] = usePutTrackingImageToShare();
-
+const useManageTrackData = (
+  trackingImageData = [],
+  deleteTrackingImage,
+  putTrackingImageToNotShare,
+  putTrackingImageToShare
+) => {
   const [trackData, setTrackData] = useState({ save: [], share: [] });
   const [modifyIdxList, setModifyIdxList] = useState([]);
   const [changeTrackingLength, setChangeTrackingLength] = useState({
@@ -122,8 +120,8 @@ const useManageTrackData = (trackingImageData = []) => {
       .filter((item) => item.sharing)
       .map((item) => item.idx);
 
-    await putTrackingImageToShare(idxToShare);
-    await putTrackingImageToNotShare(idxToNotShare);
+    putTrackingImageToShare(idxToShare);
+    putTrackingImageToNotShare(idxToNotShare);
 
     setModifyIdxList([]);
     setMemorizeTrackingImageData(trackData);
@@ -137,7 +135,7 @@ const useManageTrackData = (trackingImageData = []) => {
   // 트래킹 데이터 삭제 로직
   const handleDeleteTrack = useCallback(async () => {
     const idxList = modifyIdxList.map((item) => item.idx);
-    await deleteTrackingImage(idxList);
+    deleteTrackingImage(idxList);
     setChangeTrackingLength((prev) => ({
       share: prev.share + modifyIdxList.filter((item) => item.sharing).length,
       save: prev.save + modifyIdxList.filter((item) => !item.sharing).length,

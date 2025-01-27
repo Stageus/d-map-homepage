@@ -6,8 +6,8 @@ const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 const usePutTrackingImageToShare = () => {
   const [serverState, request, loading] = useFetch();
 
-  const putTrackingImageToShare = async (idxList) => {
-    await request("PUT", `/tracking/toSharing`, { idxList }, TEST_TOKEN);
+  const putTrackingImageToShare = (idxList) => {
+    request("PUT", `/tracking/toSharing`, { idxList }, TEST_TOKEN);
   };
 
   React.useEffect(() => {

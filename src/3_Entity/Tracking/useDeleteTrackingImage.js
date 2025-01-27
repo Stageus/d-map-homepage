@@ -6,8 +6,8 @@ const TEST_TOKEN = process.env.REACT_APP_TESTING_ACCESS_TOKEN;
 const useDeleteTrackingImage = (idxList) => {
   const [serverState, request, loading] = useFetch();
 
-  const deleteTrackingImage = async () => {
-    await request("DELETE", `/tracking`, { idxList }, TEST_TOKEN);
+  const deleteTrackingImage = () => {
+    request("DELETE", `/tracking`, { idxList }, TEST_TOKEN);
   };
 
   React.useEffect(() => {

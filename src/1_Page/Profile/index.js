@@ -12,19 +12,18 @@ import useManageTrackData from "./model/useManageTrackData.js";
 import useGetMyInfo from "../../3_Entity/Account/useGetMyInfo.js";
 import useGetUserInfo from "../../3_Entity/Account/useGetUserInfo.js";
 
+import useDeleteTrackingImage from "../../3_Entity/Tracking/useDeleteTrackingImage.js";
+import usePutTrackingImageToNotShare from "../../3_Entity/Tracking/usePutTrackingImageToNotShare.js";
+import usePutTrackingImageToShare from "../../3_Entity/Tracking/usePutTrackingImageToShare.js";
+
 import useGetProfileTrackingImageList from "../../3_Entity/Tracking/useGetProfileTrackingImageList.js";
 
 const Profile = () => {
   // 유저 데이터 조회
   const { userIdx } = useParams();
-  const [userInfo, setUserInfo] = useState(null);
   const [myInfo] = useGetMyInfo(userIdx); // userIdx에 me 또는 공백시 호출
   const [anotherUserInfo] = useGetUserInfo(userIdx); // userIdx가 me가 아니면 호출
-
-  useEffect(() => {
-    if (userInfo && !userIdx) return;
-    setUserInfo(userIdx === "me" ? myInfo : anotherUserInfo);
-  }, [userIdx, myInfo, anotherUserInfo]);
+  const userInfo = myInfo ? myInfo : anotherUserInfo;
 
   const [tabState, handleTabClick] = useTabs(); // 탭 관리 훅
   const [modifyMode, memoizedSetMode] = useSettingMode(); // 수정 , 삭제 상태 관리
@@ -41,6 +40,10 @@ const Profile = () => {
       tabState.tabIndex === 1 ? 0 : 1 // 0 이 공유 , 1이 저장
     );
 
+  const [deleteTrackingImage] = useDeleteTrackingImage();
+  const [putTrackingImageToNotShare] = usePutTrackingImageToNotShare();
+  const [putTrackingImageToShare] = usePutTrackingImageToShare();
+
   const [
     trackData,
     changeTrackingLength,
@@ -49,7 +52,12 @@ const Profile = () => {
     setModifyTrigger, // 수정 트리거 핸들러 제공
     updateSelectedTracks,
     handleSelectCancel,
-  ] = useManageTrackData(trackingImageData);
+  ] = useManageTrackData(
+    trackingImageData,
+    deleteTrackingImage,
+    putTrackingImageToNotShare,
+    putTrackingImageToShare
+  );
 
   return (
     <>
