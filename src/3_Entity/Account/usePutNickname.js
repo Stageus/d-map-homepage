@@ -1,7 +1,7 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const usePutNickname = () => {
+const usePutNickname = (onProfileNicknameChange) => {
   const [serverState, request, loading] = useFetch();
 
   const putNickname = async (nickname) => {
@@ -9,19 +9,23 @@ const usePutNickname = () => {
   };
 
   React.useEffect(() => {
-    if (!loading && serverState) {
-      const errorMessages = {
-        400: "입력 값 오류: 닉네임 형식이 잘못되었습니다.",
-        401: "인증 실패: 다시 로그인 하십시오.",
-        403: "인증 실패: 다시 로그인 하십시오.",
-        404: "잘못된 접근: 없는 아이디입니다.",
-        409: "중복 닉네임: 해당 닉네임은 이미 사용 중입니다.",
-      };
-      const message =
-        errorMessages[serverState.status] || "서버 오류가 발생했습니다.";
-      console.error(`Error ${serverState.status}: ${message}`);
+    switch (serverState?.status) {
+      case 400:
+        console.log("입력 값 오류: 닉네임 형식이 잘못되었습니다.");
+        return;
+      case 403:
+        console.log("인증 실패: 다시 로그인 하십시오");
+        return;
+      case 409:
+        console.log("중복 닉네임: 해당 닉네임은 이미 사용 중입니다.");
+        return;
+      case 200:
+        onProfileNicknameChange();
+        break;
+      default:
+        console.log(serverState.message);
     }
-  }, [loading, serverState]);
+  }, [serverState]);
 
   return [putNickname];
 };

@@ -22,13 +22,20 @@ const ModifyNameModalContent = (props) => {
     setPage
   );
 
-  const [putNickname] = usePutNickname();
   const [
     confirmModal,
-    message,
-    handleModifyNickname,
+    confirmModalToggle,
+    handleImageConfirmModalOpen,
     handleNameConfirmModalDone,
-  ] = useNicknameModal(putNickname, handleChangeNickName);
+  ] = useNicknameModal();
+
+  const [putNickname] = usePutNickname((updatedNickname) => {
+    setMessage(`닉네임이 변경되었습니다 : ${updatedNickname}`);
+    handleChangeNickName(updatedNickname);
+    handleImageConfirmModalOpen(handleClose);
+  });
+
+  const [message, setMessage] = useState("");
 
   const {
     register,
@@ -77,9 +84,7 @@ const ModifyNameModalContent = (props) => {
           )}
         </STYLE.InputContainer>
         <STYLE.SubmitButton
-          onClick={handleSubmit((data) =>
-            handleModifyNickname(data.nickname, handleClose)
-          )}>
+          onClick={handleSubmit((data) => putNickname(data.nickname))}>
           수정하기
         </STYLE.SubmitButton>
       </STYLE.Container>

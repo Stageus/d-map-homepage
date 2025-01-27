@@ -1,19 +1,16 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import useConfirmModal from "../../../../../../../4_Shared/model/useModalHandler";
 
-const useNicknameModal = (putNickname, handleChangeNickName) => {
+const useNicknameModal = () => {
   const [confirmModal, confirmModalToggle] = useConfirmModal();
-  const [message, setMessage] = useState("");
-
-  const handleModifyNickname = async (nickname, handleClose) => {
-    await putNickname(nickname);
-    setMessage(`닉네임이 변경되었습니다 : ${nickname}`);
-    handleChangeNickName(nickname);
-    confirmModalToggle();
-    closeRef.current = handleClose;
-  };
 
   const closeRef = useRef(null);
+
+  const handleImageConfirmModalOpen = (handleClose) => {
+    closeRef.current = handleClose;
+    confirmModalToggle();
+  };
+
   const handleNameConfirmModalDone = () => {
     confirmModalToggle();
     if (closeRef.current) closeRef.current();
@@ -21,8 +18,8 @@ const useNicknameModal = (putNickname, handleChangeNickName) => {
 
   return [
     confirmModal,
-    message,
-    handleModifyNickname,
+    confirmModalToggle,
+    handleImageConfirmModalOpen,
     handleNameConfirmModalDone,
   ];
 };

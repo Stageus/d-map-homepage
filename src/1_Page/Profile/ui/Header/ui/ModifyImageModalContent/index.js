@@ -27,18 +27,11 @@ const ModifyImageModalContent = (props) => {
     setMessage,
   } = useFileReader(image, confirmModalToggle);
 
-  const [putProfileImage] = usePutProfileImage();
-
-  const handleImageUpdate = () => {
-    if (!validateImageChange()) {
-      return;
-    }
-    putProfileImage(uploadedImageFile, () => {
-      setMessage("변경되었습니다");
-      handleProfileImageChange(uploadedImageFile);
-      handleImageConfirmModalOpen(handleClose);
-    });
-  };
+  const [putProfileImage] = usePutProfileImage(() => {
+    setMessage("변경되었습니다");
+    handleProfileImageChange(uploadedImageFile);
+    handleImageConfirmModalOpen(handleClose);
+  });
 
   return (
     <>
@@ -59,7 +52,13 @@ const ModifyImageModalContent = (props) => {
         <STYLE.PhotoButton onClick={handleProfileImageClick}>
           사진선택
         </STYLE.PhotoButton>
-        <STYLE.EditButton onClick={handleImageUpdate}>
+        <STYLE.EditButton
+          onClick={() => {
+            if (!validateImageChange()) {
+              return;
+            }
+            putProfileImage("123");
+          }}>
           수정하기
         </STYLE.EditButton>
       </STYLE.Container>

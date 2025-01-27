@@ -18,16 +18,10 @@ export const useFormDataFetch = () => {
       };
 
       const response = await fetch(`${BASE_URL}${endPoint}`, config);
-
-      if (!response.ok) {
-        throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
-      }
-
       const data = await response.json();
       setServerState({ ...data, status: response.status });
     } catch (error) {
       console.error("FormData 요청 오류:", error);
-      setServerState({ error: error.message, status: "error" });
     } finally {
       setLoading(false);
     }
@@ -36,32 +30,33 @@ export const useFormDataFetch = () => {
   return [serverState, request, loading];
 };
 
-const usePutProfileImage = () => {
+const usePutProfileImage = (onProfileImageChange) => {
   const [serverState, request, loading] = useFormDataFetch();
 
-  const putProfileImage = async (imageFile, changeEvent) => {
+  const putProfileImage = (imageFile) => {
     const formData = new FormData();
     formData.append("image", imageFile);
-
-    try {
-      await request("PUT", "/account/image", formData);
-      if (serverState?.status && serverState.status !== 200) {
-        const errorMessages = {
-          400: "입력 값 오류: 닉네임 형식이 잘못되었습니다.",
-          401: "인증 실패: 다시 로그인 하십시오.",
-          403: "접근 권한이 없습니다.",
-          404: "잘못된 접근: 없는 아이디입니다.",
-          409: "중복 닉네임: 해당 닉네임은 이미 사용 중입니다.",
-        };
-        return;
-      }
-      changeEvent();
-      console.log("이미지 업로드 성공:", serverState);
-      return serverState;
-    } catch (error) {
-      console.error("프로필 이미지 업로드 오류:", error);
-    }
+    request("PUT", "/account/image", formData);
   };
+
+  React.useEffect(() => {
+    switch (serverState?.status) {
+      case 400:
+        console.log("입력 값 오류: 닉네임 형식이 잘못되었습니다.");
+        return;
+      case 403:
+        console.log("인증 실패: 다시 로그인 하십시오");
+        return;
+      case 409:
+        console.log("중복 닉네임: 해당 닉네임은 이미 사용 중입니다.");
+        return;
+      case 200:
+        onProfileImageChange();
+        break;
+      default:
+        console.log(serverState.message);
+    }
+  }, [serverState]);
 
   return [putProfileImage, loading];
 };
