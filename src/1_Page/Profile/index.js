@@ -14,6 +14,7 @@ import useGetUserInfo from "../../3_Entity/Account/useGetUserInfo.js";
 import useGetProfileTrackingImageList from "../../3_Entity/Tracking/useGetProfileTrackingImageList.js";
 import { useState } from "react";
 
+let profile = 0;
 const Profile = () => {
   // 유저 데이터 조회
   const navigate = useNavigate();
@@ -41,7 +42,8 @@ const Profile = () => {
   const [modifyIdxList, setModifyIdxList] = useState([]);
   const [displayTrackingImage, setDisplayTrackingImage, memorizedTrackData] =
     useManageTrackData(trackingImageData, modifyMode);
-
+  profile += 1;
+  console.log("프로필", profile);
   return (
     <>
       {!userInfoData ? (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 
 import STYLE from "./style.js";
@@ -22,6 +22,7 @@ import useDeleteTrackingImage from "../../../../3_Entity/Tracking/useDeleteTrack
 import usePutTrackingImageToNotShare from "../../../../3_Entity/Tracking/usePutTrackingImageToNotShare.js";
 import usePutTrackingImageToShare from "../../../../3_Entity/Tracking/usePutTrackingImageToShare.js";
 
+let header = 1;
 const Header = (props) => {
   const {
     setMode: { modifyMode, handleSetMode, handleCloseMode },
@@ -34,6 +35,8 @@ const Header = (props) => {
     setModifyIdxList,
     memorizedTrackData,
   } = props;
+  header += 1;
+  console.log("해더", header);
 
   const [userInfo, handleProfileImageChange, handleChangeNickName] =
     useManageUserInfo(userInfoData);
