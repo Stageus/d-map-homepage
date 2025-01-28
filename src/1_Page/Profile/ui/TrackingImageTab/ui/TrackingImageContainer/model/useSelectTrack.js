@@ -1,9 +1,9 @@
 import { moveTrack, sortTrackData } from "../../../../../lib/profileUtil";
 
-const useSelectTrack = (setModifyIdxList, setTrackData) => {
+const useSelectTrack = (setDisplayTrackingImage, setModifyIdxList) => {
   const clickTrackEvent = (track, isDelete) => {
     if (!isDelete) {
-      setTrackData((prev) => {
+      setDisplayTrackingImage((prev) => {
         const { save, share } = prev;
         const isInSave = save.some((prevTrack) => prevTrack.idx === track.idx);
         const { updatedFrom, updatedTo } = isInSave

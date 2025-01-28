@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import {
   calculateTrackingLength,
-  categorizeTrackData,
   extractIdxLists,
   filterTrackData,
 } from "../../../lib/profileUtil";
@@ -21,7 +20,7 @@ const useUpdateTrackingImage = (
 
   useEffect(() => {
     if (modifyMode) {
-      setMemorizedTrackData(categorizeTrackData(displayTrackingImage));
+      setMemorizedTrackData(displayTrackingImage);
     }
   }, [modifyMode]);
 
@@ -30,28 +29,34 @@ const useUpdateTrackingImage = (
     setDisplayTrackingImage(memorizedTrackData);
   }, [memorizedTrackData]);
 
-  const handleModifyTrack = useCallback(
-    (modifyIdxList, isToShare) => {
-      const { idxToShare, idxToNotShare } = extractIdxLists(modifyIdxList);
-      resetSelection();
-      setChangeTrackingLength((prev) =>
-        calculateTrackingLength(prev, idxToShare, idxToNotShare)
-      );
-    },
-    [resetSelection]
-  );
-
-  const handleDeleteTrack = useCallback(
-    (modifyIdxList) => {
-      const idxList = modifyIdxList.map((item) => item.idx);
-      setChangeTrackingLength((prev) =>
-        calculateTrackingLength(prev, [], idxList)
-      );
-      setDisplayTrackingImage((prev) => filterTrackData(prev, idxList));
-      resetSelection();
-    },
-    [resetSelection]
-  );
+  const handleModifyTrack = useCallback((modifyIdxList, isToShare) => {
+    const { idxToShare, idxToNotShare } = extractIdxLists(modifyIdxList);
+    setModifyIdxList([]);
+    setChangeTrackingLength((prev) => {
+      if (isToShare) {
+        return {
+          ...prev,
+          save: calculateTrackingLength(prev.save, idxToShare, idxToNotShare),
+        };
+      } else {
+        return {
+          ...prev,
+          share: calculateTrackingLength(prev.share, idxToShare, idxToNotShare),
+        };
+      }
+    });
+  }, []);
+  const handleDeleteTrack = useCallback((modifyIdxList) => {
+    const saveCount = modifyIdxList.filter((item) => !item.sharing).length; // sharing이 false인 경우 save
+    const shareCount = modifyIdxList.filter((item) => item.sharing).length; // sharing이 true인 경우 share
+    const idxList = modifyIdxList.map((item) => item.idx);
+    setChangeTrackingLength((prev) => ({
+      save: prev.save - saveCount,
+      share: prev.share - shareCount,
+    }));
+    setDisplayTrackingImage((prev) => filterTrackData(prev, idxList));
+    setModifyIdxList([]);
+  }, []);
 
   return [
     changeTrackingImageDataLength,

@@ -8,9 +8,8 @@ import { calculateAdjustedTrackingLengths } from "./lib/calcualate.js";
 import { extractIdxLists } from "../../lib/profileUtil.js";
 
 import useManageUserInfo from "./model/useManageUserInfo.js";
-import useModifyImageModal from "../../../../4_Shared/model/useModalHandler.js";
-import useModifyNameModal from "../../../../4_Shared/model/useModalHandler.js";
-import useModifyMode from "../../../../4_Shared/model/useModalHandler.js";
+import useUpdateTrackingImage from "./model/useUpdateTrackingImage";
+
 import useModalHandler from "../../../../4_Shared/model/useModalHandler.js";
 
 import ModalBase from "./ui/ModalBase";
@@ -22,7 +21,6 @@ import ConfirmModal from "../../../../2_Widget/ConfirmModal";
 import useDeleteTrackingImage from "../../../../3_Entity/Tracking/useDeleteTrackingImage.js";
 import usePutTrackingImageToNotShare from "../../../../3_Entity/Tracking/usePutTrackingImageToNotShare.js";
 import usePutTrackingImageToShare from "../../../../3_Entity/Tracking/usePutTrackingImageToShare.js";
-import useUpdateTrackingImage from "./model/useUpdateTrackingImage";
 
 const Header = (props) => {
   const {
@@ -75,9 +73,9 @@ const Header = (props) => {
     deleteTrackingImage(modifyIdxList.map((item) => item.idx));
   };
 
-  const [modifyImageModal, modifyImageModalToggle] = useModifyImageModal(); // 프로필 이미지 모달
-  const [modifyNameModal, modifyNameModalToggle] = useModifyNameModal(); // 닉네임 수정 모달
-  const [modifyModeModal, modifyModeModalToggle] = useModifyMode(); // 수정 , 삭제 뒤로가기 모달
+  const [modifyImageModal, modifyImageModalToggle] = useModalHandler(); // 프로필 이미지 모달
+  const [modifyNameModal, modifyNameModalToggle] = useModalHandler(); // 닉네임 수정 모달
+  const [modifyModeModal, modifyModeModalToggle] = useModalHandler(); // 수정 , 삭제 뒤로가기 모달
   const [confirmModal, confirmModalToggle] = useModalHandler(); // 확인 모달
 
   return (
