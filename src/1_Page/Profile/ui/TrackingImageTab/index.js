@@ -5,8 +5,8 @@ import TrackContainer from "./ui/TrackingImageContainer";
 const TrackingImageTab = (props) => {
   const {
     displayTrackingImage,
-    modifyMode,
     setDisplayTrackingImage,
+    modifyMode,
     setModifyIdxList,
     obServeRef,
   } = props;

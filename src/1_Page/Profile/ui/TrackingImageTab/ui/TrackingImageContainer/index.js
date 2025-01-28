@@ -11,7 +11,7 @@ import useModalHandler from "../../../../../../4_Shared/model/useModalHandler";
 import TrackingImagePostList from "../../../../../../2_Widget/TrackingImagePostList";
 import useSelectTrack from "./model/useSelectTrack";
 
-const TrackingImageContainer = (props) => {
+const TrackingImageContainer = React.memo((props) => {
   const {
     trackingImageData,
     modifyMode,
@@ -91,6 +91,6 @@ const TrackingImageContainer = (props) => {
         )}
     </>
   );
-};
+});
 
 export default TrackingImageContainer;
