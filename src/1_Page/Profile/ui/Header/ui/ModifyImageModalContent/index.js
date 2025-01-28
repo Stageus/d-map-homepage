@@ -35,7 +35,7 @@ const ModifyImageModalContent = (props) => {
 
   const [putProfileImage] = usePutProfileImage({
     onSuccess: handleSuccess,
-    onError: (text) => showModalWithText(text),
+    onError: showModalWithText,
   });
 
   return (

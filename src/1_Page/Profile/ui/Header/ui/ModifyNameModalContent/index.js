@@ -24,18 +24,23 @@ const ModifyNameModalContent = (props) => {
 
   const [
     confirmModal,
-    confirmModalToggle,
+    message,
+    showModalWithText,
     handleImageConfirmModalOpen,
     handleNameConfirmModalDone,
   ] = useNicknameModal();
 
-  const [putNickname] = usePutNickname((updatedNickname) => {
-    setMessage(`닉네임이 변경되었습니다 : ${updatedNickname}`);
-    handleChangeNickName(updatedNickname);
-    handleImageConfirmModalOpen(handleClose);
-  });
+  const [currentNickname, setCurrentNickname] = useState(name);
 
-  const [message, setMessage] = useState("");
+  const handleSuccess = () => {
+    handleChangeNickName(currentNickname);
+    handleImageConfirmModalOpen(handleClose);
+  };
+
+  const [putNickname] = usePutNickname({
+    onSuccess: handleSuccess,
+    onError: showModalWithText,
+  });
 
   const {
     register,
@@ -84,7 +89,10 @@ const ModifyNameModalContent = (props) => {
           )}
         </STYLE.InputContainer>
         <STYLE.SubmitButton
-          onClick={handleSubmit((data) => putNickname(data.nickname))}>
+          onClick={handleSubmit((data) => {
+            putNickname(data.nickname);
+            setCurrentNickname(data.nickname);
+          })}>
           수정하기
         </STYLE.SubmitButton>
       </STYLE.Container>

@@ -43,10 +43,9 @@ export const removeDuplicateData = (data) => {
   );
 };
 
-export const sortTrackData = (trackData) => {
-  return {
-    save: [...trackData.save].sort((a, b) => b.idx - a.idx),
-  };
+// idx를 기준으로 오름차순 정렬
+export const sortTrackData = (data) => {
+  return data.sort((a, b) => b.idx - a.idx);
 };
 
 export const moveTrack = (track, fromList, toList, sharingStatus) => ({

@@ -31,10 +31,9 @@ const useGetMyInfo = (userIdx = "me") => {
           console.log("서버 오류 발생");
           break;
         default:
-          setUserInfo(serverState?.data || null);
+          setUserInfo(serverState);
       }
     }
-    setUserInfo(serverState);
   }, [loading, serverState]);
 
   return [userInfo, loading];

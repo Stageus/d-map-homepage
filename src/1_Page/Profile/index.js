@@ -22,7 +22,7 @@ const Profile = () => {
   const { userIdx } = useParams();
   const [myInfo] = useGetMyInfo(userIdx); // userIdx에 me 또는 공백시 fetch
   const [anotherUserInfo] = useGetUserInfo(userIdx); // userIdx가 int면 fetch
-  const userInfo = myInfo ? myInfo : anotherUserInfo;
+  const userInfo = myInfo || anotherUserInfo;
 
   const [tabState, handleTabClick] = useTabs(); // 탭 관리 훅
   const [modifyMode, memoizedSetMode] = useSettingMode(); // 수정 , 삭제 상태 관리
