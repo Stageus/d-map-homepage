@@ -26,14 +26,14 @@ const useLongPressEvent = (onPinchStart, track) => {
     };
   }, []);
 
-  return {
+  return [
     selectLongPressData,
-    longPressEvents: {
+    {
       onTouchStart: handleStart,
       onTouchEnd: handleCancel,
       onTouchCancel: handleCancel,
     },
-  };
+  ];
 };
 
 export default useLongPressEvent;

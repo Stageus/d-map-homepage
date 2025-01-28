@@ -23,8 +23,7 @@ const TrackingImageContainer = React.memo((props) => {
   const [isModifyTrackingModalOpen, modifyTrackingModalToggle] =
     useConfirmModal();
   const [isTrackingPost, handleTrackingPost] = useModalHandler();
-
-  const { selectLongPressData, longPressEvents } = useLongPressEvent(
+  const [selectLongPressData, longPressEvents] = useLongPressEvent(
     modifyTrackingModalToggle,
     trackingImageData
   );

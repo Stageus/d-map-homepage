@@ -34,6 +34,7 @@ const Header = (props) => {
     setModifyIdxList,
   } = props;
 
+  console.log("해더");
   const [userInfo, handleProfileImageChange, handleChangeNickName] =
     useManageUserInfo(userInfoData);
 
@@ -49,7 +50,6 @@ const Header = (props) => {
     modifyMode
   );
 
-  // 사용
   const adjustedLengths = calculateAdjustedTrackingLengths(
     userInfo,
     changeTrackingImageDataLength
