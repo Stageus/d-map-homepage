@@ -40,6 +40,7 @@ const usePutProfileImage = ({ onSuccess, onError }) => {
   };
 
   React.useEffect(() => {
+    if (!serverState) return;
     let message;
     switch (serverState?.status) {
       case 200:
@@ -47,19 +48,19 @@ const usePutProfileImage = ({ onSuccess, onError }) => {
         return;
       case 400:
         message = "입력 값 오류: 닉네임 형식이 잘못되었습니다.";
-        return;
+        break;
       case 403:
         message = "인증 실패: 다시 로그인 하십시오";
-        return;
+        break;
       case 409:
         message = "중복 닉네임: 해당 닉네임은 이미 사용 중입니다.";
-        return;
+        break;
       default:
-        message = serverState.message;
+        message = serverState?.message;
         break;
     }
     onError?.(message);
-  }, [serverState, onSuccess, onError]);
+  }, [serverState]);
 
   return [putProfileImage, loading];
 };

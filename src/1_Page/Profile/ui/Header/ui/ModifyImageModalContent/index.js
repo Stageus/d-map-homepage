@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import STYLE from "./style";
 
@@ -18,6 +18,7 @@ const ModifyImageModalContent = (props) => {
     handleImageConfirmModalOpen,
     handleImageConfirmModalDone,
   ] = useImageModal();
+
   const [
     uploadedImageFile,
     fileInputRef,
