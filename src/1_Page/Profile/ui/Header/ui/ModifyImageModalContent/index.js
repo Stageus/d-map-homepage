@@ -61,7 +61,7 @@ const ModifyImageModalContent = (props) => {
             if (!validateImageChange()) {
               return;
             }
-            putProfileImage("123");
+            putProfileImage(uploadedImageFile);
           }}>
           수정하기
         </STYLE.EditButton>
