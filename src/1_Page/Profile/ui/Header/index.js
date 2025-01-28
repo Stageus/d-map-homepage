@@ -32,9 +32,9 @@ const Header = (props) => {
     displayTrackingImage,
     setDisplayTrackingImage,
     setModifyIdxList,
+    memorizedTrackData,
   } = props;
 
-  console.log("해더");
   const [userInfo, handleProfileImageChange, handleChangeNickName] =
     useManageUserInfo(userInfoData);
 
@@ -44,10 +44,9 @@ const Header = (props) => {
     handleModifyTrack,
     handleDeleteTrack,
   ] = useUpdateTrackingImage(
-    displayTrackingImage,
     setDisplayTrackingImage,
     setModifyIdxList,
-    modifyMode
+    memorizedTrackData
   );
 
   const adjustedLengths = calculateAdjustedTrackingLengths(
@@ -218,4 +217,3 @@ const Header = (props) => {
   );
 };
 export default Header;
-// export default React.memo(Header, shallowEqual); // 얕은 복사 비교해서 props변동이 있을때만 렌더링

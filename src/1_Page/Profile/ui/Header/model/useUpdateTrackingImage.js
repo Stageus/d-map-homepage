@@ -6,23 +6,14 @@ import {
 } from "../../../lib/profileUtil";
 
 const useUpdateTrackingImage = (
-  displayTrackingImage,
   setDisplayTrackingImage,
   setModifyIdxList,
-  modifyMode
+  memorizedTrackData
 ) => {
-  const [memorizedTrackData, setMemorizedTrackData] = useState(null);
-
   const [changeTrackingImageDataLength, setChangeTrackingLength] = useState({
     save: 0,
     share: 0,
   });
-
-  useEffect(() => {
-    if (modifyMode) {
-      setMemorizedTrackData(displayTrackingImage);
-    }
-  }, [modifyMode]);
 
   const resetSelection = useCallback(() => {
     setModifyIdxList([]);

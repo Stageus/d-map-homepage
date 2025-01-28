@@ -39,8 +39,8 @@ const Profile = () => {
 
   // 수정 state
   const [modifyIdxList, setModifyIdxList] = useState([]);
-  const [displayTrackingImage, setDisplayTrackingImage] =
-    useManageTrackData(trackingImageData);
+  const [displayTrackingImage, setDisplayTrackingImage, memorizedTrackData] =
+    useManageTrackData(trackingImageData, modifyMode);
 
   return (
     <>
@@ -69,6 +69,7 @@ const Profile = () => {
             displayTrackingImage={displayTrackingImage}
             setDisplayTrackingImage={setDisplayTrackingImage}
             setModifyIdxList={setModifyIdxList}
+            memorizedTrackData={memorizedTrackData}
           />
           <STYLE.SliderWrapper>
             <STYLE.Slider $tabIndex={tabState?.tabIndex}>
