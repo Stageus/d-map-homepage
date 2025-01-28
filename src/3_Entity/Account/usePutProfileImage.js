@@ -30,7 +30,7 @@ export const useFormDataFetch = () => {
   return [serverState, request, loading];
 };
 
-const usePutProfileImage = (onProfileImageChange) => {
+const usePutProfileImage = ({ onSuccess, onError }) => {
   const [serverState, request, loading] = useFormDataFetch();
 
   const putProfileImage = (imageFile) => {
@@ -40,23 +40,26 @@ const usePutProfileImage = (onProfileImageChange) => {
   };
 
   React.useEffect(() => {
+    let message;
     switch (serverState?.status) {
+      case 200:
+        onSuccess?.();
+        return;
       case 400:
-        console.log("입력 값 오류: 닉네임 형식이 잘못되었습니다.");
+        message = "입력 값 오류: 닉네임 형식이 잘못되었습니다.";
         return;
       case 403:
-        console.log("인증 실패: 다시 로그인 하십시오");
+        message = "인증 실패: 다시 로그인 하십시오";
         return;
       case 409:
-        console.log("중복 닉네임: 해당 닉네임은 이미 사용 중입니다.");
+        message = "중복 닉네임: 해당 닉네임은 이미 사용 중입니다.";
         return;
-      case 200:
-        onProfileImageChange();
-        break;
       default:
-        console.log(serverState.message);
+        message = serverState.message;
+        break;
     }
-  }, [serverState]);
+    onError?.(message);
+  }, [serverState, onSuccess, onError]);
 
   return [putProfileImage, loading];
 };

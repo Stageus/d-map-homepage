@@ -20,8 +20,8 @@ import useGetProfileTrackingImageList from "../../3_Entity/Tracking/useGetProfil
 const Profile = () => {
   // 유저 데이터 조회
   const { userIdx } = useParams();
-  const [myInfo] = useGetMyInfo(userIdx); // userIdx에 me 또는 공백시 호출
-  const [anotherUserInfo] = useGetUserInfo(userIdx); // userIdx가 me가 아니면 호출
+  const [myInfo] = useGetMyInfo(userIdx); // userIdx에 me 또는 공백시 fetch
+  const [anotherUserInfo] = useGetUserInfo(userIdx); // userIdx가 int면 fetch
   const userInfo = myInfo ? myInfo : anotherUserInfo;
 
   const [tabState, handleTabClick] = useTabs(); // 탭 관리 훅
@@ -30,6 +30,8 @@ const Profile = () => {
   const [paging, shareObserveRef, saveObserveRef] = useInfinityScroll(
     tabState.tabIndex
   );
+
+  const navigate = useNavigate();
 
   // 데이터 조회 (userIdx , page , category)
   const [trackingImageData, loading, hasMoreContent] =
@@ -57,7 +59,6 @@ const Profile = () => {
     putTrackingImageToShare
   );
 
-  const navigate = useNavigate();
   if (!userInfo) {
     return (
       <STYLE.ErrorContainer>

@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
-const useFileReader = (initialImage, confirmModalToggle) => {
+const useFileReader = (initialImage, showModalWithText) => {
   const fileInputRef = useRef(null);
   const [imagePreviewURL, setImagePreviewURL] = useState(initialImage);
   const [uploadedImageFile, setUploadedImageFile] = useState(null);
-  const [message, setMessage] = useState(null);
 
   const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "gif"];
   const FILE_NAME_MIN_LENGTH = 2;
@@ -19,8 +18,8 @@ const useFileReader = (initialImage, confirmModalToggle) => {
 
   const validateFile = (file) => {
     if (!file) {
-      setMessage("파일이 선택되지 않았습니다.");
-      confirmModalToggle();
+      showModalWithText("파일이 선택되지 않았습니다.");
+
       return false;
     }
 
@@ -34,33 +33,33 @@ const useFileReader = (initialImage, confirmModalToggle) => {
       fileNameWithoutExtension.length < FILE_NAME_MIN_LENGTH ||
       fileNameWithoutExtension.length > FILE_NAME_MAX_LENGTH
     ) {
-      setMessage(
+      showModalWithText(
         `파일 이름은 ${FILE_NAME_MIN_LENGTH}자 이상 ${FILE_NAME_MAX_LENGTH}자 이하이어야 합니다.`
       );
-      confirmModalToggle();
+
       return false;
     }
 
     // 파일 크기 검증 (최대 5MB 제한)
     if (file.size > MAX_FILE_SIZE) {
-      setMessage(
+      showModalWithText(
         `파일 크기가 너무 큽니다. 최대 ${
           MAX_FILE_SIZE / (1024 * 1024)
         }MB까지 업로드 가능합니다.`
       );
-      confirmModalToggle();
+
       return false;
     }
 
     // 파일 확장자 검증
     const fileExtension = file.name.split(".").pop().toLowerCase();
     if (!ALLOWED_EXTENSIONS.includes(fileExtension)) {
-      setMessage(
+      showModalWithText(
         `허용되지 않는 파일 형식입니다. ${ALLOWED_EXTENSIONS.join(
           ", "
         )}만 업로드 가능합니다.`
       );
-      confirmModalToggle();
+
       return false;
     }
 
@@ -85,8 +84,8 @@ const useFileReader = (initialImage, confirmModalToggle) => {
 
   const validateImageChange = () => {
     if (initialImage === imagePreviewURL) {
-      setMessage("사진을 변경하세요");
-      confirmModalToggle();
+      showModalWithText("사진을 변경하세요");
+
       return false;
     }
     return true;
@@ -100,16 +99,14 @@ const useFileReader = (initialImage, confirmModalToggle) => {
     };
   }, [imagePreviewURL, initialImage]);
 
-  return {
+  return [
     uploadedImageFile,
     fileInputRef,
     imagePreviewURL,
     handleProfileImageClick,
     handleFileChange,
     validateImageChange,
-    message,
-    setMessage,
-  };
+  ];
 };
 
 export default useFileReader;

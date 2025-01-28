@@ -10,27 +10,31 @@ import usePutProfileImage from "../../../../../../3_Entity/Account/usePutProfile
 
 const ModifyImageModalContent = (props) => {
   const { image, handleProfileImageChange, handleClose } = props;
+
   const [
     confirmModal,
-    confirmModalToggle,
+    message,
+    showModalWithText,
     handleImageConfirmModalOpen,
     handleImageConfirmModalDone,
   ] = useImageModal();
-  const {
+  const [
     uploadedImageFile,
     fileInputRef,
     imagePreviewURL,
     handleProfileImageClick,
     handleFileChange,
     validateImageChange,
-    message,
-    setMessage,
-  } = useFileReader(image, confirmModalToggle);
+  ] = useFileReader(image, showModalWithText);
 
-  const [putProfileImage] = usePutProfileImage(() => {
-    setMessage("변경되었습니다");
+  const handleSuccess = () => {
     handleProfileImageChange(uploadedImageFile);
     handleImageConfirmModalOpen(handleClose);
+  };
+
+  const [putProfileImage] = usePutProfileImage({
+    onSuccess: handleSuccess,
+    onError: (text) => showModalWithText(text),
   });
 
   return (
