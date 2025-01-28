@@ -12,9 +12,11 @@ import useGetMyInfo from "../../3_Entity/Account/useGetMyInfo.js";
 import useGetUserInfo from "../../3_Entity/Account/useGetUserInfo.js";
 
 import useGetProfileTrackingImageList from "../../3_Entity/Tracking/useGetProfileTrackingImageList.js";
+import { useState } from "react";
 
 const Profile = () => {
   // 유저 데이터 조회
+  const navigate = useNavigate();
   const { userIdx } = useParams();
   const [myInfo] = useGetMyInfo(userIdx); // userIdx에 me 또는 공백시 fetch
   const [anotherUserInfo] = useGetUserInfo(userIdx); // userIdx가 int면 fetch
@@ -23,77 +25,71 @@ const Profile = () => {
   const [tabState, handleTabClick] = useTabs(); // 탭 관리 훅
   const [modifyMode, memoizedSetMode] = useSettingMode(); // 수정 , 삭제 상태 관리
 
-  const [paging, shareObserveRef, saveObserveRef] = useInfinityScroll(
+  const [curruntTabPage, shareObserveRef, saveObserveRef] = useInfinityScroll(
     tabState.tabIndex
   );
-
-  const navigate = useNavigate();
 
   // 데이터 조회 (userIdx , page , category)
   const [trackingImageData, loading, hasMoreContent] =
     useGetProfileTrackingImageList(
       userInfoData?.idx,
-      paging,
+      curruntTabPage,
       tabState.tabIndex === 1 ? 0 : 1 // 0 이 공유 , 1이 저장
     );
 
-  const [
-    trackData,
-    modifyIdxList,
-    updateSelectedTracks,
-    setTrackData,
-    setModifyIdxList,
-  ] = useManageTrackData(trackingImageData);
-
-  if (!userInfoData) {
-    return (
-      <STYLE.ErrorContainer>
-        <STYLE.EmptyMessage>
-          죄송합니다. 존재하지 않는 유저입니다.
-        </STYLE.EmptyMessage>
-        <STYLE.ErrorMessageBox>
-          <STYLE.EmptyMessage>
-            링크가 잘못되었거나 삭제되었습니다.
-          </STYLE.EmptyMessage>
-          <STYLE.BackButton onClick={() => navigate("/")}>
-            처음으로 돌아가기
-          </STYLE.BackButton>
-        </STYLE.ErrorMessageBox>
-      </STYLE.ErrorContainer>
-    );
-  }
+  // 수정 state
+  const [modifyIdxList, setModifyIdxList] = useState([]);
+  const [displayTrackingImage, setDisplayTrackingImage] =
+    useManageTrackData(trackingImageData);
 
   return (
     <>
-      <STYLE.Main>
-        <Header
-          setMode={memoizedSetMode}
-          activeTabStr={tabState?.activeTabStr}
-          userInfoData={userInfoData}
-          handleTabClick={handleTabClick}
-          modifyIdxList={modifyIdxList}
-          trackData={trackData}
-          trackingImageData={trackingImageData}
-          setTrackData={setTrackData}
-          setModifyIdxList={setModifyIdxList}
-        />
-        <STYLE.SliderWrapper>
-          <STYLE.Slider $tabIndex={tabState?.tabIndex}>
-            <TrackingImageTab
-              trackingImageList={trackData.share}
-              modifyMode={modifyMode}
-              obServeRef={hasMoreContent.share ? shareObserveRef : null}
-              updateSelectedTracks={updateSelectedTracks}
-            />
-            <TrackingImageTab
-              trackingImageList={trackData.save}
-              modifyMode={modifyMode}
-              obServeRef={hasMoreContent.save ? saveObserveRef : null}
-              updateSelectedTracks={updateSelectedTracks}
-            />
-          </STYLE.Slider>
-        </STYLE.SliderWrapper>
-      </STYLE.Main>
+      {!userInfoData ? (
+        <STYLE.ErrorContainer>
+          <STYLE.EmptyMessage>
+            죄송합니다. 존재하지 않는 유저입니다.
+          </STYLE.EmptyMessage>
+          <STYLE.ErrorMessageBox>
+            <STYLE.EmptyMessage>
+              링크가 잘못되었거나 삭제되었습니다.
+            </STYLE.EmptyMessage>
+            <STYLE.BackButton onClick={() => navigate("/")}>
+              처음으로 돌아가기
+            </STYLE.BackButton>
+          </STYLE.ErrorMessageBox>
+        </STYLE.ErrorContainer>
+      ) : (
+        <STYLE.Main>
+          <Header
+            setMode={memoizedSetMode}
+            activeTabStr={tabState?.activeTabStr}
+            userInfoData={userInfoData}
+            handleTabClick={handleTabClick}
+            modifyIdxList={modifyIdxList}
+            displayTrackingImage={displayTrackingImage}
+            setDisplayTrackingImage={setDisplayTrackingImage}
+            setModifyIdxList={setModifyIdxList}
+          />
+          <STYLE.SliderWrapper>
+            <STYLE.Slider $tabIndex={tabState?.tabIndex}>
+              <TrackingImageTab
+                displayTrackingImage={displayTrackingImage.share}
+                modifyMode={modifyMode}
+                obServeRef={hasMoreContent.share ? shareObserveRef : null}
+                setDisplayTrackingImage={setDisplayTrackingImage}
+                setModifyIdxList={setModifyIdxList}
+              />
+              <TrackingImageTab
+                displayTrackingImage={displayTrackingImage.save}
+                modifyMode={modifyMode}
+                obServeRef={hasMoreContent.save ? saveObserveRef : null}
+                setDisplayTrackingImage={setDisplayTrackingImage}
+                setModifyIdxList={setModifyIdxList}
+              />
+            </STYLE.Slider>
+          </STYLE.SliderWrapper>
+        </STYLE.Main>
+      )}
 
       {loading && (
         <STYLE.LoadingContainer>

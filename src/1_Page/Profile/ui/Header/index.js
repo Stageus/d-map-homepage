@@ -4,11 +4,10 @@ import ReactDOM from "react-dom";
 import STYLE from "./style.js";
 import empty_profie_icon from "./assets/empty_profile_icon.svg";
 
-import shallowEqual from "./lib/shallowEqual.js";
+import { calculateAdjustedTrackingLengths } from "./lib/calcualate.js";
+import { extractIdxLists } from "../../lib/profileUtil.js";
 
 import useManageUserInfo from "./model/useManageUserInfo.js";
-import useTrackDataLength from "./model/useTrackDataLength.js";
-
 import useModifyImageModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyNameModal from "../../../../4_Shared/model/useModalHandler.js";
 import useModifyMode from "../../../../4_Shared/model/useModalHandler.js";
@@ -24,7 +23,6 @@ import useDeleteTrackingImage from "../../../../3_Entity/Tracking/useDeleteTrack
 import usePutTrackingImageToNotShare from "../../../../3_Entity/Tracking/usePutTrackingImageToNotShare.js";
 import usePutTrackingImageToShare from "../../../../3_Entity/Tracking/usePutTrackingImageToShare.js";
 import useUpdateTrackingImage from "./model/useUpdateTrackingImage";
-import { extractIdxLists } from "../../lib/profileUtil.js";
 
 const Header = (props) => {
   const {
@@ -33,9 +31,8 @@ const Header = (props) => {
     userInfoData,
     handleTabClick,
     modifyIdxList,
-    trackData,
-    trackingImageData,
-    setTrackData,
+    displayTrackingImage,
+    setDisplayTrackingImage,
     setModifyIdxList,
   } = props;
 
@@ -43,44 +40,39 @@ const Header = (props) => {
     useManageUserInfo(userInfoData);
 
   const [
-    changeTrackingLength,
-    handleSelectCancel,
+    changeTrackingImageDataLength,
+    resetSelection,
     handleModifyTrack,
     handleDeleteTrack,
   ] = useUpdateTrackingImage(
-    trackData,
-    trackingImageData,
-    setTrackData,
-    setModifyIdxList
+    displayTrackingImage,
+    setDisplayTrackingImage,
+    setModifyIdxList,
+    modifyMode
   );
 
-  const trackDataLength = useTrackDataLength(
+  // 사용
+  const adjustedLengths = calculateAdjustedTrackingLengths(
     userInfo,
-    activeTabStr,
-    changeTrackingLength
+    changeTrackingImageDataLength
   );
 
   const [deleteTrackingImage] = useDeleteTrackingImage({
-    onSuccess: handleDeleteTrack(modifyIdxList),
+    onSuccess: () => handleDeleteTrack(modifyIdxList),
   });
   const [putTrackingImageToNotShare] = usePutTrackingImageToNotShare({
-    onSuccess: handleModifyTrack(modifyIdxList, false),
+    onSuccess: () => handleModifyTrack(modifyIdxList, false),
   });
   const [putTrackingImageToShare] = usePutTrackingImageToShare({
-    onSuccess: handleModifyTrack(modifyIdxList, true),
+    onSuccess: () => handleModifyTrack(modifyIdxList, true),
   });
-
-  // 수정 트리거 감지 및 처리
   const handleModifyClick = () => {
     const { idxToShare, idxToNotShare } = extractIdxLists(modifyIdxList);
     if (idxToShare.length > 0) putTrackingImageToShare(idxToShare);
     if (idxToNotShare.length > 0) putTrackingImageToNotShare(idxToNotShare);
   };
-
   const handleDeleteClick = () => {
-    // 삭제 트리거 감지 및 처리
-    const idxList = modifyIdxList.map((item) => item.idx);
-    deleteTrackingImage(idxList);
+    deleteTrackingImage(modifyIdxList.map((item) => item.idx));
   };
 
   const [modifyImageModal, modifyImageModalToggle] = useModifyImageModal(); // 프로필 이미지 모달
@@ -115,7 +107,11 @@ const Header = (props) => {
               </STYLE.Nickname>
             )}
             <STYLE.PostCount>
-              {activeTabStr} 게시물 : {trackDataLength}개
+              {activeTabStr} 게시물 :{" "}
+              {activeTabStr === "공유"
+                ? adjustedLengths.share
+                : adjustedLengths.save}
+              개
             </STYLE.PostCount>
           </STYLE.UserInfo>
         </STYLE.ProfileContainer>
@@ -129,7 +125,7 @@ const Header = (props) => {
             <STYLE.Button
               onClick={() => {
                 handleCloseMode();
-                handleSelectCancel();
+                resetSelection();
               }}>
               취소
             </STYLE.Button>
@@ -180,7 +176,7 @@ const Header = (props) => {
       )}
 
       {modifyModeModal &&
-        (trackDataLength === 0 ? (
+        (displayTrackingImage === 0 ? (
           ReactDOM.createPortal(
             <ConfirmModal
               type="one"
@@ -196,7 +192,6 @@ const Header = (props) => {
                 handleSetMode={handleSetMode}
                 handleClose={handleClose}
                 handleModifyModeClose={modifyModeModalToggle}
-                trackDataLength={trackDataLength}
               />
             )}
           </ModalBase>
@@ -224,4 +219,5 @@ const Header = (props) => {
     </>
   );
 };
-export default React.memo(Header, shallowEqual); // 얕은 복사 비교해서 props변동이 있을때만 렌더링
+export default Header;
+// export default React.memo(Header, shallowEqual); // 얕은 복사 비교해서 props변동이 있을때만 렌더링

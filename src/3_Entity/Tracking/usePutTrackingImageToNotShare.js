@@ -17,12 +17,13 @@ const usePutTrackingImageToNotShare = ({ onSucess, onError }) => {
       case 403:
         console.log(serverState.message);
         break;
+
       case 429:
-        alert("요청이 너무 많습니다! 잠시 기다려주세요.");
         break;
       default:
         break;
     }
+    onError("요청이 너무 많습니다! 잠시 기다려주세요.");
   }, [serverState]);
 
   return [putTrackingImageToNotShare];

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   calculateTrackingLength,
   categorizeTrackData,
@@ -7,57 +7,55 @@ import {
 } from "../../../lib/profileUtil";
 
 const useUpdateTrackingImage = (
-  trackData,
-  trackingImageData,
-  setTrackData,
-  setModifyIdxList
+  displayTrackingImage,
+  setDisplayTrackingImage,
+  setModifyIdxList,
+  modifyMode
 ) => {
-  // 기존 데이터를 기억하는 상태
   const [memorizedTrackData, setMemorizedTrackData] = useState(null);
-  // 초기 데이터 세팅
-  useEffect(() => {
-    const categroizedTrackingData = categorizeTrackData(trackingImageData);
-    setMemorizedTrackData((prev) => {
-      return { ...prev, ...categroizedTrackingData };
-    });
-  }, [trackingImageData]);
 
-  const [changeTrackingLength, setChangeTrackingLength] = useState({
+  const [changeTrackingImageDataLength, setChangeTrackingLength] = useState({
     save: 0,
     share: 0,
   });
 
-  // 선택 초기화
-  const handleSelectCancel = () => {
-    setModifyIdxList([]);
-    setTrackData(memorizedTrackData);
-  };
+  useEffect(() => {
+    if (modifyMode) {
+      setMemorizedTrackData(categorizeTrackData(displayTrackingImage));
+    }
+  }, [modifyMode]);
 
-  // 트래킹 데이터 수정
-  const handleModifyTrack = (modifyIdxList, isToShare) => {
-    const filterIdxList = modifyIdxList.filter((item) => item === isToShare);
-    const { idxToShare, idxToNotShare } = extractIdxLists(filterIdxList);
+  const resetSelection = useCallback(() => {
     setModifyIdxList([]);
-    setMemorizedTrackData(trackData);
-    setChangeTrackingLength((prev) =>
-      calculateTrackingLength(prev, idxToShare, idxToNotShare)
-    );
-  };
+    setDisplayTrackingImage(memorizedTrackData);
+  }, [memorizedTrackData]);
 
-  // 트래킹 데이터 삭제
-  const handleDeleteTrack = (modifyIdxList) => {
-    const idxList = modifyIdxList.map((item) => item.idx);
-    setChangeTrackingLength((prev) =>
-      calculateTrackingLength(prev, [], idxList)
-    );
-    setTrackData((prev) => filterTrackData(prev, idxList));
-    setMemorizedTrackData(trackData);
-    setModifyIdxList([]);
-  };
+  const handleModifyTrack = useCallback(
+    (modifyIdxList, isToShare) => {
+      const { idxToShare, idxToNotShare } = extractIdxLists(modifyIdxList);
+      resetSelection();
+      setChangeTrackingLength((prev) =>
+        calculateTrackingLength(prev, idxToShare, idxToNotShare)
+      );
+    },
+    [resetSelection]
+  );
+
+  const handleDeleteTrack = useCallback(
+    (modifyIdxList) => {
+      const idxList = modifyIdxList.map((item) => item.idx);
+      setChangeTrackingLength((prev) =>
+        calculateTrackingLength(prev, [], idxList)
+      );
+      setDisplayTrackingImage((prev) => filterTrackData(prev, idxList));
+      resetSelection();
+    },
+    [resetSelection]
+  );
 
   return [
-    changeTrackingLength,
-    handleSelectCancel,
+    changeTrackingImageDataLength,
+    resetSelection,
     handleModifyTrack,
     handleDeleteTrack,
   ];

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import STYLE from "./style";
 
@@ -9,10 +9,16 @@ import useLongPressEvent from "./model/useLongPressEvent";
 import useConfirmModal from "../../../../../../4_Shared/model/useModalHandler";
 import useModalHandler from "../../../../../../4_Shared/model/useModalHandler";
 import TrackingImagePostList from "../../../../../../2_Widget/TrackingImagePostList";
+import useSelectTrack from "./model/useSelectTrack";
 
 const TrackingImageContainer = (props) => {
-  const { trackingImageData, modifyMode, updateSelectedTracks, obServeRef } =
-    props;
+  const {
+    trackingImageData,
+    modifyMode,
+    setDisplayTrackingImage,
+    setModifyIdxList,
+    obServeRef,
+  } = props;
 
   const [isModifyTrackingModalOpen, modifyTrackingModalToggle] =
     useConfirmModal();
@@ -23,9 +29,10 @@ const TrackingImageContainer = (props) => {
     trackingImageData
   );
 
-  useEffect(() => {
-    console.log(trackingImageData.idx, "렌더링");
-  }, []);
+  const [clickTrackEvent] = useSelectTrack(
+    setDisplayTrackingImage,
+    setModifyIdxList
+  );
 
   return (
     <>
@@ -47,14 +54,14 @@ const TrackingImageContainer = (props) => {
         {modifyMode === "공유" && (
           <STYLE.TrackingClickBox
             onClick={() => {
-              updateSelectedTracks(trackingImageData, false);
+              clickTrackEvent(trackingImageData, false);
             }}
           />
         )}
         {modifyMode === "삭제" && (
           <STYLE.TrackingCheckbox
             onChange={() => {
-              updateSelectedTracks(trackingImageData, true);
+              clickTrackEvent(trackingImageData, true);
             }}
           />
         )}
