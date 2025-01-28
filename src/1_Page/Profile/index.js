@@ -11,10 +11,6 @@ import useManageTrackData from "./model/useManageTrackData.js";
 import useGetMyInfo from "../../3_Entity/Account/useGetMyInfo.js";
 import useGetUserInfo from "../../3_Entity/Account/useGetUserInfo.js";
 
-import useDeleteTrackingImage from "../../3_Entity/Tracking/useDeleteTrackingImage.js";
-import usePutTrackingImageToNotShare from "../../3_Entity/Tracking/usePutTrackingImageToNotShare.js";
-import usePutTrackingImageToShare from "../../3_Entity/Tracking/usePutTrackingImageToShare.js";
-
 import useGetProfileTrackingImageList from "../../3_Entity/Tracking/useGetProfileTrackingImageList.js";
 
 const Profile = () => {
@@ -22,7 +18,7 @@ const Profile = () => {
   const { userIdx } = useParams();
   const [myInfo] = useGetMyInfo(userIdx); // userIdx에 me 또는 공백시 fetch
   const [anotherUserInfo] = useGetUserInfo(userIdx); // userIdx가 int면 fetch
-  const userInfo = myInfo || anotherUserInfo;
+  const userInfoData = myInfo || anotherUserInfo;
 
   const [tabState, handleTabClick] = useTabs(); // 탭 관리 훅
   const [modifyMode, memoizedSetMode] = useSettingMode(); // 수정 , 삭제 상태 관리
@@ -36,30 +32,20 @@ const Profile = () => {
   // 데이터 조회 (userIdx , page , category)
   const [trackingImageData, loading, hasMoreContent] =
     useGetProfileTrackingImageList(
-      userInfo?.idx,
+      userInfoData?.idx,
       paging,
       tabState.tabIndex === 1 ? 0 : 1 // 0 이 공유 , 1이 저장
     );
-  const [deleteTrackingImage] = useDeleteTrackingImage();
-  const [putTrackingImageToNotShare] = usePutTrackingImageToNotShare();
-  const [putTrackingImageToShare] = usePutTrackingImageToShare();
 
   const [
     trackData,
-    changeTrackingLength,
     modifyIdxList,
-    setDeleteTrigger,
-    setModifyTrigger,
     updateSelectedTracks,
-    handleSelectCancel,
-  ] = useManageTrackData(
-    trackingImageData,
-    deleteTrackingImage,
-    putTrackingImageToNotShare,
-    putTrackingImageToShare
-  );
+    setTrackData,
+    setModifyIdxList,
+  ] = useManageTrackData(trackingImageData);
 
-  if (!userInfo) {
+  if (!userInfoData) {
     return (
       <STYLE.ErrorContainer>
         <STYLE.EmptyMessage>
@@ -82,14 +68,14 @@ const Profile = () => {
       <STYLE.Main>
         <Header
           setMode={memoizedSetMode}
-          setDeleteTrigger={setDeleteTrigger}
-          setModifyTrigger={setModifyTrigger}
-          changeTrackingLength={changeTrackingLength}
           activeTabStr={tabState?.activeTabStr}
+          userInfoData={userInfoData}
           handleTabClick={handleTabClick}
-          handleSelectCancel={handleSelectCancel}
-          userInfoData={userInfo}
-          isModifyListEmpty={modifyIdxList.length === 0}
+          modifyIdxList={modifyIdxList}
+          trackData={trackData}
+          trackingImageData={trackingImageData}
+          setTrackData={setTrackData}
+          setModifyIdxList={setModifyIdxList}
         />
         <STYLE.SliderWrapper>
           <STYLE.Slider $tabIndex={tabState?.tabIndex}>

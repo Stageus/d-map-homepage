@@ -18,7 +18,7 @@ const useManageUserInfo = (userInfoData) => {
     setUserInfo((prev) => ({ ...prev, image_url: objectUrl }));
   };
 
-  return { userInfo, handleProfileImageChange, handleChangeNickName };
+  return [userInfo, handleProfileImageChange, handleChangeNickName];
 };
 
 export default useManageUserInfo;

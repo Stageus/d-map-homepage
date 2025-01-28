@@ -20,28 +20,68 @@ import ModifyNameModalContent from "./ui/ModifyNameModalContent";
 import ModifyModeModalContent from "./ui/ModifyModeModalContent";
 import ConfirmModal from "../../../../2_Widget/ConfirmModal";
 
+import useDeleteTrackingImage from "../../../../3_Entity/Tracking/useDeleteTrackingImage.js";
+import usePutTrackingImageToNotShare from "../../../../3_Entity/Tracking/usePutTrackingImageToNotShare.js";
+import usePutTrackingImageToShare from "../../../../3_Entity/Tracking/usePutTrackingImageToShare.js";
+import useUpdateTrackingImage from "./model/useUpdateTrackingImage";
+import { extractIdxLists } from "../../lib/profileUtil.js";
+
 const Header = (props) => {
   const {
     setMode: { modifyMode, handleSetMode, handleCloseMode },
-    handleSelectCancel,
-    setDeleteTrigger,
-    setModifyTrigger,
     activeTabStr,
     userInfoData,
-    isModifyListEmpty,
     handleTabClick,
-    changeTrackingLength,
+    modifyIdxList,
+    trackData,
+    trackingImageData,
+    setTrackData,
+    setModifyIdxList,
   } = props;
 
-  const { userInfo, handleProfileImageChange, handleChangeNickName } =
+  const [userInfo, handleProfileImageChange, handleChangeNickName] =
     useManageUserInfo(userInfoData);
+
+  const [
+    changeTrackingLength,
+    handleSelectCancel,
+    handleModifyTrack,
+    handleDeleteTrack,
+  ] = useUpdateTrackingImage(
+    trackData,
+    trackingImageData,
+    setTrackData,
+    setModifyIdxList
+  );
 
   const trackDataLength = useTrackDataLength(
     userInfo,
     activeTabStr,
-    changeTrackingLength.share,
-    changeTrackingLength.save
+    changeTrackingLength
   );
+
+  const [deleteTrackingImage] = useDeleteTrackingImage({
+    onSuccess: handleDeleteTrack(modifyIdxList),
+  });
+  const [putTrackingImageToNotShare] = usePutTrackingImageToNotShare({
+    onSuccess: handleModifyTrack(modifyIdxList, false),
+  });
+  const [putTrackingImageToShare] = usePutTrackingImageToShare({
+    onSuccess: handleModifyTrack(modifyIdxList, true),
+  });
+
+  // 수정 트리거 감지 및 처리
+  const handleModifyClick = () => {
+    const { idxToShare, idxToNotShare } = extractIdxLists(modifyIdxList);
+    if (idxToShare.length > 0) putTrackingImageToShare(idxToShare);
+    if (idxToNotShare.length > 0) putTrackingImageToNotShare(idxToNotShare);
+  };
+
+  const handleDeleteClick = () => {
+    // 삭제 트리거 감지 및 처리
+    const idxList = modifyIdxList.map((item) => item.idx);
+    deleteTrackingImage(idxList);
+  };
 
   const [modifyImageModal, modifyImageModalToggle] = useModifyImageModal(); // 프로필 이미지 모달
   const [modifyNameModal, modifyNameModalToggle] = useModifyNameModal(); // 닉네임 수정 모달
@@ -165,18 +205,16 @@ const Header = (props) => {
       {confirmModal && (
         <ConfirmModal
           message={
-            isModifyListEmpty
+            modifyIdxList.length === 0
               ? "선택된 데이터가 없습니다"
               : modifyMode === "삭제"
               ? "선택한 그림을 모두 삭제하시겠습니까?"
               : "변경사항을 저장하시겠습니까?"
           }
-          type={isModifyListEmpty && "one"}
+          type={modifyIdxList.length === 0 && "one"}
           onClose={confirmModalToggle}
           onConfirm={() => {
-            modifyMode === "삭제"
-              ? setDeleteTrigger(true)
-              : setModifyTrigger(true);
+            modifyMode === "삭제" ? handleDeleteClick() : handleModifyClick();
             handleCloseMode();
             confirmModalToggle();
           }}

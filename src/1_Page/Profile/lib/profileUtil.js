@@ -20,11 +20,11 @@ export const calculateTrackingLength = (prev, idxToShare, idxToNotShare) => ({
 });
 
 // 트래킹 데이터를 필터링하는 함수
-export const filterTrackData = (prev, modifyIdxList) => {
-  const modifyIdxSet = new Set(modifyIdxList.map((mod) => mod.idx));
+export const filterTrackData = (prev, idxList) => {
+  const idxListSet = new Set(idxList.map((idx) => idx));
   return {
-    save: prev.save.filter(({ idx }) => !modifyIdxSet.has(idx)),
-    share: prev.share.filter(({ idx }) => !modifyIdxSet.has(idx)),
+    save: prev.save.filter(({ idx }) => !idxListSet.has(idx)),
+    share: prev.share.filter(({ idx }) => !idxListSet.has(idx)),
   };
 };
 
