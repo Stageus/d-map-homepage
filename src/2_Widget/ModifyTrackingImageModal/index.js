@@ -2,8 +2,8 @@ import React from "react";
 import { GoogleMap, Polyline } from "@react-google-maps/api";
 import STYLE from "./style";
 import useHandleModal from "./model/useHandleModal";
-import postTrackingImage from "../../3_Entity/Tracking/postTrackingImage";
-import putTrackingImage from "../../3_Entity/Tracking/putTrackingImage";
+import usePostTrackingImage from "../../3_Entity/Tracking/usePostTrackingImage";
+import usePutTrackingImage from "../../3_Entity/Tracking/usePutTrackingImage";
 import MAPTYPE from "../../4_Shared/constant/mapType";
 import useNewTrackingData from "./model/useNewTrackingData";
 
@@ -21,6 +21,8 @@ const ModifyTrackingImageModal = (props) => {
     handleTouchMove,
     handleTouchEnd,
   } = useHandleModal(onClose, sheetRef);
+  const [postTrackingImage] = usePostTrackingImage();
+  const [putTrackingImage] = usePutTrackingImage();
 
   return (
     <>

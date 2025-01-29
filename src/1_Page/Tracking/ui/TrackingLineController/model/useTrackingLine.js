@@ -27,6 +27,10 @@ const useTrackingLine = () => {
         ];
 
         setTrackingLine(recordedTrackingLineRef.current);
+        localStorage.setItem(
+          "trackingLine",
+          JSON.stringify(recordedTrackingLineRef.current)
+        );
       }
     };
 
@@ -43,6 +47,7 @@ const useTrackingLine = () => {
 
   const resetTrackingLine = () => {
     undoStackRef.current = [];
+    localStorage.removeItem("trackingLine");
     setTrackingLine([]); // trackingLine 초기화
     currentRecordingTrackingLineRef.current = [];
     recordedTrackingLineRef.current = [];
@@ -52,16 +57,16 @@ const useTrackingLine = () => {
     let length = recordedTrackingLineRef.current.length;
     if (length <= 0) return;
     let recorded = [...recordedTrackingLineRef.current];
-    console.log(recorded[length - 1])
+    console.log(recorded[length - 1]);
     let lastRecorded;
 
-    console.log(recorded[length - 1])
-    if(recorded[length - 1].length > 1){
+    console.log(recorded[length - 1]);
+    if (recorded[length - 1].length > 1) {
       lastRecorded = [...recorded[length - 1]];
-    } else if(recorded[length - 1].length === 1){
+    } else if (recorded[length - 1].length === 1) {
       lastRecorded = [recorded[length - 1]];
     }
-    console.log(lastRecorded)
+    console.log(lastRecorded);
 
     if (lastRecorded.length > 0) {
       undoStackRef.current.push(lastRecorded.pop());
