@@ -31,7 +31,6 @@ const useGetTrackingImageList = (category = CATEGORY.DEFAULT, page) => {
       setHasMoreContent(
         (serverState.tracking_image || []).length >= ITEMS_PER_PAGE
       );
-      console.log(serverState)
     }
   }, [loading, serverState]);
 

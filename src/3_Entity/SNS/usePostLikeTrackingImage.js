@@ -4,8 +4,8 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 const usePostLikeTrackingImage = (trackingImageIdx) => {
   const [serverState, request, loading] = useFetch();
 
-  const postLikeTrackingImage = async () => {
-    await request("POST", "/sns/like", { tracking_idx: trackingImageIdx });
+  const postLikeTrackingImage = () => {
+    request("POST", "/sns/like", { tracking_idx: trackingImageIdx });
   };
 
   React.useEffect(() => {
