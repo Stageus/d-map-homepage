@@ -33,7 +33,7 @@ const Header = (props) => {
     displayTrackingImage,
     setDisplayTrackingImage,
     setModifyIdxList,
-    memorizedTrackData,
+    backupTrackData,
   } = props;
   header += 1;
   console.log("해더", header);
@@ -49,7 +49,7 @@ const Header = (props) => {
   ] = useUpdateTrackingImage(
     setDisplayTrackingImage,
     setModifyIdxList,
-    memorizedTrackData
+    backupTrackData
   );
 
   const adjustedLengths = calculateAdjustedTrackingLengths(

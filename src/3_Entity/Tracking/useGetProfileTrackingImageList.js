@@ -6,7 +6,6 @@ const ITEMS_PER_PAGE = 20;
 const CATEGORY_MAP = {
   0: "share",
   1: "save",
-  // 나중에 카테고리가 늘어나면 여기 추가 가능
 };
 
 const useGetProfileTrackingImageList = (userIdx, pages, tabIndex) => {
@@ -17,7 +16,7 @@ const useGetProfileTrackingImageList = (userIdx, pages, tabIndex) => {
   // 이전 요청 기록을 저장하는 ref
   const previousRequests = useRef(new Set());
   useEffect(() => {
-    if (!userIdx || !CATEGORY_MAP.hasOwnProperty(tabIndex)) return;
+    if (!userIdx) return;
     const sharing = tabIndex === 0 ? 1 : 0;
     const currentPage = pages[tabIndex];
     // 현재 요청 키 생성
@@ -30,27 +29,25 @@ const useGetProfileTrackingImageList = (userIdx, pages, tabIndex) => {
   }, [userIdx, pages, tabIndex]);
 
   useEffect(() => {
-    if (!loading && serverState) {
-      switch (serverState.status) {
-        case 400:
-          console.log(serverState.message);
-          break;
-        default:
-          break;
-      }
-
-      if (!CATEGORY_MAP.hasOwnProperty(tabIndex)) return;
-
-      const category = CATEGORY_MAP[tabIndex];
-      setTrackingImageList((prevList) => [
-        ...prevList,
-        ...(serverState.tracking_image || []),
-      ]);
-      setHasMoreContent((prevContent) => ({
-        ...prevContent,
-        [category]: (serverState.tracking_image || []).length >= ITEMS_PER_PAGE,
-      }));
+    if (!serverState) return;
+    switch (serverState.status) {
+      case 400:
+        console.log(serverState.message);
+        break;
+      default:
+        break;
     }
+
+    if (!CATEGORY_MAP.hasOwnProperty(tabIndex)) return;
+    const category = CATEGORY_MAP[tabIndex];
+    setTrackingImageList((prevList) => [
+      ...prevList,
+      ...(serverState.tracking_image || []),
+    ]);
+    setHasMoreContent((prevContent) => ({
+      ...prevContent,
+      [category]: (serverState.tracking_image || []).length >= ITEMS_PER_PAGE,
+    }));
   }, [loading, serverState]);
 
   return [trackingImageList, loading, hasMoreContent];

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import {
   calculateTrackingLength,
   extractIdxLists,
@@ -8,7 +8,7 @@ import {
 const useUpdateTrackingImage = (
   setDisplayTrackingImage,
   setModifyIdxList,
-  memorizedTrackData
+  backupTrackData
 ) => {
   const [changeTrackingImageDataLength, setChangeTrackingLength] = useState({
     save: 0,
@@ -17,8 +17,8 @@ const useUpdateTrackingImage = (
 
   const resetSelection = useCallback(() => {
     setModifyIdxList([]);
-    setDisplayTrackingImage(memorizedTrackData);
-  }, [memorizedTrackData]);
+    setDisplayTrackingImage(backupTrackData);
+  }, [backupTrackData]);
 
   const handleModifyTrack = useCallback((modifyIdxList, isToShare) => {
     const { idxToShare, idxToNotShare } = extractIdxLists(modifyIdxList);
