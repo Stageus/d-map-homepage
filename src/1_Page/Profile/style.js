@@ -37,17 +37,6 @@ const STYLE = {
     overflow: hidden;
   `,
 
-  SliderWrapper: styled.div`
-    width: 100%;
-    overflow: hidden;
-  `,
-  Slider: styled.div`
-    display: flex;
-    justify-content: center;
-    width: 200%; /* 두 개의 탭을 모두 포함할 넓이 */
-    transform: translateX(${({ $tabIndex }) => -$tabIndex * 50}%);
-    transition: transform 0.5s ease-in-out;
-  `,
   PostGrid: styled.div`
     display: grid;
     gap: 8px;

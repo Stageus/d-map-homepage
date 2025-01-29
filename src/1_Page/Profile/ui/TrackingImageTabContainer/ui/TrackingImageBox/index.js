@@ -6,12 +6,13 @@ import StaticTrackingImage from "../../../../../../2_Widget/StaticTrackingImage"
 import ModifyTrackingImageModal from "../../../../../../2_Widget/ModifyTrackingImageModal";
 
 import useLongPressEvent from "./model/useLongPressEvent";
+import useSelectTrack from "./model/useSelectTrack";
+
 import useConfirmModal from "../../../../../../4_Shared/model/useModalHandler";
 import useModalHandler from "../../../../../../4_Shared/model/useModalHandler";
 import TrackingImagePostList from "../../../../../../2_Widget/TrackingImagePostList";
-import useSelectTrack from "./model/useSelectTrack";
 
-const TrackingImageContainer = React.memo((props) => {
+const TrackingImageBox = React.memo((props) => {
   const {
     trackingImageData,
     modifyMode,
@@ -91,4 +92,4 @@ const TrackingImageContainer = React.memo((props) => {
   );
 });
 
-export default TrackingImageContainer;
+export default TrackingImageBox;

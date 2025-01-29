@@ -5,7 +5,7 @@ import {
   filterTrackData,
 } from "../../../lib/profileUtil";
 
-const useUpdateTrackingImage = (
+const useUpdateTrackingImageEventManager = (
   setDisplayTrackingImage,
   setModifyIdxList,
   backupTrackingImageData
@@ -58,4 +58,4 @@ const useUpdateTrackingImage = (
   ];
 };
 
-export default useUpdateTrackingImage;
+export default useUpdateTrackingImageEventManager;

@@ -1,7 +1,7 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const usePutTrackingImageToNotShare = ({ onSucess, onError }) => {
+const usePutTrackingImageToNotShare = () => {
   const [serverState, request] = useFetch();
 
   const putTrackingImageToNotShare = (idxList) => {
@@ -12,7 +12,6 @@ const usePutTrackingImageToNotShare = ({ onSucess, onError }) => {
     if (!serverState) return;
     switch (serverState.status) {
       case 200:
-        onSucess?.();
         return;
       case 403:
         console.log(serverState.message);
@@ -23,7 +22,6 @@ const usePutTrackingImageToNotShare = ({ onSucess, onError }) => {
       default:
         break;
     }
-    onError("요청이 너무 많습니다! 잠시 기다려주세요.");
   }, [serverState]);
 
   return [putTrackingImageToNotShare];

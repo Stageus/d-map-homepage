@@ -1,7 +1,7 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const usePutTrackingImageToShare = ({ onSucess, onError }) => {
+const usePutTrackingImageToShare = () => {
   const [serverState, request] = useFetch();
 
   const putTrackingImageToShare = (idxList) => {
@@ -12,7 +12,6 @@ const usePutTrackingImageToShare = ({ onSucess, onError }) => {
     if (!serverState) return;
     switch (serverState.status) {
       case 200:
-        onSucess?.();
         return;
       case 400:
         console.error("입력 값 오류");

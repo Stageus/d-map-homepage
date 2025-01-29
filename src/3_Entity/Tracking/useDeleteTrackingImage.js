@@ -1,7 +1,7 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const useDeleteTrackingImage = ({ onSuccess }) => {
+const useDeleteTrackingImage = () => {
   const [serverState, request] = useFetch();
 
   const deleteTrackingImage = (idxList) => {
@@ -12,7 +12,6 @@ const useDeleteTrackingImage = ({ onSuccess }) => {
     if (!serverState) return;
     switch (serverState.status) {
       case 200:
-        onSuccess?.();
         return;
       case 403:
         console.log(serverState.message);
