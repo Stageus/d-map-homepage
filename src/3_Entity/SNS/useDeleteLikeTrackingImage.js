@@ -4,8 +4,8 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 const useDeleteLikeTrackingImage = (trackingImageIdx) => {
   const [serverState, request, loading] = useFetch();
 
-  const deleteLikeTrackingImage = async () => {
-    await request("DELETE", "/sns/like", { tracking_idx: trackingImageIdx });
+  const deleteLikeTrackingImage = () => {
+    request("DELETE", "/sns/like", { tracking_idx: trackingImageIdx });
   };
 
   React.useEffect(() => {
