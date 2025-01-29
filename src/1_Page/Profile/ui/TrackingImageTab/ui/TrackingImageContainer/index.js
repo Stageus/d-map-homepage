@@ -39,14 +39,13 @@ const TrackingImageContainer = React.memo((props) => {
         ref={obServeRef}
         onClick={modifyMode ? undefined : handleTrackingPost}
         {...(!modifyMode && trackingImageData?.isMine && longPressEvents)}>
-        {trackingImageData.idx}
         <StaticTrackingImage
           height="100%"
           mapInfo={{
             ...trackingImageData,
             draggable: false,
             background: 0,
-            zoom: trackingImageData.zoom / 1.5,
+            zoom: trackingImageData.zoom / 2,
           }}
         />
 

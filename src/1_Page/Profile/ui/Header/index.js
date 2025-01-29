@@ -39,9 +39,11 @@ const Header = (props) => {
   header += 1;
   console.log("해더", header);
 
+  // 수정된 유저 데이터 관리
   const [userInfo, handleProfileImageChange, handleChangeNickName] =
     useManageUserInfo(userInfoData);
 
+  // 트래킹 이미지 수정 이벤트 관리
   const [
     changeTrackingImageDataLength,
     resetSelection,
@@ -53,11 +55,13 @@ const Header = (props) => {
     backupTrackingImageData
   );
 
+  // 현재 데이터 길이 계산
   const adjustedLengths = calculateAdjustedTrackingLengths(
     userInfo,
     changeTrackingImageDataLength
   );
 
+  // 삭제 수정
   const [deleteTrackingImage] = useDeleteTrackingImage({
     onSuccess: () => handleDeleteTrack(modifyIdxList),
   });
@@ -68,15 +72,19 @@ const Header = (props) => {
     onSuccess: () => handleModifyTrack(modifyIdxList, true),
   });
 
+  // 수정 클릭 이벤트
   const handleModifyClick = () => {
     const { idxToShare, idxToNotShare } = extractIdxLists(modifyIdxList);
     if (idxToShare.length > 0) putTrackingImageToShare(idxToShare);
     if (idxToNotShare.length > 0) putTrackingImageToNotShare(idxToNotShare);
   };
+
+  // 삭제 클릭 이벤트
   const handleDeleteClick = () => {
     deleteTrackingImage(modifyIdxList.map((item) => item.idx));
   };
 
+  // 모달 스테이트 관리
   const [modifyImageModal, modifyImageModalToggle] = useModalHandler(); // 프로필 이미지 모달
   const [modifyNameModal, modifyNameModalToggle] = useModalHandler(); // 닉네임 수정 모달
   const [modifyModeModal, modifyModeModalToggle] = useModalHandler(); // 수정 , 삭제 뒤로가기 모달

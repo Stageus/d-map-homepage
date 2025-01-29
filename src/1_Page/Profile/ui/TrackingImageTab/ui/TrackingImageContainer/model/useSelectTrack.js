@@ -1,6 +1,7 @@
 import { moveTrack, sortTrackData } from "../../../../../lib/profileUtil";
 
 const useSelectTrack = (setDisplayTrackingImage, setModifyIdxList) => {
+  // 공유 상태 이벤트일 경우 트랙 위치 토글
   const clickTrackEvent = (track, isDelete) => {
     if (!isDelete) {
       setDisplayTrackingImage((prev) => {

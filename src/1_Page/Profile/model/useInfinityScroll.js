@@ -13,7 +13,6 @@ const useInfinityScroll = () => {
   }, [inView]);
 
   const handleNextPage = useCallback(() => {
-    console.log("다음페이지");
     setPage((prev) => prev + 1);
   }, []);
 

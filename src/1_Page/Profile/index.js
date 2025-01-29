@@ -25,9 +25,9 @@ const Profile = () => {
 
   const [tabState, handleTabClick] = useTabs(); // 탭 관리 훅
   const [modifyMode, memoizedSetMode] = useSettingMode(); // 수정 , 삭제 상태 관리
-
   const [shareTabPage, shareObserveRef] = useInfinityScroll();
   const [saveTabPage, saveObserveRef] = useInfinityScroll();
+
   // 데이터 조회 (userIdx , [page] , tabIndex)
   const [trackingImageData, loading, hasMoreContent] =
     useGetProfileTrackingImageList(
@@ -36,7 +36,7 @@ const Profile = () => {
       tabState.tabIndex
     );
 
-  // 수정 state
+  // 수정상태 데이터 관리 state
   const [modifyIdxList, setModifyIdxList] = useState([]);
   const [
     displayTrackingImage,
