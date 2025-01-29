@@ -16,6 +16,7 @@ const useSearchHistory = () => {
 
   // 검색 기록 추가
   const addSearchHistory = useCallback((item) => {
+    console.log(item);
     if (!item) return;
     setListItems((prevItems) => {
       const updatedItems = [item, ...prevItems.filter((i) => i !== item)].slice(
@@ -51,12 +52,7 @@ const useSearchHistory = () => {
     };
   }, [listItems]);
 
-  return {
-    listItems,
-    addSearchHistory,
-    deleteSearchHistory,
-    clearSearchHistory,
-  };
+  return [listItems, addSearchHistory, deleteSearchHistory, clearSearchHistory];
 };
 
 export default useSearchHistory;

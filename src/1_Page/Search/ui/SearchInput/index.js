@@ -16,9 +16,8 @@ const searchInputSchema = yup.object().shape({
     ),
 });
 
-const SearchInput = (props) => {
-  const { searchInputText, addSearchHistory } = props;
-  const { navigateToSearch } = useNavigateHandler(addSearchHistory);
+const SearchInput = () => {
+  const { navigateToSearch } = useNavigateHandler();
 
   const {
     register,
@@ -30,7 +29,7 @@ const SearchInput = (props) => {
     watch,
   } = useForm();
 
-  useSetInputText(reset, searchInputText);
+  useSetInputText(reset);
 
   // 수동 검증 함수
   const validateInput = async () => {
@@ -47,20 +46,18 @@ const SearchInput = (props) => {
     }
   };
 
-  // 엔터 키 이벤트 핸들러
-  const handleKeyDown = async (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (await validateInput()) {
-        handleSubmit(navigateToSearch)();
-      }
-    }
-  };
-
   // 클릭 시 검증 후 제출
   const onSubmit = async () => {
     if (await validateInput()) {
       handleSubmit(navigateToSearch)();
+    }
+  };
+
+  // 엔터 키 이벤트 핸들러
+  const handleKeyDown = async (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      onSubmit();
     }
   };
 
