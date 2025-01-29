@@ -28,7 +28,7 @@ const Profile = () => {
 
   const [shareTabPage, shareObserveRef] = useInfinityScroll();
   const [saveTabPage, saveObserveRef] = useInfinityScroll();
-  // 데이터 조회 (userIdx , page , category)
+  // 데이터 조회 (userIdx , [page] , tabIndex)
   const [trackingImageData, loading, hasMoreContent] =
     useGetProfileTrackingImageList(
       userInfoData?.idx,
@@ -38,8 +38,11 @@ const Profile = () => {
 
   // 수정 state
   const [modifyIdxList, setModifyIdxList] = useState([]);
-  const [displayTrackingImage, setDisplayTrackingImage, backupTrackData] =
-    useManageTrackData(trackingImageData, modifyMode);
+  const [
+    displayTrackingImage,
+    setDisplayTrackingImage,
+    backupTrackingImageData,
+  ] = useManageTrackData(trackingImageData, modifyMode);
 
   profile += 1;
   console.log("프로필", profile);
@@ -70,7 +73,7 @@ const Profile = () => {
             displayTrackingImage={displayTrackingImage}
             setDisplayTrackingImage={setDisplayTrackingImage}
             setModifyIdxList={setModifyIdxList}
-            backupTrackData={backupTrackData}
+            backupTrackingImageData={backupTrackingImageData}
           />
           <STYLE.SliderWrapper>
             <STYLE.Slider $tabIndex={tabState?.tabIndex}>

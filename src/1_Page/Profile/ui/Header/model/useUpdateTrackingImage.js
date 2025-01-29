@@ -8,7 +8,7 @@ import {
 const useUpdateTrackingImage = (
   setDisplayTrackingImage,
   setModifyIdxList,
-  backupTrackData
+  backupTrackingImageData
 ) => {
   const [changeTrackingImageDataLength, setChangeTrackingLength] = useState({
     save: 0,
@@ -17,8 +17,8 @@ const useUpdateTrackingImage = (
 
   const resetSelection = useCallback(() => {
     setModifyIdxList([]);
-    setDisplayTrackingImage(backupTrackData);
-  }, [backupTrackData]);
+    setDisplayTrackingImage(backupTrackingImageData);
+  }, [backupTrackingImageData]);
 
   const handleModifyTrack = useCallback((modifyIdxList, isToShare) => {
     const { idxToShare, idxToNotShare } = extractIdxLists(modifyIdxList);
@@ -37,6 +37,7 @@ const useUpdateTrackingImage = (
       }
     });
   }, []);
+
   const handleDeleteTrack = useCallback((modifyIdxList) => {
     const saveCount = modifyIdxList.filter((item) => !item.sharing).length; // sharing이 false인 경우 save
     const shareCount = modifyIdxList.filter((item) => item.sharing).length; // sharing이 true인 경우 share

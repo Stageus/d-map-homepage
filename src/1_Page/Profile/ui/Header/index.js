@@ -33,8 +33,9 @@ const Header = (props) => {
     displayTrackingImage,
     setDisplayTrackingImage,
     setModifyIdxList,
-    backupTrackData,
+    backupTrackingImageData,
   } = props;
+
   header += 1;
   console.log("해더", header);
 
@@ -49,7 +50,7 @@ const Header = (props) => {
   ] = useUpdateTrackingImage(
     setDisplayTrackingImage,
     setModifyIdxList,
-    backupTrackData
+    backupTrackingImageData
   );
 
   const adjustedLengths = calculateAdjustedTrackingLengths(
@@ -66,6 +67,7 @@ const Header = (props) => {
   const [putTrackingImageToShare] = usePutTrackingImageToShare({
     onSuccess: () => handleModifyTrack(modifyIdxList, true),
   });
+
   const handleModifyClick = () => {
     const { idxToShare, idxToNotShare } = extractIdxLists(modifyIdxList);
     if (idxToShare.length > 0) putTrackingImageToShare(idxToShare);
