@@ -9,7 +9,7 @@ import useImageModal from "./model/useImageModal";
 import usePutProfileImage from "../../../../../../3_Entity/Account/usePutProfileImage";
 
 const ModifyImageModalContent = (props) => {
-  const { image, handleProfileImageChange, handleClose } = props;
+  const { image, fetchUserInfo, handleClose } = props;
 
   const [
     confirmModal,
@@ -29,7 +29,7 @@ const ModifyImageModalContent = (props) => {
   ] = useFileReader(image, showModalWithText);
 
   const handleSuccess = () => {
-    handleProfileImageChange(uploadedImageFile);
+    fetchUserInfo();
     handleImageConfirmModalOpen(handleClose);
   };
 

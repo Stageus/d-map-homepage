@@ -7,18 +7,18 @@ const useManageUserInfo = (userInfoData) => {
     setUserInfo(userInfoData);
   }, [userInfoData]);
 
-  const handleChangeNickName = (nickname) => {
+  const nicknameChangeEvent = (nickname) => {
     setUserInfo((pre) => {
       return { ...pre, nickname };
     });
   };
 
-  const handleProfileImageChange = (imageFile) => {
+  const profileImageChangeEvent = (imageFile) => {
     const objectUrl = URL.createObjectURL(imageFile);
     setUserInfo((prev) => ({ ...prev, image_url: objectUrl }));
   };
 
-  return [userInfo, handleProfileImageChange, handleChangeNickName];
+  return [userInfo, profileImageChangeEvent, nicknameChangeEvent];
 };
 
 export default useManageUserInfo;

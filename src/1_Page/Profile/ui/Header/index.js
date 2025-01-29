@@ -21,13 +21,13 @@ import ConfirmModal from "../../../../2_Widget/ConfirmModal";
 import useDeleteTrackingImage from "../../../../3_Entity/Tracking/useDeleteTrackingImage.js";
 import usePutTrackingImageToNotShare from "../../../../3_Entity/Tracking/usePutTrackingImageToNotShare.js";
 import usePutTrackingImageToShare from "../../../../3_Entity/Tracking/usePutTrackingImageToShare.js";
+import useGetUserInfo from "../../../../3_Entity/Account/useGetUserInfo.js";
+import { useParams } from "react-router-dom";
 
-let header = 1;
 const Header = (props) => {
   const {
     setMode: { modifyMode, handleSetMode, handleCloseMode },
     activeTabStr,
-    userInfoData,
     handleTabClick,
     modifyIdxList,
     displayTrackingImage,
@@ -36,19 +36,15 @@ const Header = (props) => {
     backupTrackingImageData,
   } = props;
 
-  header += 1;
-  console.log("해더", header);
-
-  // 수정된 유저 데이터 관리
-  const [userInfo, handleProfileImageChange, handleChangeNickName] =
-    useManageUserInfo(userInfoData);
+  const { userIdx } = useParams();
+  const [userInfo, loading, fetchUserInfo] = useGetUserInfo(userIdx);
 
   // 트래킹 이미지 수정 이벤트 관리
   const [
     changeTrackingImageDataLength,
     resetSelection,
-    handleModifyTrack,
-    handleDeleteTrack,
+    modifyTrackEvent,
+    deleteTrackEvent,
   ] = useUpdateTrackingImage(
     setDisplayTrackingImage,
     setModifyIdxList,
@@ -63,13 +59,13 @@ const Header = (props) => {
 
   // 삭제 수정
   const [deleteTrackingImage] = useDeleteTrackingImage({
-    onSuccess: () => handleDeleteTrack(modifyIdxList),
+    onSuccess: () => deleteTrackEvent(modifyIdxList),
   });
   const [putTrackingImageToNotShare] = usePutTrackingImageToNotShare({
-    onSuccess: () => handleModifyTrack(modifyIdxList, false),
+    onSuccess: () => modifyTrackEvent(modifyIdxList, false),
   });
   const [putTrackingImageToShare] = usePutTrackingImageToShare({
-    onSuccess: () => handleModifyTrack(modifyIdxList, true),
+    onSuccess: () => modifyTrackEvent(modifyIdxList, true),
   });
 
   // 수정 클릭 이벤트
@@ -166,7 +162,7 @@ const Header = (props) => {
           {({ handleClose }) => (
             <ModifyImageModalContent
               image={userInfo?.image_url}
-              handleProfileImageChange={handleProfileImageChange}
+              fetchUserInfo={fetchUserInfo}
               handleClose={handleClose}
             />
           )}
@@ -177,7 +173,7 @@ const Header = (props) => {
         <ModalBase onClose={modifyNameModalToggle} snap={[0.2]}>
           {({ handleClose }) => (
             <ModifyNameModalContent
-              handleChangeNickName={handleChangeNickName}
+              fetchUserInfo={fetchUserInfo}
               handleClose={handleClose}
               name={userInfo?.nickname}
             />

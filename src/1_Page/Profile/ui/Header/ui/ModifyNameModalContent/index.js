@@ -11,7 +11,7 @@ import usePutNickname from "../../../../../../3_Entity/Account/usePutNickname";
 import useGetRandomNicknames from "../../../../../../3_Entity/Account/useGetRandomNicknames";
 
 const ModifyNameModalContent = (props) => {
-  const { name, handleClose, handleChangeNickName } = props;
+  const { name, handleClose, fetchUserInfo } = props;
 
   const [page, setPage] = useState(1);
   const [nicknames, loading] = useGetRandomNicknames(page);
@@ -30,10 +30,8 @@ const ModifyNameModalContent = (props) => {
     handleNameConfirmModalDone,
   ] = useNicknameModal();
 
-  const [currentNickname, setCurrentNickname] = useState(name);
-
   const handleSuccess = () => {
-    handleChangeNickName(currentNickname);
+    fetchUserInfo();
     handleImageConfirmModalOpen(handleClose);
   };
 
@@ -91,7 +89,6 @@ const ModifyNameModalContent = (props) => {
         <STYLE.SubmitButton
           onClick={handleSubmit((data) => {
             putNickname(data.nickname);
-            setCurrentNickname(data.nickname);
           })}>
           수정하기
         </STYLE.SubmitButton>

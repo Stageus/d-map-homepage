@@ -20,7 +20,7 @@ const useUpdateTrackingImage = (
     setDisplayTrackingImage(backupTrackingImageData);
   }, [backupTrackingImageData]);
 
-  const handleModifyTrack = useCallback((modifyIdxList, isToShare) => {
+  const modifyTrackEvent = useCallback((modifyIdxList, isToShare) => {
     const { idxToShare, idxToNotShare } = extractIdxLists(modifyIdxList);
     setModifyIdxList([]);
     setChangeTrackingLength((prev) => {
@@ -38,7 +38,7 @@ const useUpdateTrackingImage = (
     });
   }, []);
 
-  const handleDeleteTrack = useCallback((modifyIdxList) => {
+  const deleteTrackEvent = useCallback((modifyIdxList) => {
     const saveCount = modifyIdxList.filter((item) => !item.sharing).length; // sharing이 false인 경우 save
     const shareCount = modifyIdxList.filter((item) => item.sharing).length; // sharing이 true인 경우 share
     const idxList = modifyIdxList.map((item) => item.idx);
@@ -53,8 +53,8 @@ const useUpdateTrackingImage = (
   return [
     changeTrackingImageDataLength,
     resetSelection,
-    handleModifyTrack,
-    handleDeleteTrack,
+    modifyTrackEvent,
+    deleteTrackEvent,
   ];
 };
 

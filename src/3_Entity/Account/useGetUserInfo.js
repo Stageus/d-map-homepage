@@ -7,17 +7,12 @@ const useGetUserInfo = (userIdx) => {
   const [userInfo, setUserInfo] = React.useState(null);
   const navigate = useNavigate();
 
-  const isValidInteger = (value) => {
-    return (
-      typeof value === "string" &&
-      value.trim() !== "" &&
-      Number.isInteger(Number(value))
-    );
+  const fetchUserInfo = () => {
+    request("GET", `/account/info/${userIdx}`, null);
   };
 
   React.useEffect(() => {
-    if (!isValidInteger(userIdx)) return;
-    request("GET", `/account/info/${userIdx}`, null);
+    fetchUserInfo();
   }, [userIdx]);
 
   React.useEffect(() => {
@@ -45,7 +40,7 @@ const useGetUserInfo = (userIdx) => {
     }
   }, [loading, serverState]);
 
-  return [userInfo, loading];
+  return [userInfo, loading, fetchUserInfo];
 };
 
 export default useGetUserInfo;
