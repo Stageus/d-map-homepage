@@ -26,16 +26,14 @@ const Profile = () => {
   const [tabState, handleTabClick] = useTabs(); // 탭 관리 훅
   const [modifyMode, memoizedSetMode] = useSettingMode(); // 수정 , 삭제 상태 관리
 
-  const [curruntTabPage, shareObserveRef, saveObserveRef] = useInfinityScroll(
-    tabState.tabIndex
-  );
-
+  const [shareTabPage, shareObserveRef] = useInfinityScroll();
+  const [saveTabPage, saveObserveRef] = useInfinityScroll();
   // 데이터 조회 (userIdx , page , category)
   const [trackingImageData, loading, hasMoreContent] =
     useGetProfileTrackingImageList(
       userInfoData?.idx,
-      curruntTabPage,
-      tabState.tabIndex === 1 ? 0 : 1 // 0 이 공유 , 1이 저장
+      [shareTabPage, saveTabPage],
+      tabState.tabIndex
     );
 
   // 수정 state

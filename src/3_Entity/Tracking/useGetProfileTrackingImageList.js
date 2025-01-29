@@ -3,28 +3,31 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 
 const ITEMS_PER_PAGE = 20;
 
-const useGetProfileTrackingImageList = (userIdx, page, sharing) => {
+const CATEGORY_MAP = {
+  0: "share",
+  1: "save",
+  // 나중에 카테고리가 늘어나면 여기 추가 가능
+};
+
+const useGetProfileTrackingImageList = (userIdx, pages, tabIndex) => {
   const [serverState, request, loading] = useFetch();
   const [trackingImageList, setTrackingImageList] = React.useState([]);
-  const [hasMoreContent, setHasMoreContent] = React.useState({
-    save: false,
-    share: false,
-  });
+  const [hasMoreContent, setHasMoreContent] = React.useState({});
 
   // 이전 요청 기록을 저장하는 ref
   const previousRequests = useRef(new Set());
-
   useEffect(() => {
-    if (!userIdx) return;
+    if (!userIdx || !CATEGORY_MAP.hasOwnProperty(tabIndex)) return;
+    const sharing = tabIndex === 0 ? 1 : 0;
+    const currentPage = pages[tabIndex];
     // 현재 요청 키 생성
-    const requestKey = `${userIdx}-${page}-${sharing}`;
-    // 이전에 동일한 요청이 있었으면 API 호출 방지
+    const requestKey = `${userIdx}-${currentPage}-${sharing}`;
     if (previousRequests.current.has(requestKey)) return;
     // 요청 키를 저장하고 API 호출 수행
     previousRequests.current.add(requestKey);
-    const endpoint = `/tracking/account/${userIdx}?page=${page}&category=${sharing}`;
+    const endpoint = `/tracking/account/${userIdx}?page=${currentPage}&category=${sharing}`;
     request("GET", endpoint, null);
-  }, [userIdx, page, sharing]);
+  }, [userIdx, pages, tabIndex]);
 
   useEffect(() => {
     if (!loading && serverState) {
@@ -36,14 +39,16 @@ const useGetProfileTrackingImageList = (userIdx, page, sharing) => {
           break;
       }
 
-      const key = sharing === 1 ? "share" : "save";
+      if (!CATEGORY_MAP.hasOwnProperty(tabIndex)) return;
+
+      const category = CATEGORY_MAP[tabIndex];
       setTrackingImageList((prevList) => [
         ...prevList,
         ...(serverState.tracking_image || []),
       ]);
       setHasMoreContent((prevContent) => ({
         ...prevContent,
-        [key]: (serverState.tracking_image || []).length >= ITEMS_PER_PAGE,
+        [category]: (serverState.tracking_image || []).length >= ITEMS_PER_PAGE,
       }));
     }
   }, [loading, serverState]);
