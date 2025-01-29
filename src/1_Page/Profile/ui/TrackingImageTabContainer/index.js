@@ -48,8 +48,8 @@ const TrackingImageTabContainer = (props) => {
                   <TrackingImageBox
                     key={trackingImageData.idx}
                     obServeRef={
-                      hasMoreContent.share &&
-                      index === displayTrackingImage.length - 1
+                      hasMoreContent?.share &&
+                      index === displayTrackingImage?.share.length - 1
                         ? shareObserveRef
                         : null
                     }
@@ -71,8 +71,8 @@ const TrackingImageTabContainer = (props) => {
                   <TrackingImageBox
                     key={trackingImageData.idx}
                     obServeRef={
-                      hasMoreContent.save &&
-                      index === displayTrackingImage.length - 1
+                      hasMoreContent?.save &&
+                      index === displayTrackingImage?.save.length - 1
                         ? saveObserveRef
                         : null
                     }
