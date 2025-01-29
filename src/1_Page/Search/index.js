@@ -12,7 +12,11 @@ const Search = () => {
   return (
     <>
       <STYLE.BodyContainer>
-        {searchInputText ? <SearchResult /> : <SearchHistory />}
+        {searchInputText ? (
+          <SearchResult searchInputText={searchInputText} />
+        ) : (
+          <SearchHistory />
+        )}
       </STYLE.BodyContainer>
       <SearchInput />
     </>

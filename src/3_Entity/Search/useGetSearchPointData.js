@@ -2,7 +2,6 @@ import React from "react";
 import SEARCH_TYPE from "../../1_Page/Search/constant/SEARCH_TYPE";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const BASE_URL = process.env.REACT_APP_SERVER_URL;
 const ITEMS_PER_PAGE = 20;
 
 const useGetSearchPointData = (text, page) => {
@@ -12,7 +11,7 @@ const useGetSearchPointData = (text, page) => {
   const prevTextRef = React.useRef(text);
 
   React.useEffect(() => {
-    const endpoint = `${BASE_URL}/search/${SEARCH_TYPE.SEARCHPOINT}?text=${text}&page=${page}`;
+    const endpoint = `/search/${SEARCH_TYPE.SEARCHPOINT}?text=${text}&page=${page}`;
     request("GET", endpoint, null);
   }, [text, page]);
 

@@ -6,37 +6,32 @@ import empty_profile_icon from "./assets/empty_profile_icon.svg";
 import useTab from "./model/useTab";
 import useNavigateHandler from "./model/useNavigateHandler";
 import useInfinityScroll from "./model/useInfinityScroll";
-import useManageSearchData from "./model/useManageSearchData";
 import useModalHandler from "../../../../4_Shared/model/useModalHandler";
 import TrackingImagePostList from "../../../../2_Widget/TrackingImagePostList";
+import useGetNicknameSearchData from "../../../../3_Entity/Search/useGetNicknameSearchData";
+import useGetSearchPointData from "../../../../3_Entity/Search/useGetSearchPointData";
+import { useNavigate } from "react-router-dom";
 
-const SearchResult = () => {
-  const { activeTab, handleTabName, handleTabLocation } = useTab(); // 탭 관리
-  const {
-    page,
-    searchPointObserveRef,
-    nicknameObserveRef,
-    searchPointModalObserveRef,
-  } = useInfinityScroll(activeTab);
+const SearchResult = (props) => {
+  const { searchInputText } = props;
+  const navigate = useNavigate();
+  const [activeTab, handleTabName, handleTabLocation] = useTab(); // 탭 관리
+  const [searchPointPage, searchPointObserveRef, searchPointModalObserveRef] =
+    useInfinityScroll();
+  const [nicknamePage, nicknameObserveRef] = useInfinityScroll();
 
-  const {
-    searchDataNicnkname,
-    searchDataSearchpoint,
-    nickNameLoading,
-    searchPointLoading,
-    nicknameHasMoreContent,
-    searchPointHasMoreContent,
-  } = useManageSearchData(page);
+  const [nickNameData, nickNameLoading, nicknameHasMoreContent] =
+    useGetNicknameSearchData(searchInputText, nicknamePage);
+  const [searchPointData, searchPointLoading, searchPointHasMoreContent] =
+    useGetSearchPointData(searchInputText, searchPointPage);
 
-  const filteredImgSearchData = searchDataSearchpoint.map((item) => ({
+  const filteredImgSearchData = searchPointData.map((item) => ({
     ...item,
     img_url: item.img_url ? item.img_url : empty_profile_icon,
   }));
 
   const [isTrackingImageModalOpen, IsTrackingImageModalToggle] =
     useModalHandler();
-
-  const { handleNavigate } = useNavigateHandler();
 
   return (
     <>
@@ -45,13 +40,13 @@ const SearchResult = () => {
         <STYLE.Slider $tabIndex={activeTab === "nickname"}>
           {/* 장소 탭 */}
           <STYLE.ResultList>
-            {searchDataSearchpoint?.length === 0 ? (
+            {searchPointData?.length === 0 ? (
               <STYLE.EmptyMessage>없는 장소입니다.</STYLE.EmptyMessage>
             ) : (
-              searchDataSearchpoint?.map((result, index) => (
+              searchPointData?.map((result, index) => (
                 <STYLE.MapPreview
                   ref={
-                    index === searchDataNicnkname.length - 1 &&
+                    index === nickNameData.length - 1 &&
                     searchPointHasMoreContent
                       ? searchPointObserveRef
                       : null
@@ -84,20 +79,19 @@ const SearchResult = () => {
 
           {/* 이름 탭 */}
           <STYLE.ResultList>
-            {searchDataNicnkname?.length === 0 ? (
+            {nickNameData?.length === 0 ? (
               <STYLE.EmptyMessage>없는 이름입니다.</STYLE.EmptyMessage>
             ) : (
-              searchDataNicnkname?.map((result, index) => (
+              nickNameData?.map((result, index) => (
                 <STYLE.NicckNameContainer
                   key={result.idx}
                   ref={
-                    index === searchDataNicnkname.length - 1 &&
-                    nicknameHasMoreContent
+                    index === nickNameData.length - 1 && nicknameHasMoreContent
                       ? nicknameObserveRef
                       : null
                   }
                   onClick={() => {
-                    handleNavigate(result.idx);
+                    navigate(`/profile/${result.idx}`); // idx를 기반으로 프로필 페이지로 이동
                   }}>
                   <STYLE.ProfileIcon
                     src={result.img_url ? result.img_url : empty_profile_icon}
