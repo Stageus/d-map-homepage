@@ -8,12 +8,16 @@ const STYLE = {
     display: flex;
     width: 100%;
     justify-content: space-around;
-    gap: 24px;
     max-width: 528px;
     background-color: white;
   `,
   Tab: styled.button`
-    width: 32px;
+    width: 100%;
+    background-color: ${(props) => (props.$isCurrentPage ? props.theme.blue : "white")};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s;
   `,
 };
 
