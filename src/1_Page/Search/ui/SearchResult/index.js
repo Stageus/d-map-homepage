@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import STYLE from "./style";
 import StaticTrackingImage from "../../../../2_Widget/StaticTrackingImage";
 import empty_profile_icon from "./assets/empty_profile_icon.svg";
@@ -30,6 +30,15 @@ const SearchResult = () => {
     useGetNicknameSearchData(searchInputText, nicknamePage);
   const [searchPointData, searchPointLoading, searchPointHasMoreContent] =
     useGetSearchPointData(searchInputText, searchPointPage);
+
+  useEffect(() => {
+    if (nickNameData.length !== 0) {
+      handleTabName();
+    }
+    if (searchPointData.length !== 0) {
+      handleTabLocation();
+    }
+  }, [nickNameData, searchPointData]);
 
   const filteredImgSearchData = searchPointData.map((item) => ({
     ...item,

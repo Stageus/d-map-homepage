@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import STYLE from "./style";
 import SearchInput from "./ui/SearchInput";
 import SearchResult from "./ui/SearchResult";

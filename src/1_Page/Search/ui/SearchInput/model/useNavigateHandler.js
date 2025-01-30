@@ -16,6 +16,6 @@ const useNavigateHandler = (reset, addSearchHistory) => {
   useEffect(() => {
     reset({ searchInputText: searchInputText || "" });
   }, [searchInputText, reset]);
-  return { navigateToSearch };
+  return [navigateToSearch];
 };
 export default useNavigateHandler;
