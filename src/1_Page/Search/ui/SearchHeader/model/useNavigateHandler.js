@@ -1,28 +1,36 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useNavigateHandler = (
   reset,
-  addSearchHistory,
   searchInputText,
-  onSearchSelect
+  addSearchHistory,
+  setIsFisrtSearch,
+  setIsSearchFocus
 ) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!searchInputText) return;
-    onSearchSelect({ searchInputText });
-  }, [searchInputText]);
+  // 검색 수행 함수 (navigate와 검색 히스토리 관리)
+  const handleSearch = useCallback(
+    (item) => {
+      if (!item) return;
+      addSearchHistory(item);
+      setIsFisrtSearch(false);
+      setIsSearchFocus(false);
+      reset(item);
+      navigate(`?text=${encodeURIComponent(item.searchInputText)}`);
+    },
+    [addSearchHistory, navigate, reset, setIsFisrtSearch, setIsSearchFocus]
+  );
 
-  // 검색 수행 함수
-  const navigateToSearch = (data) => {
-    addSearchHistory(data);
-    navigate(`?text=${encodeURIComponent(data.searchInputText)}`); // 공백과 특수문자 인코딩
-  };
-
+  // 검색 입력값이 변경될 때 자동 실행
   useEffect(() => {
-    reset({ searchInputText: searchInputText || "" });
-  }, [searchInputText, reset]);
-  return [navigateToSearch];
+    if (searchInputText) {
+      handleSearch({ searchInputText });
+    }
+  }, [searchInputText, handleSearch]);
+
+  return [handleSearch];
 };
+
 export default useNavigateHandler;

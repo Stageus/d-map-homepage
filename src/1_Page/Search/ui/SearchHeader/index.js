@@ -1,60 +1,52 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
 import useNavigateHandler from "./model/useNavigateHandler";
 import STYLE from "./style";
 import useSearchHistory from "./model/useSearchHistory";
 
-const SearchBox = ({
-  setIsSearchFocus,
-  setIsFisrtSearch,
-  isSearchFocus,
-  isFirstSearch,
-  searchInputText,
-}) => {
+const SearchBox = (props) => {
+  const {
+    setIsSearchFocus,
+    setIsFisrtSearch,
+    isSearchFocus,
+    isFirstSearch,
+    searchInputText,
+  } = props;
   const inputRef = useRef(null); // input 태그 참조 생성
 
   const {
     register,
     handleSubmit,
     reset,
-    setError,
-    clearErrors,
     formState: { errors },
   } = useForm();
 
-  // 검색 기록 선택 핸들러
-  const onSearchSelect = (item) => {
-    addSearchHistory(item);
-    navigateToSearch(item);
-    setIsFisrtSearch(false);
-    setIsSearchFocus(false);
-    clearErrors("searchInputText");
-  };
   const [searchHistoryList, addSearchHistory, deleteSearchHistory] =
     useSearchHistory();
 
-  const [navigateToSearch] = useNavigateHandler(
+  const [onSearchSelect] = useNavigateHandler(
     reset,
-    addSearchHistory,
     searchInputText,
-    onSearchSelect
+    addSearchHistory,
+    setIsFisrtSearch,
+    setIsSearchFocus
   );
 
-  // 검색어 제출
+  // 검색 제출 함수
   const onSubmit = handleSubmit((data) => {
-    navigateToSearch(data);
-    setIsFisrtSearch(false);
-    inputRef.current?.blur(); // 포커스 해제
+    onSearchSelect(data);
   });
 
-  // 엔터 키 이벤트 핸들러
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      setIsSearchFocus(false);
-      onSubmit();
-    }
-  };
+  // 엔터 키 이벤트 핸들러 (onSubmit과 중복 제거)
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault(); // 기본 제출 방지
+        onSubmit(); // onSubmit 호출
+      }
+    },
+    [onSubmit]
+  );
 
   return (
     <>
@@ -141,4 +133,4 @@ const SearchBox = ({
   );
 };
 
-export default SearchBox;
+export default React.memo(SearchBox);
