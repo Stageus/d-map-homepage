@@ -24,7 +24,7 @@ const Profile = () => {
   const [trackingImageData, loading, hasMoreContent] =
     useGetProfileTrackingImageList(
       userIdx,
-      [shareTabPage, saveTabPage],
+      tabState.tabIndex === 0 ? shareTabPage : saveTabPage,
       tabState.tabIndex
     );
 

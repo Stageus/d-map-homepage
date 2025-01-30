@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
 const ITEMS_PER_PAGE = 20;
@@ -8,47 +8,52 @@ const CATEGORY_MAP = {
   1: "save",
 };
 
-const useGetProfileTrackingImageList = (userIdx, pages, tabIndex) => {
+const useGetProfileTrackingImageList = (userIdx, page, tabIndex) => {
   const [serverState, request, loading] = useFetch();
-  const [trackingImageList, setTrackingImageList] = React.useState([]);
-  const [hasMoreContent, setHasMoreContent] = React.useState({});
+  const [trackingImageList, setTrackingImageList] = useState([]);
+  const [hasMoreContent, setHasMoreContent] = useState({});
 
-  // 이전 요청 기록을 저장하는 ref
+  // 이전 요청 키 저장
   const previousRequests = useRef(new Set());
+
   useEffect(() => {
     if (!userIdx) return;
-    const sharing = tabIndex === 0 ? 1 : 0;
-    const currentPage = pages[tabIndex];
-    // 현재 요청 키 생성
-    const requestKey = `${userIdx}-${currentPage}-${sharing}`;
+
+    const category = tabIndex === 0 ? 1 : 0;
+    const requestKey = `${userIdx}-${page}-${category}`;
+
+    // 이미 요청된 페이지인지 확인
     if (previousRequests.current.has(requestKey)) return;
-    // 요청 키를 저장하고 API 호출 수행
+
     previousRequests.current.add(requestKey);
-    const endpoint = `/tracking/account/${userIdx}?page=${currentPage}&category=${sharing}`;
-    request("GET", endpoint, null);
-  }, [userIdx, pages, tabIndex]);
+    const endpoint = `/tracking/account/${userIdx}?page=${page}&category=${category}`;
+    console.log(endpoint);
+    request("GET", endpoint);
+  }, [userIdx, page, tabIndex]);
 
   useEffect(() => {
-    if (!serverState) return;
+    if (!serverState || loading) return;
+
     switch (serverState.status) {
       case 400:
         console.log(serverState.message);
-        break;
+        return;
       default:
         break;
     }
 
-    if (!CATEGORY_MAP.hasOwnProperty(tabIndex)) return;
     const category = CATEGORY_MAP[tabIndex];
-    setTrackingImageList((prevList) => [
-      ...prevList,
-      ...(serverState.tracking_image || []),
-    ]);
+    const newImages = serverState.tracking_image || [];
+
+    // 새로운 데이터를 기존 데이터에 추가
+    setTrackingImageList((prevList) => [...prevList, ...newImages]);
+
+    // 현재 카테고리의 다음 페이지 여부 설정
     setHasMoreContent((prevContent) => ({
       ...prevContent,
-      [category]: (serverState.tracking_image || []).length >= ITEMS_PER_PAGE,
+      [category]: newImages.length >= ITEMS_PER_PAGE,
     }));
-  }, [loading, serverState]);
+  }, [serverState, loading, tabIndex]);
 
   return [trackingImageList, loading, hasMoreContent];
 };

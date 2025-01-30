@@ -10,7 +10,6 @@ const useDeleteTrackingImage = () => {
 
   React.useEffect(() => {
     if (!serverState) return;
-    console.log(serverState);
     switch (serverState.status) {
       case 200:
         console.log("삭제");
