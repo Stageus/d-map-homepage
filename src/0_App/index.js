@@ -16,7 +16,6 @@ const App = () => {
       <ResetStyle />
       <GlobalStyles />
       <BrowserRouter>
-        {/* {state && <Modal />} */}
         <STYLE.Main>
           <LoadScript googleMapsApiKey={API_KEY}>
             <Page />
