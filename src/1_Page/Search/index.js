@@ -7,7 +7,6 @@ import { useSearchParams } from "react-router-dom";
 const Search = () => {
   const [searchParams] = useSearchParams();
   const searchInputText = searchParams.get("text"); // 쿼리 값 가져오기
-
   const [isFirstSearch, setIsFisrtSearch] = useState(true);
   const [isSearchFocus, setIsSearchFocus] = useState(false);
 
