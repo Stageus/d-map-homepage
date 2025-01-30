@@ -21,7 +21,7 @@ const SearchHistory = (props) => {
                   addSearchHistory(item);
                   navigate(`?text=${item.searchInputText}`);
                   setIsFisrtSearch(false);
-                  setIsSearchFocus(false);
+                  // setIsSearchFocus(false);
                 }}>
                 {item.searchInputText}
               </STYLE.ListItem>

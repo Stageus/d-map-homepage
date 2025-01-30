@@ -15,9 +15,13 @@ import { useNavigate } from "react-router-dom";
 const SearchResult = () => {
   const [searchParams] = useSearchParams();
   const searchInputText = searchParams.get("text"); // 쿼리 값 가져오기
-
   const navigate = useNavigate();
-  const [activeTab, handleTabName, handleTabLocation] = useTab(); // 탭 관리
+
+  const [isTrackingImageModalOpen, IsTrackingImageModalToggle] =
+    useModalHandler();
+  // 탭 관리
+  const [activeTab, handleTabName, handleTabLocation] = useTab();
+
   const [searchPointPage, searchPointObserveRef, searchPointModalObserveRef] =
     useInfinityScroll();
   const [nicknamePage, nicknameObserveRef] = useInfinityScroll();
@@ -31,9 +35,6 @@ const SearchResult = () => {
     ...item,
     img_url: item.img_url ? item.img_url : empty_profile_icon,
   }));
-
-  const [isTrackingImageModalOpen, IsTrackingImageModalToggle] =
-    useModalHandler();
 
   return (
     <>
@@ -152,4 +153,4 @@ const SearchResult = () => {
   );
 };
 
-export default SearchResult;
+export default React.memo(SearchResult);

@@ -2,11 +2,11 @@ import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import useNavigateHandler from "./model/useNavigateHandler";
 import STYLE from "./style";
-import useSetInputText from "./model/useSetInputText";
+import useSearchHistory from "./model/useSearchHistory";
 
 const SearchInput = (props) => {
-  const { navigateToSearch } = useNavigateHandler();
-  const { setIsSearchFocus, setIsFisrtSearch } = props;
+  const { setIsSearchFocus, setIsFisrtSearch, isSearchFocus, isFirstSearch } =
+    props;
   const inputRef = useRef(null); // input 태그 참조 생성
 
   const {
@@ -17,11 +17,12 @@ const SearchInput = (props) => {
     formState: { errors },
   } = useForm();
 
-  useSetInputText(reset);
+  const [searchHistoryList, addSearchHistory, deleteSearchHistory] =
+    useSearchHistory();
 
-  // 클릭 시 검증 후 제출
+  const { navigateToSearch } = useNavigateHandler(addSearchHistory);
   const onSubmit = (data) => {
-    handleSubmit(navigateToSearch)(data);
+    handleSubmit(navigateToSearch(data));
     setIsFisrtSearch(false);
     inputRef.current?.blur(); // 포커스 해제
   };
@@ -30,42 +31,90 @@ const SearchInput = (props) => {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      onSubmit();
+      handleSubmit(onSubmit)();
     }
   };
 
   return (
     <>
       <STYLE.Container>
-        <STYLE.InputContainer $isError={errors?.searchInputText}>
-          <STYLE.Input
-            ref={inputRef}
-            placeholder="검색할 내용을 입력하세요"
-            {...register("searchInputText", {
-              required: "값을 입력해주세요.",
-              pattern: {
-                value: /^[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ0-9,\s]{2,100}$/,
-                message:
-                  "2~100글자, 영문/한글/숫자/특수문자 ','만 입력 가능합니다.",
-              },
-            })}
-            $isError={errors?.searchInputText}
-            onKeyDown={handleKeyDown}
-            onFocus={() => {
-              setIsSearchFocus(true);
-            }}
-            onBlur={() => {
-              setIsSearchFocus(false);
-            }}
-          />
-          <STYLE.Icon onClick={handleSubmit(onSubmit)}>🔍</STYLE.Icon>
-        </STYLE.InputContainer>
-        <STYLE.ErrorContainer>
-          <STYLE.ErrorMessage>
-            {errors?.searchInputText?.message}
-          </STYLE.ErrorMessage>
-        </STYLE.ErrorContainer>
+        <STYLE.Box>
+          <STYLE.InputContainer>
+            <STYLE.Input
+              placeholder="검색어를 입력하세요"
+              onKeyDown={handleKeyDown}
+              onFocus={() => setIsSearchFocus(true)}
+              onBlur={() => setIsSearchFocus(false)}
+              {...register("searchInputText", {
+                required: "검색어를 입력하세요.",
+                pattern: {
+                  value: /^[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ0-9,\s]{2,100}$/,
+                  message:
+                    "2~100글자, 영문/한글/숫자/특수문자 ','만 입력 가능합니다.",
+                },
+              })}
+            />
+            <STYLE.Icon>🔍</STYLE.Icon>
+          </STYLE.InputContainer>
+          <STYLE.ErrorContainer>
+            <STYLE.ErrorMessage>{errors.message}</STYLE.ErrorMessage>
+          </STYLE.ErrorContainer>
+
+          {isSearchFocus && searchHistoryList.length !== 0 && (
+            <STYLE.InputContainerInSearchHisoty>
+              <STYLE.List>
+                {searchHistoryList.map((item, index) => (
+                  <STYLE.ListItem key={index}>
+                    <STYLE.LeftSection>
+                      <STYLE.SearchText>
+                        {console.log(item)}
+                        {item.searchInputText}
+                      </STYLE.SearchText>
+                      <STYLE.ListDeleteButton
+                        onClick={() => {
+                          deleteSearchHistory(item);
+                        }}>
+                        &times;
+                      </STYLE.ListDeleteButton>
+                    </STYLE.LeftSection>
+                  </STYLE.ListItem>
+                ))}
+              </STYLE.List>
+            </STYLE.InputContainerInSearchHisoty>
+          )}
+        </STYLE.Box>
       </STYLE.Container>
+
+      {isFirstSearch && (
+        <STYLE.SearchHistoryContainer>
+          <STYLE.List>
+            {searchHistoryList.length !== 0 ? (
+              searchHistoryList.map((item) => (
+                <STYLE.ListBox>
+                  <STYLE.ListItem
+                    onClick={() => {
+                      console.log(`?text=${item.searchInputText}`);
+                      addSearchHistory(item);
+                      navigateToSearch(item.searchInputText);
+                      setIsFisrtSearch(false);
+                      // setIsSearchFocus(false);
+                    }}>
+                    {item.searchInputText}
+                  </STYLE.ListItem>
+                  <STYLE.ListDeleteButton
+                    onClick={() => {
+                      deleteSearchHistory(item);
+                    }}>
+                    &times;
+                  </STYLE.ListDeleteButton>
+                </STYLE.ListBox>
+              ))
+            ) : (
+              <STYLE.ListItem>검색기록이 없습니다</STYLE.ListItem>
+            )}
+          </STYLE.List>
+        </STYLE.SearchHistoryContainer>
+      )}
     </>
   );
 };
