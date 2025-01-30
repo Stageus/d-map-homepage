@@ -22,10 +22,12 @@ const SearchResult = () => {
   // 탭 관리
   const [activeTab, handleTabName, handleTabLocation] = useTab();
 
+  // 무한 스크롤
   const [searchPointPage, searchPointObserveRef, searchPointModalObserveRef] =
     useInfinityScroll();
   const [nicknamePage, nicknameObserveRef] = useInfinityScroll();
 
+  // 데이터 검색
   const [nickNameData, nickNameLoading, nicknameHasMoreContent] =
     useGetNicknameSearchData(searchInputText, nicknamePage);
   const [searchPointData, searchPointLoading, searchPointHasMoreContent] =
@@ -39,11 +41,6 @@ const SearchResult = () => {
       handleTabLocation();
     }
   }, [nickNameData, searchPointData]);
-
-  const filteredImgSearchData = searchPointData.map((item) => ({
-    ...item,
-    img_url: item.img_url ? item.img_url : empty_profile_icon,
-  }));
 
   return (
     <>
@@ -150,7 +147,7 @@ const SearchResult = () => {
             </STYLE.CloseButton>
             <STYLE.TrackingModalList>
               <TrackingImagePostList
-                trackingImageList={filteredImgSearchData}
+                trackingImageList={searchPointData}
                 hasMoreContent={searchPointHasMoreContent}
                 observeRef={searchPointModalObserveRef}
               />
