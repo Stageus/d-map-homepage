@@ -19,6 +19,8 @@ const Search = () => {
         <SearchHistory
           isSearchFocus={isSearchFocus}
           isFirstSearch={isFirstSearch}
+          setIsFisrtSearch={setIsFisrtSearch}
+          setIsSearchFocus={setIsSearchFocus}
         />
       </STYLE.BodyContainer>
       <SearchInput

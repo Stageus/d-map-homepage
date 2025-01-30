@@ -3,7 +3,8 @@ import useSearchHistory from "./model/useSearchHistory";
 import { useNavigate } from "react-router-dom";
 
 const SearchHistory = (props) => {
-  const { isSearchFocus, isFirstSearch } = props;
+  const { isSearchFocus, isFirstSearch, setIsFisrtSearch, setIsSearchFocus } =
+    props;
   const [listItems, addSearchHistory, deleteSearchHistory] = useSearchHistory();
   const navigate = useNavigate();
 
@@ -16,8 +17,11 @@ const SearchHistory = (props) => {
             <STYLE.ListBox>
               <STYLE.ListItem
                 onClick={() => {
+                  console.log(`?text=${item.searchInputText}`);
                   addSearchHistory(item);
                   navigate(`?text=${item.searchInputText}`);
+                  setIsFisrtSearch(false);
+                  setIsSearchFocus(false);
                 }}>
                 {item.searchInputText}
               </STYLE.ListItem>

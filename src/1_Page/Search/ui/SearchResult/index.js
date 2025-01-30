@@ -40,51 +40,56 @@ const SearchResult = () => {
       {/* 탭 */}
       <STYLE.SliderWrapper>
         <STYLE.Slider $tabIndex={activeTab === "nickname"}>
-          {/* 장소 탭 */}
-          <STYLE.ResultList>
-            {searchPointData?.length === 0 ? (
-              <STYLE.EmptyMessage>없는 장소입니다.</STYLE.EmptyMessage>
-            ) : (
-              searchPointData?.map((result, index) => (
-                <STYLE.MapPreview
-                  ref={
-                    index === nickNameData.length - 1 &&
-                    searchPointHasMoreContent
-                      ? searchPointObserveRef
-                      : null
-                  }
-                  key={result.idx}
-                  onClick={IsTrackingImageModalToggle}>
-                  <STYLE.TitleContainer>
-                    <STYLE.ProfileIcon
-                      src={result.img_url ? result.img_url : empty_profile_icon}
-                    />
-                    <STYLE.Title>
-                      {result.nickname} - {result.searchpoint}
-                    </STYLE.Title>
-                  </STYLE.TitleContainer>
-                  <STYLE.TrackingImageWrapper>
-                    <StaticTrackingImage
-                      height=" 100%"
-                      mapInfo={{ ...result, draggable: false }}
-                    />
-                  </STYLE.TrackingImageWrapper>
-                </STYLE.MapPreview>
-              ))
-            )}
-            {searchPointLoading && (
-              <STYLE.LoaderContainer>
-                <STYLE.Loader />
-              </STYLE.LoaderContainer>
-            )}
-          </STYLE.ResultList>
+          {searchPointData?.length === 0 ? (
+            <STYLE.EmptyMessage>없는 장소입니다.</STYLE.EmptyMessage>
+          ) : (
+            <>
+              <STYLE.ResultList>
+                {searchPointData?.map((result, index) => (
+                  <STYLE.MapPreview
+                    ref={
+                      index === searchPointData.length - 1 &&
+                      searchPointHasMoreContent
+                        ? searchPointObserveRef
+                        : null
+                    }
+                    key={result.idx}
+                    onClick={IsTrackingImageModalToggle}>
+                    <STYLE.TitleContainer>
+                      <STYLE.ProfileIcon
+                        src={
+                          result.img_url ? result.img_url : empty_profile_icon
+                        }
+                      />
+                      <STYLE.Title>
+                        {result.nickname} - {result.searchpoint}
+                      </STYLE.Title>
+                    </STYLE.TitleContainer>
+
+                    <STYLE.TrackingImageWrapper>
+                      <StaticTrackingImage
+                        height="100%"
+                        mapInfo={{ ...result, draggable: false }}
+                      />
+                    </STYLE.TrackingImageWrapper>
+                  </STYLE.MapPreview>
+                ))}
+              </STYLE.ResultList>
+
+              {searchPointLoading && (
+                <STYLE.LoaderContainer>
+                  <STYLE.Loader />
+                </STYLE.LoaderContainer>
+              )}
+            </>
+          )}
 
           {/* 이름 탭 */}
-          <STYLE.ResultList>
-            {nickNameData?.length === 0 ? (
-              <STYLE.EmptyMessage>없는 이름입니다.</STYLE.EmptyMessage>
-            ) : (
-              nickNameData?.map((result, index) => (
+          {nickNameData?.length === 0 ? (
+            <STYLE.EmptyMessage>없는 이름입니다.</STYLE.EmptyMessage>
+          ) : (
+            <STYLE.ResultList>
+              {nickNameData?.map((result, index) => (
                 <STYLE.NicckNameContainer
                   key={result.idx}
                   ref={
@@ -100,14 +105,14 @@ const SearchResult = () => {
                   />
                   <STYLE.NickNameText>{result.nickname}</STYLE.NickNameText>
                 </STYLE.NicckNameContainer>
-              ))
-            )}
-            {nickNameLoading && (
-              <STYLE.LoaderContainer>
-                <STYLE.Loader />
-              </STYLE.LoaderContainer>
-            )}
-          </STYLE.ResultList>
+              ))}
+              {nickNameLoading && (
+                <STYLE.LoaderContainer>
+                  <STYLE.Loader />
+                </STYLE.LoaderContainer>
+              )}
+            </STYLE.ResultList>
+          )}
         </STYLE.Slider>
       </STYLE.SliderWrapper>
 

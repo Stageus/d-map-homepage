@@ -5,7 +5,7 @@ const STYLE = {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 90%;
+    width: ${({ $isFirstSearch }) => ($isFirstSearch ? "100%" : "90%")};
     max-height: ${({ $isFirstSearch }) => ($isFirstSearch ? "auto" : "400px")};
     overflow-y: ${({ $isFirstSearch }) =>
       $isFirstSearch ? "visible" : "auto"};
@@ -30,7 +30,6 @@ const STYLE = {
   `,
 
   List: styled.ul`
-    position: absolute;
     width: 100%;
     height: 100%;
     background-color: ${({ theme }) => theme.background};
