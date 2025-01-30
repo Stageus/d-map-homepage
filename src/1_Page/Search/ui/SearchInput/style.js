@@ -2,17 +2,20 @@ import styled from "styled-components";
 
 const STYLE = {
   Container: styled.div`
-    position: absolute;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    width: 100%;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 95%;
     height: 10vh;
-    margin: 0 auto;
-    padding-top: 20px;
+    background-color: ${({ theme }) => theme.background};
   `,
 
   Box: styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,7 +23,7 @@ const STYLE = {
       ${({ theme, $isError }) => ($isError ? "red" : theme.border || "#ddd")};
     border-radius: 24px;
     padding: 10px 15px;
-    background-color: ${({ theme }) => theme.background || "#ffffff"};
+    background-color: ${({ theme }) => theme.background};
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
   `,
@@ -59,7 +62,7 @@ const STYLE = {
     top: 10vh;
     background-color: ${({ theme }) => theme.background};
     border-radius: 8px;
-    padding: 10px 0;
+    padding: 10px;
   `,
 
   List: styled.ul`
@@ -70,6 +73,7 @@ const STYLE = {
 
   ListItem: styled.li`
     display: flex;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
     padding: 12px 20px;
