@@ -1,13 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import STYLE from "./style";
+
 import TrackingImagePostList from "../../../../../../2_Widget/TrackingImagePostList";
 
 const SearchPointListTab = (props) => {
   const { trackingImageList, hasMoreContent, observeRef } = props;
-  console.log("렌더");
-  useEffect(() => {
-    console.log(trackingImageList);
-  }, [trackingImageList]);
 
   return (
     <STYLE.TrackingBox>

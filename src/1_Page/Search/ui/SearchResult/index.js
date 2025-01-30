@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
@@ -34,44 +34,60 @@ const SearchHeader = (props) => {
     if (searchPointData.length !== 0) handleTabLocation();
   }, [nickNameData, searchPointData]);
 
-  const filterdSearch = searchPointData.map((item) => {
-    return {
-      ...item,
-      center: {
-        lat: item.center.lat,
-        lng: item.center.lot,
-      },
-    };
-  });
+  const filteredSearch = useMemo(() => {
+    return searchPointData.map((item) => {
+      return {
+        ...item,
+        center: {
+          lat: item.center.lat,
+          lng: item.center.lot,
+        },
+      };
+    });
+  }, [searchPointData]);
 
   return (
     <>
+      {/* 탭 버튼 */}
+      <STYLE.TabContainer>
+        <STYLE.TabBox>
+          <STYLE.TabBackground $activeTabName={activeTab === "searchpoint"}>
+            {activeTab === "searchpoint" ? "장소" : "이름"}
+          </STYLE.TabBackground>
+          <STYLE.Tab
+            $active={activeTab === "searchpoint"}
+            onClick={handleTabLocation}>
+            장소
+          </STYLE.Tab>
+          <STYLE.Tab $active={activeTab === "nickname"} onClick={handleTabName}>
+            이름
+          </STYLE.Tab>
+        </STYLE.TabBox>
+      </STYLE.TabContainer>
       {/* 탭 */}
       <STYLE.SliderWrapper>
         <STYLE.Slider $tabIndex={activeTab === "nickname"}>
-          {searchPointData?.length === 0 ? (
-            <STYLE.EmptyMessage>없는 장소입니다.</STYLE.EmptyMessage>
-          ) : (
+          {searchPointData?.length !== 0 ? (
             <>
-              <STYLE.ResulTab>
+              <STYLE.SearchPointTab>
                 <SearchPointListTab
-                  trackingImageList={filterdSearch}
+                  trackingImageList={filteredSearch}
                   hasMoreContent={searchPointHasMoreContent}
                   observeRef={searchPointObserveRef}
                 />
-              </STYLE.ResulTab>
+              </STYLE.SearchPointTab>
               {searchPointLoading && (
                 <STYLE.LoaderContainer>
                   <STYLE.Loader />
                 </STYLE.LoaderContainer>
               )}
             </>
+          ) : (
+            <STYLE.EmptyMessage>없는 장소입니다.</STYLE.EmptyMessage>
           )}
 
           {/* 이름 탭 */}
-          {nickNameData?.length === 0 ? (
-            <STYLE.EmptyMessage>없는 이름입니다.</STYLE.EmptyMessage>
-          ) : (
+          {nickNameData?.length !== 0 ? (
             <STYLE.ResulTab>
               {nickNameData?.map((result, index) => (
                 <STYLE.NicckNameContainer
@@ -96,24 +112,11 @@ const SearchHeader = (props) => {
                 </STYLE.LoaderContainer>
               )}
             </STYLE.ResulTab>
+          ) : (
+            <STYLE.EmptyMessage>없는 이름입니다.</STYLE.EmptyMessage>
           )}
         </STYLE.Slider>
       </STYLE.SliderWrapper>
-
-      {/* 탭 버튼 */}
-      <STYLE.TabContainer>
-        <STYLE.TabBox>
-          <STYLE.TabBackground $activeTabName={activeTab === "searchpoint"} />
-          <STYLE.Tab
-            $active={activeTab === "searchpoint"}
-            onClick={handleTabLocation}>
-            장소
-          </STYLE.Tab>
-          <STYLE.Tab $active={activeTab === "nickname"} onClick={handleTabName}>
-            이름
-          </STYLE.Tab>
-        </STYLE.TabBox>
-      </STYLE.TabContainer>
     </>
   );
 };

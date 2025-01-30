@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
 const STYLE = {
+  EmptyBox: styled.div`
+    width: 100%;
+    height: 10vh;
+    background-color: ${({ theme }) => theme.background};
+  `,
   Container: styled.div`
     position: fixed;
     display: flex;
@@ -10,31 +15,26 @@ const STYLE = {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 95%;
-    padding-top: 10px;
     padding-bottom: 10px;
     background-color: ${({ theme }) => theme.background};
   `,
-
   Box: styled.div`
-    width: 100%;
+    width: 95%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     border-radius: 24px;
-    padding: 10px 15px;
+    padding: 10px 15px 10px 10px;
     background-color: ${({ theme }) => theme.background};
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
   `,
-
   InputContainer: styled.div`
     display: flex;
     width: 100%;
     height: calc(10vh - 50px);
     align-items: center;
   `,
-
   Input: styled.input`
     flex-grow: 1;
     border: none;
