@@ -31,7 +31,6 @@ const useGetNicknameSearchData = (text, page) => {
       // 페이지가 변경될 때 기존 데이터에 추가
       setNicknameData((prev) => [...prev, ...serverState.rows]);
     }
-    console.log(serverState.rows.length);
     setHasMoreContent(serverState.rows.length >= ITEMS_PER_PAGE);
     prevTextRef.current = text; // 현재 검색어 저장
   }, [serverState]);

@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
 
 import STYLE from "./style";
 import empty_profile_icon from "./assets/empty_profile_icon.svg";
@@ -14,11 +13,9 @@ import useGetSearchPointData from "../../../../3_Entity/Search/useGetSearchPoint
 
 const SearchHeader = (props) => {
   const { searchInputText } = props;
-
   const navigate = useNavigate();
 
   const [activeTab, handleTabName, handleTabLocation] = useTab();
-
   // 무한 스크롤
   const [nicknamePage, nicknameObserveRef] = useInfinityScroll();
   const [searchPointPage, searchPointObserveRef] = useInfinityScroll();

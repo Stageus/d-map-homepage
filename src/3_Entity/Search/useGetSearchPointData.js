@@ -11,7 +11,6 @@ const useGetSearchPointData = (text, page) => {
   const prevTextRef = React.useRef(text);
 
   React.useEffect(() => {
-    console.log("페이지", page);
     const endpoint = `/search/${SEARCH_TYPE.SEARCHPOINT}?text=${text}&page=${page}`;
     request("GET", endpoint, null);
   }, [text, page]);
@@ -33,7 +32,6 @@ const useGetSearchPointData = (text, page) => {
       // 페이지가 변경될 때 기존 데이터에 추가
       setSearchPointData((prev) => [...prev, ...serverState.rows]);
     }
-    console.log(serverState.rows.length);
     setHasMoreContent(serverState.rows.length >= ITEMS_PER_PAGE);
     prevTextRef.current = text; // 현재 검색어 저장
   }, [serverState]);
