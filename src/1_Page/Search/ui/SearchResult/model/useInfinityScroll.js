@@ -1,41 +1,27 @@
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
-const useInfinityScroll = (activeTab) => {
-  const [page, setPage] = useState({
-    nickname: 1,
-    searchpoint: 1,
-  });
-  const { ref: searchPointObserveRef, inView: searchPointInView } = useInView({
+const useInfinityScroll = () => {
+  const [page, setPage] = useState(1);
+  const { ref, inView } = useInView({
     threshold: 0,
   });
-  const { ref: nicknameObserveRef, inView: nicknameInView } = useInView({
-    threshold: 0,
-  });
-  const { ref: searchPointModalObserveRef, inView: anotherInView } = useInView({
+  const { ref: modalRef, inView: modalInview } = useInView({
     threshold: 0,
   });
 
   // 현재 탭의 다음 페이지 불러오기
   const handleNextPage = () => {
-    setPage((prevPage) => ({
-      ...prevPage,
-      [activeTab]: prevPage[activeTab] + 1,
-    }));
+    setPage((prevPage) => prevPage + 1);
   };
 
   useEffect(() => {
-    if (searchPointInView || nicknameInView || anotherInView) {
+    if (inView || modalInview) {
       handleNextPage();
     }
-  }, [searchPointInView, nicknameInView, anotherInView]);
+  }, [ref, modalRef]);
 
-  return {
-    page,
-    searchPointObserveRef,
-    nicknameObserveRef,
-    searchPointModalObserveRef,
-  }; // 페이지 상태와 스크롤 핸들러 반환
+  return [page, ref, modalRef];
 };
 
 export default useInfinityScroll;
