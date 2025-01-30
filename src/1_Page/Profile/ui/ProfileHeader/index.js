@@ -1,13 +1,16 @@
-import Header from "./ui/Header";
-import ModifyModeHeader from "./ui/ModifyModeHeader";
+import React from "react";
 import { useParams } from "react-router-dom";
-import useGetUserInfo from "../../../../3_Entity/Account/useGetUserInfo";
 import STYLE from "./style";
 
-const ProfileHeader = (props) => {
-  const { activeTabStr, handleSetMode, handleTabClick } = props;
+import Header from "./ui/Header";
+import ModifyModeHeader from "./ui/ModifyModeHeader";
+import useGetUserInfo from "../../../../3_Entity/Account/useGetUserInfo";
 
+const ProfileHeader = (props) => {
   const {
+    activeTabStr,
+    handleSetMode,
+    handleTabClick,
     modifyMode,
     handleCloseMode,
     modifyIdxList,
@@ -36,7 +39,6 @@ const ProfileHeader = (props) => {
           userInfo={userInfo}
           activeTabStr={activeTabStr}
           handleSetMode={handleSetMode}
-          handleTabClick={handleTabClick}
           fetchUserInfo={fetchUserInfo}
         />
       )}
@@ -62,5 +64,4 @@ const ProfileHeader = (props) => {
     </>
   );
 };
-
-export default ProfileHeader;
+export default React.memo(ProfileHeader);

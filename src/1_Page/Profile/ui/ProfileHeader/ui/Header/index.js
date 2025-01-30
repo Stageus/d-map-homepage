@@ -11,13 +11,7 @@ import useModalHandler from "../../../../../../4_Shared/model/useModalHandler.js
 import ReactDOM from "react-dom";
 
 const Header = (props) => {
-  const {
-    userInfo,
-    activeTabStr,
-    handleSetMode,
-    handleTabClick,
-    fetchUserInfo,
-  } = props;
+  const { userInfo, activeTabStr, handleSetMode, fetchUserInfo } = props;
 
   const [modifyImageModal, modifyImageModalToggle] = useModalHandler();
   const [modifyNameModal, modifyNameModalToggle] = useModalHandler();
