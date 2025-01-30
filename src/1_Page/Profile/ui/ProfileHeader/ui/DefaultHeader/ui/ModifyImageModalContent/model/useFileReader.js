@@ -1,91 +1,98 @@
 import { useEffect, useRef, useState } from "react";
 
-const useFileReader = (initialImage, showModalWithText) => {
+const useFileReader = (defaultImage, showModal) => {
   const fileInputRef = useRef(null);
-  const [imagePreviewURL, setImagePreviewURL] = useState(initialImage);
-  const [uploadedImageFile, setUploadedImageFile] = useState(null);
+  const [previewURL, setPreviewURL] = useState(defaultImage);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "gif"];
-  const FILE_NAME_MIN_LENGTH = 2;
-  const FILE_NAME_MAX_LENGTH = 20;
-  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB (단위: 바이트)
+  const MIN_NAME_LENGTH = 2;
+  const MAX_NAME_LENGTH = 20;
+  const MAX_SIZE_MB = 5;
+  const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
 
   useEffect(() => {
-    setImagePreviewURL(initialImage);
-  }, [initialImage]);
+    setPreviewURL(defaultImage);
+  }, [defaultImage]);
 
-  const handleProfileImageClick = () => fileInputRef.current?.click();
+  const openFileSelector = () => fileInputRef.current?.click();
 
-  const validateFile = (file) => {
+  const isValidFile = (file) => {
     if (!file) {
-      showModalWithText("파일이 선택되지 않았습니다.");
-
+      showModal("파일이 선택되지 않았습니다.");
       return false;
     }
 
-    // 파일 이름 길이 검증 (2~20자)
-    const fileNameWithoutExtension = file.name
-      .split(".")
-      .slice(0, -1)
-      .join(".");
-
+    const fileName = file.name.split(".").slice(0, -1).join(".");
     if (
-      fileNameWithoutExtension.length < FILE_NAME_MIN_LENGTH ||
-      fileNameWithoutExtension.length > FILE_NAME_MAX_LENGTH
+      fileName.length < MIN_NAME_LENGTH ||
+      fileName.length > MAX_NAME_LENGTH
     ) {
-      showModalWithText(
-        `파일 이름은 ${FILE_NAME_MIN_LENGTH}자 이상 ${FILE_NAME_MAX_LENGTH}자 이하이어야 합니다.`
+      showModal(
+        `파일 이름은 ${MIN_NAME_LENGTH}자 이상 ${MAX_NAME_LENGTH}자 이하로 입력하세요.`
       );
-
       return false;
     }
 
-    // 파일 크기 검증 (최대 5MB 제한)
-    if (file.size > MAX_FILE_SIZE) {
-      showModalWithText(
-        `파일 크기가 너무 큽니다. 최대 ${
-          MAX_FILE_SIZE / (1024 * 1024)
-        }MB까지 업로드 가능합니다.`
+    if (file.size > MAX_SIZE_BYTES) {
+      showModal(
+        `파일 크기가 너무 큽니다. 최대 ${MAX_SIZE_MB}MB까지만 업로드 가능합니다.`
       );
-
       return false;
     }
 
-    // 파일 확장자 검증
-    const fileExtension = file.name.split(".").pop().toLowerCase();
-    if (!ALLOWED_EXTENSIONS.includes(fileExtension)) {
-      showModalWithText(
-        `허용되지 않는 파일 형식입니다. ${ALLOWED_EXTENSIONS.join(
+    const extension = file.name.split(".").pop().toLowerCase();
+    if (!ALLOWED_EXTENSIONS.includes(extension)) {
+      showModal(
+        `허용되지 않는 파일 형식입니다. (${ALLOWED_EXTENSIONS.join(
           ", "
-        )}만 업로드 가능합니다.`
+        )})만 업로드 가능합니다.`
       );
-
       return false;
     }
 
     return true;
   };
 
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files?.[0];
+  const changeImage = async (input) => {
+    if (typeof input === "string") {
+      try {
+        // 이미지 URL로부터 Blob 데이터 가져오기
+        const response = await fetch(input);
+        const blob = await response.blob();
+        // Blob으로 File 객체 생성
+        const defaultFile = new File([blob], "default_image.png", {
+          type: blob.type,
+        });
 
-    if (!selectedFile || !validateFile(selectedFile)) {
-      setImagePreviewURL(initialImage);
-      setUploadedImageFile(null);
+        setPreviewURL(input);
+        setSelectedFile(defaultFile);
+      } catch (error) {
+        console.error("기본 이미지 로드 오류:", error);
+      }
+    } else {
+      const objectURL = URL.createObjectURL(input);
+      setPreviewURL(objectURL);
+      setSelectedFile(input);
+
+      // 메모리 누수 방지
+      return () => URL.revokeObjectURL(objectURL);
+    }
+  };
+
+  const handleFileSelection = (event) => {
+    const file = event.target.files?.[0];
+    if (!file || !isValidFile(file)) {
+      setPreviewURL(defaultImage);
+      setSelectedFile(null);
       return;
     }
-
-    const objectUrl = URL.createObjectURL(selectedFile);
-    setImagePreviewURL(objectUrl);
-    setUploadedImageFile(selectedFile);
-
-    return () => URL.revokeObjectURL(objectUrl); // 메모리 누수 방지
+    changeImage(file);
   };
 
   const validateImageChange = () => {
-    if (initialImage === imagePreviewURL) {
-      showModalWithText("사진을 변경하세요");
-
+    if (defaultImage === previewURL) {
+      showModal("새 이미지를 선택해주세요.");
       return false;
     }
     return true;
@@ -93,19 +100,20 @@ const useFileReader = (initialImage, showModalWithText) => {
 
   useEffect(() => {
     return () => {
-      if (imagePreviewURL && imagePreviewURL !== initialImage) {
-        URL.revokeObjectURL(imagePreviewURL);
+      if (previewURL && previewURL !== defaultImage) {
+        URL.revokeObjectURL(previewURL);
       }
     };
-  }, [imagePreviewURL, initialImage]);
+  }, [previewURL, defaultImage]);
 
   return [
-    uploadedImageFile,
+    selectedFile,
     fileInputRef,
-    imagePreviewURL,
-    handleProfileImageClick,
-    handleFileChange,
+    previewURL,
+    openFileSelector,
+    handleFileSelection,
     validateImageChange,
+    changeImage,
   ];
 };
 

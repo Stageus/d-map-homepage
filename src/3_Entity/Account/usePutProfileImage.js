@@ -7,26 +7,27 @@ export const useFormDataFetch = () => {
   const [serverState, setServerState] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
-  const request = async (method, endPoint, formData = null) => {
+  const request = async (method, endPoint, body = null) => {
     try {
       const config = {
         method: method,
         headers: {
-          Authorization: TEST_TOKEN, // 인증 토큰 추가
+          Authorization: TEST_TOKEN,
         },
-        body: formData,
+        body: body,
       };
-
+      console.log("EX2");
       const response = await fetch(`${BASE_URL}${endPoint}`, config);
+      console.log("EX");
       const data = await response.json();
       setServerState({ ...data, status: response.status });
     } catch (error) {
-      console.error("FormData 요청 오류:", error);
+      console.log("FormData 요청 오류:", error);
     } finally {
+      console.log("실행");
       setLoading(false);
     }
   };
-
   return [serverState, request, loading];
 };
 
