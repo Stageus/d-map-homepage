@@ -50,7 +50,8 @@ const TrackingImagePost = React.memo((props) => {
             postLikeTrackingImage();
             setLike(!like);
           }
-        }}>
+        }}
+      >
         <STYLE.StaticMapWrapper>
           <STYLE.StaticMapImage
             src={staticMapUrlGenerater({
@@ -104,7 +105,8 @@ const TrackingImagePost = React.memo((props) => {
               heading: heading, // 지도 회전 각도 설정 (0 ~ 360)
               disableDefaultUI: true, // UI 요소 비활성화
               mapTypeId: MAPTYPE[background],
-            }}>
+            }}
+          >
             {/* 선 그리기 */}
             {line.map((elem, index) => {
               return (
@@ -125,7 +127,8 @@ const TrackingImagePost = React.memo((props) => {
           <STYLE.Button
             onClick={() => {
               toggleDetailModal();
-            }}>
+            }}
+          >
             X
           </STYLE.Button>
           <STYLE.DetailModalSearchPoint>
