@@ -4,7 +4,7 @@ import useNavigateHandler from "./model/useNavigateHandler";
 import STYLE from "./style";
 import useSearchHistory from "./model/useSearchHistory";
 
-const SearchInput = ({
+const SearchBox = ({
   setIsSearchFocus,
   setIsFisrtSearch,
   isSearchFocus,
@@ -135,4 +135,4 @@ const SearchInput = ({
   );
 };
 
-export default SearchInput;
+export default SearchBox;

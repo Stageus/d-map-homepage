@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import STYLE from "./style";
-import SearchInput from "./ui/SearchInput";
+import SearchBox from "./ui/SearchBox";
 import SearchResult from "./ui/SearchResult";
 
 const Search = () => {
@@ -17,7 +17,7 @@ const Search = () => {
           {<SearchResult />}
         </STYLE.BodyContainer>
       )}
-      <SearchInput
+      <SearchBox
         isSearchFocus={isSearchFocus}
         isFirstSearch={isFirstSearch}
         setIsSearchFocus={setIsSearchFocus}
