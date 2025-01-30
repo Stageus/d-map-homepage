@@ -46,7 +46,6 @@ const SearchInput = (props) => {
                 <STYLE.ListBox>
                   <STYLE.ListItem
                     onClick={() => {
-                      console.log(`?text=${item.searchInputText}`);
                       addSearchHistory(item);
                       navigateToSearch(item);
                       setIsFisrtSearch(false);
@@ -100,7 +99,13 @@ const SearchInput = (props) => {
                   {searchHistoryList.map((item, index) => (
                     <STYLE.ListItem key={index}>
                       <STYLE.LeftSection>
-                        <STYLE.SearchText>
+                        <STYLE.SearchText
+                          onClick={() => {
+                            addSearchHistory(item);
+                            navigateToSearch(item);
+                            setIsFisrtSearch(false);
+                            setIsSearchFocus(false);
+                          }}>
                           {item.searchInputText}
                         </STYLE.SearchText>
                         <STYLE.ListDeleteButton
