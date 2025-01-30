@@ -11,12 +11,8 @@ const usePutTrackingImageToNotShare = () => {
   React.useEffect(() => {
     if (!serverState) return;
     switch (serverState.status) {
-      case 200:
-        return;
-      case 403:
-        console.log(serverState.message);
-        break;
-      case 429:
+      case 400:
+        console.log("idx 오류 , access token 양식 오류");
         break;
       default:
         break;

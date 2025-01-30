@@ -31,7 +31,7 @@ export const useFormDataFetch = () => {
 };
 
 const usePutProfileImage = ({ onSuccess, onError }) => {
-  const [serverState, request, loading] = useFormDataFetch();
+  const [serverState, request] = useFormDataFetch();
 
   const putProfileImage = (imageFile) => {
     const formData = new FormData();
@@ -41,28 +41,22 @@ const usePutProfileImage = ({ onSuccess, onError }) => {
 
   React.useEffect(() => {
     if (!serverState) return;
-    let message;
     switch (serverState?.status) {
-      case 200:
-        onSuccess?.();
-        return;
       case 400:
-        message = "입력 값 오류: 닉네임 형식이 잘못되었습니다.";
+        onError?.(
+          "유효하지 않은 파일 형식입니다. jpg,png,gif 파일만 허용됩니다."
+        );
         break;
-      case 403:
-        message = "인증 실패: 다시 로그인 하십시오";
-        break;
-      case 409:
-        message = "중복 닉네임: 해당 닉네임은 이미 사용 중입니다.";
+      case 413:
+        onError?.("파일 크기는 최대 5MB까지만 허용됩니다.");
         break;
       default:
-        message = serverState?.message;
+        onSuccess?.();
         break;
     }
-    onError?.(message);
   }, [serverState]);
 
-  return [putProfileImage, loading];
+  return [putProfileImage];
 };
 
 export default usePutProfileImage;

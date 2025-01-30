@@ -32,8 +32,7 @@ const useGetProfileTrackingImageList = (userIdx, page, tabIndex) => {
   }, [userIdx, page, tabIndex]);
 
   useEffect(() => {
-    if (!serverState || loading) return;
-
+    if (!serverState) return;
     switch (serverState.status) {
       case 400:
         console.log(serverState.message);
@@ -44,7 +43,6 @@ const useGetProfileTrackingImageList = (userIdx, page, tabIndex) => {
 
     const category = CATEGORY_MAP[tabIndex];
     const newImages = serverState.tracking_image || [];
-
     // 새로운 데이터를 기존 데이터에 추가
     setTrackingImageList((prevList) => [...prevList, ...newImages]);
 
@@ -53,7 +51,7 @@ const useGetProfileTrackingImageList = (userIdx, page, tabIndex) => {
       ...prevContent,
       [category]: newImages.length >= ITEMS_PER_PAGE,
     }));
-  }, [serverState, loading, tabIndex]);
+  }, [serverState, tabIndex]);
 
   return [trackingImageList, loading, hasMoreContent];
 };
