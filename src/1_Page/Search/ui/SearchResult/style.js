@@ -11,13 +11,13 @@ const spin = keyframes`
 `;
 
 const STYLE = {
-  Container: styled.div`
-    padding: 16px;
-  `,
   TabContainer: styled.div`
     display: flex;
+    position: fixed;
     width: 100%;
+    height: 5vh;
     justify-content: center;
+    background-color: ${({ theme }) => theme.background};
   `,
   TabBox: styled.div`
     position: relative;
@@ -31,7 +31,6 @@ const STYLE = {
     align-items: center;
     padding: 10px;
   `,
-
   TabBackground: styled.div`
     position: absolute;
     top: 5px;
@@ -52,25 +51,26 @@ const STYLE = {
     border: none;
     font-size: 16px;
     font-weight: bold;
-    cursor: pointer;
   `,
+
   ResultList: styled.div`
     display: flex;
     width: 100%;
-    height: 500px;
+    height: 100%;
     flex-direction: column;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch; // 모바일 터치 스크롤 활성화
   `,
   ResultItem: styled.div`
     display: flex;
+    height: 100%;
     align-items: center;
     border: 1px solid ${({ theme }) => theme.light_gray};
     border-radius: 8px;
   `,
   SliderWrapper: styled.div`
-    overflow: hidden; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
+    margin-top: 5vh;
+    overflow-x: hidden; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
     width: 100%;
+    flex-grow: 1;
   `,
   Slider: styled.div`
     display: flex;
@@ -89,30 +89,24 @@ const STYLE = {
     padding: 10px;
     font-size: 20px;
     font-weight: bold;
-    line-height: 100%;
   `,
   ProfileIcon: styled.img`
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    border: 0.5px solid ${({ theme }) => theme.black};
-    margin-right: 5px;
-    margin-left: 5px;
     object-fit: cover;
   `,
   NicckNameContainer: styled.div`
     display: flex;
     align-items: center;
     height: 80px;
-    border-radius: 5px;
     border: 1px solid ${({ theme }) => theme.blue};
-    padding: 10px;
     margin: 10px;
+    border-radius: 8px;
   `,
   NickNameIcon: styled.img`
     width: 30px;
     height: 30px;
-    margin: 10px;
   `,
   NickNameText: styled.div`
     font-weight: bold;
@@ -129,7 +123,10 @@ const STYLE = {
     border: 1px solid ${({ theme }) => theme.blue};
     border-radius: 8px;
     margin: 10px;
-    height: 800px;
+  `,
+  TrackingImageWrapper: styled.div`
+    width: 100%;
+    aspect-ratio: 1 / 1;
   `,
   LoaderContainer: styled.div`
     display: flex;
@@ -151,6 +148,45 @@ const STYLE = {
     height: 40px;
     animation: ${spin} 1s linear infinite;
     margin: 20px auto;
+  `,
+
+  ModalOverlay: styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+  `,
+  ModalContent: styled.div`
+    background: white;
+    width: 90%;
+    height: 95%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  `,
+  TrackingModalList: styled.div`
+    overflow-y: auto;
+    height: 95%;
+  `,
+  CloseButton: styled.button`
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #333;
+  `,
+  OpenButton: styled.button`
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
   `,
 };
 

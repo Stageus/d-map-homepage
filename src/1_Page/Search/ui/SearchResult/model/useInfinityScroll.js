@@ -1,28 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 const useInfinityScroll = (activeTab) => {
   const [page, setPage] = useState({
     nickname: 1,
     searchpoint: 1,
-  }); // 페이지 상태 초기화
+  });
+  const { ref: searchPointObserveRef, inView: searchPointInView } = useInView({
+    threshold: 0,
+  });
+  const { ref: nicknameObserveRef, inView: nicknameInView } = useInView({
+    threshold: 0,
+  });
+  const { ref: searchPointModalObserveRef, inView: anotherInView } = useInView({
+    threshold: 0,
+  });
 
+  // 현재 탭의 다음 페이지 불러오기
   const handleNextPage = () => {
-    console.log("다음 페이지 요청 중...");
     setPage((prevPage) => ({
       ...prevPage,
       [activeTab]: prevPage[activeTab] + 1,
     }));
   };
 
-  const handleScroll = (e) => {
-    const { scrollHeight, scrollTop, clientHeight } = e.target;
-    // 스크롤이 가장 아래로 갔는지 확인
-    if (scrollTop + clientHeight >= scrollHeight - 1) {
+  useEffect(() => {
+    if (searchPointInView || nicknameInView || anotherInView) {
       handleNextPage();
     }
-  };
+  }, [searchPointInView, nicknameInView, anotherInView]);
 
-  return { page, handleScroll }; // 페이지 상태와 스크롤 핸들러 반환
+  return {
+    page,
+    searchPointObserveRef,
+    nicknameObserveRef,
+    searchPointModalObserveRef,
+  }; // 페이지 상태와 스크롤 핸들러 반환
 };
 
 export default useInfinityScroll;

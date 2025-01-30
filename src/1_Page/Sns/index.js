@@ -1,7 +1,7 @@
 import STYLE from "./style";
 import React from "react";
 import useGetTrackingImageList from "../../3_Entity/SNS/useGetTrackingImageList";
-import TrackingImagePostList from "./ui/TrackingImagePostList";
+import TrackingImagePostList from "../../2_Widget/TrackingImagePostList";
 import useInfiniteScrollPaging from "./model/useInfiniteScrollPaging";
 import CATEGORY from "./constant/category";
 const Sns = () => {
@@ -27,6 +27,7 @@ const Sns = () => {
         </STYLE.Date>
         <STYLE.SortingSelect
           onChange={(e) => {
+            setPage(1);
             setCategory(e.target.value);
           }}
         >

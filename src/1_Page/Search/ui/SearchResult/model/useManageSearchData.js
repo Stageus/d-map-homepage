@@ -3,14 +3,15 @@ import useGetNicknameSearchData from "../../../../../3_Entity/Search/useGetNickn
 import useGetSearchPointData from "../../../../../3_Entity/Search/useGetSearchPointData";
 import { useEffect, useState } from "react";
 
-const useManageSearchData = (page, activeTab) => {
+const useManageSearchData = (page) => {
   const [searchParams] = useSearchParams();
   const searchInputText = searchParams.get("text");
 
   const [nickNameData, nickNameLoading, nicknameHasMoreContent] =
-    useGetNicknameSearchData(searchInputText, page);
+    useGetNicknameSearchData(searchInputText, page.nickname);
+
   const [searchPointData, searchPointLoading, searchPointHasMoreContent] =
-    useGetSearchPointData(searchInputText, page);
+    useGetSearchPointData(searchInputText, page.searchpoint);
 
   const [searchDataNicnkname, setSearchDataNicnkname] = useState([]);
   const [searchDataSearchpoint, setSearchDataSearchpoint] = useState([]);
