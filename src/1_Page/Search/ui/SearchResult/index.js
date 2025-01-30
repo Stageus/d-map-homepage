@@ -34,12 +34,8 @@ const SearchResult = () => {
     useGetSearchPointData(searchInputText, searchPointPage);
 
   useEffect(() => {
-    if (nickNameData.length !== 0) {
-      handleTabName();
-    }
-    if (searchPointData.length !== 0) {
-      handleTabLocation();
-    }
+    if (nickNameData.length !== 0) handleTabName();
+    if (searchPointData.length !== 0) handleTabLocation();
   }, [nickNameData, searchPointData]);
 
   return (
