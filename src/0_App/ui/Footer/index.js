@@ -29,7 +29,7 @@ const Footer = () => {
           alt="search"
           onClick={() => {
             setPage(PAGE.SEARCH);
-            navigate("/search/:category?text=");
+            navigate("/search");
           }}
         />
       </STYLE.Tab>
