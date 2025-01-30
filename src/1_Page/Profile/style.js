@@ -9,26 +9,34 @@ const spin = keyframes`
     transform: rotate(360deg);
   }
 `;
+
 const STYLE = {
+  ErrorContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 40vh;
+    text-align: center;
+  `,
+  BackButton: styled.button`
+    color: ${({ theme }) => theme.blue};
+  `,
+
+  ErrorMessageBox: styled.div`
+    display: flex;
+    margin-top: 10px;
+  `,
+  EmptyMessage: styled.div`
+    text-align: center;
+  `,
   Main: styled.div`
-    padding: 16px;
     display: flex;
     flex-direction: column;
     background-color: ${({ theme }) => theme.background};
     overflow: hidden;
   `,
 
-  SliderWrapper: styled.div`
-    width: 100%;
-    overflow: hidden;
-  `,
-  Slider: styled.div`
-    display: flex;
-    justify-content: center;
-    width: 200%; /* 두 개의 탭을 모두 포함할 넓이 */
-    transform: translateX(${({ $tabIndex }) => -$tabIndex * 50}%);
-    transition: transform 0.5s ease-in-out;
-  `,
   PostGrid: styled.div`
     display: grid;
     gap: 8px;

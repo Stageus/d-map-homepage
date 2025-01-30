@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 
 const SETTING_MODE_LIST = ["공유", "삭제"];
 
@@ -15,19 +15,7 @@ const useSettingMode = () => {
     setIsModifyState(null);
   }, []);
 
-  const memoizedSetMode = useMemo(
-    () => ({
-      modifyMode,
-      handleSetMode,
-      handleCloseMode,
-    }),
-    [modifyMode]
-  );
-
-  return {
-    modifyMode,
-    memoizedSetMode,
-  };
+  return [modifyMode, handleSetMode, handleCloseMode];
 };
 
 export default useSettingMode;
