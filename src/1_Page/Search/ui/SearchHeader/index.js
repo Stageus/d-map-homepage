@@ -9,6 +9,7 @@ const SearchBox = ({
   setIsFisrtSearch,
   isSearchFocus,
   isFirstSearch,
+  searchInputText,
 }) => {
   const inputRef = useRef(null); // input 태그 참조 생성
 
@@ -21,17 +22,6 @@ const SearchBox = ({
     formState: { errors },
   } = useForm();
 
-  const [searchHistoryList, addSearchHistory, deleteSearchHistory] =
-    useSearchHistory();
-  const [navigateToSearch] = useNavigateHandler(reset, addSearchHistory);
-
-  // 검색어 제출
-  const onSubmit = handleSubmit((data) => {
-    navigateToSearch(data);
-    setIsFisrtSearch(false);
-    inputRef.current?.blur(); // 포커스 해제
-  });
-
   // 검색 기록 선택 핸들러
   const onSearchSelect = (item) => {
     addSearchHistory(item);
@@ -40,6 +30,22 @@ const SearchBox = ({
     setIsSearchFocus(false);
     clearErrors("searchInputText");
   };
+  const [searchHistoryList, addSearchHistory, deleteSearchHistory] =
+    useSearchHistory();
+
+  const [navigateToSearch] = useNavigateHandler(
+    reset,
+    addSearchHistory,
+    searchInputText,
+    onSearchSelect
+  );
+
+  // 검색어 제출
+  const onSubmit = handleSubmit((data) => {
+    navigateToSearch(data);
+    setIsFisrtSearch(false);
+    inputRef.current?.blur(); // 포커스 해제
+  });
 
   // 엔터 키 이벤트 핸들러
   const handleKeyDown = (e) => {

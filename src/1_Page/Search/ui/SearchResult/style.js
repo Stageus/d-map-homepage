@@ -53,14 +53,13 @@ const STYLE = {
     font-weight: bold;
   `,
 
-  ResultList: styled.div`
+  ResulTab: styled.div`
     width: 100%;
     height: calc(90vh - 100px);
     flex-direction: column;
     display: grid;
     gap: 8px;
     grid-template-columns: repeat(1);
-    border-right: 1px solid ${({ theme }) => theme.blue};
     overflow-y: auto;
   `,
 
