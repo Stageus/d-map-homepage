@@ -11,7 +11,8 @@ const STYLE = {
     left: 50%;
     transform: translateX(-50%);
     width: 95%;
-    height: 10vh;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background-color: ${({ theme }) => theme.background};
   `,
 
@@ -32,6 +33,7 @@ const STYLE = {
   InputContainer: styled.div`
     display: flex;
     width: 100%;
+    height: calc(10vh - 50px);
     align-items: center;
   `,
 
@@ -53,7 +55,7 @@ const STYLE = {
 
   InputContainerInSearchHisoty: styled.div`
     width: 100%;
-    max-height: 500px;
+    max-height: 400px;
     overflow-y: scroll;
   `,
 
@@ -92,33 +94,11 @@ const STYLE = {
     display: flex;
     align-items: center;
     gap: 10px;
-
-    & .icon {
-      font-size: 18px;
-      color: #666;
-    }
   `,
 
   SearchText: styled.span`
     flex-grow: 1;
     color: #333;
-  `,
-
-  RightSection: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    & .date {
-      font-size: 14px;
-      color: #999;
-    }
-
-    & .delete {
-      font-size: 18px;
-      color: red;
-      cursor: pointer;
-    }
   `,
 
   EmptyMessage: styled.div`
@@ -158,11 +138,12 @@ const STYLE = {
   // `,
   ErrorMessage: styled.div`
     color: ${({ theme }) => theme.red};
-    font-size: 12px;
-    margin-left: 10px;
+    font-size: 10px;
   `,
   ErrorContainer: styled.div`
     width: 90%;
+    height: 8px;
+    margin-top: 4px;
     display: flex;
     justify-self: start;
     align-items: center;

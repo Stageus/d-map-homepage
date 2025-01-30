@@ -14,13 +14,17 @@ const SearchInput = (props) => {
     handleSubmit,
     reset,
     setError,
+    clearErrors,
     formState: { errors },
   } = useForm();
 
   const [searchHistoryList, addSearchHistory, deleteSearchHistory] =
     useSearchHistory();
 
-  const { navigateToSearch } = useNavigateHandler(reset, addSearchHistory);
+  const { navigateToSearch, navigateToHome } = useNavigateHandler(
+    reset,
+    addSearchHistory
+  );
   const onSubmit = (data) => {
     handleSubmit(navigateToSearch(data));
     setIsFisrtSearch(false);
@@ -50,6 +54,7 @@ const SearchInput = (props) => {
                       navigateToSearch(item);
                       setIsFisrtSearch(false);
                       setIsSearchFocus(false);
+                      clearErrors("searchInputText");
                     }}>
                     {item.searchInputText}
                   </STYLE.ListItem>
@@ -71,6 +76,15 @@ const SearchInput = (props) => {
       <STYLE.Container>
         <STYLE.Box>
           <STYLE.InputContainer>
+            {!isFirstSearch && isSearchFocus && (
+              <STYLE.Icon
+                onClick={() => {
+                  setIsFisrtSearch(true);
+                  navigateToHome();
+                }}>
+                {"←"}
+              </STYLE.Icon>
+            )}
             <STYLE.Input
               placeholder="검색어를 입력하세요"
               onKeyDown={handleKeyDown}
@@ -87,9 +101,6 @@ const SearchInput = (props) => {
             />
             <STYLE.Icon>🔍</STYLE.Icon>
           </STYLE.InputContainer>
-          <STYLE.ErrorContainer>
-            <STYLE.ErrorMessage>{errors.message}</STYLE.ErrorMessage>
-          </STYLE.ErrorContainer>
 
           {isSearchFocus &&
             !isFirstSearch &&
@@ -105,6 +116,8 @@ const SearchInput = (props) => {
                             navigateToSearch(item);
                             setIsFisrtSearch(false);
                             setIsSearchFocus(false);
+                            setError(null);
+                            clearErrors("searchInputText");
                           }}>
                           {item.searchInputText}
                         </STYLE.SearchText>
@@ -121,6 +134,13 @@ const SearchInput = (props) => {
               </STYLE.InputContainerInSearchHisoty>
             )}
         </STYLE.Box>
+        {errors.searchInputText && (
+          <STYLE.ErrorContainer>
+            <STYLE.ErrorMessage>
+              {errors.searchInputText.message}
+            </STYLE.ErrorMessage>
+          </STYLE.ErrorContainer>
+        )}
       </STYLE.Container>
     </>
   );
