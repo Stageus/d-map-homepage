@@ -6,6 +6,7 @@ const STYLE = {
     position: relative;
     flex-direction: column;
     top: 10vh;
+    height: 80vh;
   `,
   Container: styled.div`
     display: flex;

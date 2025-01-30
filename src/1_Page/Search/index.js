@@ -1,24 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import STYLE from "./style";
 import SearchInput from "./ui/SearchInput";
 import SearchResult from "./ui/SearchResult";
 import SearchHistory from "./ui/SearchHistory";
-import { useSearchParams } from "react-router-dom";
 
 const Search = () => {
-  const [searchParams] = useSearchParams();
-  const searchInputText = searchParams.get("text"); // 쿼리 값 가져오기
+  const [isFirstSearch, setIsFisrtSearch] = useState(true);
+  const [isSearchFocus, setIsSearchFocus] = useState(false);
+
+  useEffect(() => {
+    console.log(isSearchFocus);
+  }, [isSearchFocus]);
 
   return (
     <>
       <STYLE.BodyContainer>
-        {searchInputText ? (
-          <SearchResult searchInputText={searchInputText} />
-        ) : (
-          <SearchHistory />
-        )}
+        {!isFirstSearch && <SearchResult />}
+        <SearchHistory
+          isSearchFocus={isSearchFocus}
+          isFirstSearch={isFirstSearch}
+        />
       </STYLE.BodyContainer>
-      <SearchInput />
+      <SearchInput
+        setIsSearchFocus={setIsSearchFocus}
+        setIsFisrtSearch={setIsFisrtSearch}
+      />
     </>
   );
 };

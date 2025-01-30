@@ -4,7 +4,7 @@ import StaticTrackingImage from "../../../../2_Widget/StaticTrackingImage";
 import empty_profile_icon from "./assets/empty_profile_icon.svg";
 
 import useTab from "./model/useTab";
-import useNavigateHandler from "./model/useNavigateHandler";
+import { useSearchParams } from "react-router-dom";
 import useInfinityScroll from "./model/useInfinityScroll";
 import useModalHandler from "../../../../4_Shared/model/useModalHandler";
 import TrackingImagePostList from "../../../../2_Widget/TrackingImagePostList";
@@ -12,8 +12,10 @@ import useGetNicknameSearchData from "../../../../3_Entity/Search/useGetNickname
 import useGetSearchPointData from "../../../../3_Entity/Search/useGetSearchPointData";
 import { useNavigate } from "react-router-dom";
 
-const SearchResult = (props) => {
-  const { searchInputText } = props;
+const SearchResult = () => {
+  const [searchParams] = useSearchParams();
+  const searchInputText = searchParams.get("text"); // 쿼리 값 가져오기
+
   const navigate = useNavigate();
   const [activeTab, handleTabName, handleTabLocation] = useTab(); // 탭 관리
   const [searchPointPage, searchPointObserveRef, searchPointModalObserveRef] =

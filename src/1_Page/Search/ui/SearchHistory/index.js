@@ -2,11 +2,14 @@ import STYLE from "./style";
 import useSearchHistory from "./model/useSearchHistory";
 import { useNavigate } from "react-router-dom";
 
-const SearchHistory = () => {
+const SearchHistory = (props) => {
+  const { isSearchFocus, isFirstSearch } = props;
   const [listItems, addSearchHistory, deleteSearchHistory] = useSearchHistory();
   const navigate = useNavigate();
+
+  if (!isFirstSearch && !isSearchFocus) return;
   return (
-    <STYLE.Container>
+    <STYLE.Container $isFirstSearch={isFirstSearch}>
       <STYLE.List>
         {listItems.length > 0 ? (
           listItems.map((item) => (
