@@ -31,6 +31,10 @@ const SearchHeader = (props) => {
     if (searchPointData.length !== 0) handleTabLocation();
   }, [nickNameData, searchPointData]);
 
+  const memorizeSearchData = useMemo(() => {
+    return searchPointData;
+  }, [searchPointData]);
+
   const filteredSearch = useMemo(() => {
     return searchPointData.map((item) => {
       return {
