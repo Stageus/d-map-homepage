@@ -4,14 +4,16 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 const useDeleteTrackingImage = () => {
   const [serverState, request] = useFetch();
 
-  const deleteTrackingImage = (idxList) => {
-    request("DELETE", `/tracking`, { idxList });
+  const deleteTrackingImage = async (idxList) => {
+    await request("DELETE", `/tracking`, { idxList });
   };
 
   React.useEffect(() => {
     if (!serverState) return;
+    console.log(serverState);
     switch (serverState.status) {
       case 200:
+        console.log("삭제");
         return;
       case 403:
         console.log(serverState.message);

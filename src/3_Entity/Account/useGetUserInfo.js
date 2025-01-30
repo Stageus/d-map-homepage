@@ -17,7 +17,6 @@ const useGetUserInfo = (userIdx) => {
 
   React.useEffect(() => {
     if (!loading && serverState) {
-      console.log(serverState);
       switch (serverState.status) {
         case 400:
           console.log("잘못된 요청입니다:", serverState.message);

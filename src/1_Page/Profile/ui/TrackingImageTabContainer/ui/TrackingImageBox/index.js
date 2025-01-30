@@ -49,6 +49,7 @@ const TrackingImageBox = React.memo((props) => {
             zoom: trackingImageData.zoom / 2,
           }}
         />
+        {trackingImageData.idx}
 
         {modifyMode === "공유" && (
           <STYLE.TrackingClickBox

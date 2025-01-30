@@ -24,20 +24,32 @@ const ModifyModeHeader = (props) => {
   const [putTrackingImageToNotShare] = usePutTrackingImageToNotShare();
   const [putTrackingImageToShare] = usePutTrackingImageToShare();
 
-  const [resetSelection] = useUpdateTrackingImageEventManager(
-    setDisplayTrackingImage,
-    setModifyIdxList,
-    backupTrackingImageData
-  );
+  const [resetSelection, modifyTrackEvent, deleteTrackEvent] =
+    useUpdateTrackingImageEventManager(
+      setDisplayTrackingImage,
+      setModifyIdxList,
+      backupTrackingImageData
+    );
 
-  const handleModifyClick = () => {
+  const handleModifyClick = async () => {
     const { idxToShare, idxToNotShare } = extractIdxLists(modifyIdxList);
-    if (idxToShare.length > 0) putTrackingImageToShare(idxToShare);
-    if (idxToNotShare.length > 0) putTrackingImageToNotShare(idxToNotShare);
+    const promises = [];
+    if (idxToShare.length > 0)
+      promises.push(putTrackingImageToShare(idxToShare));
+    if (idxToNotShare.length > 0)
+      promises.push(putTrackingImageToNotShare(idxToNotShare));
+    await Promise.all(promises);
+    setModifyIdxList([]);
+    handleCloseMode();
+    confirmModalToggle();
   };
 
-  const handleDeleteClick = () => {
-    deleteTrackingImage(modifyIdxList.map((item) => item.idx));
+  const handleDeleteClick = async () => {
+    const idxList = modifyIdxList.map((item) => item.idx);
+    await deleteTrackingImage(idxList);
+    deleteTrackEvent(idxList);
+    handleCloseMode();
+    confirmModalToggle();
   };
 
   return (
@@ -71,8 +83,6 @@ const ModifyModeHeader = (props) => {
           onClose={confirmModalToggle}
           onConfirm={() => {
             modifyMode === "삭제" ? handleDeleteClick() : handleModifyClick();
-            handleCloseMode();
-            confirmModalToggle();
           }}
           onCancel={confirmModalToggle}
         />

@@ -13,7 +13,6 @@ import { useState } from "react";
 import ModifyModeHeader from "./ui/ModifyModeHeader/index.js";
 import TrackingImageTabContainer from "./ui/TrackingImageTabContainer/index.js";
 
-let profile = 0;
 const Profile = () => {
   const { userIdx } = useParams();
 
@@ -37,10 +36,6 @@ const Profile = () => {
     setDisplayTrackingImage,
     backupTrackingImageData,
   ] = useManageTrackData(trackingImageData, modifyMode);
-
-  profile += 1;
-  console.log("프로필", profile);
-  console.log(displayTrackingImage);
 
   return (
     <>

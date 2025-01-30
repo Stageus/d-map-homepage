@@ -16,7 +16,6 @@ const usePutTrackingImageToNotShare = () => {
       case 403:
         console.log(serverState.message);
         break;
-
       case 429:
         break;
       default:
