@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import STYLE from "./style";
 
-import Header from "./ui/Header";
+import DefaultHeader from "./ui/DefaultHeader";
 import ModifyModeHeader from "./ui/ModifyModeHeader";
 import useGetUserInfo from "../../../../3_Entity/Account/useGetUserInfo";
 
@@ -35,7 +35,7 @@ const ProfileHeader = (props) => {
           fetchUserInfo={fetchUserInfo}
         />
       ) : (
-        <Header
+        <DefaultHeader
           userInfo={userInfo}
           activeTabStr={activeTabStr}
           handleSetMode={handleSetMode}

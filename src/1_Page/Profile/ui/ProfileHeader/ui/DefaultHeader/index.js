@@ -10,7 +10,7 @@ import ConfirmModal from "../../../../../../2_Widget/ConfirmModal/index.js";
 import useModalHandler from "../../../../../../4_Shared/model/useModalHandler.js";
 import ReactDOM from "react-dom";
 
-const Header = (props) => {
+const DefaultHeader = (props) => {
   const { userInfo, activeTabStr, handleSetMode, fetchUserInfo } = props;
 
   const [modifyImageModal, modifyImageModalToggle] = useModalHandler();
@@ -100,4 +100,4 @@ const Header = (props) => {
   );
 };
 
-export default React.memo(Header);
+export default React.memo(DefaultHeader);

@@ -6,7 +6,6 @@ const TrackingImageTabContainer = (props) => {
     modifyMode,
     hasMoreContent,
     tabIndex,
-
     displayTrackingImage,
     setDisplayTrackingImage,
     shareObserveRef,
