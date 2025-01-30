@@ -21,8 +21,6 @@ const STYLE = {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 1px solid
-      ${({ theme, $isError }) => ($isError ? "red" : theme.border || "#ddd")};
     border-radius: 24px;
     padding: 10px 15px;
     background-color: ${({ theme }) => theme.background};

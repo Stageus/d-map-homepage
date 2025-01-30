@@ -10,15 +10,12 @@ const useNavigateHandler = (reset, addSearchHistory) => {
     navigate(`?text=${encodeURIComponent(data.searchInputText)}`); // 공백과 특수문자 인코딩
   };
 
-  const navigateToHome = () => {
-    navigate(`/search`); // 공백과 특수문자 인코딩
-  };
   const [searchParams] = useSearchParams();
   const searchInputText = searchParams.get("text"); // 쿼리 값 가져오기
 
   useEffect(() => {
     reset({ searchInputText: searchInputText || "" });
   }, [searchInputText, reset]);
-  return { navigateToSearch, navigateToHome };
+  return { navigateToSearch };
 };
 export default useNavigateHandler;

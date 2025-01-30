@@ -21,10 +21,7 @@ const SearchInput = (props) => {
   const [searchHistoryList, addSearchHistory, deleteSearchHistory] =
     useSearchHistory();
 
-  const { navigateToSearch, navigateToHome } = useNavigateHandler(
-    reset,
-    addSearchHistory
-  );
+  const { navigateToSearch } = useNavigateHandler(reset, addSearchHistory);
   const onSubmit = (data) => {
     handleSubmit(navigateToSearch(data));
     setIsFisrtSearch(false);
@@ -79,8 +76,7 @@ const SearchInput = (props) => {
             {!isFirstSearch && isSearchFocus && (
               <STYLE.Icon
                 onClick={() => {
-                  setIsFisrtSearch(true);
-                  navigateToHome();
+                  setIsSearchFocus(false);
                 }}>
                 {"←"}
               </STYLE.Icon>
