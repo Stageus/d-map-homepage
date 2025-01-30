@@ -3,12 +3,12 @@ import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
 import STYLE from "./style";
 
-import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
+import ConfirmModal from "../../../../../../../../2_Widget/ConfirmModal";
 
 import useRandomNickname from "./model/useRandomNickname";
 import useNicknameModal from "./model/useNicknameModal";
-import usePutNickname from "../../../../../../3_Entity/Account/usePutNickname";
-import useGetRandomNicknames from "../../../../../../3_Entity/Account/useGetRandomNicknames";
+import usePutNickname from "../../../../../../../../3_Entity/Account/usePutNickname";
+import useGetRandomNicknames from "../../../../../../../../3_Entity/Account/useGetRandomNicknames";
 
 const ModifyNameModalContent = (props) => {
   const { name, handleClose, fetchUserInfo } = props;

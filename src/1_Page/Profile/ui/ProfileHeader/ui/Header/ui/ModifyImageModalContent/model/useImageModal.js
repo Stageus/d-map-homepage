@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import useConfirmModal from "../../../../../../../4_Shared/model/useModalHandler";
+import useConfirmModal from "../../../../../../../../../4_Shared/model/useModalHandler";
 
 const useImageModal = () => {
   const [confirmModal, confirmModalToggle] = useConfirmModal();

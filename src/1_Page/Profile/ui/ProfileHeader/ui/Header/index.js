@@ -6,16 +6,19 @@ import ModalBase from "./ui/ModalBase/index.js";
 import ModifyImageModalContent from "./ui/ModifyImageModalContent/index.js";
 import ModifyNameModalContent from "./ui/ModifyNameModalContent/index.js";
 import ModifyModeModalContent from "./ui/ModifyModeModalContent/index.js";
-import ConfirmModal from "../../../../2_Widget/ConfirmModal/index.js";
-import useModalHandler from "../../../../4_Shared/model/useModalHandler.js";
+import ConfirmModal from "../../../../../../2_Widget/ConfirmModal/index.js";
+import useModalHandler from "../../../../../../4_Shared/model/useModalHandler.js";
 import ReactDOM from "react-dom";
-import useGetUserInfo from "../../../../3_Entity/Account/useGetUserInfo.js";
-import { useParams } from "react-router-dom";
 
 const Header = (props) => {
-  const { activeTabStr, handleTabClick, handleSetMode } = props;
-  const { userIdx } = useParams();
-  const [userInfo, loading, fetchUserInfo] = useGetUserInfo(userIdx);
+  const {
+    userInfo,
+    activeTabStr,
+    handleSetMode,
+    handleTabClick,
+    fetchUserInfo,
+  } = props;
+
   const [modifyImageModal, modifyImageModalToggle] = useModalHandler();
   const [modifyNameModal, modifyNameModalToggle] = useModalHandler();
   const [modifyModeModal, modifyModeModalToggle] = useModalHandler();

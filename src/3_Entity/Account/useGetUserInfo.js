@@ -7,8 +7,8 @@ const useGetUserInfo = (userIdx) => {
   const [userInfo, setUserInfo] = React.useState(null);
   const navigate = useNavigate();
 
-  const fetchUserInfo = () => {
-    request("GET", `/account/info/${userIdx}`, null);
+  const fetchUserInfo = async () => {
+    await request("GET", `/account/info/${userIdx}`, null);
   };
 
   React.useEffect(() => {

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import STYLE from "./style";
 
-import Header from "./ui/Header";
+import ProfileHeader from "./ui/ProfileHeader";
 
 import useTabs from "./model/useTabs";
 import useSettingMode from "./model/useSettingMode";
@@ -10,7 +10,6 @@ import useManageTrackData from "./model/useManageTrackData.js";
 
 import useGetProfileTrackingImageList from "../../3_Entity/Tracking/useGetProfileTrackingImageList.js";
 import { useState } from "react";
-import ModifyModeHeader from "./ui/ModifyModeHeader/index.js";
 import TrackingImageTabContainer from "./ui/TrackingImageTabContainer/index.js";
 
 const Profile = () => {
@@ -40,22 +39,17 @@ const Profile = () => {
   return (
     <>
       <STYLE.Main>
-        {modifyMode ? (
-          <ModifyModeHeader
-            modifyMode={modifyMode}
-            handleCloseMode={handleCloseMode}
-            modifyIdxList={modifyIdxList}
-            setDisplayTrackingImage={setDisplayTrackingImage}
-            setModifyIdxList={setModifyIdxList}
-            backupTrackingImageData={backupTrackingImageData}
-          />
-        ) : (
-          <Header
-            handleSetMode={handleSetMode}
-            handleTabClick={handleTabClick}
-            activeTabStr={tabState?.activeTabStr}
-          />
-        )}
+        <ProfileHeader
+          handleSetMode={handleSetMode}
+          activeTabStr={tabState?.activeTabStr}
+          handleTabClick={handleTabClick}
+          modifyMode={modifyMode}
+          handleCloseMode={handleCloseMode}
+          modifyIdxList={modifyIdxList}
+          setDisplayTrackingImage={setDisplayTrackingImage}
+          setModifyIdxList={setModifyIdxList}
+          backupTrackingImageData={backupTrackingImageData}
+        />
       </STYLE.Main>
 
       <TrackingImageTabContainer
@@ -65,9 +59,9 @@ const Profile = () => {
         handleTabClick={handleTabClick}
         displayTrackingImage={displayTrackingImage}
         setDisplayTrackingImage={setDisplayTrackingImage}
+        saveObserveRef={saveObserveRef}
         shareObserveRef={shareObserveRef}
         setModifyIdxList={setModifyIdxList}
-        saveObserveRef={saveObserveRef}
       />
 
       {loading && (

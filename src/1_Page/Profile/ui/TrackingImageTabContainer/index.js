@@ -6,7 +6,7 @@ const TrackingImageTabContainer = (props) => {
     modifyMode,
     hasMoreContent,
     tabIndex,
-    handleTabClick,
+
     displayTrackingImage,
     setDisplayTrackingImage,
     shareObserveRef,
@@ -14,29 +14,8 @@ const TrackingImageTabContainer = (props) => {
     saveObserveRef,
   } = props;
 
-  const { isMine } =
-    displayTrackingImage?.save[0] || displayTrackingImage?.share[0] || false;
-
   return (
     <>
-      <STYLE.TabMenu>
-        {isMine ? (
-          <>
-            <STYLE.Tab
-              $active={tabIndex === 0}
-              onClick={() => handleTabClick("공유")}>
-              공유
-            </STYLE.Tab>
-            <STYLE.Tab
-              $active={tabIndex === 1}
-              onClick={() => handleTabClick("저장")}>
-              저장
-            </STYLE.Tab>
-          </>
-        ) : (
-          <STYLE.TabNone>게시물</STYLE.TabNone>
-        )}
-      </STYLE.TabMenu>
       <STYLE.SliderWrapper>
         <STYLE.Slider $tabIndex={tabIndex}>
           {displayTrackingImage?.share.length === 0 ? (

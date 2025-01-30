@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import STYLE from "./style";
 
-import ConfirmModal from "../../../../../../2_Widget/ConfirmModal";
+import ConfirmModal from "../../../../../../../../2_Widget/ConfirmModal";
 
 import useFileReader from "./model/useFileReader";
 import useImageModal from "./model/useImageModal";
-import usePutProfileImage from "../../../../../../3_Entity/Account/usePutProfileImage";
+import usePutProfileImage from "../../../../../../../../3_Entity/Account/usePutProfileImage";
 
 const ModifyImageModalContent = (props) => {
   const { image, fetchUserInfo, handleClose } = props;

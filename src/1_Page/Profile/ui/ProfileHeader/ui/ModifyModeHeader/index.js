@@ -1,12 +1,12 @@
 // ModifyModeHeader.jsx
 import React from "react";
 import STYLE from "./style.js";
-import ConfirmModal from "../../../../2_Widget/ConfirmModal/index.js";
-import useModalHandler from "../../../../4_Shared/model/useModalHandler.js";
-import { extractIdxLists } from "../../lib/profileUtil.js";
-import useDeleteTrackingImage from "../../../../3_Entity/Tracking/useDeleteTrackingImage.js";
-import usePutTrackingImageToNotShare from "../../../../3_Entity/Tracking/usePutTrackingImageToNotShare.js";
-import usePutTrackingImageToShare from "../../../../3_Entity/Tracking/usePutTrackingImageToShare.js";
+import ConfirmModal from "../../../../../../2_Widget/ConfirmModal/index.js";
+import useModalHandler from "../../../../../../4_Shared/model/useModalHandler.js";
+import { extractIdxLists } from "../../../../lib/profileUtil.js";
+import useDeleteTrackingImage from "../../../../../../3_Entity/Tracking/useDeleteTrackingImage.js";
+import usePutTrackingImageToNotShare from "../../../../../../3_Entity/Tracking/usePutTrackingImageToNotShare.js";
+import usePutTrackingImageToShare from "../../../../../../3_Entity/Tracking/usePutTrackingImageToShare.js";
 import useUpdateTrackingImageEventManager from "./model/useUpdateTrackingImageEventManager.js";
 
 const ModifyModeHeader = (props) => {
@@ -17,20 +17,26 @@ const ModifyModeHeader = (props) => {
     setDisplayTrackingImage,
     setModifyIdxList,
     backupTrackingImageData,
+    fetchUserInfo,
   } = props;
   const [confirmModal, confirmModalToggle] = useModalHandler();
 
-  const [deleteTrackingImage] = useDeleteTrackingImage();
-  const [putTrackingImageToNotShare] = usePutTrackingImageToNotShare();
-  const [putTrackingImageToShare] = usePutTrackingImageToShare();
-
+  // 수정 이벤트 관리
   const [resetSelection, modifyTrackEvent, deleteTrackEvent] =
     useUpdateTrackingImageEventManager(
       setDisplayTrackingImage,
       setModifyIdxList,
-      backupTrackingImageData
+      backupTrackingImageData,
+      handleCloseMode,
+      confirmModalToggle,
+      fetchUserInfo
     );
+  // 수정 API
+  const [deleteTrackingImage] = useDeleteTrackingImage();
+  const [putTrackingImageToNotShare] = usePutTrackingImageToNotShare();
+  const [putTrackingImageToShare] = usePutTrackingImageToShare();
 
+  // 클릭이벤트
   const handleModifyClick = async () => {
     const { idxToShare, idxToNotShare } = extractIdxLists(modifyIdxList);
     const promises = [];
@@ -39,17 +45,12 @@ const ModifyModeHeader = (props) => {
     if (idxToNotShare.length > 0)
       promises.push(putTrackingImageToNotShare(idxToNotShare));
     await Promise.all(promises);
-    setModifyIdxList([]);
-    handleCloseMode();
-    confirmModalToggle();
+    modifyTrackEvent();
   };
-
   const handleDeleteClick = async () => {
     const idxList = modifyIdxList.map((item) => item.idx);
     await deleteTrackingImage(idxList);
     deleteTrackEvent(idxList);
-    handleCloseMode();
-    confirmModalToggle();
   };
 
   return (
