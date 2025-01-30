@@ -8,7 +8,6 @@ import useFileReader from "./model/useFileReader";
 import useImageModal from "./model/useImageModal";
 import usePutProfileImage from "../../../../../../../../3_Entity/Account/usePutProfileImage";
 import empty_profile_icon from "../../assets/empty_profile_icon.svg";
-// import empty_profile_icon from "../../assets/empty_profile_icon.png";
 
 const ModifyImageModalContent = (props) => {
   const { image, fetchUserInfo, handleClose } = props;
