@@ -1,36 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import STYLE from "./style";
-
-import ConfirmTwoBtnModal from "../../2_Widget/ConfirmModal";
-import ErrorModal from "../../2_Widget/ConfirmModal";
-import useModalHandler from "../../4_Shared/model/useModalHandler";
-
-import useTab from "./model/useTab";
-import useActionModalMessageSet from "./model/useActionModalMessageSet";
-import useNavigateHandler from "./model/useNavigateHandler";
-import useChangeTheme from "./model/useChangeTheme";
-import useErrorModalHandler from "./model/useErrorModalHandler";
-
-import useGetMyInfo from "../../3_Entity/Account/useGetMyInfo";
-
 import ACTION_MESSAGES from "./constant/actionMessagesType";
 import TABS from "./constant/tabs";
+import useThemeTab from "./model/useThemeTab";
+import useActionModalMessageSet from "./model/useActionModalMessageSet";
+
+import ConfirmTwoBtnModal from "../../2_Widget/ConfirmModal";
+import useGetMyInfo from "../../3_Entity/Account/useGetMyInfo";
+import useDeleteAccountUser from "../../3_Entity/Account/deleteUserAccount";
+import { deleteAllCookies } from "../../4_Shared/model/cookie";
 
 const Setting = () => {
-  const [selectedAction, handleMessageSetDelete, handleMessageSetLogout] =
-    useActionModalMessageSet();
+  const navigate = useNavigate();
+  const [
+    confirmTwoBtnModal,
+    selectedActionMessage,
+    confimTwoBtnToggle,
+    deleteModalOpen,
+    logoutModalOpen,
+  ] = useActionModalMessageSet();
 
-  const [confirmTwoBtnModal, confimTwoBtnToggle] = useModalHandler();
-  const { errorModal, errorMessage, errorModalOpen, errorModalToggle } =
-    useErrorModalHandler();
-
-  const { activeTab, handleTabWhite, handleTabDark, isPresentTab } = useTab();
-
-  const [handleLogin, handleDeleteAccount, handleBack, handleLogout] =
-    useNavigateHandler();
-
+  const [handleTabWhite, handleTabDark, isPresentTab] = useThemeTab();
   const [userInfo, loading] = useGetMyInfo();
-  useChangeTheme(activeTab);
+  const [deleteAccountUser] = useDeleteAccountUser();
 
   return (
     <>
@@ -59,26 +53,15 @@ const Setting = () => {
           <STYLE.ButtonBox>
             {userInfo ? (
               <>
-                <STYLE.Button
-                  danger
-                  onClick={() => {
-                    handleMessageSetDelete();
-                    confimTwoBtnToggle();
-                  }}>
+                <STYLE.Button danger onClick={deleteModalOpen}>
                   회원탈퇴
                 </STYLE.Button>
-                <STYLE.Button
-                  onClick={() => {
-                    handleMessageSetLogout();
-                    confimTwoBtnToggle();
-                  }}>
-                  로그아웃
-                </STYLE.Button>
+                <STYLE.Button onClick={logoutModalOpen}>로그아웃</STYLE.Button>
               </>
             ) : (
               <STYLE.Button
                 onClick={() => {
-                  handleLogin();
+                  navigate("/login");
                 }}>
                 로그인 하기
               </STYLE.Button>
@@ -96,26 +79,22 @@ const Setting = () => {
                 All rights reserved.
               </p>
             </STYLE.Footer>
-            <STYLE.BackButton onClick={handleBack}>뒤로가기</STYLE.BackButton>
           </STYLE.ButtonBox>
         </STYLE.ButtonContainer>
       </STYLE.Container>
+
       {confirmTwoBtnModal && (
         <ConfirmTwoBtnModal
-          message={`정말로 ${selectedAction} 하시겠습니까?`}
+          message={`정말로 ${selectedActionMessage} 하시겠습니까?`}
           onConfirm={
-            selectedAction === ACTION_MESSAGES.delete
-              ? handleDeleteAccount
-              : handleLogout
+            selectedActionMessage === ACTION_MESSAGES.delete
+              ? deleteAccountUser
+              : () => {
+                  deleteAllCookies();
+                  navigate(`/login`);
+                }
           }
           onCancel={confimTwoBtnToggle}
-        />
-      )}
-      {errorModal && (
-        <ErrorModal
-          message={errorMessage}
-          type="one"
-          onClose={errorModalToggle}
         />
       )}
     </>

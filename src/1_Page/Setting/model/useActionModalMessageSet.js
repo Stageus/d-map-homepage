@@ -1,18 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ACTION_MESSAGES from "../constant/actionMessagesType";
+import useModalHandler from "../../../4_Shared/model/useModalHandler";
 
 const useActionModalMessageSet = () => {
-  const [selectedAction, setSelectedAction] = useState(null);
+  const [confirmTwoBtnModal, confimTwoBtnToggle] = useModalHandler();
+  const [selectedActionMessage, setSelectedAction] = useState(null);
 
-  const handleMessageSetDelete = () => {
+  const deleteModalOpen = () => {
     setSelectedAction(ACTION_MESSAGES.delete);
+    confimTwoBtnToggle();
   };
 
-  const handleMessageSetLogout = () => {
+  const logoutModalOpen = () => {
     setSelectedAction(ACTION_MESSAGES.logout);
+    confimTwoBtnToggle();
   };
 
-  return [selectedAction, handleMessageSetDelete, handleMessageSetLogout];
+  return [
+    confirmTwoBtnModal,
+    selectedActionMessage,
+    confimTwoBtnToggle,
+    deleteModalOpen,
+    logoutModalOpen,
+  ];
 };
 
 export default useActionModalMessageSet;
