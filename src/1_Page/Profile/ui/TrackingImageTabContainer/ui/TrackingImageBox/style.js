@@ -54,32 +54,17 @@ const STYLE = {
   `,
   ModalContent: styled.div`
     background: white;
+    position: relative;
     width: 90%;
     height: 95vh;
-    max-width: 400px;
-    overflow-y: auto;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   `,
   CloseButton: styled.button`
-    background: none;
-    border: none;
-    font-size: 1.5rem;
     position: absolute;
-    top: 10px;
-    right: 15px;
-    cursor: pointer;
-    color: #333;
-  `,
-  OpenButton: styled.button`
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
+    right: 0;
+    font-size: 1.5rem;
   `,
 };
 
