@@ -1,10 +1,10 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const useDeleteTrackingImage = () => {
+const useDeleteTrackingImage = (idxList) => {
   const [serverState, request] = useFetch();
 
-  const deleteTrackingImage = async (idxList) => {
+  const deleteTrackingImage = async () => {
     await request("DELETE", `/tracking`, { idxList });
   };
 

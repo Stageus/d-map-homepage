@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 
-const TAB_CONFIG = ["공유", "저장"];
+const TAB_CONFIG = ["공개", "비공개"];
 
-const useTabs = (initialTab = "공유") => {
+const useTabs = (initialTab = "공개") => {
   const [tabState, setTabState] = useState({
     activeTabStr: initialTab,
     tabIndex: TAB_CONFIG.indexOf(initialTab),

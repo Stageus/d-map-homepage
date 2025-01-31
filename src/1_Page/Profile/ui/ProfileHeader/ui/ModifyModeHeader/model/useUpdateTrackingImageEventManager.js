@@ -6,23 +6,21 @@ const useUpdateTrackingImageEventManager = (
   setModifyIdxList,
   backupTrackingImageData,
   handleCloseMode,
-  confirmModalToggle,
-  fetchUserInfo
+  confirmModalToggle
 ) => {
   const resetSelection = useCallback(() => {
+    console.log(backupTrackingImageData);
     setModifyIdxList([]);
     setDisplayTrackingImage(backupTrackingImageData);
   }, [backupTrackingImageData]);
 
-  const modifyTrackEvent = async () => {
-    await fetchUserInfo();
+  const modifyTrackEvent = () => {
     setModifyIdxList([]);
     handleCloseMode();
     confirmModalToggle();
   };
 
-  const deleteTrackEvent = async (idxList) => {
-    await fetchUserInfo();
+  const deleteTrackEvent = (idxList) => {
     setDisplayTrackingImage((prev) => filterTrackData(prev, idxList));
     setModifyIdxList([]);
     handleCloseMode();
