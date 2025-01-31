@@ -7,10 +7,14 @@ import map_icon from "./assets/map.svg";
 import profile_icon from "./assets/user.svg";
 import setting_icon from "./assets/setting.svg";
 import PAGE from "./constant/page";
+import useAuthenticator from "../../../4_Shared/lib/useAuthenticator";
 
 const Footer = () => {
   const navigate = useNavigate();
-  const [page, setPage] = React.useState(window.location.pathname.split("/")[1] || PAGE.HOME);
+  const [page, setPage] = React.useState(
+    window.location.pathname.split("/")[1] || PAGE.HOME
+  );
+  const [isLogin] = useAuthenticator();
   return (
     <STYLE.Container>
       <STYLE.Tab $isCurrentPage={page === PAGE.HOME}>
@@ -48,8 +52,14 @@ const Footer = () => {
           src={profile_icon}
           alt="profile"
           onClick={() => {
-            setPage(PAGE.PROFILE);
-            navigate("/profile/:userIdx");
+            if (isLogin) {
+              setPage(PAGE.PROFILE);
+              navigate("/profile/me");
+            } else {
+              setPage(PAGE.LOGIN);
+              alert("로그인이 필요합니다!");
+              navigate("/login");
+            }
           }}
         />
       </STYLE.Tab>
