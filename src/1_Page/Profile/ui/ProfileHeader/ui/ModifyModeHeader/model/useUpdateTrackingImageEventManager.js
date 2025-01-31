@@ -9,6 +9,7 @@ const useUpdateTrackingImageEventManager = (
   confirmModalToggle
 ) => {
   const resetSelection = useCallback(() => {
+    console.log(backupTrackingImageData);
     setModifyIdxList([]);
     setDisplayTrackingImage(backupTrackingImageData);
   }, [backupTrackingImageData]);

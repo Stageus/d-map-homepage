@@ -21,10 +21,10 @@ const useGetProfileTrackingImageList = (userIdx, page, tabIndex) => {
 
     const category = tabIndex === 0 ? 1 : 0;
     const requestKey = `${userIdx}-${page}-${category}`;
-
     // 이미 요청된 페이지인지 확인
     if (previousRequests.current.has(requestKey)) return;
 
+    console.log(requestKey, "새요청");
     previousRequests.current.add(requestKey);
     const endpoint = `/tracking/account/${userIdx}?page=${page}&category=${category}`;
     request("GET", endpoint);

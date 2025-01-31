@@ -18,11 +18,18 @@ const useManageTrackData = (trackingImageData = [], modifyMode) => {
   // 2. modifyMode가 null이 아닌데 trackingImageData가 바뀌었다 -> 값을 추가
   useEffect(() => {
     if (modifyMode) {
-      const categorized = categorizeTrackData(trackingImageData);
-      setBackupTrackingImageData((prev) => ({
-        private: [...prev.private, ...categorized.private],
-        public: [...prev.public, ...categorized.public],
-      }));
+      setBackupTrackingImageData((prev) => {
+        const combinedData = removeDuplicateData([
+          ...prev.private,
+          ...prev.public,
+          ...trackingImageData,
+        ]);
+        const categorized = categorizeTrackData(combinedData);
+        return {
+          private: categorized.private,
+          public: categorized.public,
+        };
+      });
     }
   }, [trackingImageData]);
 
