@@ -21,7 +21,6 @@ const ProfileHeader = (props) => {
 
   const { userIdx } = useParams();
   const [userInfo, loading, fetchUserInfo] = useGetUserInfo(userIdx);
-  console.log(userInfo);
 
   return (
     <>
