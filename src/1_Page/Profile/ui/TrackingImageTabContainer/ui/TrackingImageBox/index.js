@@ -19,6 +19,7 @@ const TrackingImageBox = React.memo((props) => {
     setDisplayTrackingImage,
     setModifyIdxList,
     obServeRef,
+    isPublic,
   } = props;
 
   const [isModifyTrackingModalOpen, modifyTrackingModalToggle] =
@@ -53,8 +54,9 @@ const TrackingImageBox = React.memo((props) => {
           <STYLE.TrackingClickBox
             onClick={() => {
               clickTrackEvent(trackingImageData, false);
-            }}
-          />
+            }}>
+            {isPublic ? "→" : "←"}
+          </STYLE.TrackingClickBox>
         )}
         {modifyMode === "삭제" && (
           <STYLE.TrackingCheckbox

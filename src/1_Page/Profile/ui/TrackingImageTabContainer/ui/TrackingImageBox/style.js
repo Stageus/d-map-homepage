@@ -15,13 +15,13 @@ const STYLE = {
     appearance: none;
     width: 20px;
     height: 20px;
-    border: 2px solid ${({ theme }) => theme.lignt_gray};
-    border-radius: 4px;
-    cursor: pointer;
     position: absolute;
+    font-size: 20px;
     top: 8px; /* 상단 여백 */
     right: 8px; /* 우측 여백 */
     transition: all 0.2s ease;
+    background-color: ${({ theme }) => theme.white};
+    border-radius: 4px;
   `,
   TrackingCheckbox: styled.input.attrs({ type: "checkbox" })`
     z-index: 10000;
@@ -30,7 +30,6 @@ const STYLE = {
     height: 20px;
     border: 2px solid ${({ theme }) => theme.lignt_gray};
     border-radius: 4px;
-    cursor: pointer;
     position: absolute;
     top: 8px; /* 상단 여백 */
     right: 8px; /* 우측 여백 */

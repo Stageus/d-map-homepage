@@ -31,6 +31,7 @@ const TrackingImageTabContainer = (props) => {
                         ? publicObserveRef
                         : null
                     }
+                    isPublic={true}
                     trackingImageData={trackingImageData}
                     modifyMode={modifyMode}
                     setDisplayTrackingImage={setDisplayTrackingImage}
@@ -54,6 +55,7 @@ const TrackingImageTabContainer = (props) => {
                         ? privateObserveRef
                         : null
                     }
+                    isPublic={false}
                     trackingImageData={trackingImageData}
                     modifyMode={modifyMode}
                     setDisplayTrackingImage={setDisplayTrackingImage}
