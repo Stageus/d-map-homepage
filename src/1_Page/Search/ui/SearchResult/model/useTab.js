@@ -7,7 +7,7 @@ const useTab = () => {
   const handleTabName = () => setActiveTab(TABS.NICKNAME);
   const handleTabLocation = () => setActiveTab(TABS.SEARCHPOINT);
 
-  return { activeTab, handleTabName, handleTabLocation };
+  return [activeTab, handleTabName, handleTabLocation];
 };
 
 export default useTab;

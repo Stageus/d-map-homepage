@@ -54,11 +54,16 @@ const STYLE = {
   `,
 
   ResultList: styled.div`
-    display: flex;
     width: 100%;
-    height: 100%;
+    height: calc(90vh - 100px);
     flex-direction: column;
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(1);
+    border-right: 1px solid ${({ theme }) => theme.blue};
+    overflow-y: auto;
   `,
+
   ResultItem: styled.div`
     display: flex;
     height: 100%;
@@ -68,6 +73,7 @@ const STYLE = {
   `,
   SliderWrapper: styled.div`
     margin-top: 5vh;
+    overflow-y: hidden;
     overflow-x: hidden; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
     width: 100%;
     flex-grow: 1;
@@ -113,6 +119,8 @@ const STYLE = {
     margin: 5px;
   `,
   EmptyMessage: styled.div`
+    width: 100%;
+    height: 100%;
     text-align: center;
     color: ${({ theme }) => theme.gray};
     margin: 10px;

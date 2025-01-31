@@ -25,13 +25,13 @@ const useGetTrackingImageList = (category = CATEGORY.DEFAULT, page) => {
           console.log(serverState.message);
           break;
         default:
+          console.log(page)
           break;
       }
-      setTrackingImageList(serverState.tracking_image || []);
+      setTrackingImageList((prev)=>[...prev, ...serverState.tracking_image]);
       setHasMoreContent(
         (serverState.tracking_image || []).length >= ITEMS_PER_PAGE
       );
-      console.log(serverState)
     }
   }, [loading, serverState]);
 
