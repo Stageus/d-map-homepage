@@ -13,17 +13,16 @@ const spin = keyframes`
 const STYLE = {
   TabContainer: styled.div`
     display: flex;
-    position: fixed;
     width: 100%;
-    height: 5vh;
     justify-content: center;
     background-color: ${({ theme }) => theme.background};
+    margin-top: 10vh;
   `,
   TabBox: styled.div`
     position: relative;
     width: 80%;
     display: flex;
-    border-radius: 25px;
+    border-radius: 15px;
     overflow: hidden;
     background-color: ${({ theme }) => theme.blue};
     height: 40px;
@@ -36,16 +35,20 @@ const STYLE = {
     top: 5px;
     bottom: 5px;
     left: ${({ $activeTabName }) => ($activeTabName ? "5px" : "50%")};
+    color: ${({ theme }) => theme.blue};
     width: calc(50% - 10px);
     background-color: ${({ theme }) => theme.white};
-    border-radius: 20px;
+    border-radius: 10px;
     transition: all 0.3s ease-in-out;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    line-height: calc(5vh - 10px); /* 높이 맞춤 */
   `,
+
   Tab: styled.button`
     flex: 1;
-    z-index: 1;
     padding: 10px 0;
-    background-color: transparent;
     transition: all 0.3s ease-in-out;
     color: ${({ $active, theme }) => ($active ? theme.blue : theme.white)};
     border: none;
@@ -53,15 +56,23 @@ const STYLE = {
     font-weight: bold;
   `,
 
-  ResultList: styled.div`
+  ResulTab: styled.div`
     width: 100%;
     height: calc(90vh - 100px);
     flex-direction: column;
     display: grid;
     gap: 8px;
     grid-template-columns: repeat(1);
-    border-right: 1px solid ${({ theme }) => theme.blue};
     overflow-y: auto;
+  `,
+  SearchPointTab: styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    height: calc(90vh - 100px);
   `,
 
   ResultItem: styled.div`
@@ -72,8 +83,6 @@ const STYLE = {
     border-radius: 8px;
   `,
   SliderWrapper: styled.div`
-    margin-top: 5vh;
-    overflow-y: hidden;
     overflow-x: hidden; /* 슬라이더 영역 외부 콘텐츠 숨기기 */
     width: 100%;
     flex-grow: 1;
@@ -81,8 +90,11 @@ const STYLE = {
   Slider: styled.div`
     display: flex;
     width: 200%; /* 두 개의 탭을 모두 포함할 넓이 */
-    transform: translateX(${({ $tabIndex }) => -$tabIndex * 50}%);
-    transition: transform 0.5s ease-in-out;
+    margin-left: ${({ $tabIndex }) => -$tabIndex * 100}%;
+    /* fixed 필요 요소에서는 transfrom 사용 불가  */
+    /* transform: translateX(${({ $tabIndex }) => -$tabIndex * 50}%); */
+    /* will-change: transform; */
+    /* transition: transform 0.5s ease-in-out; */
   `,
   TitleContainer: styled.div`
     display: flex;
@@ -156,45 +168,6 @@ const STYLE = {
     height: 40px;
     animation: ${spin} 1s linear infinite;
     margin: 20px auto;
-  `,
-
-  ModalOverlay: styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-  `,
-  ModalContent: styled.div`
-    background: white;
-    width: 90%;
-    height: 95%;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  `,
-  TrackingModalList: styled.div`
-    overflow-y: auto;
-    height: 95%;
-  `,
-  CloseButton: styled.button`
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: #333;
-  `,
-  OpenButton: styled.button`
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
   `,
 };
 

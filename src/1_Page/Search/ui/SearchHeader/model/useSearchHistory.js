@@ -18,10 +18,10 @@ const useSearchHistory = () => {
   const addSearchHistory = useCallback((item) => {
     if (!item) return;
     setSearchListItems((prevItems) => {
-      const updatedItems = [item, ...prevItems.filter((i) => i !== item)].slice(
-        0,
-        MAX_ITEMS
-      );
+      const updatedItems = [
+        item,
+        ...prevItems.filter((i) => i.searchInputText !== item.searchInputText),
+      ].slice(0, MAX_ITEMS);
       return updatedItems;
     });
   }, []);
