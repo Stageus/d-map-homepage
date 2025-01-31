@@ -20,8 +20,11 @@ const STYLE = {
     top: 8px; /* 상단 여백 */
     right: 8px; /* 우측 여백 */
     transition: all 0.2s ease;
+    font-weight: 900;
     background-color: ${({ theme }) => theme.white};
+    opacity: 60%;
     border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* 약간의 그림자 추가 */
   `,
   TrackingCheckbox: styled.input.attrs({ type: "checkbox" })`
     z-index: 10000;
