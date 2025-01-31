@@ -28,28 +28,29 @@ const ModifyModeHeader = (props) => {
       setModifyIdxList,
       backupTrackingImageData,
       handleCloseMode,
-      confirmModalToggle,
-      fetchUserInfo
+      confirmModalToggle
     );
+  const idxList = modifyIdxList.map((item) => item.idx);
+  const { idxToShare, idxToNotShare } = extractIdxLists(modifyIdxList);
+
   // 수정 API
-  const [deleteTrackingImage] = useDeleteTrackingImage();
-  const [putTrackingImageToNotShare] = usePutTrackingImageToNotShare();
-  const [putTrackingImageToShare] = usePutTrackingImageToShare();
+  const [deleteTrackingImage] = useDeleteTrackingImage(idxList);
+  const [putTrackingImageToShare] = usePutTrackingImageToShare(idxToShare);
+  const [putTrackingImageToNotShare] =
+    usePutTrackingImageToNotShare(idxToNotShare);
 
   // 클릭이벤트
   const handleModifyClick = async () => {
-    const { idxToShare, idxToNotShare } = extractIdxLists(modifyIdxList);
     const promises = [];
-    if (idxToShare.length > 0)
-      promises.push(putTrackingImageToShare(idxToShare));
-    if (idxToNotShare.length > 0)
-      promises.push(putTrackingImageToNotShare(idxToNotShare));
+    if (idxToShare.length > 0) promises.push(putTrackingImageToShare());
+    if (idxToNotShare.length > 0) promises.push(putTrackingImageToNotShare());
     await Promise.all(promises);
+    await fetchUserInfo();
     modifyTrackEvent();
   };
   const handleDeleteClick = async () => {
-    const idxList = modifyIdxList.map((item) => item.idx);
-    await deleteTrackingImage(idxList);
+    await deleteTrackingImage();
+    await fetchUserInfo();
     deleteTrackEvent(idxList);
   };
 

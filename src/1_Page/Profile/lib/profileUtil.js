@@ -13,17 +13,11 @@ export const extractIdxLists = (list) => {
   );
 };
 
-// 트래킹 길이를 업데이트하는 함수
-export const calculateTrackingLength = (prev, idxToShare, idxToNotShare) => ({
-  share: prev.share + idxToNotShare.length - idxToShare.length,
-  save: prev.save + idxToShare.length - idxToNotShare.length,
-});
-
 // 트래킹 데이터를 공유/비공유 상태로 분류하는 함수
 export const categorizeTrackData = (data) => {
   return {
-    save: data.filter((item) => !item.sharing), // sharing이 false인 경우
-    share: data.filter((item) => item.sharing), // sharing이 true인 경우
+    private: data.filter((item) => !item.sharing), // sharing이 false인 경우
+    public: data.filter((item) => item.sharing), // sharing이 true인 경우
   };
 };
 
@@ -37,7 +31,7 @@ export const removeDuplicateData = (data) => {
 export const filterTrackData = (prev, idxList) => {
   const idxListSet = new Set(idxList.map((idx) => idx));
   return {
-    save: prev.save.filter(({ idx }) => !idxListSet.has(idx)),
-    share: prev.share.filter(({ idx }) => !idxListSet.has(idx)),
+    private: prev.private.filter(({ idx }) => !idxListSet.has(idx)),
+    public: prev.public.filter(({ idx }) => !idxListSet.has(idx)),
   };
 };
