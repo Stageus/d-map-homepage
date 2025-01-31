@@ -1,15 +1,5 @@
-import styled, { keyframes } from "styled-components";
-// 모달 애니메이션
-const growCenter = keyframes`
-  from {
-    transform: scale(0);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-`;
+import styled from "styled-components";
+
 const STYLE = {
   TrackingContainer: styled.div`
     text-align: center;
@@ -61,7 +51,6 @@ const STYLE = {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10000;
   `,
   ModalContent: styled.div`
     background: white;
@@ -72,8 +61,6 @@ const STYLE = {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    animation: ${growCenter} 0.3s ease-out forwards;
-    transform-origin: center;
   `,
   CloseButton: styled.button`
     background: none;
