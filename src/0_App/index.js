@@ -18,8 +18,8 @@ const App = () => {
       <BrowserRouter>
         <STYLE.Main>
           <LoadScript googleMapsApiKey={API_KEY}>
-            <Page />
             <Footer />
+            <Page />
           </LoadScript>
         </STYLE.Main>
       </BrowserRouter>

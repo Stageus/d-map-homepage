@@ -10,7 +10,7 @@ import PAGE from "./constant/page";
 
 const Footer = () => {
   const navigate = useNavigate();
-  const [page, setPage] = React.useState(PAGE.HOME);
+  const [page, setPage] = React.useState(window.location.pathname.split("/")[1] || PAGE.HOME);
   return (
     <STYLE.Container>
       <STYLE.Tab $isCurrentPage={page === PAGE.HOME}>
@@ -29,7 +29,7 @@ const Footer = () => {
           alt="search"
           onClick={() => {
             setPage(PAGE.SEARCH);
-            navigate("/search/:category?text=");
+            navigate("/search");
           }}
         />
       </STYLE.Tab>
