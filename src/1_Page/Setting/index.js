@@ -7,32 +7,29 @@ import useModalHandler from "../../4_Shared/model/useModalHandler";
 
 import useTab from "./model/useTab";
 import useActionModalMessageSet from "./model/useActionModalMessageSet";
-import useManageUser from "./model/useManageUser";
+import useNavigateHandler from "./model/useNavigateHandler";
 import useChangeTheme from "./model/useChangeTheme";
 import useErrorModalHandler from "./model/useErrorModalHandler";
+
+import useGetMyInfo from "../../3_Entity/Account/useGetMyInfo";
 
 import ACTION_MESSAGES from "./constant/actionMessagesType";
 import TABS from "./constant/tabs";
 
-const UserProfile = () => {
-  const { selectedAction, handleMessageSetDelete, handleMessageSetLogout } =
+const Setting = () => {
+  const [selectedAction, handleMessageSetDelete, handleMessageSetLogout] =
     useActionModalMessageSet();
 
   const [confirmTwoBtnModal, confimTwoBtnToggle] = useModalHandler();
-
   const { errorModal, errorMessage, errorModalOpen, errorModalToggle } =
     useErrorModalHandler();
 
   const { activeTab, handleTabWhite, handleTabDark, isPresentTab } = useTab();
 
-  const {
-    userInfo,
-    handleLogin,
-    handleDeleteAccount,
-    handleBack,
-    handleLogout,
-  } = useManageUser(confimTwoBtnToggle, errorModalOpen);
+  const [handleLogin, handleDeleteAccount, handleBack, handleLogout] =
+    useNavigateHandler();
 
+  const [userInfo, loading] = useGetMyInfo();
   useChangeTheme(activeTab);
 
   return (
@@ -125,4 +122,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default Setting;

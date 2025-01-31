@@ -8,7 +8,7 @@ const useErrorModalHandler = () => {
     setErrorMessage(message);
     errorModalToggle();
   };
-  return { errorModal, errorMessage, errorModalOpen, errorModalToggle };
+  return [errorModal, errorMessage, errorModalOpen, errorModalToggle];
 };
 
 export default useErrorModalHandler;

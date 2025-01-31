@@ -12,11 +12,7 @@ const useActionModalMessageSet = () => {
     setSelectedAction(ACTION_MESSAGES.logout);
   };
 
-  return {
-    selectedAction,
-    handleMessageSetDelete,
-    handleMessageSetLogout,
-  };
+  return [selectedAction, handleMessageSetDelete, handleMessageSetLogout];
 };
 
 export default useActionModalMessageSet;
