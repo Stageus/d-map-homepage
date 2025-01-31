@@ -11,7 +11,7 @@ const usePutTrackingImage = () => {
       return;
     }
     const searchpoint = await searchpointConverter(trackingData.center);
-    request("PUT", `/tracking`, {
+    request("PUT", `/tracking/${trackingData.idx}`, {
       line: trackingData?.line,
       searchpoint,
       center: trackingData?.center,
