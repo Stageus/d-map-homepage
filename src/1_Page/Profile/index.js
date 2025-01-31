@@ -17,14 +17,14 @@ const Profile = () => {
 
   const [tabState, handleTabClick] = useTabs(); // 탭 관리 훅
   const [modifyMode, handleSetMode, handleCloseMode] = useSettingMode(); // 수정 , 삭제 상태 관리
-  const [shareTabPage, shareObserveRef] = useInfinityScroll();
-  const [saveTabPage, saveObserveRef] = useInfinityScroll();
+  const [publicTabPage, publicObserveRef] = useInfinityScroll();
+  const [privateTabPage, privateObserveRef] = useInfinityScroll();
 
   // 데이터 조회 (userIdx , [page] , tabIndex)
   const [trackingImageData, loading, hasMoreContent] =
     useGetProfileTrackingImageList(
       userIdx,
-      tabState.tabIndex === 0 ? shareTabPage : saveTabPage,
+      tabState.tabIndex === 0 ? publicTabPage : privateTabPage,
       tabState.tabIndex
     );
 
@@ -59,8 +59,8 @@ const Profile = () => {
         handleTabClick={handleTabClick}
         displayTrackingImage={displayTrackingImage}
         setDisplayTrackingImage={setDisplayTrackingImage}
-        saveObserveRef={saveObserveRef}
-        shareObserveRef={shareObserveRef}
+        privateObserveRef={privateObserveRef}
+        publicObserveRef={publicObserveRef}
         setModifyIdxList={setModifyIdxList}
       />
 

@@ -1,12 +1,10 @@
 import styled from "styled-components";
-
 const STYLE = {
-  BodyContainer: styled.div`
+  TrackingBox: styled.div`
+    width: 90%;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    background-color: ${({ theme }) => theme.background};
+    align-items: center;
   `,
 };
-
 export default STYLE;

@@ -8,29 +8,30 @@ const TrackingImageTabContainer = (props) => {
     tabIndex,
     displayTrackingImage,
     setDisplayTrackingImage,
-    shareObserveRef,
     setModifyIdxList,
-    saveObserveRef,
+    privateObserveRef,
+    publicObserveRef,
   } = props;
 
   return (
     <>
       <STYLE.SliderWrapper>
         <STYLE.Slider $tabIndex={tabIndex}>
-          {displayTrackingImage?.share.length === 0 ? (
+          {displayTrackingImage?.public.length === 0 ? (
             <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
           ) : (
             <STYLE.PostGrid>
-              {displayTrackingImage?.share.map((trackingImageData, index) => {
+              {displayTrackingImage?.public.map((trackingImageData, index) => {
                 return (
                   <TrackingImageBox
                     key={trackingImageData.idx}
                     obServeRef={
-                      hasMoreContent?.share &&
-                      index === displayTrackingImage?.share.length - 1
-                        ? shareObserveRef
+                      hasMoreContent?.public &&
+                      index === displayTrackingImage?.public.length - 1
+                        ? publicObserveRef
                         : null
                     }
+                    isPublic={true}
                     trackingImageData={trackingImageData}
                     modifyMode={modifyMode}
                     setDisplayTrackingImage={setDisplayTrackingImage}
@@ -40,20 +41,21 @@ const TrackingImageTabContainer = (props) => {
               })}
             </STYLE.PostGrid>
           )}
-          {displayTrackingImage?.save.length === 0 ? (
+          {displayTrackingImage?.private.length === 0 ? (
             <STYLE.EmptyMessage>게시물이 없습니다.</STYLE.EmptyMessage>
           ) : (
             <STYLE.PostGrid>
-              {displayTrackingImage?.save.map((trackingImageData, index) => {
+              {displayTrackingImage?.private.map((trackingImageData, index) => {
                 return (
                   <TrackingImageBox
                     key={trackingImageData.idx}
                     obServeRef={
-                      hasMoreContent?.save &&
-                      index === displayTrackingImage?.save.length - 1
-                        ? saveObserveRef
+                      hasMoreContent?.private &&
+                      index === displayTrackingImage?.private.length - 1
+                        ? privateObserveRef
                         : null
                     }
+                    isPublic={false}
                     trackingImageData={trackingImageData}
                     modifyMode={modifyMode}
                     setDisplayTrackingImage={setDisplayTrackingImage}

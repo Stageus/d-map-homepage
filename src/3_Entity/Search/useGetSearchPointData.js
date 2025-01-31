@@ -18,26 +18,22 @@ const useGetSearchPointData = (text, page) => {
   React.useEffect(() => {
     if (!serverState) return;
     switch (serverState.status) {
-      case 200:
-        if (prevTextRef.current !== text) {
-          // 검색어가 변경되면 데이터 초기화
-          setSearchPointData(serverState.rows);
-        } else {
-          // 페이지가 변경될 때 기존 데이터에 추가
-          setSearchPointData((prev) => [...prev, ...serverState.rows]);
-        }
-        setHasMoreContent(serverState.rows.length >= ITEMS_PER_PAGE);
-        prevTextRef.current = text; // 현재 검색어 저장
-        break;
       case 400:
-      case 404:
-      case 500:
-        console.error(`Error ${serverState.status}: ${serverState.message}`);
+        console.log("text 오류");
         break;
       default:
-        console.warn("Unexpected server response:", serverState);
+        console.warn("response:", serverState);
         break;
     }
+    if (prevTextRef.current !== text) {
+      // 검색어가 변경되면 데이터 초기화
+      setSearchPointData(serverState.rows);
+    } else {
+      // 페이지가 변경될 때 기존 데이터에 추가
+      setSearchPointData((prev) => [...prev, ...serverState.rows]);
+    }
+    setHasMoreContent(serverState.rows.length >= ITEMS_PER_PAGE);
+    prevTextRef.current = text; // 현재 검색어 저장
   }, [serverState]);
   return [searchPointData, loading, hasMoreContent];
 };

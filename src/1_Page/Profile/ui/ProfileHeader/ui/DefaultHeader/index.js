@@ -42,7 +42,7 @@ const DefaultHeader = (props) => {
           )}
           <STYLE.PostCount>
             {activeTabStr} 게시물 :{" "}
-            {activeTabStr === "공유"
+            {activeTabStr === "공개"
               ? userInfo?.share_tracking_length
               : userInfo?.total_tracking_length -
                 userInfo?.share_tracking_length}

@@ -47,14 +47,14 @@ const ProfileHeader = (props) => {
         {userInfo?.isMine ? (
           <>
             <STYLE.Tab
-              $active={activeTabStr === "공유"}
-              onClick={() => handleTabClick("공유")}>
-              공유
+              $active={activeTabStr === "공개"}
+              onClick={() => handleTabClick("공개")}>
+              공개
             </STYLE.Tab>
             <STYLE.Tab
-              $active={activeTabStr === "저장"}
-              onClick={() => handleTabClick("저장")}>
-              저장
+              $active={activeTabStr === "비공개"}
+              onClick={() => handleTabClick("비공개")}>
+              비공개
             </STYLE.Tab>
           </>
         ) : (

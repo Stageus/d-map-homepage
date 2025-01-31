@@ -4,8 +4,8 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 const ITEMS_PER_PAGE = 20;
 
 const CATEGORY_MAP = {
-  0: "share",
-  1: "save",
+  0: "public",
+  1: "private",
 };
 
 const useGetProfileTrackingImageList = (userIdx, page, tabIndex) => {
@@ -21,13 +21,11 @@ const useGetProfileTrackingImageList = (userIdx, page, tabIndex) => {
 
     const category = tabIndex === 0 ? 1 : 0;
     const requestKey = `${userIdx}-${page}-${category}`;
-
     // 이미 요청된 페이지인지 확인
     if (previousRequests.current.has(requestKey)) return;
 
     previousRequests.current.add(requestKey);
     const endpoint = `/tracking/account/${userIdx}?page=${page}&category=${category}`;
-    console.log(endpoint);
     request("GET", endpoint);
   }, [userIdx, page, tabIndex]);
 

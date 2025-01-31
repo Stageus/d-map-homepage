@@ -1,15 +1,5 @@
-import styled, { keyframes } from "styled-components";
-// 모달 애니메이션
-const growCenter = keyframes`
-  from {
-    transform: scale(0);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-`;
+import styled from "styled-components";
+
 const STYLE = {
   TrackingContainer: styled.div`
     text-align: center;
@@ -25,13 +15,16 @@ const STYLE = {
     appearance: none;
     width: 20px;
     height: 20px;
-    border: 2px solid ${({ theme }) => theme.lignt_gray};
-    border-radius: 4px;
-    cursor: pointer;
     position: absolute;
+    font-size: 20px;
     top: 8px; /* 상단 여백 */
     right: 8px; /* 우측 여백 */
     transition: all 0.2s ease;
+    font-weight: 900;
+    background-color: ${({ theme }) => theme.white};
+    opacity: 60%;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* 약간의 그림자 추가 */
   `,
   TrackingCheckbox: styled.input.attrs({ type: "checkbox" })`
     z-index: 10000;
@@ -40,7 +33,6 @@ const STYLE = {
     height: 20px;
     border: 2px solid ${({ theme }) => theme.lignt_gray};
     border-radius: 4px;
-    cursor: pointer;
     position: absolute;
     top: 8px; /* 상단 여백 */
     right: 8px; /* 우측 여백 */
@@ -61,38 +53,20 @@ const STYLE = {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10000;
   `,
   ModalContent: styled.div`
     background: white;
+    position: relative;
     width: 90%;
     height: 95vh;
-    max-width: 400px;
-    overflow-y: auto;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    animation: ${growCenter} 0.3s ease-out forwards;
-    transform-origin: center;
   `,
   CloseButton: styled.button`
-    background: none;
-    border: none;
-    font-size: 1.5rem;
     position: absolute;
-    top: 10px;
-    right: 15px;
-    cursor: pointer;
-    color: #333;
-  `,
-  OpenButton: styled.button`
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
+    right: 0;
+    font-size: 1.5rem;
   `,
 };
 

@@ -1,10 +1,10 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const usePutTrackingImageToNotShare = () => {
+const usePutTrackingImageToNotShare = (idxList) => {
   const [serverState, request] = useFetch();
 
-  const putTrackingImageToNotShare = (idxList) => {
+  const putTrackingImageToNotShare = () => {
     request("PUT", `/tracking/toNotSharing`, { idxList });
   };
 
