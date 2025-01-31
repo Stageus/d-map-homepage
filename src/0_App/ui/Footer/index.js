@@ -26,6 +26,7 @@ const Footer = () => {
             navigate("/");
           }}
         />
+        <STYLE.TabInfoTitle>HOME</STYLE.TabInfoTitle>
       </STYLE.Tab>
       <STYLE.Tab $isCurrentPage={page === PAGE.SEARCH}>
         <img
@@ -36,6 +37,7 @@ const Footer = () => {
             navigate("/search");
           }}
         />
+        <STYLE.TabInfoTitle>SEARCH</STYLE.TabInfoTitle>
       </STYLE.Tab>
       <STYLE.Tab $isCurrentPage={page === PAGE.TRACKING}>
         <img
@@ -46,6 +48,7 @@ const Footer = () => {
             navigate("/tracking");
           }}
         />
+        <STYLE.TabInfoTitle>TRACKING</STYLE.TabInfoTitle>
       </STYLE.Tab>
       <STYLE.Tab $isCurrentPage={page === PAGE.PROFILE}>
         <img
@@ -62,6 +65,7 @@ const Footer = () => {
             }
           }}
         />
+        <STYLE.TabInfoTitle>PROFILE</STYLE.TabInfoTitle>
       </STYLE.Tab>
       <STYLE.Tab $isCurrentPage={page === PAGE.SETTING}>
         <img
@@ -72,6 +76,7 @@ const Footer = () => {
             navigate("/setting");
           }}
         />
+        <STYLE.TabInfoTitle>SETTING</STYLE.TabInfoTitle>
       </STYLE.Tab>
     </STYLE.Container>
   );

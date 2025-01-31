@@ -4,7 +4,7 @@ const STYLE = {
   Container: styled.div`
     position: fixed;
     bottom: 0;
-    height: 32px;
+    height: 48px;
     display: flex;
     width: 100%;
     justify-content: space-around;
@@ -15,10 +15,15 @@ const STYLE = {
     width: 100%;
     background-color: ${(props) => (props.$isCurrentPage ? props.theme.blue : "white")};
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     transition: all 0.5s;
   `,
+  TabInfoTitle: styled.h3`
+    font-size: small;
+    font-weight: bold;
+  `
 };
 
 export default STYLE;
