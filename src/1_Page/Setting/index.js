@@ -1,15 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
 import STYLE from "./style";
 import ACTION_MESSAGES from "./constant/actionMessagesType";
 import TABS from "./constant/tabs";
+
 import useThemeTab from "./model/useThemeTab";
 import useActionModalMessageSet from "./model/useActionModalMessageSet";
 import useLogout from "./model/useLogout";
 
 import ConfirmTwoBtnModal from "../../2_Widget/ConfirmModal";
-import useDeleteAccountUser from "../../3_Entity/Account/deleteUserAccount";
+import useDeleteAccountUser from "../../3_Entity/Account/useDeleteAccountUser";
 import useAuthenticator from "../../4_Shared/lib/useAuthenticator";
 
 const Setting = () => {
