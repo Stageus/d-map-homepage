@@ -9,8 +9,8 @@ import useActionModalMessageSet from "./model/useActionModalMessageSet";
 import useLogout from "./model/useLogout";
 
 import ConfirmTwoBtnModal from "../../2_Widget/ConfirmModal";
-import useGetMyInfo from "../../3_Entity/Account/useGetMyInfo";
 import useDeleteAccountUser from "../../3_Entity/Account/deleteUserAccount";
+import useAuthenticator from "../../4_Shared/lib/useAuthenticator";
 
 const Setting = () => {
   const navigate = useNavigate();
@@ -23,16 +23,16 @@ const Setting = () => {
   ] = useActionModalMessageSet();
 
   const [handleTabWhite, handleTabDark, isPresentTab] = useThemeTab();
-  const [userInfo, loading] = useGetMyInfo();
   const [deleteAccountUser] = useDeleteAccountUser();
   const [logout] = useLogout();
+  const [isLogin] = useAuthenticator();
 
   return (
     <>
       <STYLE.Container>
         <STYLE.Header>
           <STYLE.HeaderTitle>
-            {userInfo ? userInfo.nickname : "로그인이 필요합니다"}
+            {isLogin ? "설정 페이지" : "로그인이 필요합니다"}
           </STYLE.HeaderTitle>
         </STYLE.Header>
         <STYLE.TabContainer>
@@ -52,7 +52,7 @@ const Setting = () => {
         </STYLE.TabContainer>
         <STYLE.ButtonContainer>
           <STYLE.ButtonBox>
-            {userInfo ? (
+            {isLogin ? (
               <>
                 <STYLE.Button danger onClick={deleteModalOpen}>
                   회원탈퇴
