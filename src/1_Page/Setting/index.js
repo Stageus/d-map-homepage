@@ -1,32 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import STYLE from "./style";
 import ACTION_MESSAGES from "./constant/actionMessagesType";
 import TABS from "./constant/tabs";
 
 import useThemeTab from "./model/useThemeTab";
-import useActionModalMessageSet from "./model/useActionModalMessageSet";
 import useLogout from "./model/useLogout";
 
 import ConfirmTwoBtnModal from "../../2_Widget/ConfirmModal";
 import useDeleteAccountUser from "../../3_Entity/Account/useDeleteAccountUser";
 import useAuthenticator from "../../4_Shared/lib/useAuthenticator";
+import useModalHandler from "../../4_Shared/model/useModalHandler";
 
 const Setting = () => {
   const navigate = useNavigate();
-  const [
-    confirmTwoBtnModal,
-    selectedActionMessage,
-    confimTwoBtnToggle,
-    deleteModalOpen,
-    logoutModalOpen,
-  ] = useActionModalMessageSet();
-
+  const [confirmTwoBtnModal, confimTwoBtnToggle] = useModalHandler();
+  const [modalMessage, setModalMessage] = useState(null);
   const [handleTabWhite, handleTabDark, isPresentTab] = useThemeTab();
   const [deleteAccountUser] = useDeleteAccountUser();
   const [logout] = useLogout();
-  // const [isLogin] = useAuthenticator();
-  const isLogin = true;
+  const [isLogin] = useAuthenticator();
 
   return (
     <>
@@ -55,10 +48,21 @@ const Setting = () => {
           <STYLE.ButtonBox>
             {isLogin ? (
               <>
-                <STYLE.Button danger onClick={deleteModalOpen}>
+                <STYLE.Button
+                  danger
+                  onClick={() => {
+                    setModalMessage(ACTION_MESSAGES.delete);
+                    confimTwoBtnToggle();
+                  }}>
                   회원탈퇴
                 </STYLE.Button>
-                <STYLE.Button onClick={logoutModalOpen}>로그아웃</STYLE.Button>
+                <STYLE.Button
+                  onClick={() => {
+                    setModalMessage(ACTION_MESSAGES.logout);
+                    confimTwoBtnToggle();
+                  }}>
+                  로그아웃
+                </STYLE.Button>
               </>
             ) : (
               <STYLE.Button
@@ -87,11 +91,9 @@ const Setting = () => {
 
       {confirmTwoBtnModal && (
         <ConfirmTwoBtnModal
-          message={`정말로 ${selectedActionMessage} 하시겠습니까?`}
+          message={`정말로 ${modalMessage} 하시겠습니까?`}
           onConfirm={
-            selectedActionMessage === ACTION_MESSAGES.delete
-              ? deleteAccountUser
-              : logout
+            modalMessage === ACTION_MESSAGES.delete ? deleteAccountUser : logout
           }
           onCancel={confimTwoBtnToggle}
         />
