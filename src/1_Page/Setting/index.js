@@ -6,11 +6,11 @@ import ACTION_MESSAGES from "./constant/actionMessagesType";
 import TABS from "./constant/tabs";
 import useThemeTab from "./model/useThemeTab";
 import useActionModalMessageSet from "./model/useActionModalMessageSet";
+import useLogout from "./model/useLogout";
 
 import ConfirmTwoBtnModal from "../../2_Widget/ConfirmModal";
 import useGetMyInfo from "../../3_Entity/Account/useGetMyInfo";
 import useDeleteAccountUser from "../../3_Entity/Account/deleteUserAccount";
-import { deleteAllCookies } from "../../4_Shared/model/cookie";
 
 const Setting = () => {
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ const Setting = () => {
   const [handleTabWhite, handleTabDark, isPresentTab] = useThemeTab();
   const [userInfo, loading] = useGetMyInfo();
   const [deleteAccountUser] = useDeleteAccountUser();
+  const [logout] = useLogout();
 
   return (
     <>
@@ -89,10 +90,7 @@ const Setting = () => {
           onConfirm={
             selectedActionMessage === ACTION_MESSAGES.delete
               ? deleteAccountUser
-              : () => {
-                  deleteAllCookies();
-                  navigate(`/login`);
-                }
+              : logout
           }
           onCancel={confimTwoBtnToggle}
         />
