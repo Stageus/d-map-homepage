@@ -25,7 +25,8 @@ const Setting = () => {
   const [handleTabWhite, handleTabDark, isPresentTab] = useThemeTab();
   const [deleteAccountUser] = useDeleteAccountUser();
   const [logout] = useLogout();
-  const [isLogin] = useAuthenticator();
+  // const [isLogin] = useAuthenticator();
+  const isLogin = true;
 
   return (
     <>
