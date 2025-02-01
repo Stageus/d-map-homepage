@@ -1,22 +1,21 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const useGetMyInfo = () => {
+const useGetMyInfo = (oauthLoading) => {
   const [serverState, request, loading] = useFetch();
   const [userInfo, setUserInfo] = React.useState(null);
 
   React.useEffect(() => {
-    request("GET", `/account/me`, null);
-  }, []);
+    if (!oauthLoading) {
+      request("GET", `/account/me`, null);
+    }
+  }, [oauthLoading]);
 
   React.useEffect(() => {
-    if (!serverState) return;
-    switch (serverState.status) {
-      default:
-        setUserInfo(serverState);
-        break;
+    if (!loading && serverState) {
+      setUserInfo(serverState);
     }
-  }, [serverState]);
+  }, [serverState, loading]);
 
   return [userInfo, loading];
 };

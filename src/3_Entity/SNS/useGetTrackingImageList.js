@@ -8,8 +8,13 @@ const useGetTrackingImageList = (category = CATEGORY.DEFAULT, page) => {
   const [serverState, request, loading] = useFetch();
   const [trackingImageList, setTrackingImageList] = React.useState([]);
   const [hasMoreContent, setHasMoreContent] = React.useState(false);
+  const prevCategory = React.useRef(category);
 
   React.useEffect(() => {
+    if(category !== prevCategory.current){
+      setTrackingImageList([]);
+      prevCategory.current = category
+    }
     request(
       "GET",
       `/sns/?category=${category}&page=${page}`,
