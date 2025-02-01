@@ -6,7 +6,7 @@ const STYLE = {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background-color: ${({ theme }) => theme.background};
     color: ${({ theme }) => theme.text};
   `,

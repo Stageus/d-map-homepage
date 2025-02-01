@@ -1,20 +1,17 @@
-import { useEffect, useState } from "react";
 import TABS from "../constant/tabs";
-import { setCookie, getCookie } from "../../../4_Shared/model/cookie";
+import { useCookies } from "react-cookie";
 
 const useThemeTab = () => {
-  // 쿠키에서 초기 테마 값 불러오기
-  const initialTheme = getCookie("theme") || TABS.WHITE;
-  const [activeTab, setActiveTab] = useState(initialTheme);
+  const [cookies, setCookie] = useCookies(["theme"]);
 
-  const handleTabWhite = () => setActiveTab(TABS.WHITE);
-  const handleTabDark = () => setActiveTab(TABS.DARK);
-  const isPresentTab = (selectTab) => activeTab === selectTab;
+  // 쿠키에 저장된 테마를 읽고 기본값 설정 (WHITE)
+  const currentTheme = cookies.theme || TABS.WHITE;
 
-  useEffect(() => {
-    setCookie("theme", activeTab); // 선택된 테마를 쿠키에 저장
-    console.log(`테마 변경: ${activeTab}`); // 변경된 테마 로그 출력
-  }, [activeTab]);
+  const handleTabWhite = () =>
+    setCookie("theme", TABS.WHITE, { path: "/", maxAge: 3600 });
+  const handleTabDark = () =>
+    setCookie("theme", TABS.DARK, { path: "/", maxAge: 3600 });
+  const isPresentTab = (selectTab) => currentTheme === selectTab;
 
   return [handleTabWhite, handleTabDark, isPresentTab];
 };
