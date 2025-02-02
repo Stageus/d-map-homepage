@@ -7,7 +7,7 @@ const isModalOpenAtom = atom({
   default: false,
 });
 
-const useAlertModal = () => {
+const useAlertModalAtom = () => {
   const isModalOpen = useRecoilValue(isModalOpenAtom);
   const setIsModalOpen = useSetRecoilState(isModalOpenAtom);
   const [message, setMessage] = useState("");
@@ -30,4 +30,4 @@ const useAlertModal = () => {
   return [setAlert, isModalOpen, message, closeModal];
 };
 
-export default useAlertModal;
+export default useAlertModalAtom;
