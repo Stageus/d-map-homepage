@@ -13,18 +13,17 @@ const useAlertModalAtom = () => {
   const [message, setMessage] = useState("");
   const [onCloseAction, setOnCloseAction] = useState(() => () => {});
 
-  // 모달이 닫힐 때 등록된 함수를 호출하고 모달 닫기
   const closeModal = () => {
-    onCloseAction(); // 등록된 함수 실행
-    setIsModalOpen(false); // 모달 닫기
+    onCloseAction();
+    setIsModalOpen(false);
   };
 
   const setAlert = (msg, action) => {
     setMessage(msg);
     if (typeof action === "function") {
-      setOnCloseAction(() => action); // 사용자 정의 함수로 저장
+      setOnCloseAction(() => action);
     }
-    setIsModalOpen(true); // 모달 열기
+    setIsModalOpen(true);
   };
 
   return [setAlert, isModalOpen, message, closeModal];
