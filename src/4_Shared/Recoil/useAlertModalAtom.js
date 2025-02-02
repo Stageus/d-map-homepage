@@ -1,32 +1,38 @@
 import { atom, useRecoilValue, useSetRecoilState } from "recoil";
-import { useState } from "react";
 
-// 모달 상태를 관리하는 atom (true/false로 모달 열림 여부 관리)
-const isModalOpenAtom = atom({
-  key: "MODAL_OPEN_STATE_ATOM",
-  default: false,
+// 모달 메시지 상태 (빈 문자열이면 닫힌 상태로 간주)
+const modalMessageAtom = atom({
+  key: "MODAL_MESSAGE_ATOM",
+  default: "",
+});
+
+// 모달 닫기 동작 상태
+const onCloseActionAtom = atom({
+  key: "MODAL_CLOSE_ACTION_ATOM",
+  default: () => {},
 });
 
 const useAlertModalAtom = () => {
-  const isModalOpen = useRecoilValue(isModalOpenAtom);
-  const setIsModalOpen = useSetRecoilState(isModalOpenAtom);
-  const [message, setMessage] = useState("");
-  const [onCloseAction, setOnCloseAction] = useState(() => () => {});
+  const modalMessage = useRecoilValue(modalMessageAtom);
+  const setModalMessage = useSetRecoilState(modalMessageAtom);
+  const setOnCloseAction = useSetRecoilState(onCloseActionAtom);
+  const onCloseAction = useRecoilValue(onCloseActionAtom);
 
   const closeModal = () => {
     onCloseAction();
-    setIsModalOpen(false);
+    setModalMessage(""); // 모달을 닫을 때 메시지를 초기화
   };
 
   const setAlert = (msg, action) => {
-    setMessage(msg);
+    setModalMessage(msg);
     if (typeof action === "function") {
       setOnCloseAction(() => action);
+    } else {
+      setOnCloseAction(() => {});
     }
-    setIsModalOpen(true);
   };
 
-  return [setAlert, isModalOpen, message, closeModal];
+  return [setAlert, modalMessage, closeModal];
 };
 
 export default useAlertModalAtom;
