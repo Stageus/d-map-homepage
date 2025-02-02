@@ -20,6 +20,7 @@ const useAlertModalAtom = () => {
 
   const closeModal = () => {
     onCloseAction();
+    setOnCloseAction(() => {});
     setModalMessage(null); // 모달을 닫을 때 메시지를 초기화
   };
 
