@@ -13,7 +13,7 @@ import useAlertModal from "../4_Shared/Recoil/useAlertModalAtom.js";
 const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 const App = () => {
-  const [, isModalOpen, message, closeModal] = useAlertModal();
+  const [, modalMessage, closeModal] = useAlertModal();
   return (
     <ThemeProvider theme={theme.defaultTheme}>
       <ResetStyle />
@@ -23,8 +23,12 @@ const App = () => {
           <LoadScript googleMapsApiKey={API_KEY}>
             <Footer />
             <Page />
-            {isModalOpen && (
-              <ConfirmModal type="one" message={message} onClose={closeModal} />
+            {modalMessage && (
+              <ConfirmModal
+                type="one"
+                message={modalMessage}
+                onClose={closeModal}
+              />
             )}
           </LoadScript>
         </STYLE.Main>
