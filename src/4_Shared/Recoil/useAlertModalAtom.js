@@ -3,7 +3,7 @@ import { atom, useRecoilValue, useSetRecoilState } from "recoil";
 // 모달 메시지 상태 (빈 문자열이면 닫힌 상태로 간주)
 const modalMessageAtom = atom({
   key: "MODAL_MESSAGE_ATOM",
-  default: "",
+  default: null,
 });
 
 // 모달 닫기 동작 상태
@@ -20,7 +20,7 @@ const useAlertModalAtom = () => {
 
   const closeModal = () => {
     onCloseAction();
-    setModalMessage(""); // 모달을 닫을 때 메시지를 초기화
+    setModalMessage(null); // 모달을 닫을 때 메시지를 초기화
   };
 
   const setAlert = (msg, action) => {
