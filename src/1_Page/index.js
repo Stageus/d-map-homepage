@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Sns from "./Sns";
 import Profile from "./Profile";
@@ -5,7 +6,7 @@ import Login from "./Login";
 import Search from "./Search";
 import Setting from "./Setting";
 import Tracking from "./Tracking";
-import OAuthRedirect from "./OAuthRedirect"
+import OAuthRedirect from "./OAuthRedirect";
 import STYLE from "./style";
 
 const Page = () => {
@@ -26,4 +27,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default React.memo(Page);
