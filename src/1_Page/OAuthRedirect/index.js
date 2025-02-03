@@ -15,16 +15,18 @@ const OAuthRedirect = () => {
     queryParams.get("code"),
     queryParams.get("state")
   );
-  const [userinfo] = useGetMyInfo(kakaoLoading);
+  console.log(queryParams.get("code"), "그리고",
+  queryParams.get("state"))
+  // const [userinfo] = useGetMyInfo(kakaoLoading);
 
-  React.useEffect(() => {
-    const expires = new Date();
-    expires.setMinutes(expires.getMinutes() + 30);
-    if (!kakaoLoading && userinfo) {
-      setCookies("userIdx", userinfo.idx, { path: "/", expires });
-      navigate("/");
-    }
-  }, [kakaoLoading, userinfo]);
+  // React.useEffect(() => {
+  //   const expires = new Date();
+  //   expires.setMinutes(expires.getMinutes() + 30);
+  //   if (!kakaoLoading && userinfo) {
+  //     setCookies("userIdx", userinfo.idx, { path: "/", expires });
+  //     navigate("/");
+  //   }
+  // }, [kakaoLoading, userinfo]);
 
   return <div>Authenticating...</div>;
 };

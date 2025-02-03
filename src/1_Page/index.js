@@ -19,7 +19,7 @@ const Page = () => {
         <Route path="/setting" element={<Setting />} />
         <Route path="/sns" element={<Sns />} />
         <Route path="/tracking" element={<Tracking />} />
-        <Route path="/account/login/token/kakao" element={<OAuthRedirect />} />
+        <Route path="/auth/callback" element={<OAuthRedirect />} />
         {/* <Route path="*" element={} /> 에러 페이지 추가 예정 */}
       </Routes>
     </STYLE.Main>
