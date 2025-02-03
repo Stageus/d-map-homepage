@@ -16,28 +16,12 @@ export const useFetch = () => {
   ) => {
     try {
       let config = {
-        method: method,
+        method,
         headers: {
           "Content-Type": contentType,
           Authorization: cookies["accessToken"],
         },
       };
-
-      // accessToken 만료시 재발급
-      if (!cookies["accessToken"] && cookies["refreshToken"]) {
-        console.log("만료");
-        const response = await fetch(`${BASE_URL}/account/accesstoken`, config);
-        const data = await response.json();
-        const status = response.status;
-        switch (status) {
-          case 200:
-            setCookies("accessToken", data);
-            config.headers.Authorization = cookies["accessToken"];
-            break;
-          default:
-            break;
-        }
-      }
 
       if (body !== null) {
         config.body = JSON.stringify(body);
@@ -49,6 +33,32 @@ export const useFetch = () => {
 
       switch (status) {
         case 401:
+          const response = await fetch(`${BASE_URL}/account/accesstoken`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: cookies["refreshToken"],
+            },
+          });
+          const data = await response.json();
+          const status = response.status;
+          switch (status) {
+            case 200:
+              const expires = new Date();
+              expires.setMinutes(expires.getMinutes() + 30);
+              setCookies("accessToken", data.accesstoken, {
+                path: "/",
+                expires,
+              });
+              config.headers.Authorization = data.accesstoken;
+              console.log(config);
+              break;
+            default:
+              alert("로그인이 필요합니다!");
+              navigate("/login");
+              break;
+          }
+          break;
         case 403:
           alert("로그인이 필요합니다!");
           navigate("/login");
